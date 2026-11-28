@@ -67,8 +67,6 @@
     <string name="settings_notifications_plugin_check_failed">Couldn’t check status</string>
     <string name="settings_notifications_set_up">Set Up with OpenCode</string>
     <string name="settings_notifications_check_again">Check Again</string>
-    <string name="settings_notifications_in_app_footer">Shown on the drawer button.</string>
-    <string name="settings_notifications_in_app_notices">In-App Notices</string>
 
     <!-- Sessions -->
     <string name="settings_sessions_title">Sessions</string>

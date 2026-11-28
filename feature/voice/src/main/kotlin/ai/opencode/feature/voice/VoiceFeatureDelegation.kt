@@ -251,6 +251,7 @@ internal fun VoiceFeature.delegateToDelegator(
                 keptPick = { sessionID, model -> send(VoiceFeature.Action.DelegatorKeptPick(sessionID, model)) },
                 settledRequest = { sessionID -> send(VoiceFeature.Action.DelegatorSettledRequest(sessionID)) },
                 endCall = { send(VoiceFeature.Action.DelegatorRequestedEnd) },
+                setUserLooking = { looking -> send(VoiceFeature.Action.DelegatorNotedLooking(looking)) },
                 explained = { sessionID -> send(VoiceFeature.Action.DelegatorExplained(sessionID)) },
                 sent = { sessionID, prompt ->
                     recordAdmission(prompt, sessionID = sessionID, serverKey = serverID, outbox = outbox, send = send)

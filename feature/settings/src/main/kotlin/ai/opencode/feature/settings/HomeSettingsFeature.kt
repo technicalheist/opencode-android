@@ -3,7 +3,6 @@ package ai.opencode.feature.settings
 import ai.opencode.core.experiments.key
 import ai.opencode.core.dependencies.Dependency
 import ai.opencode.core.experiments.ExperimentalFeature
-import ai.opencode.core.experiments.InAppNoticeMode
 import ai.opencode.core.haptics.Haptic
 import ai.opencode.core.haptics.HapticsClient
 import ai.opencode.core.sharing.AllExperiments
@@ -51,7 +50,6 @@ class HomeSettingsFeature : Reducer<HomeSettingsFeature.State, HomeSettingsFeatu
 
     sealed interface Action {
         data object SidebarToggled : Action
-        data class InAppNoticeModeChanged(val mode: InAppNoticeMode) : Action
         data class ExperimentalFeatureChanged(val feature: ExperimentalFeature, val on: Boolean) : Action
         /** Settings › Experimental › All Experiments. */
         data class AllExperimentsChanged(val on: Boolean) : Action
@@ -120,7 +118,6 @@ class HomeSettingsFeature : Reducer<HomeSettingsFeature.State, HomeSettingsFeatu
     override fun reduce(state: State, action: Action): Reduced<State, Action> {
         when (action) {
             Action.SidebarToggled -> shared(SharedKeys.sidebarShown).update { !it }
-            is Action.InAppNoticeModeChanged -> setShared(InAppNoticeMode.key, action.mode)
             is Action.ExperimentalFeatureChanged -> {
                 if (!setShared(action.feature.key, action.on)) return Reduced(state)
                 // Switched by hand while All Experiments is on: off is a skip, kept for next time.

@@ -40,6 +40,8 @@
     <string name="drawer_mark_as_unread">Označi kot neprebrano</string>
     <string name="drawer_mute">Utišaj</string>
     <string name="drawer_unmute">Vklopi obvestila</string>
+    <string name="drawer_hide">Skrij</string>
+    <string name="drawer_unhide">Prikaži</string>
     <string name="drawer_move_up">Premakni navzgor</string>
     <string name="drawer_move_down">Premakni navzdol</string>
 
@@ -89,8 +91,6 @@
     <string name="drawer_button_open_sessions_description">Odpri seje</string>
     <string name="drawer_button_attention_state">Seja potrebuje tvoj vnos</string>
     <string name="drawer_button_unread_state">Neprebrane seje</string>
-    <string name="drawer_notice_open_sessions_action">Odpri seje</string>
-    <string name="drawer_notice_open_session_action">Odpri sejo</string>
 
     <!-- Search pill -->
     <string name="drawer_search_description">Išči seje</string>
@@ -129,6 +129,7 @@
     <!-- Session row state for TalkBack -->
     <string name="drawer_row_pinned_state">Pripeta</string>
     <string name="drawer_row_muted_state">Utišano</string>
+    <string name="drawer_row_hidden_state">Skriti</string>
     <string name="drawer_row_needs_input_state">Potreben je tvoj vnos</string>
     <string name="drawer_row_working_state">Deluje</string>
     <string name="drawer_row_unread_state">Neprebrano</string>

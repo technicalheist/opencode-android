@@ -48,8 +48,8 @@ from translations import (
     translated_path,
 )
 
-TRANSLATE_MODEL = "opencode/gpt-6.1-sol"
-REVIEW_MODEL = "opencode/gemini-3.8-flash"
+TRANSLATE_MODEL = "opencode/gemini-4-neon#high"
+REVIEW_MODEL = "opencode/gemini-4-neon#high"
 DESKTOP_URL = "https://raw.githubusercontent.com/anomalyco/opencode/dev"
 DESKTOP_FOLDERS = ["packages/app/src/runtime/i18n", "packages/ui/src/i18n"]
 CHUNK_SIZE = 60
@@ -289,8 +289,9 @@ def relevant_terms(terms, chunk_text, limit):
 
 def call_model(model, prompt, workdir):
     """Sends one prompt through `opencode run` and returns the JSON object it answers with."""
+    command = ["opencode", "run", "--agent", "translator", "--archived", "--format", "json", "-m", model]
     result = subprocess.run(
-        ["opencode", "run", "--agent", "translator", "--archived", "-m", model, "Follow the instructions below."],
+        command + ["Follow the instructions below."],
         input=prompt,
         capture_output=True,
         text=True,
@@ -299,11 +300,20 @@ def call_model(model, prompt, workdir):
         env={**os.environ, "PWD": workdir},
         timeout=900,
     )
-    output = result.stdout
+    output = ""
+    session = None
+    for line in result.stdout.splitlines():
+        event = json.loads(line)
+        session = event["sessionID"]
+        if event["type"] == "text":
+            output += event["part"]["text"]
+    if session:
+        # A one-off call shouldn't stay in the person's session list.
+        subprocess.run(["opencode", "session", "delete", session], capture_output=True)
     start = output.find("{")
     end = output.rfind("}")
     if start < 0 or end < start:
-        raise ValueError(f"no JSON in the answer: {output[-300:]!r} {result.stderr[-300:]!r}")
+        raise ValueError(f"no JSON in the answer: {result.stdout[-300:]!r} {result.stderr[-300:]!r}")
     return json.loads(output[start : end + 1])
 
 

@@ -901,4 +901,38 @@
     <!-- 2026-11-08-02-default-model -->
     <string name="settings_whatsnew_entry_default_model_title">አዲስ ክፍለ ጊዜዎች ነባሪ ሞዴልዎን ይጠቀማሉ</string>
     <string name="settings_whatsnew_entry_default_model_summary">አዲስ ክፍለ ጊዜዎች ባለፈው ክፍለ ጊዜ ሞዴል ፈንታ፣ በOpenCode ነባሪ ባደረጉት ሞዴልና ለዚያ ሞዴል ለመጨረሻ ጊዜ በመረጡት የማሰብ ደረጃ ይጀምራሉ።</string>
+
+    <!-- 2026-11-11-01-streamed-reply-prefix -->
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_title">ምላሹ እየመጣ ሳለ ክፈት</string>
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_summary">ምላሽ እየመጣ ሳለ ክፍለ ጊዜ ሲከፍቱ፣ ምላሹ እየቀጠለ እስካሁን የደረሰውን ማንበብ ይችላሉ።</string>
+
+    <!-- 2026-11-13-01-draw-on-images -->
+    <string name="settings_whatsnew_entry_draw_on_images_title">በምስሎች ላይ ይሳሉ</string>
+    <string name="settings_whatsnew_entry_draw_on_images_summary">ስለ አንድ ዝርዝር ከመጠየቅዎ በፊት ምልክት ያድርጉበት።</string>
+    <string name="settings_whatsnew_entry_draw_on_images_detail_1">ምስልን በሙሉ ማያ ገጽ ከፍተው የብዕር አዝራሩን ይንኩ። ቀለም መርጠው ይሳሉ፣ ከዚያ ምልክት ያደረጉበትን ምስል ከመልእክትዎ ጋር ለማያያዝ «አክል» ይንኩ። ዋናው ምስል አይቀየርም።</string>
+    <string name="settings_whatsnew_entry_draw_on_images_example">በማያ ገጽ ፎቶ ላይ እንዲንቀሳቀስ የሚፈልጉትን መቆጣጠሪያ በክብ ያመልክቱ፣ ከዚያ ወዴት መሄድ እንዳለበት ይግለጹ።</string>
+
+    <!-- 2026-11-14-01-fullscreen-viewer -->
+    <string name="settings_whatsnew_entry_fullscreen_viewer_title">በፎቶዎችና ቪዲዮዎች መካከል ያንሸራትቱ</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_summary">የአንድ ክፍለ ጊዜ ምስሎችንና ቪዲዮዎችን አንድ ላይ ያስሱ።</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_detail_1">ወደ ቪዲዮ ያንሸራትቱ፣ ከዚያ ባለው ፍሬም ላይ ምልክት ለማድረግ የብዕር አዝራሩን ይንኩ። «አክል» ምልክት የተደረገበትን ፍሬም ሳይልክ ያያይዛል።</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_example">የማሳያ ቪዲዮን መቀየር ያለበት ማያ ገጽ ላይ ለአፍታ ያቁሙ፣ ዝርዝሩን በክብ ያመልክቱና ወደ ረቂቅዎ ያክሉት።</string>
+
+    <!-- 2026-11-15-01-pairing-link-name -->
+    <string name="settings_whatsnew_entry_pairing_link_name_title">ከOpenCode Console በስም የሚመጡ አገልጋዮች</string>
+    <string name="settings_whatsnew_entry_pairing_link_name_summary">ከOpenCode Console የሚያጣምሩት አገልጋይ እንደ “Anomaly Box” ካለ ስሙ ጋር ይመጣል።</string>
+
+    <!-- 2026-11-17-01-session-media -->
+    <string name="settings_whatsnew_entry_session_media_title">የክፍለ ጊዜ ሚዲያ</string>
+    <string name="settings_whatsnew_entry_session_media_summary">የክፍለ ጊዜ ምስሎችን፣ ቪዲዮዎችን፣ ድምጾችን፣ ፋይሎችንና ይፋዊ የድር አገናኞችን አስስ።</string>
+    <string name="settings_whatsnew_entry_session_media_detail_1">ከክፍለ ጊዜው ⋮ ምናሌ «የክፍለ ጊዜ ሚዲያ» ይምረጡ። «ሚዲያ» ምስሎችን፣ ቪዲዮዎችንና ድምጾችን በወር በተመደቡ አቋራጮች ወይም በዝርዝር ያሳያል። «ፋይሎች» እና «አገናኞች» ደግሞ ሰነዶችን፣ የተለጠፉ ጽሑፎችንና የድር አገናኞችን ይዘረዝራሉ።</string>
+    <string name="settings_whatsnew_entry_session_media_example">መላውን ክፍለ ጊዜ ወደ ኋላ ሳያሸብልሉ ዛሬ ጠዋት የላኩትን የማያ ገጽ ፎቶ ያግኙ።</string>
+
+    <!-- 2026-11-18-02-drawer-call-phone -->
+    <string name="settings_whatsnew_entry_drawer_call_phone_title">በጎን ምናሌው ውስጥ ለጥሪዎች የስልክ አዶ</string>
+    <string name="settings_whatsnew_entry_drawer_call_phone_summary">በክፍለ ጊዜዎች ዝርዝር ውስጥ ከ«ቅንብሮች» አጠገብ ያለው የጥሪ አዝራር፣ በመልእክት ሳጥኑ ውስጥ እንዳለው የስልክ አዶ ያሳያል።</string>
+
+    <!-- 2026-11-19-01-background-scripts -->
+    <string name="settings_whatsnew_entry_background_scripts_title">በበስተጀርባ ሥራ ውስጥ ስክሪፕቶች</string>
+    <string name="settings_whatsnew_entry_background_scripts_summary">ወኪሉ ወደ በስተጀርባ የሚያዛውራቸው ስክሪፕቶች ከንዑስ ወኪሎችና ሼሎች ጋር ይታያሉ። የንዑስ ወኪል ምስሎች፣ ቪዲዮዎች ወይም ስክሪፕቶች እየተሠሩ እስካሉ ድረስ ወኪሉ በዝርዝሩ ይቆያል። ሁለቱንም ከዝርዝሩ ማቆም ይችላሉ።</string>
 </resources>

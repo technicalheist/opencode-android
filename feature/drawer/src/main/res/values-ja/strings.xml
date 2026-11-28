@@ -37,6 +37,8 @@
     <string name="drawer_mark_as_unread">未読にする</string>
     <string name="drawer_mute">ミュート</string>
     <string name="drawer_unmute">ミュートを解除</string>
+    <string name="drawer_hide">非表示</string>
+    <string name="drawer_unhide">再表示</string>
     <string name="drawer_move_up">上に移動</string>
     <string name="drawer_move_down">下に移動</string>
 
@@ -77,8 +79,6 @@
     <string name="drawer_button_open_sessions_description">セッション一覧を開く</string>
     <string name="drawer_button_attention_state">入力が必要なセッションがあります</string>
     <string name="drawer_button_unread_state">未読のセッション</string>
-    <string name="drawer_notice_open_sessions_action">セッション一覧を開く</string>
-    <string name="drawer_notice_open_session_action">セッションを開く</string>
 
     <!-- Search pill -->
     <string name="drawer_search_description">セッションを検索</string>
@@ -117,6 +117,7 @@
     <!-- Session row state for TalkBack -->
     <string name="drawer_row_pinned_state">ピン留め済み</string>
     <string name="drawer_row_muted_state">ミュート中</string>
+    <string name="drawer_row_hidden_state">非表示</string>
     <string name="drawer_row_needs_input_state">入力が必要です</string>
     <string name="drawer_row_working_state">作業中</string>
     <string name="drawer_row_unread_state">未読</string>

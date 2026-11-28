@@ -276,7 +276,7 @@ class VoiceSessionDelegatorEdgeTests {
         assertTrue("Second delta must wait for the first turn's admission", submittedPrompts.value.size <= 1)
 
         // Release Turn 1's stalled send: Turn 1 admits, accepts its capture, and immediately kicks off Turn 2's admission.
-        val expectedContext = """[Phone context] Viewing session "Session View" (ses_view)"""
+        val expectedContext = """[Phone context] Call on session "Session View" (ses_view) · """ + VoiceScreenVisibility.notLooking.unseenNote!!
         val expectedPrompt1 = VoiceSessionDelegator.formatPrompt(
             deltaLines = listOf("User: First request."),
             promisedClaim = null,
@@ -519,7 +519,7 @@ class VoiceSessionDelegatorEdgeTests {
             .copy(pendingModel = defaultModel)
             .recording(VoiceTranscriptTail.Role.user, "Second call.", "u_c2")
 
-        val expectedContext = """[Phone context] Viewing session "Session View" (ses_view)"""
+        val expectedContext = """[Phone context] Call on session "Session View" (ses_view) · """ + VoiceScreenVisibility.notLooking.unseenNote!!
         val expectedPrompt = VoiceSessionDelegator.formatPrompt(
             deltaLines = listOf("User: Second call."),
             promisedClaim = null,

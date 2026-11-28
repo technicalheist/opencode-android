@@ -99,7 +99,7 @@ internal fun UserImageAttachmentTile(
     // the server's without the tile reloading.
     var loadedImage by remember { mutableStateOf<Bitmap?>(null) }
     var retryState by remember { mutableStateOf(MediaAttachmentRetryState()) }
-    val cached = remember(attachment.id, attachment.mediaHash) { CachedImage.cached(attachment.id, attachment.mediaHash) }
+    val cached = remember(attachment.id, attachment.mediaHash) { CachedImage.cachedThumbnail(attachment.id, attachment.mediaHash) }
     val image = loadedImage ?: cached
     val isUnavailable = attachment.isUnavailable ||
         retryState.failure == MediaAttachmentFailure.Unavailable ||

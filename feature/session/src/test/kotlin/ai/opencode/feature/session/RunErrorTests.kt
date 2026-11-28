@@ -697,6 +697,7 @@ class RunErrorTests {
                     familyPendingRequests = { _, _, _ -> awaitCancellation() },
                     pendingInputs = { _, _ -> awaitCancellation() },
                     runningShells = { _, _ -> awaitCancellation() },
+                    runningJobs = { _, _ -> awaitCancellation() },
                 )
             }
 

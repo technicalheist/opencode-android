@@ -29,11 +29,6 @@
     <string name="core_experiment_group_transcript_title">Samtalsskrá</string>
     <string name="core_experiment_group_drawer_title">Hliðarvalmynd</string>
 
-    <!-- In-app notice mode -->
-    <string name="core_in_app_notice_mode_off">Slökkt</string>
-    <string name="core_in_app_notice_mode_needs_input">Aðeins þegar þarf svar frá þér</string>
-    <string name="core_in_app_notice_mode_all">Allar uppfærslur</string>
-
     <!-- Themes and appearance -->
     <string name="core_theme_system_title">Kerfi</string>
     <string name="core_appearance_color_scheme_system_title">Kerfi</string>

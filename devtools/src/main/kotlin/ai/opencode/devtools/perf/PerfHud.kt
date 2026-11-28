@@ -3,6 +3,7 @@ package ai.opencode.devtools.perf
 import ai.opencode.core.diagnostics.PerfTrace
 import ai.opencode.core.log.AppLog
 import ai.opencode.core.tuning.AnimationTimeScale
+import ai.opencode.core.ui.OpenCodeFonts
 import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
@@ -42,7 +43,6 @@ import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.platform.findViewTreeCompositionContext
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import java.util.Locale
 import java.util.concurrent.atomic.AtomicInteger
@@ -179,7 +179,7 @@ fun PerfHud(modifier: Modifier = Modifier) {
             modifier = Modifier.padding(top = 4.dp).semantics { contentDescription = "Performance HUD" },
         ) {
             Column(Modifier.padding(horizontal = 10.dp, vertical = 4.dp)) {
-                Text(text, style = MaterialTheme.typography.labelSmall.copy(fontFamily = FontFamily.Monospace))
+                Text(text, style = MaterialTheme.typography.labelSmall.copy(fontFamily = OpenCodeFonts.monospace))
             }
         }
     }

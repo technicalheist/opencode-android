@@ -62,6 +62,11 @@ object DictationFeature : Reducer<DictationFeature.State, DictationFeature.Actio
         val armed: Arm? = null,
     ) {
         enum class Arm { Lock, Cancel }
+
+        /** What the screen draws of a hold: everything but its words. */
+        data class Pose(val isLocked: Boolean = false, val armed: Arm? = null)
+
+        val pose: Pose get() = Pose(isLocked, armed)
     }
 
     data class Discarded(val recording: Int, val press: Int)

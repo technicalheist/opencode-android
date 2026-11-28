@@ -1011,9 +1011,9 @@ class ComposerAutocompleteTextBridge {
         styling.trigger?.let { if (it.end <= length) addStyle(SpanStyle(color = styling.triggerColor), it.start, it.end) }
         for (run in styling.chips) {
             if (run.end > length) continue
+            replace(run.start, run.end, styling.text.substring(run.start, run.end).toNonBreaking())
             addStyle(SpanStyle(color = Color.Transparent, fontSize = run.fontSize ?: androidx.compose.ui.unit.TextUnit.Unspecified), run.start, run.end)
             if (run.extraSpacing.value > 0f) addStyle(SpanStyle(letterSpacing = run.extraSpacing), run.end - 1, run.end)
-            replace(run.start, run.end, styling.text.substring(run.start, run.end).toNonBreaking())
             if (run.chip?.id in styling.breaksBefore && run.start > 0 && styling.text[run.start - 1] == ' ') {
                 replace(run.start - 1, run.start, "\n")
             }

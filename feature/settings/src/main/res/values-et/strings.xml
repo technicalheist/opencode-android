@@ -65,8 +65,6 @@
     <string name="settings_notifications_plugin_check_failed">Oleku kontroll ebaõnnestus</string>
     <string name="settings_notifications_set_up">Seadista OpenCode\'iga</string>
     <string name="settings_notifications_check_again">Kontrolli uuesti</string>
-    <string name="settings_notifications_in_app_footer">Näidatakse külgpaneeli nupul.</string>
-    <string name="settings_notifications_in_app_notices">Rakendusesisesed märkused</string>
 
     <!-- Sessions -->
     <string name="settings_sessions_title">Seansid</string>

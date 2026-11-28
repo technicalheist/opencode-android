@@ -3,11 +3,10 @@
     <!-- Agent activity glyph -->
     <string name="session_activity_running_description">Vykdoma</string>
     <!-- Background work panel -->
-    <string name="session_background_work_show_label">Rodyti veikiančius subagentus ir apvalkalus</string>
+    <string name="session_background_work_show_label">Rodyti veikiančius subagentus, scenarijus ir apvalkalus</string>
     <string name="session_background_work_collapsed_description">Sutraukta</string>
-    <string name="session_background_work_subagents_title">Subagentai</string>
+    <string name="session_background_work_expanded_description">Išskleista</string>
     <string name="session_background_work_open_subagent_label">Atidaryti subagento seansą</string>
-    <string name="session_background_work_shells_title">Apvalkalai</string>
     <string name="session_background_work_show_shell_label">Rodyti apvalkalo išvestį</string>
     <!-- The session's images and videos, paged in the full-screen viewer -->
     <string name="session_visual_attached_image">Pridėtas vaizdas</string>
@@ -70,6 +69,8 @@
     <string name="session_sheet_unknown_description">Nežinomas</string>
     <string name="session_sheet_context_tokens">%1$s žetonų</string>
     <string name="session_sheet_cost">Kaina</string>
+    <string name="session_sheet_media">Medija</string>
+    <string name="session_sheet_media_value">Failai ir nuorodos</string>
     <string name="session_always_notify">Visada pranešti</string>
     <string name="session_always_notify_message_phone">Pranešti šiame telefone, kai atsakymas paruoštas, net jei užklausa siųsta ne iš čia.</string>
     <string name="session_always_notify_message_tablet">Pranešti šioje planšetėje, kai atsakymas paruoštas, net jei užklausa siųsta ne iš čia.</string>
@@ -213,28 +214,27 @@
         <item quantity="many">%1$d apvalkalo</item>
         <item quantity="other">%1$d apvalkalų</item>
     </plurals>
+    <plurals name="session_background_work_script_count">
+        <item quantity="one">%1$d scenarijus</item>
+        <item quantity="few">%1$d scenarijai</item>
+        <item quantity="many">%1$d scenarijaus</item>
+        <item quantity="other">%1$d scenarijų</item>
+    </plurals>
     <string name="session_background_work_summary">%1$s · %2$s</string>
+    <string name="session_background_work_elapsed_seconds">%1$d s</string>
+    <string name="session_background_work_elapsed_minutes">%1$d min. %2$s s</string>
+    <string name="session_background_work_elapsed_hours">%1$d val. %2$s min.</string>
+    <string name="session_background_work_stop_script_label">Stabdyti scenarijų</string>
+    <string name="session_background_work_stop_subagent_label">Stabdyti subagentą</string>
+    <string name="session_background_work_stop_shell_label">Stabdyti apvalkalą</string>
+    <string name="session_background_work_stop_script_failed">Nepavyko sustabdyti scenarijaus</string>
+    <string name="session_background_work_stop_subagent_failed">Nepavyko sustabdyti subagento</string>
 
     <!-- Composer buttons -->
     <string name="session_send_message_description">Siųsti žinutę</string>
     <string name="session_stop_description">Stabdyti</string>
     <string name="session_start_voice_call_description">Pradėti balso skambutį</string>
     <string name="session_model_level_default">Numatytoji</string>
-
-    <!-- In-app notice -->
-    <plurals name="session_notice_session_count">
-        <item quantity="one">%1$d seansas</item>
-        <item quantity="few">%1$d seansai</item>
-        <item quantity="many">%1$d seanso</item>
-        <item quantity="other">%1$d seansų</item>
-    </plurals>
-    <plurals name="session_notice_needs_input_count">
-        <item quantity="one">Jūsų atsakymo laukia %1$d</item>
-        <item quantity="few">Jūsų atsakymo laukia %1$d</item>
-        <item quantity="many">Jūsų atsakymo laukia %1$d</item>
-        <item quantity="other">Jūsų atsakymo laukia %1$d</item>
-    </plurals>
-    <string name="session_notice_announcement">%1$s, %2$s</string>
 
     <!-- Server connection pill -->
     <string name="session_server_reconnecting">Iš naujo jungiamasi prie %1$s…</string>

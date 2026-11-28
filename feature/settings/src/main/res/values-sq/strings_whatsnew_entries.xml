@@ -901,4 +901,38 @@
     <!-- 2026-11-08-02-default-model -->
     <string name="settings_whatsnew_entry_default_model_title">Sesionet e reja përdorin modelin tënd të paracaktuar</string>
     <string name="settings_whatsnew_entry_default_model_summary">Sesionet e reja nisin me modelin e paracaktuar në OpenCode dhe nivelin e fundit të arsyetimit që zgjodhe për të, jo me modelin e sesionit të fundit.</string>
+
+    <!-- 2026-11-11-01-streamed-reply-prefix -->
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_title">Hap përgjigjen ndërsa vjen</string>
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_summary">Kur hap një sesion ndërsa përgjigjja po vjen, mund të lexosh pjesën e mbërritur teksa ajo vazhdon.</string>
+
+    <!-- 2026-11-13-01-draw-on-images -->
+    <string name="settings_whatsnew_entry_draw_on_images_title">Vizato mbi imazhe</string>
+    <string name="settings_whatsnew_entry_draw_on_images_summary">Shëno një detaj para se të pyesësh për të.</string>
+    <string name="settings_whatsnew_entry_draw_on_images_detail_1">Hap një imazh në ekran të plotë dhe prek butonin e lapsit. Zgjidh një ngjyrë, vizato, pastaj prek Shto për t’ia bashkëngjitur mesazhit imazhin e shënuar. Origjinali mbetet i pandryshuar.</string>
+    <string name="settings_whatsnew_entry_draw_on_images_example">Rretho në një pamje ekrani kontrollin që do të zhvendosësh, pastaj përshkruaj ku duhet të shkojë.</string>
+
+    <!-- 2026-11-14-01-fullscreen-viewer -->
+    <string name="settings_whatsnew_entry_fullscreen_viewer_title">Rrëshqit mes fotove dhe videove</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_summary">Shfleto bashkë imazhet dhe videot e një sesioni.</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_detail_1">Rrëshqit te një video, pastaj prek butonin e lapsit për të shënuar kuadrin aktual. Shto bashkëngjit kuadrin e shënuar pa e dërguar.</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_example">Ndalo përkohësisht një demonstrim te ekrani që duhet ndryshuar, rretho detajin dhe shtoje te drafti yt.</string>
+
+    <!-- 2026-11-15-01-pairing-link-name -->
+    <string name="settings_whatsnew_entry_pairing_link_name_title">Serverë me emër nga OpenCode Console</string>
+    <string name="settings_whatsnew_entry_pairing_link_name_summary">Një server që çifton nga OpenCode Console vjen me emrin e vet, si “Anomaly Box”.</string>
+
+    <!-- 2026-11-17-01-session-media -->
+    <string name="settings_whatsnew_entry_session_media_title">Media e sesionit</string>
+    <string name="settings_whatsnew_entry_session_media_summary">Shfleto imazhet, videot, audion, skedarët dhe lidhjet publike të uebit të një sesioni.</string>
+    <string name="settings_whatsnew_entry_session_media_detail_1">Zgjidh Media e sesionit nga menyja ⋮ e një sesioni. Media shfaq imazhet, videot dhe audion si butona të grupuar sipas muajit ose si listë, ndërsa Skedarët dhe Lidhjet renditin dokumentet, tekstet e ngjitura dhe lidhjet e uebit.</string>
+    <string name="settings_whatsnew_entry_session_media_example">Gjej pamjen e ekranit që dërgove sot në mëngjes pa lëvizur nëpër gjithë sesionin.</string>
+
+    <!-- 2026-11-18-02-drawer-call-phone -->
+    <string name="settings_whatsnew_entry_drawer_call_phone_title">Ikonë telefoni për thirrjet në panelin anësor</string>
+    <string name="settings_whatsnew_entry_drawer_call_phone_summary">Butoni i thirrjes pranë Cilësimeve në listën e sesioneve shfaq një telefon, si ai në kutinë e mesazhit.</string>
+
+    <!-- 2026-11-19-01-background-scripts -->
+    <string name="settings_whatsnew_entry_background_scripts_title">Skriptet në punën në sfond</string>
+    <string name="settings_whatsnew_entry_background_scripts_summary">Skriptet që agjenti kalon në sfond shfaqen pranë nënagjentëve dhe shell-eve. Një nënagjent mbetet në listë ndërsa imazhet, videot ose skriptet e tij janë ende në punë. Ndalo cilindo nga lista.</string>
 </resources>

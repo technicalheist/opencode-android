@@ -70,6 +70,10 @@ class VoiceFeature : Reducer<VoiceFeature.State, VoiceFeature.Action> {
         val moveReason: String? = null,
         /** The session is waiting on a native approval or answer. */
         val targetNeedsInput: Boolean = false,
+        /** The app is in front of the user: not in the background, where locking the phone or switching apps puts it. */
+        val isAppVisible: Boolean = true,
+        /** The user said this call that they're looking at the screen (the delegator's `set_user_looking`), until they say they've stopped. */
+        val userLooking: Boolean = false,
         /** Set through [withPhase], which keeps `replyWatch.callPhase` in step. */
         val phase: Phase = Phase.Connecting,
         val isMuted: Boolean = false,
@@ -386,6 +390,8 @@ class VoiceFeature : Reducer<VoiceFeature.State, VoiceFeature.Action> {
                 isNewSession = isOnDraft,
                 managesSessions = usesDelegator || usesSessionDelegator,
                 viewing = viewing,
+                userSeesScreen = screenVisibility.userSeesScreen,
+                recordsLooking = usesDelegator,
             )
 
         val isWorking: Boolean
@@ -645,6 +651,12 @@ class VoiceFeature : Reducer<VoiceFeature.State, VoiceFeature.Action> {
 
         /** The page open over the session in the in-app browser, if any. */
         data class ViewingChanged(val page: VoiceViewingPage?) : Action
+
+        /** The app came to the front (true) or went to the background. */
+        data class AppVisibilityChanged(val visible: Boolean) : Action
+
+        /** The delegator recorded the user saying they're looking at the screen (true) or aren't (false). */
+        data class DelegatorNotedLooking(val looking: Boolean) : Action
         data class WorkReplied(val callID: String, val reply: String?) : Action
         data class WorkFailed(val callID: String, val message: String) : Action
         data class DelegatorOpened(val session: OpenCodeSession, val toolID: String? = null) : Action
@@ -765,6 +777,7 @@ class VoiceFeature : Reducer<VoiceFeature.State, VoiceFeature.Action> {
         data object Call : CancelID
         data object Goodbye : CancelID
         data object Instructions : CancelID
+        data object ScreenInstructions : CancelID
         data object Reconnecting : CancelID
         data object ReplyActiveRefresh : CancelID
         data class WorkAdmission(val callID: String) : CancelID
@@ -903,7 +916,7 @@ class VoiceFeature : Reducer<VoiceFeature.State, VoiceFeature.Action> {
                 if (state.isAtEar == atEar) return Reduced(state)
                 val next = state.withAtEar(atEar)
                 if (next.phase.isTerminal) return Reduced(next)
-                Reduced(next, Effect.run { voiceCall.setAtEar(atEar) })
+                Reduced(next, Effect.merge(Effect.run { voiceCall.setAtEar(atEar) }, noteScreenVisibility(from = state.screenVisibility, next)))
             }
 
             is Action.CallEvent -> reduceCallEvent(state, action.event)
@@ -1032,6 +1045,18 @@ class VoiceFeature : Reducer<VoiceFeature.State, VoiceFeature.Action> {
             }
 
             Action.DelegatorRequestedEnd -> Reduced(state.copy(endsAfterDelegation = true))
+
+            is Action.AppVisibilityChanged -> {
+                if (state.isAppVisible == action.visible) return Reduced(state)
+                val next = state.copy(isAppVisible = action.visible)
+                Reduced(next, noteScreenVisibility(from = state.screenVisibility, next))
+            }
+
+            is Action.DelegatorNotedLooking -> {
+                if (state.phase.isTerminal || state.userLooking == action.looking) return Reduced(state)
+                val next = state.copy(userLooking = action.looking)
+                Reduced(next, noteScreenVisibility(from = state.screenVisibility, next))
+            }
 
             is Action.DelegatorSettledRequest -> Reduced(state, Effect.send(Action.Delegate(DelegateAction.RequestSettled(action.sessionID))))
 
@@ -1365,7 +1390,7 @@ class VoiceFeature : Reducer<VoiceFeature.State, VoiceFeature.Action> {
                 listOf<Any>(CancelID.Call, CancelID.Goodbye, CancelID.CallScope) +
                     inFlightCallIDs.map { CancelID.WorkAdmission(it) } +
                     inFlightCallIDs.map { CancelID.WorkCall(it) } +
-                    listOf(CancelID.Reconnecting, CancelID.Instructions, CancelID.ReplyActiveRefresh),
+                    listOf(CancelID.Reconnecting, CancelID.Instructions, CancelID.ScreenInstructions, CancelID.ReplyActiveRefresh),
             ),
             runReplyWatch(watchEffects, next),
         )

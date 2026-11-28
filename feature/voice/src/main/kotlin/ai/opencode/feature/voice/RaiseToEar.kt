@@ -21,9 +21,13 @@ class RaiseToEarDetector(
     private val clock: Clock = dependency(Clock),
     private val heldUp: (() -> Boolean)? = null,
     private val gravitySource: (() -> Gravity?)? = null,
+    private val onMotion: ((Boolean) -> Unit)? = null,
     private val onNote: (String) -> Unit = { dependency(VoiceCallLogClient).noteCurrent(VoiceCallLog.Note.Kind.marker, it) },
 ) : SensorEventListener {
     private val manager = context?.getSystemService(SensorManager::class.java)
+    private val motionSensor = manager?.let { it.getDefaultSensor(Sensor.TYPE_GRAVITY) ?: it.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) }
+    private var isMotionOn = false
+    private var awaitsFirstSample = false
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
     private var pending: Job? = null
     private var onRaise: (() -> Boolean)? = null
@@ -57,14 +61,12 @@ class RaiseToEarDetector(
                 }
             }
         }
-        val motion = manager.getDefaultSensor(Sensor.TYPE_GRAVITY) ?: manager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
-        if (motion != null) manager.registerListener(this, motion, 100000, Handler(Looper.getMainLooper()))
     }
     fun stop() {
         pending?.cancel(); pending = null; manager?.unregisterListener(this); started = false; gravity = null; hasAccelerometer = false
         proximityScreen?.let { if (it.isHeld) it.release() }; proximityScreen = null
         if (isAtEar) onNear?.invoke(false)
-        isAtEar = false; isNear = false; onRaise = null; onNear = null; callIsLive = { false }
+        isAtEar = false; isNear = false; updateMotion(); onRaise = null; onNear = null; callIsLive = { false }
         scope.cancel()
     }
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {}
@@ -80,17 +82,24 @@ class RaiseToEarDetector(
             // CoreMotion gravity points down; Android's gravity sensor reports the
             // acceleration opposing gravity. Negate and normalize to units of g.
             gravity = Gravity(-filtered[0] / SensorManager.GRAVITY_EARTH, -filtered[1] / SensorManager.GRAVITY_EARTH, -filtered[2] / SensorManager.GRAVITY_EARTH)
+            motionSampled()
         }
     }
     fun proximityChanged(near: Boolean) {
         if (near == isNear) return
-        isNear = near; val hadPending = pending != null; pending?.cancel(); pending = null
-        if (near) {
-            if (isAtEar) { if (hadPending) onNote("Cancelled lower (proximity re-covered at ear)"); return }
-            if (!isHeldUpForRaise()) return
-            pending = scope.launch { clock.sleep(dwell); completeRaise() }
-        } else {
-            if (!isAtEar) return
+        isNear = near; val hadPending = pending != null; pending?.cancel(); pending = null; awaitsFirstSample = false
+        if (near && isAtEar) {
+            if (hadPending) onNote("Cancelled lower (proximity re-covered at ear)")
+        } else if (near) {
+            // Motion starts with the cover, so the posture as it's covered comes from its first samples.
+            pending = scope.launch {
+                clock.sleep(motionPoll)
+                awaitsFirstSample = heldUp == null && currentGravity() == null
+                if (!isHeldUpForRaise()) { pending = null; updateMotion(); return@launch }
+                clock.sleep(dwell - motionPoll)
+                completeRaise()
+            }
+        } else if (isAtEar) {
             val maxPolls = ((lowerCap - lowerDwell) / motionPoll).roundToInt().coerceAtLeast(0)
             pending = scope.launch {
                 clock.sleep(lowerDwell)
@@ -103,11 +112,22 @@ class RaiseToEarDetector(
                 completeLower(polls >= maxPolls)
             }
         }
+        updateMotion()
+    }
+    /** A cover with no sample yet at [motionPoll] takes its posture from the first one. */
+    internal fun motionSampled() {
+        if (!awaitsFirstSample) return
+        awaitsFirstSample = false
+        if (isAtEar || pending == null || isHeldUpForRaise()) return
+        pending?.cancel(); pending = null; updateMotion()
     }
     private fun completeRaise() {
-        if (!isNear || !isHeldUpForRaise()) return
-        isAtEar = true; pending = null; onNear?.invoke(true)
-        if (onRaise?.invoke() != true) isAtEar = false
+        pending = null
+        if (isNear && isHeldUpForRaise()) {
+            isAtEar = true; onNear?.invoke(true)
+            if (onRaise?.invoke() != true) isAtEar = false
+        }
+        updateMotion()
     }
     private fun completeLower(reachedCap: Boolean) {
         if (isNear || !isAtEar) return
@@ -115,6 +135,21 @@ class RaiseToEarDetector(
         val duration = if (capped) lowerCap else lowerDwell
         onNote("Debounced lower (${duration.inWholeMilliseconds} ms clear${if (capped) " cap reached" else ", phone lowered"})")
         onNear?.invoke(false)
+        updateMotion()
+    }
+    /** Motion runs while a raise or a lower is being decided, or at the ear. */
+    private fun updateMotion() {
+        val on = isAtEar || pending != null
+        if (on == isMotionOn) return
+        isMotionOn = on
+        onMotion?.invoke(on)
+        val sensor = motionSensor ?: return
+        if (on) {
+            gravity = null; hasAccelerometer = false
+            manager?.registerListener(this, sensor, 100000, Handler(Looper.getMainLooper()))
+        } else {
+            manager?.unregisterListener(this, sensor)
+        }
     }
     /**
      * To start a call: held up with the screen near vertical ([isAtEarPosture]), not tipped back

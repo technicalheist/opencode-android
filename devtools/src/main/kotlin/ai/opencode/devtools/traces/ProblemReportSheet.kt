@@ -4,6 +4,7 @@ import ai.opencode.core.motion.MotionSpring
 import ai.opencode.core.motion.rememberReduceMotion
 import ai.opencode.core.store.StoreOf
 import ai.opencode.core.store.observe
+import ai.opencode.core.ui.OpenCodeFonts
 import ai.opencode.core.ui.OpenCodeIcon
 import ai.opencode.core.ui.OpenCodeIconSize
 import ai.opencode.core.ui.OpenCodePrimaryButton
@@ -70,7 +71,6 @@ import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.liveRegion
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.stateDescription
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.unit.IntOffset
@@ -241,7 +241,7 @@ private fun Footer(report: State.Report, send: (Action) -> Unit) {
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(6.dp),
                 ) {
-                    Text(report.shortID, style = OpenCodeTextStyles.subheadline.copy(fontFamily = FontFamily.Monospace))
+                    Text(report.shortID, style = OpenCodeTextStyles.subheadline.copy(fontFamily = OpenCodeFonts.monospace))
                     OpenCodeIcon(
                         if (report.copiedReportID) SFSymbol.Checkmark else SFSymbol.DocOnDoc,
                         contentDescription = null,

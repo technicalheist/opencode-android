@@ -8,7 +8,6 @@ import ai.opencode.core.store.Reduced
 import ai.opencode.feature.drawer.HomeFeature.Action
 import ai.opencode.feature.drawer.HomeFeature.State
 import ai.opencode.feature.session.SessionFeature
-import ai.opencode.feature.session.InAppNotice
 import ai.opencode.feature.settings.HomeSettingsFeature
 import ai.opencode.feature.settings.onboarding.WelcomeFeature
 import ai.opencode.server.OpenCodeServerEvent
@@ -161,6 +160,7 @@ private fun HomeFeature.coreRoute(state: State, action: Action): Reduced<State, 
     is Action.DrawerRowPressed,
     is Action.TogglePin,
     is Action.ToggleMute,
+    is Action.ToggleHidden,
     is Action.MovePinUp,
     is Action.MovePinDown,
     is Action.DrawerPinZoneCrossed,
@@ -184,9 +184,6 @@ private fun HomeFeature.coreRoute(state: State, action: Action): Reduced<State, 
     Action.DrawerCallTapped,
     -> reduceDrawer(state.adoptingSearchResultFor(action), action)
 
-    is Action.InAppNoticeExpired ->
-        if (state.inAppNotice?.id != action.id) Reduced(state) else Reduced(state.copy(inAppNotice = null))
-
     is Action.DrawerLabelAvailabilityChanged -> {
         var s = state.copy(showsDrawerLabel = action.shows)
         // A sidebar takes over an open drawer without it arriving shut.
@@ -198,21 +195,6 @@ private fun HomeFeature.coreRoute(state: State, action: Action): Reduced<State, 
     is Action.SettingsScreen -> reduceSettingsScreen(state, action.action)
     // Show Welcome: WelcomeFeature reduces it; its pairing requests are the app's (AppFeature+Welcome).
     is Action.Welcome -> Reduced(state)
-
-    Action.InAppNoticeTapped -> {
-        val notice = state.inAppNotice
-        if (notice == null) {
-            Reduced(state)
-        } else {
-            val cancel = Effect.cancel(HomeFeature.CancelID.InAppNotice)
-            val target = notice.target
-            if (target is InAppNotice.Target.Session) {
-                Reduced(state.copy(inAppNotice = null), Effect.merge(cancel, Effect.send(Action.SessionTapped(target.sessionID))))
-            } else {
-                Reduced(state.copy(inAppNotice = null), cancel)
-            }
-        }
-    }
 
     is Action.Delegate -> when (val delegate = action.action) {
         // Named here as well as in AppFeature (which persists it), so the publications watching this

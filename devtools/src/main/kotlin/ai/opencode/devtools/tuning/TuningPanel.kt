@@ -10,6 +10,7 @@ import ai.opencode.core.tuning.TuneKind
 import ai.opencode.core.tuning.TuneValue
 import ai.opencode.core.tuning.TuningStore
 import ai.opencode.core.tuning.TuningTitle
+import ai.opencode.core.ui.OpenCodeFonts
 import ai.opencode.core.ui.OpenCodeIcon
 import ai.opencode.core.ui.OpenCodeIconSize
 import ai.opencode.core.ui.OpenCodeShape
@@ -107,7 +108,6 @@ import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.selected
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.stateDescription
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
@@ -772,7 +772,7 @@ private fun TunableRow(descriptor: TunableDescriptor, override: TuneValue?, set:
 
 @Composable
 private fun ValueText(text: String, isChanged: Boolean, reset: () -> Unit) {
-    val style = MaterialTheme.typography.labelSmall.copy(fontFamily = FontFamily.Monospace)
+    val style = MaterialTheme.typography.labelSmall.copy(fontFamily = OpenCodeFonts.monospace)
     val color = if (isChanged) ChangedColor else OpenCodeTheme.colors.secondaryText
     if (isChanged) {
         Text(text, Modifier.clickable(onClickLabel = "Reset") { reset() }.openCodeTapTarget().padding(start = 6.dp), style = style, color = color)

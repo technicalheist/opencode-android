@@ -88,8 +88,9 @@ internal fun HomeFeature.reduceDrawer(state: State, action: Action): HomeReduced
         is Action.DrawerRowPressed -> return refreshCachedTranscript(state, action.sessionID, freshFor = freshFor(2), force = true)
 
         is Action.CachedTranscriptRefreshed -> {
-            if (action.sessionID !in state.refreshingTranscripts) return Reduced(state)
-            var s = state.copy(refreshingTranscripts = state.refreshingTranscripts - action.sessionID)
+            var s = state.copy(fetchingTranscripts = state.fetchingTranscripts - action.sessionID)
+            if (action.sessionID !in s.refreshingTranscripts) return Reduced(s)
+            s = s.copy(refreshingTranscripts = s.refreshingTranscripts - action.sessionID)
             // The opened session owns its entry.
             val items = action.items ?: return Reduced(s)
             if (!canCacheBackgroundTranscript(s, action.sessionID)) return Reduced(s)
@@ -197,6 +198,16 @@ internal fun HomeFeature.reduceDrawer(state: State, action: Action): HomeReduced
             else state.updatingMutedSessionKeys { it + key }
             // A muted card leaves the stack unless it is the one on screen.
             return Reduced(s.reconcilingCatchUp())
+        }
+
+        is Action.ToggleHidden -> {
+            if (state.sessions.none { it.id == action.sessionID }) return Reduced(state)
+            haptics.play(Haptic.selection)
+            val key = state.sessionKey(action.sessionID)
+            return Reduced(
+                if (state.isHidden(action.sessionID)) state.updatingHiddenSessionKeys { it - key }
+                else state.updatingHiddenSessionKeys { it + key },
+            )
         }
 
         is Action.MovePinUp -> {
@@ -335,7 +346,8 @@ private fun HomeFeature.sessionTapped(state: State, sessionID: String): HomeRedu
     // Navigation and cached transcripts do not require a live event stream.
     val session = state.sessions.firstOrNull { it.id == sessionID } ?: return Reduced(state)
     val moveReason = state.nextMoveReason
-    var s = state
+    // A session opened on the way back (a notification, a link) is what the return shows.
+    var s = state.forgettingAppLeft()
     if (s.pendingSubagentPush?.parentID != sessionID) s = s.copy(pendingSubagentPush = null)
     // A subagent (a link, a notification, the voice agent) lands pushed over its parent when the
     // parent is at hand; otherwise on its own. Already pushed: go back to it.

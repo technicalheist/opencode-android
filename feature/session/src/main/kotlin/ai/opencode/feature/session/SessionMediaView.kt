@@ -777,7 +777,7 @@ private fun SessionMediaCard(
                 style = OpenCodeTextStyles.callout.copy(fontWeight = FontWeight.Medium),
                 color = OpenCodeTheme.colors.text,
                 maxLines = 1,
-                overflow = TextOverflow.MiddleEllipsis,
+                overflow = if (item.isLink) TextOverflow.Ellipsis else TextOverflow.MiddleEllipsis,
             )
             Text(
                 detail,

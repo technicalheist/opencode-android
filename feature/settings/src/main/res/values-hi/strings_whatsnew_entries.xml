@@ -901,4 +901,38 @@
     <!-- 2026-11-08-02-default-model -->
     <string name="settings_whatsnew_entry_default_model_title">नए सेशन में आपका डिफ़ॉल्ट मॉडल</string>
     <string name="settings_whatsnew_entry_default_model_summary">नए सेशन अब पिछले सेशन के मॉडल के बजाय OpenCode में तय आपके डिफ़ॉल्ट मॉडल से शुरू होते हैं। सोचने का स्तर वही रहता है जो आपने उस मॉडल के लिए पिछली बार चुना था।</string>
+
+    <!-- 2026-11-11-01-streamed-reply-prefix -->
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_title">जवाब आते समय ही खोलें</string>
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_summary">जवाब आते समय सेशन खोलने पर, आप अब तक आया जवाब पढ़ सकते हैं। बाकी जवाब आता रहेगा।</string>
+
+    <!-- 2026-11-13-01-draw-on-images -->
+    <string name="settings_whatsnew_entry_draw_on_images_title">छवियों पर निशान बनाएँ</string>
+    <string name="settings_whatsnew_entry_draw_on_images_summary">किसी चीज़ के बारे में पूछने से पहले उस पर निशान लगाएँ।</string>
+    <string name="settings_whatsnew_entry_draw_on_images_detail_1">छवि को पूरी स्क्रीन में खोलें और पेन बटन पर टैप करें। रंग चुनें, निशान बनाएँ, फिर निशान वाली छवि संदेश में लगाने के लिए जोड़ें पर टैप करें। मूल छवि नहीं बदलेगी।</string>
+    <string name="settings_whatsnew_entry_draw_on_images_example">स्क्रीनशॉट में जिस कंट्रोल को खिसकाना है, उस पर गोला बनाएँ। फिर बताएँ कि उसे कहाँ रखना है।</string>
+
+    <!-- 2026-11-14-01-fullscreen-viewer -->
+    <string name="settings_whatsnew_entry_fullscreen_viewer_title">फ़ोटो और वीडियो के बीच स्वाइप करें</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_summary">सेशन की छवियाँ और वीडियो एक साथ देखें।</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_detail_1">स्वाइप करके वीडियो पर जाएँ, फिर मौजूदा फ़्रेम पर निशान बनाने के लिए पेन बटन पर टैप करें। जोड़ें पर टैप करने से निशान वाला फ़्रेम जुड़ जाता है, भेजा नहीं जाता।</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_example">डेमो को उस स्क्रीन पर रोकें जिसमें बदलाव चाहिए, ज़रूरी हिस्से पर गोला बनाएँ और उसे अपने ड्राफ़्ट में जोड़ें।</string>
+
+    <!-- 2026-11-15-01-pairing-link-name -->
+    <string name="settings_whatsnew_entry_pairing_link_name_title">OpenCode Console से नाम वाले सर्वर</string>
+    <string name="settings_whatsnew_entry_pairing_link_name_summary">OpenCode Console से पेयर किया गया सर्वर अपने नाम के साथ जुड़ता है, जैसे “Anomaly Box”।</string>
+
+    <!-- 2026-11-17-01-session-media -->
+    <string name="settings_whatsnew_entry_session_media_title">सेशन का मीडिया</string>
+    <string name="settings_whatsnew_entry_session_media_summary">सेशन की छवियाँ, वीडियो, ऑडियो, फ़ाइलें और सार्वजनिक वेब लिंक देखें।</string>
+    <string name="settings_whatsnew_entry_session_media_detail_1">सेशन के ⋮ मेन्यू से सेशन का मीडिया चुनें। मीडिया में छवियाँ, वीडियो और ऑडियो महीने के हिसाब से टाइलों में या सूची में दिखते हैं। फ़ाइलें और लिंक में दस्तावेज़, पेस्ट किया गया टेक्स्ट और वेब लिंक मिलते हैं।</string>
+    <string name="settings_whatsnew_entry_session_media_example">पूरा सेशन वापस स्क्रॉल किए बिना आज सुबह भेजा गया स्क्रीनशॉट ढूँढ़ें।</string>
+
+    <!-- 2026-11-18-02-drawer-call-phone -->
+    <string name="settings_whatsnew_entry_drawer_call_phone_title">ड्रॉअर में कॉल के लिए फ़ोन आइकन</string>
+    <string name="settings_whatsnew_entry_drawer_call_phone_summary">सेशन सूची में सेटिंग्स के बगल वाले कॉल बटन पर अब संदेश बॉक्स जैसा फ़ोन आइकन दिखता है।</string>
+
+    <!-- 2026-11-19-01-background-scripts -->
+    <string name="settings_whatsnew_entry_background_scripts_title">बैकग्राउंड में चलती स्क्रिप्ट</string>
+    <string name="settings_whatsnew_entry_background_scripts_summary">एजेंट जिन स्क्रिप्ट को बैकग्राउंड में चलाता है, वे सबएजेंट और शेल के साथ दिखती हैं। सबएजेंट की छवियों, वीडियो या स्क्रिप्ट पर काम जारी रहने तक वह सूची में दिखता रहता है। स्क्रिप्ट या सबएजेंट को सूची से ही रोकें।</string>
 </resources>

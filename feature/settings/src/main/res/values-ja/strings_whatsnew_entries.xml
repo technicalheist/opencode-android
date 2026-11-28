@@ -901,4 +901,38 @@
     <!-- 2026-11-08-02-default-model -->
     <string name="settings_whatsnew_entry_default_model_title">新しいセッションはデフォルトのモデルで</string>
     <string name="settings_whatsnew_entry_default_model_summary">新しいセッションは、前のセッションのモデルではなく、OpenCodeでデフォルトに設定したモデルで始まります。思考レベルは、そのモデルで最後に選んだものが使われます。</string>
+
+    <!-- 2026-11-11-01-streamed-reply-prefix -->
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_title">返信を生成途中から読む</string>
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_summary">返信の生成中にセッションを開くと、続きを待ちながら届いた分を読めます。</string>
+
+    <!-- 2026-11-13-01-draw-on-images -->
+    <string name="settings_whatsnew_entry_draw_on_images_title">画像に描き込む</string>
+    <string name="settings_whatsnew_entry_draw_on_images_summary">気になる箇所に印を付けて質問できます。</string>
+    <string name="settings_whatsnew_entry_draw_on_images_detail_1">画像を全画面で開き、ペンボタンをタップします。色を選んで描き込み、「追加」をタップするとメッセージに添付できます。元の画像は変わりません。</string>
+    <string name="settings_whatsnew_entry_draw_on_images_example">スクリーンショットで移動したいコントロールを丸で囲み、移動先を説明してみましょう。</string>
+
+    <!-- 2026-11-14-01-fullscreen-viewer -->
+    <string name="settings_whatsnew_entry_fullscreen_viewer_title">スワイプで写真や動画を切り替え</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_summary">セッション内の画像や動画をまとめて見られます。</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_detail_1">スワイプで動画に切り替え、ペンボタンをタップすると、現在のフレームに描き込めます。「追加」をタップすると、描き込んだフレームが送信されずに添付されます。</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_example">デモ動画の変更したい画面で一時停止し、該当箇所を丸で囲んで下書きに追加してみましょう。</string>
+
+    <!-- 2026-11-15-01-pairing-link-name -->
+    <string name="settings_whatsnew_entry_pairing_link_name_title">OpenCode Consoleからサーバー名も引き継ぎ</string>
+    <string name="settings_whatsnew_entry_pairing_link_name_summary">OpenCode Consoleからペアリングしたサーバーは、「Anomaly Box」などの名前も引き継ぎます。</string>
+
+    <!-- 2026-11-17-01-session-media -->
+    <string name="settings_whatsnew_entry_session_media_title">セッションのメディア</string>
+    <string name="settings_whatsnew_entry_session_media_summary">セッション内の画像、動画、音声、ファイル、公開ウェブリンクをまとめて確認できます。</string>
+    <string name="settings_whatsnew_entry_session_media_detail_1">セッションの⋮メニューから「セッションのメディア」を選びます。「メディア」では画像、動画、音声を月別のタイルや一覧で表示できます。「ファイル」と「リンク」では、文書、貼り付けたテキスト、Webリンクを一覧で確認できます。</string>
+    <string name="settings_whatsnew_entry_session_media_example">セッション全体をさかのぼらずに、今朝送ったスクリーンショットを探せます。</string>
+
+    <!-- 2026-11-18-02-drawer-call-phone -->
+    <string name="settings_whatsnew_entry_drawer_call_phone_title">ドロワーの通話ボタンを電話アイコンに</string>
+    <string name="settings_whatsnew_entry_drawer_call_phone_summary">セッション一覧の「設定」の隣にある通話ボタンが、メッセージ欄と同じ電話アイコンになりました。</string>
+
+    <!-- 2026-11-19-01-background-scripts -->
+    <string name="settings_whatsnew_entry_background_scripts_title">バックグラウンド作業にスクリプトを表示</string>
+    <string name="settings_whatsnew_entry_background_scripts_summary">エージェントがバックグラウンドに移したスクリプトが、サブエージェントやシェルと並んで表示されます。サブエージェントも、画像や動画の処理、スクリプトの実行が続いている間は一覧に残ります。どちらも一覧から停止できます。</string>
 </resources>

@@ -144,12 +144,15 @@ data class TranscriptImagePreview(val id: String, val pages: List<Page>, val ser
             return TranscriptImagePreview(
                 selectedID,
                 items.mapIndexed { index, (attachment, image) ->
+                    val bytes = MediaReferenceResolver.resolvedData(attachment)
+                    val thumbnail = if (image == null && bytes != null) CachedImage.cachedThumbnail(attachment.id, attachment.mediaHash) else null
                     Page(
                         id = attachment.id,
-                        image = image,
+                        image = image ?: thumbnail,
                         label = attachment.name ?: localized(R.string.media_image_page_label, label, index + 1, items.size),
-                        original = attachment.data.takeIf { it.isNotEmpty() },
+                        original = if (thumbnail != null) bytes else attachment.data.takeIf { it.isNotEmpty() },
                         hasDecodedOriginal = image != null && attachment.data.isNotEmpty(),
+                        placeholderSize = if (thumbnail != null && bytes != null) CachedImage.pixelSize(bytes) else null,
                         mediaHash = attachment.mediaHash,
                         name = attachment.name,
                         isUnavailable = attachment.isUnavailable || MediaReferenceResolver.isUnavailable(attachment, server),

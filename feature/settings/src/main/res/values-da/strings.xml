@@ -65,8 +65,6 @@
     <string name="settings_notifications_plugin_check_failed">Kunne ikke tjekke status</string>
     <string name="settings_notifications_set_up">Konfigurer med OpenCode</string>
     <string name="settings_notifications_check_again">Tjek igen</string>
-    <string name="settings_notifications_in_app_footer">Vises på knappen til sidepanelet.</string>
-    <string name="settings_notifications_in_app_notices">Meddelelser i appen</string>
 
     <!-- Sessions -->
     <string name="settings_sessions_title">Sessioner</string>

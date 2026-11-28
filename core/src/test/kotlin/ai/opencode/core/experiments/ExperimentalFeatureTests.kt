@@ -1,20 +1,31 @@
 package ai.opencode.core.experiments
 
+import ai.opencode.core.dependencies.AppContext
 import ai.opencode.core.dependencies.DependencyValues
 import ai.opencode.core.dependencies.dependency
+import ai.opencode.core.dependencies.withDependencies
 import ai.opencode.core.sharing.SharedKey
 import ai.opencode.core.sharing.SharedKeys
 import ai.opencode.core.sharing.InMemorySharedBytes
+import ai.opencode.core.sharing.LiveSharedBytes
+import ai.opencode.core.sharing.SharedStorageKind
 import ai.opencode.core.sharing.SharedStore
 import ai.opencode.core.sharing.experimental
 import ai.opencode.core.sharing.shared
 import ai.opencode.core.testing.TestIsolationRule
+import kotlinx.serialization.KSerializer
+import kotlinx.serialization.encoding.Encoder
+import kotlinx.serialization.serializer
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
+import org.robolectric.RuntimeEnvironment
+import org.robolectric.annotation.Config
 
 class ExperimentalFeatureTests {
     @get:Rule val isolation = TestIsolationRule()
@@ -151,5 +162,34 @@ class ExperimentalFeatureTests {
             assertTrue(ExperimentalFeature.inAppBrowser.isActive(true))
             assertTrue(ExperimentalFeatures.liveValue(ExperimentalFeature.inAppBrowser))
         }
+    }
+}
+
+/** The live storage behind shared values, under Robolectric for its Android context. */
+@RunWith(RobolectricTestRunner::class)
+@Config(sdk = [35])
+class LiveSharedStorageTests {
+    @get:Rule val isolation = TestIsolationRule()
+
+    @Test
+    fun anInMemoryValueIsNeverEncoded() {
+        var encodes = 0
+        val strings = serializer<List<String>>()
+        val counting = object : KSerializer<List<String>> by strings {
+            override fun serialize(encoder: Encoder, value: List<String>) {
+                encodes += 1
+                strings.serialize(encoder, value)
+            }
+        }
+        val key = SharedKey("in-memory-strings", emptyList(), counting, SharedStorageKind.InMemory)
+        val store = withDependencies({ this[AppContext] = RuntimeEnvironment.getApplication() }) {
+            SharedStore(LiveSharedBytes.create())
+        }
+        val value = store.reference(key)
+        value.set(listOf("a"))
+        value.update { it + "b" }
+        store.flush()
+        assertEquals(0, encodes)
+        assertEquals(listOf("a", "b"), store.reference(key).value)
     }
 }

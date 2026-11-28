@@ -46,6 +46,7 @@ import ai.opencode.feature.voice.VoiceOpenSessionFeature
 import ai.opencode.feature.voice.ScreenAwakeClient
 import ai.opencode.feature.voice.VoiceCallLogClient
 import ai.opencode.feature.voice.VoiceCallServiceClient
+import ai.opencode.feature.voice.VoiceFeature
 import ai.opencode.server.CachedHomeSnapshot
 import ai.opencode.server.ConnectionFailureDetail
 import ai.opencode.server.LocalNetworkPermission
@@ -240,6 +241,9 @@ class AppFeature : Reducer<AppFeature.State, AppFeature.Action> {
 
         /** A call that is connecting or connected keeps the screen on, but only in the foreground. */
         val keepsScreenAwake: Boolean get() = isInForeground && home?.hasLiveCall == true
+
+        /** A call is on while the app is in the background, where nobody sees it. */
+        val callIsOutOfSight: Boolean get() = !isInForeground && home?.sessionDetail?.voice != null
 
         val errorMessage: String? get() = (connection as? Connection.Failed)?.message
         val errorContext: FailureContext? get() = (connection as? Connection.Failed)?.context
@@ -569,6 +573,11 @@ class AppFeature : Reducer<AppFeature.State, AppFeature.Action> {
         .onChange({ it.keepsScreenAwake }) { _, keeps, state ->
             dependency(ScreenAwakeClient).set(keeps)
             Reduced(state)
+        }
+        // Also covers a call that starts while the app is in the background.
+        .onChange({ it.callIsOutOfSight }) { _, _, state ->
+            if (state.home?.sessionDetail?.voice == null) return@onChange Reduced(state)
+            Reduced(state, Effect.send(voiceAction(VoiceFeature.Action.AppVisibilityChanged(state.isInForeground))))
         }
 
     override fun reduce(state: State, action: Action): Reduced<State, Action> {

@@ -3,11 +3,10 @@
     <!-- Agent activity glyph -->
     <string name="session_activity_running_description">Աշխատում է</string>
     <!-- Background work panel -->
-    <string name="session_background_work_show_label">Ցույց տալ աշխատող ենթագործակալներն ու Shell-երը</string>
+    <string name="session_background_work_show_label">Ցույց տալ աշխատող ենթագործակալները, սկրիպտներն ու Shell-երը</string>
     <string name="session_background_work_collapsed_description">Ծալված</string>
-    <string name="session_background_work_subagents_title">Ենթագործակալներ</string>
+    <string name="session_background_work_expanded_description">Ընդարձակված</string>
     <string name="session_background_work_open_subagent_label">Բացել ենթագործակալի նիստը</string>
-    <string name="session_background_work_shells_title">Shell-եր</string>
     <string name="session_background_work_show_shell_label">Ցույց տալ Shell-ի ելքը</string>
     <!-- The session's images and videos, paged in the full-screen viewer -->
     <string name="session_visual_attached_image">Կցված պատկեր</string>
@@ -70,6 +69,8 @@
     <string name="session_sheet_unknown_description">Անհայտ</string>
     <string name="session_sheet_context_tokens">%1$s թոքեն</string>
     <string name="session_sheet_cost">Արժեք</string>
+    <string name="session_sheet_media">Մեդիա</string>
+    <string name="session_sheet_media_value">Ֆայլեր և հղումներ</string>
     <string name="session_always_notify">Միշտ ծանուցել</string>
     <string name="session_always_notify_message_phone">Ծանուցել այս հեռախոսին, երբ պատասխանը պատրաստ է, նույնիսկ եթե հարցումն այստեղից չի ուղարկվել։</string>
     <string name="session_always_notify_message_tablet">Ծանուցել այս պլանշետին, երբ պատասխանը պատրաստ է, նույնիսկ եթե հարցումն այստեղից չի ուղարկվել։</string>
@@ -199,24 +200,25 @@
         <item quantity="one">%1$d Shell</item>
         <item quantity="other">%1$d Shell</item>
     </plurals>
+    <plurals name="session_background_work_script_count">
+        <item quantity="one">%1$d սկրիպտ</item>
+        <item quantity="other">%1$d սկրիպտ</item>
+    </plurals>
     <string name="session_background_work_summary">%1$s · %2$s</string>
+    <string name="session_background_work_elapsed_seconds">%1$d վ</string>
+    <string name="session_background_work_elapsed_minutes">%1$d ր %2$s վ</string>
+    <string name="session_background_work_elapsed_hours">%1$d ժ %2$s ր</string>
+    <string name="session_background_work_stop_script_label">Կանգնեցնել սկրիպտը</string>
+    <string name="session_background_work_stop_subagent_label">Կանգնեցնել ենթագործակալը</string>
+    <string name="session_background_work_stop_shell_label">Կանգնեցնել Shell-ը</string>
+    <string name="session_background_work_stop_script_failed">Չհաջողվեց կանգնեցնել սկրիպտը</string>
+    <string name="session_background_work_stop_subagent_failed">Չհաջողվեց կանգնեցնել ենթագործակալը</string>
 
     <!-- Composer buttons -->
     <string name="session_send_message_description">Ուղարկել հաղորդագրություն</string>
     <string name="session_stop_description">Կանգնեցնել</string>
     <string name="session_start_voice_call_description">Սկսել ձայնային զանգ</string>
     <string name="session_model_level_default">Լռելյայն</string>
-
-    <!-- In-app notice -->
-    <plurals name="session_notice_session_count">
-        <item quantity="one">%1$d նիստ</item>
-        <item quantity="other">%1$d նիստ</item>
-    </plurals>
-    <plurals name="session_notice_needs_input_count">
-        <item quantity="one">%1$d-ը սպասում է ձեր արձագանքին</item>
-        <item quantity="other">%1$d-ը սպասում են ձեր արձագանքին</item>
-    </plurals>
-    <string name="session_notice_announcement">%1$s, %2$s</string>
 
     <!-- Server connection pill -->
     <string name="session_server_reconnecting">%1$s-ի հետ կապը վերահաստատվում է…</string>

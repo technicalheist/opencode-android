@@ -40,6 +40,8 @@
     <string name="drawer_mark_as_unread">Pažymėti kaip neperskaitytą</string>
     <string name="drawer_mute">Nutildyti</string>
     <string name="drawer_unmute">Įjungti garsą</string>
+    <string name="drawer_hide">Slėpti</string>
+    <string name="drawer_unhide">Rodyti</string>
     <string name="drawer_move_up">Perkelti aukštyn</string>
     <string name="drawer_move_down">Perkelti žemyn</string>
 
@@ -89,8 +91,6 @@
     <string name="drawer_button_open_sessions_description">Atidaryti seansus</string>
     <string name="drawer_button_attention_state">Seansui reikia jūsų atsakymo</string>
     <string name="drawer_button_unread_state">Neperskaityti seansai</string>
-    <string name="drawer_notice_open_sessions_action">Atidaryti seansus</string>
-    <string name="drawer_notice_open_session_action">Atidaryti seansą</string>
 
     <!-- Search pill -->
     <string name="drawer_search_description">Paieškos seansai</string>
@@ -129,6 +129,7 @@
     <!-- Session row state for TalkBack -->
     <string name="drawer_row_pinned_state">Prisegtas</string>
     <string name="drawer_row_muted_state">Nutildytas</string>
+    <string name="drawer_row_hidden_state">Paslėpti</string>
     <string name="drawer_row_needs_input_state">Reikia jūsų atsakymo</string>
     <string name="drawer_row_working_state">Darbas</string>
     <string name="drawer_row_unread_state">Neperskaitytas</string>

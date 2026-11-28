@@ -44,6 +44,7 @@ import org.robolectric.Shadows.shadowOf
 import org.robolectric.annotation.Config
 import java.io.File
 import java.time.Instant
+import java.util.Locale
 
 private val server = OpenCodeServer(url = "https://saved.example", username = "kit", password = "test")
 private val otherServer = OpenCodeServer(url = "https://other.example", username = "kit", password = "test")
@@ -55,9 +56,9 @@ private fun directoryServer(lastViewed: String? = "ses_older", pinned: List<Stri
     lastViewedSessionID = lastViewed,
     pinnedIDs = pinned,
     sessions = listOf(
-        SessionDirectory.Session(id = "ses_newer", title = "Fix login", projectID = "prj_app", projectName = "app", updatedAt = Instant.ofEpochSecond(300)),
-        SessionDirectory.Session(id = "ses_loose", title = "Scratch", projectID = "global", projectName = null, updatedAt = Instant.ofEpochSecond(200)),
-        SessionDirectory.Session(id = "ses_older", title = "Older work", projectID = "prj_docs", projectName = "docs", updatedAt = Instant.ofEpochSecond(100)),
+        SessionDirectory.Session(id = "ses_newer", title = "Fix login", projectID = "prj_app", projectName = "app"),
+        SessionDirectory.Session(id = "ses_loose", title = "Scratch", projectID = "global", projectName = null),
+        SessionDirectory.Session(id = "ses_older", title = "Older work", projectID = "prj_docs", projectName = "docs"),
     ),
     projects = listOf(SessionDirectory.Project("prj_app", "app", "/work/app"), SessionDirectory.Project("prj_docs", "docs", "/work/docs")),
 )
@@ -135,7 +136,7 @@ class SystemEntityQueryTests {
         val directory = directory().publish(
             SessionDirectory.Server(
                 key = otherKey, name = "other", pinnedIDs = emptyList(),
-                sessions = listOf(SessionDirectory.Session(id = "ses_remote", title = "Remote", projectID = "p", projectName = null, updatedAt = Instant.now())),
+                sessions = listOf(SessionDirectory.Session(id = "ses_remote", title = "Remote", projectID = "p", projectName = null)),
                 projects = emptyList(),
             ),
         )
@@ -230,9 +231,9 @@ class SessionControlTests {
     }
 
     @Test
-    fun theControlsCopyKeepsPinsRecentsAndLastViewedButNoFoldersOrTimes() {
+    fun theControlsCopyKeepsPinsRecentsAndLastViewedButNoFolders() {
         val extra = (0 until 60).map { index ->
-            SessionDirectory.Session(id = "ses_$index", title = "Work $index", projectID = "prj_app", projectName = "app", updatedAt = Instant.ofEpochSecond(1_000L - index))
+            SessionDirectory.Session(id = "ses_$index", title = "Work $index", projectID = "prj_app", projectName = "app")
         }
         val base = directoryServer(lastViewed = "ses_older", pinned = listOf("ses_loose"))
         val entry = base.copy(sessions = extra + base.sessions)
@@ -242,8 +243,6 @@ class SessionControlTests {
         assertEquals(listOf("ses_loose"), server.pinned.map { it.id })
         assertEquals("ses_older", server.lastViewed?.id)
         assertEquals(listOf("ses_0", "ses_1", "ses_2"), server.sessions.take(3).map { it.id })
-        // Android's copy uses the epoch.
-        assertTrue(server.sessions.all { it.updatedAt == Instant.EPOCH })
         assertEquals(listOf("app", "docs"), server.projects.map { it.name })
         assertTrue(server.projects.all { it.directory.isEmpty() })
         assertTrue(server.name.isEmpty())
@@ -468,7 +467,7 @@ class SystemPublisherTests {
 
     private fun entry(key: String, title: String = "Work") = SessionDirectory.Server(
         key = key, name = key, pinnedIDs = emptyList(),
-        sessions = listOf(SessionDirectory.Session(id = "ses_$key", title = title, projectID = "p", projectName = null, updatedAt = Instant.ofEpochSecond(1))),
+        sessions = listOf(SessionDirectory.Session(id = "ses_$key", title = title, projectID = "p", projectName = null)),
         projects = emptyList(),
     )
 
@@ -511,6 +510,48 @@ class SystemPublisherTests {
         publisher.remove("a")
         advanceUntilIdle()
         assertEquals(listOf(SystemIntegrationPublisher.Job.Publish(entry("a"), voiceAvailable = false), SystemIntegrationPublisher.Job.Remove("a")), jobs)
+        publishers.cancel()
+    }
+
+    @Test
+    fun anEntryThatComesOutTheSameIsntPublishedAgain() = runTest {
+        val jobs = mutableListOf<SystemIntegrationPublisher.Job>()
+        val publisher = SystemIntegrationPublisher(delay = kotlin.time.Duration.parse("20ms"), scope = publisherScope()) { jobs += it }
+        fun publish(entry: SessionDirectory.Server, voiceAvailable: Boolean = false) {
+            publisher.schedule(entry, voiceAvailable)
+            advanceUntilIdle()
+        }
+        // A run's activity: the entry comes out the same each time.
+        repeat(5) { publish(entry("a")) }
+        assertEquals(1, jobs.size)
+
+        publish(entry("a", title = "Renamed"))
+        // Another server, then the first again: it becomes the current one.
+        publish(entry("b"))
+        publish(entry("a", title = "Renamed"))
+        assertEquals(4, jobs.size)
+
+        // A removed server is published afresh.
+        publisher.remove("a")
+        publish(entry("a", title = "Renamed"))
+        assertEquals(
+            listOf(SystemIntegrationPublisher.Job.Remove("a"), SystemIntegrationPublisher.Job.Publish(entry("a", title = "Renamed"), voiceAvailable = false)),
+            jobs.takeLast(2),
+        )
+
+        // Voice turning on changes the quick actions.
+        publish(entry("a", title = "Renamed"), voiceAvailable = true)
+        assertEquals(7, jobs.size)
+
+        // So does another language: the quick actions' labels change.
+        val locale = Locale.getDefault()
+        try {
+            Locale.setDefault(Locale.GERMAN)
+            publish(entry("a", title = "Renamed"), voiceAvailable = true)
+        } finally {
+            Locale.setDefault(locale)
+        }
+        assertEquals(8, jobs.size)
         publishers.cancel()
     }
 }

@@ -97,7 +97,12 @@ object LinkPreviewPolicy {
         var host = components.host.lowercase()
         if (host.endsWith(".")) host = host.dropLast(1)
         if (host in xHosts) host = "x.com"
-        val builder = components.newBuilder().scheme(components.scheme.lowercase()).host(host).fragment(null).query(null)
+        val builder = try {
+            components.newBuilder().scheme(components.scheme.lowercase()).host(host).fragment(null).query(null)
+        } catch (_: IllegalArgumentException) {
+            // OkHttp can't read back some punycode hosts it wrote itself, such as one with a full-width comma.
+            return null
+        }
         for (index in 0 until components.querySize) {
             val name = components.queryParameterName(index).lowercase()
             if (name.startsWith("utm_") || name in trackingParameters) continue
@@ -185,14 +190,23 @@ internal object LinkDetector {
 
 /** The links a reply names, in order, once each. */
 object LinkPreviewExtractor {
-    fun targets(blocks: List<LinkTextBlock>, limit: Int = 6): List<LinkPreviewTarget> {
+    fun targets(blocks: List<LinkTextBlock>, limit: Int = 6): List<LinkPreviewTarget> =
+        labeledTargets(blocks, limit).map { it.first }
+
+    /**
+     * The same links, each with the text a Markdown link gave it (`[Docs](…)` is “Docs”); null for
+     * a URL found in plain text, or a label that is blank, contains `://` or is just the host.
+     */
+    fun labeledTargets(blocks: List<LinkTextBlock>, limit: Int = 6): List<Pair<LinkPreviewTarget, String?>> {
         val seen = HashSet<String>()
-        val result = mutableListOf<LinkPreviewTarget>()
-        fun add(url: String) {
+        val result = mutableListOf<Pair<LinkPreviewTarget, String?>>()
+        fun add(url: String, label: String? = null) {
             if (result.size >= limit) return
             val target = LinkPreviewTarget.of(url) ?: return
             if (!seen.add(target.key)) return
-            result += target
+            val trimmed = label?.trim()
+            val readable = if (trimmed.isNullOrEmpty() || trimmed.contains("://") || trimmed == url.toHttpUrlOrNull()?.host) null else trimmed
+            result += target to readable
         }
         for (block in blocks) {
             // Appended PR blocks are derived by an older prefix matcher. Read the original prose
@@ -200,16 +214,25 @@ object LinkPreviewExtractor {
             // prefix of a longer URL.
             for (text in texts(block)) {
                 // In reading order: a run's link, or bare URLs the Markdown left as its text. A
-                // URL in inline code is code, not a link.
+                // URL in inline code is code, not a link. A label styled in parts (`[**Docs** page](…)`)
+                // is several runs, so a link is added with its whole span's text once the span ends.
+                var spanLink: String? = null
+                val span = StringBuilder()
                 for (run in text) {
+                    if (run.link != spanLink) {
+                        if (spanLink != null) add(spanLink, span.toString())
+                        spanLink = run.link
+                        span.clear()
+                    }
                     if (run.link != null) {
-                        add(run.link)
+                        span.append(run.text)
                         continue
                     }
                     if (run.isCode) continue
                     if (!run.text.contains("://")) continue
                     for ((url, _) in LinkDetector.matches(run.text)) add(url)
                 }
+                if (spanLink != null) add(spanLink, span.toString())
             }
         }
         return result

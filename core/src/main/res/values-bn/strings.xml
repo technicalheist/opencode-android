@@ -29,11 +29,6 @@
     <string name="core_experiment_group_transcript_title">ট্রান্সক্রিপ্ট</string>
     <string name="core_experiment_group_drawer_title">ড্রয়ার</string>
 
-    <!-- In-app notice mode -->
-    <string name="core_in_app_notice_mode_off">বন্ধ</string>
-    <string name="core_in_app_notice_mode_needs_input">শুধু আপনার ইনপুট প্রয়োজন হলে</string>
-    <string name="core_in_app_notice_mode_all">সব আপডেট</string>
-
     <!-- Themes and appearance -->
     <string name="core_theme_system_title">সিস্টেম</string>
     <string name="core_appearance_color_scheme_system_title">সিস্টেম</string>

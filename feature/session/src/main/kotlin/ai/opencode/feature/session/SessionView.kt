@@ -17,6 +17,7 @@ import ai.opencode.core.motion.MotionPhase
 import ai.opencode.core.motion.rememberReduceMotion
 import ai.opencode.core.sharing.shared
 import ai.opencode.core.store.PresentationAction
+import ai.opencode.core.store.Store
 import ai.opencode.core.store.StoreOf
 import ai.opencode.core.store.observe
 import ai.opencode.core.store.scope
@@ -39,6 +40,7 @@ import ai.opencode.feature.composer.composerKeyboardStepHold
 import ai.opencode.feature.media.LocalMediaPresenter
 import ai.opencode.feature.media.MediaPresenter
 import ai.opencode.feature.media.FullscreenViewer
+import ai.opencode.feature.media.FullscreenViewerFeature
 import ai.opencode.feature.media.TranscriptMetrics
 import ai.opencode.feature.session.SessionFeature.Action
 import ai.opencode.feature.session.SessionFeature.State
@@ -147,7 +149,7 @@ import kotlinx.coroutines.flow.map
  *
  * @param navigationIcon the drawer button Home supplies (iOS `drawerControl`); unused while
  *   [onBack] or [onCatchUpOpen] is set.
- * @param listContext what Home knows about this session (project, pin, unread, mute, notices).
+ * @param listContext what Home knows about this session (project, pin, unread, mute).
  * @param onConnectionAction Server Flow: the connection pill was acted on.
  * @param onBack set on a subagent pushed over its parent: the header trades the drawer button for Back.
  * @param onCatchUpOpen set while the session is a catch-up card: the title leaves Catch Up for the session.
@@ -207,6 +209,7 @@ fun SessionView(
         SessionCallTasks(store, callStore, hasCall = ownsCall || hostedCall != null, isCatchUpCard = onCatchUpOpen != null)
     }
     val isCovered by store.observe { it.isCovered }
+    val isTranscriptCovered by store.observe { it.isTranscriptCovered }
     // iOS `floatingCallCoverage(sessionLifecycle)`: what the Living Orb's card covers gives way.
     if (!isInertPreview) {
         SessionFloatingCallCoverage(store, callStore, composerHost, attachmentMenu)
@@ -277,6 +280,11 @@ fun SessionView(
             sessionID = work.sessionID,
             agents = work.agents,
             shells = work.shells,
+            scripts = work.scripts,
+            onStopScript = { store.send(Action.BackgroundScriptStopTapped(it)) },
+            onStopSubagent = { store.send(Action.BackgroundSubagentStopTapped(it)) },
+            onStopShell = { store.send(Action.BackgroundShellStopTapped(it)) },
+            stoppingIDs = work.stoppingIDs,
             waitingSessionIDs = work.waitingSessionIDs,
             probe = work.probe,
             isPresented = showsBackgroundWork,
@@ -284,6 +292,7 @@ fun SessionView(
             onOpenSubagent = { store.send(Action.SubagentTapped(it)) },
             onOpenShell = { store.send(Action.ShellOutputTapped(it)) },
             isCovered = composerHost.composerPanelCovers,
+            isPaused = isTranscriptCovered,
             inCall = work.inCall,
             transcript = scrollEdgeBridge.borrowedDrag,
             // The capsule draws above the + menu's dismiss area: tapping it closes the menu.
@@ -471,6 +480,8 @@ private data class BackgroundWorkModel(
     val sessionID: String?,
     val agents: List<OpenCodeSession>,
     val shells: List<OpenCodeShell>,
+    val scripts: List<BackgroundScript>,
+    val stoppingIDs: Set<String>,
     val waitingSessionIDs: Set<String>,
     val probe: ShellGlyphProbe?,
     val inCall: Boolean,
@@ -480,6 +491,8 @@ private data class BackgroundWorkModel(
             sessionID = state.session?.id,
             agents = state.activeSubagents,
             shells = state.backgroundShells,
+            scripts = state.backgroundScripts,
+            stoppingIDs = state.stoppingIDs,
             waitingSessionIDs = state.waitingSessionIDs,
             probe = state.shellGlyphProbe,
             inCall = state.voice != null,
@@ -854,7 +867,9 @@ private fun presentComposerPhoto(
     ) ?: return
     val restoresFocus = host?.messageFieldFocused == true
     if (restoresFocus) host?.dismissComposerKeyboard()
-    val viewerStore = ComposerPhotoViewer.store(preview, addDrawing = drawingHandler(store)) { removed ->
+    lateinit var viewerStore: Store<FullscreenViewerFeature.State, FullscreenViewerFeature.Action>
+    val addDrawing = drawingHandler(store, drawnOn = { viewerStore.state.selectedPage })
+    viewerStore = ComposerPhotoViewer.store(preview, addDrawing) { removed ->
         val index = store.state.pendingAttachments.indexOfFirst { it.id == removed }
         if (index >= 0) store.send(Action.attachmentRemoved(index))
         else store.state.pendingFiles.firstOrNull { it.id.toString() == removed }?.let { store.send(Action.fileRemoved(it.id)) }
@@ -974,6 +989,7 @@ private fun SessionSheets(store: StoreOf<State, Action>, listContext: SessionLis
                 context = listContext,
                 details = details,
                 onModelTapped = { store.send(Action.ModelButtonTapped) },
+                onMediaTapped = { store.send(Action.SessionMediaTapped) },
                 onDismissRequest = dismiss,
                 providerIcon = { providerID, canonical, size -> ProviderIcon(providerID, Modifier.size(size), canonical) },
                 statusOrb = { status, size ->

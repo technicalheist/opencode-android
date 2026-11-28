@@ -901,4 +901,38 @@
     <!-- 2026-11-08-02-default-model -->
     <string name="settings_whatsnew_entry_default_model_title">Nieuwe sessies gebruiken je standaardmodel</string>
     <string name="settings_whatsnew_entry_default_model_summary">Nieuwe sessies starten met je standaardmodel uit OpenCode en het laatst gekozen denkniveau voor dat model, in plaats van het model van de vorige sessie.</string>
+
+    <!-- 2026-11-11-01-streamed-reply-prefix -->
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_title">Reactie openen vóór die klaar is</string>
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_summary">Open je een sessie terwijl een reactie binnenkomt, dan kun je alvast lezen wat er al is terwijl de rest volgt.</string>
+
+    <!-- 2026-11-13-01-draw-on-images -->
+    <string name="settings_whatsnew_entry_draw_on_images_title">Tekenen op afbeeldingen</string>
+    <string name="settings_whatsnew_entry_draw_on_images_summary">Markeer een detail voordat je ernaar vraagt.</string>
+    <string name="settings_whatsnew_entry_draw_on_images_detail_1">Open een afbeelding op volledig scherm en tik op de penknop. Kies een kleur, teken en tik op Toevoegen om de gemarkeerde afbeelding aan je bericht toe te voegen. Het origineel blijft ongewijzigd.</string>
+    <string name="settings_whatsnew_entry_draw_on_images_example">Omcirkel in een schermafbeelding het bedieningselement dat je wilt verplaatsen en beschrijf waar het moet komen.</string>
+
+    <!-- 2026-11-14-01-fullscreen-viewer -->
+    <string name="settings_whatsnew_entry_fullscreen_viewer_title">Vegen tussen foto\'s en video\'s</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_summary">Bekijk de afbeeldingen en video\'s van een sessie bij elkaar.</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_detail_1">Veeg naar een video en tik op de penknop om op het huidige videobeeld te tekenen. Met Toevoegen voeg je het gemarkeerde beeld toe zonder het te verzenden.</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_example">Pauzeer een demo bij het scherm dat aangepast moet worden, omcirkel het detail en voeg het toe aan je concept.</string>
+
+    <!-- 2026-11-15-01-pairing-link-name -->
+    <string name="settings_whatsnew_entry_pairing_link_name_title">Servers met naam uit OpenCode Console</string>
+    <string name="settings_whatsnew_entry_pairing_link_name_summary">Een server die je via OpenCode Console koppelt, krijgt zijn naam mee, zoals “Anomaly Box”.</string>
+
+    <!-- 2026-11-17-01-session-media -->
+    <string name="settings_whatsnew_entry_session_media_title">Sessiemedia</string>
+    <string name="settings_whatsnew_entry_session_media_summary">Bekijk afbeeldingen, video\'s, audio, bestanden en openbare weblinks van een sessie.</string>
+    <string name="settings_whatsnew_entry_session_media_detail_1">Kies Sessiemedia in het ⋮-menu van een sessie. Media toont de afbeeldingen, video\'s en audio als tegels per maand of als lijst. Bestanden en Links tonen de documenten, geplakte teksten en weblinks.</string>
+    <string name="settings_whatsnew_entry_session_media_example">Vind de schermafbeelding die je vanochtend stuurde zonder door de hele sessie terug te scrollen.</string>
+
+    <!-- 2026-11-18-02-drawer-call-phone -->
+    <string name="settings_whatsnew_entry_drawer_call_phone_title">Telefoonpictogram voor oproepen in het zijmenu</string>
+    <string name="settings_whatsnew_entry_drawer_call_phone_summary">De belknop naast Instellingen in de sessielijst toont een telefoon, net als de knop in het berichtvak.</string>
+
+    <!-- 2026-11-19-01-background-scripts -->
+    <string name="settings_whatsnew_entry_background_scripts_title">Scripts bij achtergrondtaken</string>
+    <string name="settings_whatsnew_entry_background_scripts_summary">Scripts die de agent naar de achtergrond verplaatst, staan bij subagents en shells. Een subagent blijft in de lijst zolang zijn afbeeldingen, video\'s of scripts nog worden verwerkt of uitgevoerd. Je kunt beide vanuit de lijst stoppen.</string>
 </resources>

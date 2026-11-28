@@ -64,8 +64,6 @@
     <string name="settings_notifications_plugin_check_failed">Không thể kiểm tra trạng thái</string>
     <string name="settings_notifications_set_up">Thiết lập bằng OpenCode</string>
     <string name="settings_notifications_check_again">Kiểm tra lại</string>
-    <string name="settings_notifications_in_app_footer">Hiển thị trên nút ngăn điều hướng.</string>
-    <string name="settings_notifications_in_app_notices">Thông báo trong ứng dụng</string>
 
     <!-- Sessions -->
     <string name="settings_sessions_title">Phiên</string>

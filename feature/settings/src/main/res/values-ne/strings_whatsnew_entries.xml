@@ -901,4 +901,38 @@
     <!-- 2026-11-08-02-default-model -->
     <string name="settings_whatsnew_entry_default_model_title">नयाँ सत्रमा तपाईंको पूर्वनिर्धारित मोडेल</string>
     <string name="settings_whatsnew_entry_default_model_summary">नयाँ सत्रहरू अब अघिल्लो सत्रको मोडेलमा होइन, OpenCode मा पूर्वनिर्धारित राखिएको मोडेलमा सुरु हुन्छन्। सोचाइको स्तर पनि त्यस मोडेलका लागि तपाईंले पछिल्लो पटक छानेकै हुन्छ।</string>
+
+    <!-- 2026-11-11-01-streamed-reply-prefix -->
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_title">जवाफ आउँदै गर्दा खोल्नुहोस्</string>
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_summary">जवाफ आउँदै गर्दा सत्र खोल्दा, बाँकी जवाफ आउँदै गर्छ र आइसकेको भाग पढ्न सक्नुहुन्छ।</string>
+
+    <!-- 2026-11-13-01-draw-on-images -->
+    <string name="settings_whatsnew_entry_draw_on_images_title">छविमा कोर्नुहोस्</string>
+    <string name="settings_whatsnew_entry_draw_on_images_summary">कुनै कुराबारे सोध्नुअघि त्यसमा चिनो लगाउनुहोस्।</string>
+    <string name="settings_whatsnew_entry_draw_on_images_detail_1">छवि पूरा स्क्रिनमा खोलेर कलम बटनमा ट्याप गर्नुहोस्। रङ छानेर कोर्नुहोस्, अनि चिनो लगाइएको छवि सन्देशमा संलग्न गर्न थप्नुहोस् बटनमा ट्याप गर्नुहोस्। मूल छवि जस्ताको तस्तै रहन्छ।</string>
+    <string name="settings_whatsnew_entry_draw_on_images_example">स्क्रिनसटमा सार्न चाहेको कन्ट्रोललाई घेरा लगाउनुहोस्, अनि कहाँ सार्ने भनेर बताउनुहोस्।</string>
+
+    <!-- 2026-11-14-01-fullscreen-viewer -->
+    <string name="settings_whatsnew_entry_fullscreen_viewer_title">फोटो र भिडियोबीच स्वाइप गर्नुहोस्</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_summary">सत्रका छवि र भिडियो एकै ठाउँमा हेर्नुहोस्।</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_detail_1">स्वाइप गरेर भिडियोमा जानुहोस्, अनि हालको फ्रेममा चिनो लगाउन कलम बटनमा ट्याप गर्नुहोस्। थप्नुहोस् बटनले चिनो लगाइएको फ्रेम नपठाई संलग्न गर्छ।</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_example">डेमोमा बदल्नुपर्ने स्क्रिन आएपछि रोक्नुहोस्, सम्बन्धित भागमा घेरा लगाउनुहोस् र मस्यौदामा थप्नुहोस्।</string>
+
+    <!-- 2026-11-15-01-pairing-link-name -->
+    <string name="settings_whatsnew_entry_pairing_link_name_title">OpenCode Console बाट नामसहितका सर्भरहरू</string>
+    <string name="settings_whatsnew_entry_pairing_link_name_summary">OpenCode Console बाट जोडिएको सर्भर आफ्नै नामसहित आउँछ, जस्तै “Anomaly Box”।</string>
+
+    <!-- 2026-11-17-01-session-media -->
+    <string name="settings_whatsnew_entry_session_media_title">सत्रको मिडिया</string>
+    <string name="settings_whatsnew_entry_session_media_summary">सत्रका छवि, भिडियो, अडियो, फाइलहरू र सार्वजनिक वेब लिङ्कहरू हेर्नुहोस्।</string>
+    <string name="settings_whatsnew_entry_session_media_detail_1">सत्रको ⋮ मेनुबाट सत्रको मिडिया छान्नुहोस्। मिडियाले छवि, भिडियो र अडियोलाई महिनाअनुसार टाइलहरूमा वा सूचीमा देखाउँछ। फाइलहरू र लिङ्कहरूमा कागजात, टाँसिएका सामग्री र वेब लिङ्कहरूको सूची देखिन्छ।</string>
+    <string name="settings_whatsnew_entry_session_media_example">पूरै सत्रमा पछाडि स्क्रोल नगरी आज बिहान पठाउनुभएको स्क्रिनसट फेला पार्नुहोस्।</string>
+
+    <!-- 2026-11-18-02-drawer-call-phone -->
+    <string name="settings_whatsnew_entry_drawer_call_phone_title">साइड प्यानलमा कलका लागि फोन आइकन</string>
+    <string name="settings_whatsnew_entry_drawer_call_phone_summary">सत्र सूचीमा सेटिङहरू छेउको कल बटनमा अब सन्देश बाकसमा जस्तै फोन आइकन देखिन्छ।</string>
+
+    <!-- 2026-11-19-01-background-scripts -->
+    <string name="settings_whatsnew_entry_background_scripts_title">पृष्ठभूमिमा चल्ने स्क्रिप्टहरू</string>
+    <string name="settings_whatsnew_entry_background_scripts_summary">एजेन्टले पृष्ठभूमिमा सारेका स्क्रिप्टहरू उप-एजेन्टहरू र शेलहरूसँगै देखिन्छन्। उप-एजेन्टका छवि, भिडियो वा स्क्रिप्टहरूको काम चलिरहेसम्म त्यो सूचीमै रहन्छ। स्क्रिप्ट वा उप-एजेन्टलाई सूचीबाटै रोक्नुहोस्।</string>
 </resources>

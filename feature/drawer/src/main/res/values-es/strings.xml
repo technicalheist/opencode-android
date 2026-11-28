@@ -39,6 +39,8 @@
     <string name="drawer_mark_as_unread">Marcar como no leída</string>
     <string name="drawer_mute">Silenciar</string>
     <string name="drawer_unmute">Dejar de silenciar</string>
+    <string name="drawer_hide">Ocultar</string>
+    <string name="drawer_unhide">Mostrar</string>
     <string name="drawer_move_up">Subir</string>
     <string name="drawer_move_down">Bajar</string>
 
@@ -85,8 +87,6 @@
     <string name="drawer_button_open_sessions_description">Abrir sesiones</string>
     <string name="drawer_button_attention_state">Una sesión necesita tu respuesta</string>
     <string name="drawer_button_unread_state">Sesiones sin leer</string>
-    <string name="drawer_notice_open_sessions_action">Abrir sesiones</string>
-    <string name="drawer_notice_open_session_action">Abrir la sesión</string>
 
     <!-- Search pill -->
     <string name="drawer_search_description">Buscar sesiones</string>
@@ -125,6 +125,7 @@
     <!-- Session row state for TalkBack -->
     <string name="drawer_row_pinned_state">Fijada</string>
     <string name="drawer_row_muted_state">Silenciada</string>
+    <string name="drawer_row_hidden_state">Ocultos</string>
     <string name="drawer_row_needs_input_state">Necesita tu respuesta</string>
     <string name="drawer_row_working_state">Trabajando</string>
     <string name="drawer_row_unread_state">Sin leer</string>

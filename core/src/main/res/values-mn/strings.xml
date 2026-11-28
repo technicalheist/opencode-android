@@ -29,11 +29,6 @@
     <string name="core_experiment_group_transcript_title">Ярианы бичвэр</string>
     <string name="core_experiment_group_drawer_title">Хажуугийн цэс</string>
 
-    <!-- In-app notice mode -->
-    <string name="core_in_app_notice_mode_off">Унтраалттай</string>
-    <string name="core_in_app_notice_mode_needs_input">Зөвхөн таны оролцоо хэрэгтэй үед</string>
-    <string name="core_in_app_notice_mode_all">Бүх шинэчлэлт</string>
-
     <!-- Themes and appearance -->
     <string name="core_theme_system_title">Систем</string>
     <string name="core_appearance_color_scheme_system_title">Систем</string>

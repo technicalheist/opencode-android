@@ -230,11 +230,11 @@ internal fun SharedLocationCard(
             .graphicsLayer { alpha = if (isPending) 0.6f else 1f }
             .clip(shape)
             .background(cardFill())
-            .clickable(onClickLabel = openInMapsLabel) { onOpen(location.mapsURL) }
+            .clickable(onClickLabel = openInMapsLabel) { onOpen(location.googleMapsURL) }
             .clearAndSetSemantics {
                 contentDescription = locationDescription
                 role = Role.Button
-                onClick(openInMapsLabel) { onOpen(location.mapsURL); true }
+                onClick(openInMapsLabel) { onOpen(location.googleMapsURL); true }
             },
     ) {
         // A still map under the pin. Android has no MapKit snapshot (the composer's

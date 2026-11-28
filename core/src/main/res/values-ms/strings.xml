@@ -29,11 +29,6 @@
     <string name="core_experiment_group_transcript_title">Transkrip</string>
     <string name="core_experiment_group_drawer_title">Panel sisi</string>
 
-    <!-- In-app notice mode -->
-    <string name="core_in_app_notice_mode_off">Dimatikan</string>
-    <string name="core_in_app_notice_mode_needs_input">Hanya apabila input anda diperlukan</string>
-    <string name="core_in_app_notice_mode_all">Semua kemas kini</string>
-
     <!-- Themes and appearance -->
     <string name="core_theme_system_title">Sistem</string>
     <string name="core_appearance_color_scheme_system_title">Sistem</string>

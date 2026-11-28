@@ -901,4 +901,38 @@
     <!-- 2026-11-08-02-default-model -->
     <string name="settings_whatsnew_entry_default_model_title">စက်ရှင်အသစ်များက သင့်မူရင်းမော်ဒယ်ကို သုံးမည်</string>
     <string name="settings_whatsnew_entry_default_model_summary">စက်ရှင်အသစ်များက ယခင်စက်ရှင်၏ မော်ဒယ်အစား OpenCode တွင် မူရင်းအဖြစ် သတ်မှတ်ထားသော မော်ဒယ်ကို သုံးပြီး ထိုမော်ဒယ်အတွက် နောက်ဆုံးရွေးခဲ့သည့် စဉ်းစားမှုအဆင့်ဖြင့် စတင်ပါမည်။</string>
+
+    <!-- 2026-11-11-01-streamed-reply-prefix -->
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_title">ပြန်စာ ပို့နေဆဲမှာ ဖွင့်ဖတ်ပါ</string>
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_summary">ပြန်စာ ပို့နေဆဲမှာ စက်ရှင်ကို ဖွင့်လျှင် ဆက်ပို့နေချိန်အတွင်း ရောက်ပြီးသားစာကို ဖတ်နိုင်ပါပြီ။</string>
+
+    <!-- 2026-11-13-01-draw-on-images -->
+    <string name="settings_whatsnew_entry_draw_on_images_title">ပုံများပေါ်တွင် ဆွဲပါ</string>
+    <string name="settings_whatsnew_entry_draw_on_images_summary">မမေးခင် သိလိုသည့်နေရာကို အမှတ်အသား ပြုပါ။</string>
+    <string name="settings_whatsnew_entry_draw_on_images_detail_1">ပုံကို မျက်နှာပြင်အပြည့် ဖွင့်ပြီး ဘောပင်ခလုတ်ကို နှိပ်ပါ။ အရောင်ရွေးပြီး ဆွဲပါ။ ထို့နောက် အမှတ်အသားပြုထားသည့်ပုံကို မက်ဆေ့ဂျ်တွင် တွဲရန် ထည့်ပါ။ ကို နှိပ်ပါ။ မူရင်းပုံ မပြောင်းလဲပါ။</string>
+    <string name="settings_whatsnew_entry_draw_on_images_example">ဖန်သားပြင်ပုံထဲမှ ရွှေ့လိုသည့် ခလုတ်ကို ဝိုင်းပြပြီး ဘယ်နေရာသို့ ရွှေ့ရမည်ကို ရှင်းပြပါ။</string>
+
+    <!-- 2026-11-14-01-fullscreen-viewer -->
+    <string name="settings_whatsnew_entry_fullscreen_viewer_title">ဓာတ်ပုံနှင့် ဗီဒီယိုများကို ပွတ်ကြည့်ပါ</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_summary">စက်ရှင်ထဲမှ ပုံနှင့် ဗီဒီယိုများကို တစ်နေရာတည်းတွင် ကြည့်ပါ။</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_detail_1">ဗီဒီယိုသို့ ပွတ်ရွှေ့ပြီး လက်ရှိပြကွက်တွင် အမှတ်အသားပြုရန် ဘောပင်ခလုတ်ကို နှိပ်ပါ။ ထည့်ပါ။ ကို နှိပ်လျှင် အမှတ်အသားပြုထားသည့် ပြကွက်ကို မပို့သေးဘဲ ပူးတွဲပေးပါမည်။</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_example">သရုပ်ပြဗီဒီယိုကို ပြင်လိုသည့် မျက်နှာပြင်မှာ ခဏရပ်ပြီး ပြင်လိုသည့်နေရာကို ဝိုင်းပြကာ မူကြမ်းတွင် ထည့်ပါ။</string>
+
+    <!-- 2026-11-15-01-pairing-link-name -->
+    <string name="settings_whatsnew_entry_pairing_link_name_title">OpenCode Console မှ အမည်ပါသော ဆာဗာများ</string>
+    <string name="settings_whatsnew_entry_pairing_link_name_summary">OpenCode Console မှ တွဲချိတ်သည့် ဆာဗာတွင် “Anomaly Box” ကဲ့သို့ ၎င်း၏အမည်ပါ တစ်ပါတည်း ပါလာပါမည်။</string>
+
+    <!-- 2026-11-17-01-session-media -->
+    <string name="settings_whatsnew_entry_session_media_title">စက်ရှင် မီဒီယာ</string>
+    <string name="settings_whatsnew_entry_session_media_summary">စက်ရှင်ထဲရှိ ပုံများ၊ ဗီဒီယိုများ၊ အသံများ၊ ဖိုင်များနှင့် အများသုံး ဝဘ်လင့်ခ်များကို ကြည့်ရှုပါ။</string>
+    <string name="settings_whatsnew_entry_session_media_detail_1">စက်ရှင်၏ ⋮ မီနူးမှ စက်ရှင် မီဒီယာကို ရွေးပါ။ မီဒီယာတွင် ပုံ၊ ဗီဒီယိုနှင့် အသံများကို လအလိုက် အကွက်များ သို့မဟုတ် စာရင်းအဖြစ် ပြပါမည်။ ဖိုင်များနှင့် လင့်ခ်များတွင် စာရွက်စာတမ်း၊ ကူးထည့်ထားသည့်စာနှင့် ဝဘ်လင့်ခ်များကို စာရင်းပြပါမည်။</string>
+    <string name="settings_whatsnew_entry_session_media_example">စက်ရှင်တစ်ခုလုံးကို နောက်ပြန်လှိမ့်ကြည့်စရာမလိုဘဲ ဒီမနက် ပို့ခဲ့သည့် ဖန်သားပြင်ပုံကို ရှာပါ။</string>
+
+    <!-- 2026-11-18-02-drawer-call-phone -->
+    <string name="settings_whatsnew_entry_drawer_call_phone_title">ဘေးအကန့်ရှိ ခေါ်ဆိုမှုအတွက် ဖုန်းသင်္ကေတ</string>
+    <string name="settings_whatsnew_entry_drawer_call_phone_summary">စက်ရှင်စာရင်းရှိ ဆက်တင်များဘေးက ခေါ်ဆိုမှုခလုတ်တွင် မက်ဆေ့ဂျ်အကွက်ထဲကအတိုင်း ဖုန်းသင်္ကေတကို ပြထားပါသည်။</string>
+
+    <!-- 2026-11-19-01-background-scripts -->
+    <string name="settings_whatsnew_entry_background_scripts_title">နောက်ကွယ်လုပ်ဆောင်မှုထဲရှိ script များ</string>
+    <string name="settings_whatsnew_entry_background_scripts_summary">အေးဂျင့်က နောက်ကွယ်သို့ ရွှေ့ထားသည့် script များကို အေးဂျင့်ခွဲများ၊ shell များနှင့်အတူ ပြပါမည်။ အေးဂျင့်ခွဲ၏ ပုံ၊ ဗီဒီယို သို့မဟုတ် script များ လုပ်ဆောင်နေသေးလျှင် ထိုအေးဂျင့်ခွဲကို စာရင်းတွင် ဆက်ပြထားပါမည်။ နှစ်မျိုးလုံးကို စာရင်းမှ ရပ်နိုင်ပါသည်။</string>
 </resources>

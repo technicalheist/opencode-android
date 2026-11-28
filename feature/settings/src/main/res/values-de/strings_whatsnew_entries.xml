@@ -901,4 +901,38 @@
     <!-- 2026-11-08-02-default-model -->
     <string name="settings_whatsnew_entry_default_model_title">Neue Sitzungen nutzen dein Standardmodell</string>
     <string name="settings_whatsnew_entry_default_model_summary">Neue Sitzungen starten mit deinem Standardmodell aus OpenCode und dem zuletzt dafür gewählten Denkaufwand – statt mit dem Modell der letzten Sitzung.</string>
+
+    <!-- 2026-11-11-01-streamed-reply-prefix -->
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_title">Antworten während der Übertragung öffnen</string>
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_summary">Wenn du eine Sitzung öffnest, während eine Antwort übertragen wird, kannst du den bereits empfangenen Teil lesen, während der Rest ankommt.</string>
+
+    <!-- 2026-11-13-01-draw-on-images -->
+    <string name="settings_whatsnew_entry_draw_on_images_title">Auf Bildern zeichnen</string>
+    <string name="settings_whatsnew_entry_draw_on_images_summary">Markiere ein Detail, bevor du danach fragst.</string>
+    <string name="settings_whatsnew_entry_draw_on_images_detail_1">Öffne ein Bild im Vollbild und tippe auf das Stiftsymbol. Wähle eine Farbe, zeichne und tippe dann auf „Hinzufügen“, um das markierte Bild an deine Nachricht anzuhängen. Das Original bleibt unverändert.</string>
+    <string name="settings_whatsnew_entry_draw_on_images_example">Kreise in einem Screenshot das Bedienelement ein, das du verschieben möchtest, und beschreibe, wohin es soll.</string>
+
+    <!-- 2026-11-14-01-fullscreen-viewer -->
+    <string name="settings_whatsnew_entry_fullscreen_viewer_title">Zwischen Fotos und Videos wischen</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_summary">Sieh dir Bilder und Videos einer Sitzung gemeinsam an.</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_detail_1">Wische zu einem Video und tippe auf das Stiftsymbol, um das aktuelle Einzelbild zu markieren. „Hinzufügen“ hängt das markierte Einzelbild an, ohne es zu senden.</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_example">Halte ein Demovideo an der Stelle an, die geändert werden soll, kreise das Detail ein und füge das Bild deinem Entwurf hinzu.</string>
+
+    <!-- 2026-11-15-01-pairing-link-name -->
+    <string name="settings_whatsnew_entry_pairing_link_name_title">Benannte Server aus OpenCode Console</string>
+    <string name="settings_whatsnew_entry_pairing_link_name_summary">Ein Server, den du über OpenCode Console koppelst, übernimmt seinen Namen, etwa „Anomaly Box“.</string>
+
+    <!-- 2026-11-17-01-session-media -->
+    <string name="settings_whatsnew_entry_session_media_title">Sitzungsmedien</string>
+    <string name="settings_whatsnew_entry_session_media_summary">Bilder, Videos, Audio, Dateien und öffentliche Weblinks einer Sitzung durchsuchen.</string>
+    <string name="settings_whatsnew_entry_session_media_detail_1">Wähle „Sitzungsmedien“ im ⋮-Menü einer Sitzung. „Medien“ zeigt Bilder, Videos und Audio als nach Monat gruppierte Kacheln oder als Liste. „Dateien“ und „Links“ listen Dokumente, eingefügte Texte und Weblinks auf.</string>
+    <string name="settings_whatsnew_entry_session_media_example">Finde den Screenshot von heute Morgen, ohne durch die ganze Sitzung zurückzuscrollen.</string>
+
+    <!-- 2026-11-18-02-drawer-call-phone -->
+    <string name="settings_whatsnew_entry_drawer_call_phone_title">Telefonsymbol für Anrufe im Seitenmenü</string>
+    <string name="settings_whatsnew_entry_drawer_call_phone_summary">Die Anruftaste neben „Einstellungen“ in der Sitzungsliste zeigt jetzt ein Telefonsymbol, genau wie im Nachrichtenfeld.</string>
+
+    <!-- 2026-11-19-01-background-scripts -->
+    <string name="settings_whatsnew_entry_background_scripts_title">Skripte im Hintergrund</string>
+    <string name="settings_whatsnew_entry_background_scripts_summary">Skripte, die der Agent in den Hintergrund verschiebt, erscheinen neben Unteragenten und Shells. Ein Unteragent bleibt aufgelistet, solange seine Bilder, Videos oder Skripte noch laufen. Beide lassen sich direkt in der Liste stoppen.</string>
 </resources>

@@ -65,6 +65,33 @@ class LinkPreviewFrameworkTests {
         )
         assertEquals(4, LinkPreviewExtractor.targets(listOf(many), limit = 4).size)
     }
+
+    @Test
+    fun labeledTargetsKeepEachLinksFirstWholeLabel() {
+        val docs = "https://docs.example.com/start"
+        val block = with(LinkBlocks) {
+            paragraph(
+                0,
+                text("See "), link("the ", docs), link("OpenCode", docs), link(" docs", docs), text(", "),
+                link("  Guide \n", "https://guide.example.com/a"), text(", "),
+                link("https://url.example.com/b", "https://url.example.com/b"), text(", "),
+                link("host.example.com", "https://host.example.com/c"), text(", "),
+                link(" ", "https://blank.example.com/d"), text(", "),
+                link("again", docs), text(" and https://bare.example.com/e."),
+            )
+        }
+        assertEquals(
+            listOf(
+                docs to "the OpenCode docs",
+                "https://guide.example.com/a" to "Guide",
+                "https://url.example.com/b" to null,
+                "https://host.example.com/c" to null,
+                "https://blank.example.com/d" to null,
+                "https://bare.example.com/e" to null,
+            ),
+            LinkPreviewExtractor.labeledTargets(listOf(block)).map { it.first.key to it.second },
+        )
+    }
 }
 
 /** The `LinkPreviewStoreTests` case that extracts bare URLs (`Patterns.WEB_URL`, under Robolectric). */
@@ -83,6 +110,48 @@ class LinkPreviewStoreFrameworkTests {
             assertEquals(listOf(post), store.targets(blocks, entryID = "reply-end-1"))
             assertEquals(listOf(post), store.targets(blocks, entryID = "reply-end-1"))
             assertTrue("Different blocks extract again", store.targets(emptyList(), entryID = "reply-end-1").isEmpty())
+            store.close()
+        }
+    }
+
+    @Test
+    fun aMemoryWarningKeepsWhatRowsShow() = runTest {
+        onMain {
+            val center = MemoryWarningCenter()
+            val video = LinkPreviewTarget.of("https://www.youtube.com/watch?v=dQw4w9WgXcQ")!!
+            val metadata = LinkPreviewMetadata(
+                kind = LinkPreviewMetadata.Kind.Video,
+                title = "A talk",
+                text = "Example Talks",
+                site = "YouTube",
+                image = LinkPreviewFixtures.videoPoster,
+            )
+            val cache = Locked<LinkPreviewResult?>(LinkPreviewResult.Loaded(metadata))
+            val store = LinkPreviewStore(client = LinkPreviewClient(cached = { cache.current }), memoryWarnings = center)
+            val blocks = listOf(LinkBlocks.paragraph(0, LinkBlocks.text("Watch https://www.youtube.com/watch?v=dQw4w9WgXcQ")))
+            val targets = store.targets(blocks, entryID = "reply")
+            val before = store.preview(video)
+            assertEquals(listOf(video), targets)
+            assertTrue(before.image != null)
+            assertTrue(store.retainedBitmaps == 1 && store.retainedReplies == 1)
+            center.post()
+            cache.update { null }
+            assertTrue(store.retainedBitmaps == 0 && store.retainedReplies == 0)
+            assertEquals("The row draws the same", before, store.preview(video))
+            assertEquals(targets, store.targets(blocks, entryID = "reply"))
+            store.close()
+            center.post()
+            assertTrue("A closed store stops listening", store.retainedBitmaps == 1 && store.retainedReplies == 1)
+        }
+    }
+
+    @Test
+    fun rememberedRepliesAreBounded() = runTest {
+        onMain {
+            val store = LinkPreviewStore(client = LinkPreviewClient(), memoryWarnings = MemoryWarningCenter())
+            val blocks = listOf(LinkBlocks.paragraph(0, LinkBlocks.text("See https://example.com/docs")))
+            for (index in 0 until 300) store.targets(blocks, entryID = "reply-$index")
+            assertTrue(store.retainedReplies <= LinkPreviewStore.MAXIMUM_REMEMBERED_REPLIES)
             store.close()
         }
     }

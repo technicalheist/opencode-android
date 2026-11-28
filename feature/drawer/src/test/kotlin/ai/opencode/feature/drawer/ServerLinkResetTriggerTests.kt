@@ -2,6 +2,7 @@ package ai.opencode.feature.drawer
 
 import ai.opencode.core.dependencies.Clock
 import ai.opencode.core.dependencies.TestClock
+import ai.opencode.core.dependencies.withDependencies
 import ai.opencode.core.store.TestStore
 import ai.opencode.core.testing.TestIsolationRule
 import ai.opencode.server.OpenCodeClient
@@ -39,6 +40,33 @@ class ServerLinkResetTriggerTests {
         store.send(HomeConnectionFeature.Action.NetworkRerouted) { it.copy(isEventStreamLive = false) }
         store.finish()
         assertEquals(listOf("reset reroute", "forget any"), calls.toList())
+    }
+
+    /** Home's snapshot and an open screen's resume reads start in the same turn, so the reset can't wait for the stream's effect. */
+    @Test fun eachTriggerStartsConnectionsOverWhileReducing() {
+        val cases = listOf(
+            HomeConnectionFeature.Action.NetworkRerouted to ServerLinkReset.Reroute,
+            HomeConnectionFeature.Action.RetryConnectionTapped to ServerLinkReset.Retry,
+            HomeConnectionFeature.Action.SceneBecameActive to ServerLinkReset.Foreground,
+        )
+        for (isStreaming in listOf(true, false)) {
+            for ((action, reason) in cases) {
+                val calls = mutableListOf<String>()
+                val state = HomeConnectionFeature.State(
+                    server = server,
+                    isStreaming = isStreaming,
+                    isInBackground = action == HomeConnectionFeature.Action.SceneBecameActive,
+                )
+                withDependencies({
+                    this[ServerLinkClient] = this[ServerLinkClient].copy(
+                        resetConnections = { received -> calls += "reset ${received.rawValue}" },
+                        invalidate = { _, failing -> calls += "forget ${failing ?: "any"}" },
+                    )
+                }) { HomeConnectionFeature().reduce(state, action) }
+                val expected = if (isStreaming) listOf("reset ${reason.rawValue}", "forget any") else emptyList()
+                assertEquals("$action streaming=$isStreaming", expected, calls)
+            }
+        }
     }
 
     @Test fun eachTriggerResetsBeforeTheStreamReconnects() = runTest {

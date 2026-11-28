@@ -3,11 +3,10 @@
     <!-- Agent activity glyph -->
     <string name="session_activity_running_description">Ажиллаж байна</string>
     <!-- Background work panel -->
-    <string name="session_background_work_show_label">Ажиллаж буй дэд агентууд болон Shell-үүдийг харуулах</string>
+    <string name="session_background_work_show_label">Ажиллаж буй дэд агентууд, скриптүүд болон Shell-үүдийг харуулах</string>
     <string name="session_background_work_collapsed_description">Хураасан</string>
-    <string name="session_background_work_subagents_title">Дэд агентууд</string>
+    <string name="session_background_work_expanded_description">Дэлгэсэн</string>
     <string name="session_background_work_open_subagent_label">Дэд агентийн сессийг нээх</string>
-    <string name="session_background_work_shells_title">Shell-үүд</string>
     <string name="session_background_work_show_shell_label">Shell-ийн гаралтыг харуулах</string>
     <!-- The session's images and videos, paged in the full-screen viewer -->
     <string name="session_visual_attached_image">Хавсаргасан зураг</string>
@@ -70,6 +69,8 @@
     <string name="session_sheet_unknown_description">үл мэдэгдэх</string>
     <string name="session_sheet_context_tokens">%1$s токен</string>
     <string name="session_sheet_cost">Зардал</string>
+    <string name="session_sheet_media">Медиа</string>
+    <string name="session_sheet_media_value">Файлууд ба холбоосууд</string>
     <string name="session_always_notify">Үргэлж мэдэгдэх</string>
     <string name="session_always_notify_message_phone">Өөр газраас илгээсэн ч хариулт бэлэн болох бүрд энэ утсанд мэдэгдэнэ.</string>
     <string name="session_always_notify_message_tablet">Өөр газраас илгээсэн ч хариулт бэлэн болох бүрд энэ таблетад мэдэгдэнэ.</string>
@@ -199,24 +200,25 @@
         <item quantity="one">%1$d Shell</item>
         <item quantity="other">%1$d Shell</item>
     </plurals>
+    <plurals name="session_background_work_script_count">
+        <item quantity="one">%1$d скрипт</item>
+        <item quantity="other">%1$d скрипт</item>
+    </plurals>
     <string name="session_background_work_summary">%1$s · %2$s</string>
+    <string name="session_background_work_elapsed_seconds">%1$d сек</string>
+    <string name="session_background_work_elapsed_minutes">%1$d мин %2$s сек</string>
+    <string name="session_background_work_elapsed_hours">%1$d цаг %2$s мин</string>
+    <string name="session_background_work_stop_script_label">Скриптийг зогсоох</string>
+    <string name="session_background_work_stop_subagent_label">Дэд агентыг зогсоох</string>
+    <string name="session_background_work_stop_shell_label">Shell-ийг зогсоох</string>
+    <string name="session_background_work_stop_script_failed">Скриптийг зогсоож чадсангүй</string>
+    <string name="session_background_work_stop_subagent_failed">Дэд агентыг зогсоож чадсангүй</string>
 
     <!-- Composer buttons -->
     <string name="session_send_message_description">Мессеж илгээх</string>
     <string name="session_stop_description">Зогс</string>
     <string name="session_start_voice_call_description">Дуут дуудлага эхлүүлэх</string>
     <string name="session_model_level_default">Өгөгдмөл</string>
-
-    <!-- In-app notice -->
-    <plurals name="session_notice_session_count">
-        <item quantity="one">%1$d сесс</item>
-        <item quantity="other">%1$d сесс</item>
-    </plurals>
-    <plurals name="session_notice_needs_input_count">
-        <item quantity="one">%1$d-д таны оролцоо хэрэгтэй</item>
-        <item quantity="other">%1$d-д таны оролцоо хэрэгтэй</item>
-    </plurals>
-    <string name="session_notice_announcement">%1$s, %2$s</string>
 
     <!-- Server connection pill -->
     <string name="session_server_reconnecting">%1$s руу дахин холбож байна…</string>

@@ -3,11 +3,10 @@
     <!-- Agent activity glyph -->
     <string name="session_activity_running_description">ක්‍රියාත්මකයි</string>
     <!-- Background work panel -->
-    <string name="session_background_work_show_label">ක්‍රියාත්මක උප නියෝජිතයින් සහ ෂෙල් පෙන්වන්න</string>
+    <string name="session_background_work_show_label">ක්‍රියාත්මක උප නියෝජිතයින්, ස්ක්‍රිප්ට් සහ ෂෙල් පෙන්වන්න</string>
     <string name="session_background_work_collapsed_description">හකුළා ඇත</string>
-    <string name="session_background_work_subagents_title">උප නියෝජිතයින්</string>
+    <string name="session_background_work_expanded_description">දිග හැර ඇත</string>
     <string name="session_background_work_open_subagent_label">උප නියෝජිතයාගේ සැසිය විවෘත කරන්න</string>
-    <string name="session_background_work_shells_title">ෂෙල්</string>
     <string name="session_background_work_show_shell_label">ෂෙල් ප්‍රතිදානය පෙන්වන්න</string>
     <!-- The session's images and videos, paged in the full-screen viewer -->
     <string name="session_visual_attached_image">අමුණා ඇති රූපය</string>
@@ -70,6 +69,8 @@
     <string name="session_sheet_unknown_description">නොදන්නා</string>
     <string name="session_sheet_context_tokens">ටෝකන %1$s</string>
     <string name="session_sheet_cost">වියදම</string>
+    <string name="session_sheet_media">මාධ්‍ය</string>
+    <string name="session_sheet_media_value">ගොනු සහ සබැඳි</string>
     <string name="session_always_notify">සැමවිටම දැනුම් දෙන්න</string>
     <string name="session_always_notify_message_phone">මෙතැනින් නොයැවූ පණිවිඩවලට ලැබෙන ප්‍රතිචාර ඇතුළුව, ප්‍රතිචාරයක් අවසන් වන සෑම විටම මේ දුරකථනයට දැනුම් දෙන්න.</string>
     <string name="session_always_notify_message_tablet">මෙතැනින් නොයැවූ පණිවිඩවලට ලැබෙන ප්‍රතිචාර ඇතුළුව, ප්‍රතිචාරයක් අවසන් වන සෑම විටම මේ ටැබ්ලටයට දැනුම් දෙන්න.</string>
@@ -199,24 +200,25 @@
         <item quantity="one">ෂෙල් %1$d</item>
         <item quantity="other">ෂෙල් %1$d</item>
     </plurals>
+    <plurals name="session_background_work_script_count">
+        <item quantity="one">ස්ක්‍රිප්ට් %1$dක්</item>
+        <item quantity="other">ස්ක්‍රිප්ට් %1$dක්</item>
+    </plurals>
     <string name="session_background_work_summary">%1$s · %2$s</string>
+    <string name="session_background_work_elapsed_seconds">තත් %1$d</string>
+    <string name="session_background_work_elapsed_minutes">මිනි %1$d තත් %2$s</string>
+    <string name="session_background_work_elapsed_hours">පැය %1$d මිනි %2$s</string>
+    <string name="session_background_work_stop_script_label">ස්ක්‍රිප්ටය නවත්වන්න</string>
+    <string name="session_background_work_stop_subagent_label">උප නියෝජිතයා නවත්වන්න</string>
+    <string name="session_background_work_stop_shell_label">ෂෙල් නවත්වන්න</string>
+    <string name="session_background_work_stop_script_failed">ස්ක්‍රිප්ටය නැවැත්වීමට නොහැකි විය</string>
+    <string name="session_background_work_stop_subagent_failed">උප නියෝජිතයා නැවැත්වීමට නොහැකි විය</string>
 
     <!-- Composer buttons -->
     <string name="session_send_message_description">පණිවිඩය යවන්න</string>
     <string name="session_stop_description">නවත්වන්න</string>
     <string name="session_start_voice_call_description">හඬ ඇමතුමක් අරඹන්න</string>
     <string name="session_model_level_default">පෙරනිමිය</string>
-
-    <!-- In-app notice -->
-    <plurals name="session_notice_session_count">
-        <item quantity="one">සැසි %1$d</item>
-        <item quantity="other">සැසි %1$d</item>
-    </plurals>
-    <plurals name="session_notice_needs_input_count">
-        <item quantity="one">%1$dකට ඔබේ යෙදවුම අවශ්‍යයි</item>
-        <item quantity="other">%1$dකට ඔබේ යෙදවුම අවශ්‍යයි</item>
-    </plurals>
-    <string name="session_notice_announcement">%1$s, %2$s</string>
 
     <!-- Server connection pill -->
     <string name="session_server_reconnecting">%1$s වෙත නැවත සම්බන්ධ වෙමින්…</string>

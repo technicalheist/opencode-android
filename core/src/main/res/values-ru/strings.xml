@@ -29,11 +29,6 @@
     <string name="core_experiment_group_transcript_title">Переписка</string>
     <string name="core_experiment_group_drawer_title">Боковая панель</string>
 
-    <!-- In-app notice mode -->
-    <string name="core_in_app_notice_mode_off">Выключено</string>
-    <string name="core_in_app_notice_mode_needs_input">Только когда нужен ваш ответ</string>
-    <string name="core_in_app_notice_mode_all">Все обновления</string>
-
     <!-- Themes and appearance -->
     <string name="core_theme_system_title">Системная</string>
     <string name="core_appearance_color_scheme_system_title">Системная</string>

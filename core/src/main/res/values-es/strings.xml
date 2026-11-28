@@ -29,11 +29,6 @@
     <string name="core_experiment_group_transcript_title">Transcripción</string>
     <string name="core_experiment_group_drawer_title">Panel lateral</string>
 
-    <!-- In-app notice mode -->
-    <string name="core_in_app_notice_mode_off">Desactivado</string>
-    <string name="core_in_app_notice_mode_needs_input">Solo cuando se te necesite</string>
-    <string name="core_in_app_notice_mode_all">Todas las actualizaciones</string>
-
     <!-- Themes and appearance -->
     <string name="core_theme_system_title">Sistema</string>
     <string name="core_appearance_color_scheme_system_title">Sistema</string>

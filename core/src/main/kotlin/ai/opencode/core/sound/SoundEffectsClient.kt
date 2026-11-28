@@ -15,10 +15,10 @@ import kotlin.time.Duration.Companion.seconds
  * its haptic; a sound never carries meaning on its own.
  */
 enum class SoundEffect(val rawValue: String) {
-    /** A reply finished in another session (an In-App Notice). B4 + G5. */
+    /** A reply finished in another session. B4 + G5. */
     replyDone("replyDone"),
 
-    /** A pending request docked or arrived in a notice. D5 → A5. */
+    /** A pending request docked. D5 → A5. */
     needsInput("needsInput"),
 
     /** Catch Up's last card cleared. A G arpeggio. */

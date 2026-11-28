@@ -14,6 +14,7 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension
 /** Shared Android/Kotlin settings for every module. */
 object OpenCodeBuild {
     const val COMPILE_SDK = 37
+    const val COMPILE_SDK_MINOR = 1
     const val MIN_SDK = 33
     const val TARGET_SDK = 37
 }
@@ -34,7 +35,9 @@ private fun Project.configureKotlin() {
 }
 
 private fun CommonExtension.configureCommon() {
-    compileSdk = OpenCodeBuild.COMPILE_SDK
+    compileSdk {
+        version = release(OpenCodeBuild.COMPILE_SDK) { minorApiLevel = OpenCodeBuild.COMPILE_SDK_MINOR }
+    }
     defaultConfig.minSdk = OpenCodeBuild.MIN_SDK
     compileOptions.sourceCompatibility = JavaVersion.VERSION_17
     compileOptions.targetCompatibility = JavaVersion.VERSION_17

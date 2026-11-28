@@ -138,6 +138,9 @@ data class SharedLocation(
             return "https://maps.apple.com/?ll=${queryEncode(ll)}&q=${queryEncode(q)}"
         }
 
+    val googleMapsURL: String
+        get() = String.format(Locale.US, "https://www.google.com/maps/search/?api=1&query=%.6f,%.6f", latitude, longitude)
+
     /** The block the agent reads. */
     val messageText: String
         get() {
@@ -451,7 +454,7 @@ private object LiveLocation {
 
 /**
  * A shared location in the transcript and the composer: a map with a pin, the place or
- * address, and the coordinates. A tap opens it in Maps ([onOpen] gets [SharedLocation.mapsURL]).
+ * address, and the coordinates. A tap opens it in Maps ([onOpen] gets [SharedLocation.googleMapsURL]).
  *
  * The map is [LocationClient.snapshot]'s OpenStreetMap still (credited on the map), over a
  * neutral tile with the pin until it lands.
@@ -496,10 +499,10 @@ fun SharedLocationCard(
             .clip(shape)
             .background(MaterialTheme.colorScheme.surfaceContainerHigh)
             .alpha(if (isPending) 0.6f else 1f)
-            .clickable { onOpen(location.mapsURL) }
+            .clickable { onOpen(location.googleMapsURL) }
             .clearAndSetSemantics {
                 contentDescription = label
-                onClick(label = openInMapsText) { onOpen(location.mapsURL); true }
+                onClick(label = openInMapsText) { onOpen(location.googleMapsURL); true }
                 testTag = if (compact) "composer-location-card" else "shared-location-card"
             },
     ) {

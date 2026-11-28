@@ -29,11 +29,6 @@
     <string name="core_experiment_group_transcript_title">Vestluse tekst</string>
     <string name="core_experiment_group_drawer_title">Külgpaneel</string>
 
-    <!-- In-app notice mode -->
-    <string name="core_in_app_notice_mode_off">Väljas</string>
-    <string name="core_in_app_notice_mode_needs_input">Ainult sinu sisendi vajadusel</string>
-    <string name="core_in_app_notice_mode_all">Kõik uuendused</string>
-
     <!-- Themes and appearance -->
     <string name="core_theme_system_title">Süsteem</string>
     <string name="core_appearance_color_scheme_system_title">Süsteem</string>

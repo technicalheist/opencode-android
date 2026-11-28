@@ -1,5 +1,6 @@
 package ai.opencode.feature.transcript.markdown
 
+import ai.opencode.feature.media.MemoryWarningCenter
 import ai.opencode.feature.media.SyntaxHighlighter
 import ai.opencode.server.model.AgentFileReference
 import ai.opencode.server.model.SessionLink
@@ -89,9 +90,13 @@ data class OpenCodeMarkdownBlock(val id: Int, val kind: Kind) {
      * Inline parsing is a pure function of its source. Share only those results, not block
      * structure: a later character can still turn prose into a table. Keys are the exact source
      * (Kotlin string equality never folds Unicode), bounded by entry count and retained UTF-8
-     * bytes, evicted oldest first.
+     * bytes, evicted oldest first. A memory warning empties all three tables.
      */
-    class InlineCache(private val maximumEntries: Int = 512, private val maximumSourceBytes: Int = 128 * 1024) {
+    class InlineCache(
+        private val maximumEntries: Int = 512,
+        private val maximumSourceBytes: Int = 128 * 1024,
+        memoryWarnings: MemoryWarningCenter? = null,
+    ) {
         init {
             require(maximumEntries >= 0 && maximumSourceBytes >= 0)
         }
@@ -134,8 +139,13 @@ data class OpenCodeMarkdownBlock(val id: Int, val kind: Kind) {
         private val segments = Table<List<SegmentItem>>()
         private val tableRows = Table<TableRowEntry>()
 
+        init {
+            memoryWarnings?.observe(::clear)
+        }
+
         val entryCount: Int get() = synchronized(lock) { inlines.values.size }
         val retainedSourceBytes: Int get() = synchronized(lock) { inlines.bytes }
+        val allEntryCount: Int get() = synchronized(lock) { inlines.values.size + segments.values.size + tableRows.values.size }
 
         fun clear() {
             synchronized(lock) {
@@ -176,7 +186,7 @@ data class OpenCodeMarkdownBlock(val id: Int, val kind: Kind) {
 
         companion object {
             /** The process-wide cache: pure parse results, no business state. */
-            val shared: InlineCache = InlineCache()
+            val shared: InlineCache = InlineCache(memoryWarnings = MemoryWarningCenter.default)
         }
     }
 

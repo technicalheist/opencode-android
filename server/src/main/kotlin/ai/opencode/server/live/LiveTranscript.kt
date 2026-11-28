@@ -34,6 +34,8 @@ import ai.opencode.server.model.bounded
 import ai.opencode.server.model.instantFromMillis
 import ai.opencode.server.model.nonEmpty
 import ai.opencode.server.model.trimmedWhitespace
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.JsonElement
 import java.util.concurrent.atomic.AtomicInteger
 import kotlin.time.Duration.Companion.seconds
@@ -67,13 +69,15 @@ internal suspend fun requestTranscript(server: OpenCodeServer, sessionID: String
         query = listOf("order" to "desc", "limit" to "$limit"),
         server = server,
     )
-    return decodeTranscriptPage(data.data, TranscriptContextCapture.current.current()).items
+    return withContext(Dispatchers.Default) { decodeTranscriptPage(data.data, TranscriptContextCapture.current.current()).items }
 }
 
 internal suspend fun requestMessage(server: OpenCodeServer, sessionID: String, messageID: String): List<OpenCodeTranscriptItem> {
     val data = perform("/api/session/$sessionID/message/$messageID", server = server)
-    val message = decoded(data.data, "message") { MessagePayload.decode(it.obj().req("data") { d -> d }) }
-    return parsedItems(message)
+    return withContext(Dispatchers.Default) {
+        val message = decoded(data.data, "message") { MessagePayload.decode(it.obj().req("data") { d -> d }) }
+        parsedItems(message)
+    }
 }
 
 /** Messages per older page: two of the reader's top-edge steps (`showEarlierTapped`), so every other step pages from memory. */
@@ -91,7 +95,7 @@ internal suspend fun requestHistoryPage(server: OpenCodeServer, sessionID: Strin
     LabMarks.mark("history_page_response", sessionID)
     LabMarks.mark("history_page_bytes(${data.data.size})", sessionID)
     LabMarks.mark("history_page_decode_start", sessionID)
-    val page = decodeTranscriptPage(data.data, TranscriptContextCapture.current.current())
+    val page = withContext(Dispatchers.Default) { decodeTranscriptPage(data.data, TranscriptContextCapture.current.current()) }
     LabMarks.mark("history_page_decode_end", sessionID)
     return page
 }

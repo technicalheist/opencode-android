@@ -30,6 +30,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.awaitCancellation
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.yield
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotEquals
@@ -351,7 +352,7 @@ class SelectedTranscriptCancellationTests {
             )
         }
         store.receive(Action.AttentionRefreshed(emptySet())) { it.copy(noticeReadiness = HomeFeature.State.NoticeReadiness.settled) }
-        store.send(Action.DrawerRowPressed("other")) { it.copy(refreshingTranscripts = setOf("other")) }
+        store.send(Action.DrawerRowPressed("other")) { it.copy(refreshingTranscripts = setOf("other"), fetchingTranscripts = setOf("other")) }
         assertTrue(eventually { startedTranscripts.toSet() == setOf("uncached", "other") && startedAncestry.value == 1 })
 
         // 2. Tapping cached "home" cancels in-flight prefetch, cached refresh, and active ancestry
@@ -360,6 +361,7 @@ class SelectedTranscriptCancellationTests {
             store.withDependencies {
                 it.copy(
                     refreshingTranscripts = emptySet(),
+                    fetchingTranscripts = emptySet(),
                     dirtyCachedTranscriptIDs = listOf("other"),
                     lastViewedSessionIDs = it.lastViewedSessionIDs + (server.persistenceID to "home"),
                 ).markingReadLocally(homeSession).let { s -> s.openingDetail(homeSession, cachedItems = listOf(text("h0", "Home"))) }
@@ -371,11 +373,11 @@ class SelectedTranscriptCancellationTests {
         // 3. Start another cached refresh ("other"), then start a foreground `.reconnect` refresh on
         // "home": it cancels "other" and sets `isInitialTranscriptInFlight`.
         store.send(Action.DrawerRowPressed("other")) {
-            it.copy(dirtyCachedTranscriptIDs = emptyList(), refreshingTranscripts = setOf("other"))
+            it.copy(dirtyCachedTranscriptIDs = emptyList(), refreshingTranscripts = setOf("other"), fetchingTranscripts = setOf("other"))
         }
         assertTrue(eventually { startedTranscripts.count { it == "other" } == 2 })
         store.send(Action.detail(SessionFeature.Action.RefreshRequested(RefreshReason.Reconnect))) {
-            it.copy(refreshingTranscripts = emptySet(), dirtyCachedTranscriptIDs = listOf("other")).updatingDetail { d ->
+            it.copy(refreshingTranscripts = emptySet(), fetchingTranscripts = emptySet(), dirtyCachedTranscriptIDs = listOf("other")).updatingDetail { d ->
                 d.copy(nextRefreshID = 1, refresh = SessionFeature.State.Refresh(id = 1, reason = RefreshReason.Reconnect))
             }
         }
@@ -424,7 +426,7 @@ class SelectedTranscriptCancellationTests {
         // ancestry; subagent push cancels a newly started cached refresh.
         store.send(Action.catchUpTapped) {
             store.withDependencies {
-                it.copy(isDrawerOpen = false, refreshingTranscripts = emptySet())
+                it.copy(isDrawerOpen = false, refreshingTranscripts = emptySet(), fetchingTranscripts = emptySet())
                     .withCatchUp(
                         CatchUpFeature.Stack(
                             queue = listOf("other", "uncached"),
@@ -450,11 +452,11 @@ class SelectedTranscriptCancellationTests {
             }
         }
 
-        store.send(Action.DrawerRowPressed("other")) { it.copy(refreshingTranscripts = setOf("other")) }
+        store.send(Action.DrawerRowPressed("other")) { it.copy(refreshingTranscripts = setOf("other"), fetchingTranscripts = setOf("other")) }
         assertTrue(eventually { startedTranscripts.count { it == "other" } == 4 })
         store.send(Action.detail(SessionFeature.Action.Delegate(SessionFeature.Delegate.OpenSubagent(childSession)))) {
             store.withDependencies {
-                it.copy(refreshingTranscripts = emptySet(), dirtyCachedTranscriptIDs = listOf("other")).pushingSubagent(childSession).syncingTranscriptCover().syncingPollingPause().state
+                it.copy(refreshingTranscripts = emptySet(), fetchingTranscripts = emptySet(), dirtyCachedTranscriptIDs = listOf("other")).pushingSubagent(childSession).syncingTranscriptCover().syncingPollingPause().state
             }
         }
         store.receive(Action.detail(SessionFeature.Action.PollingPauseChanged(true)))
@@ -497,6 +499,7 @@ class SelectedTranscriptCancellationTests {
                 deleteSession = { _, _ -> },
                 sessionFamily = { _, _ -> awaitCancellation() },
                 runningShells = { _, _ -> awaitCancellation() },
+                runningJobs = { _, _ -> awaitCancellation() },
             )
         }
 
@@ -575,6 +578,7 @@ class SelectedTranscriptCancellationTests {
                     nextRefreshID = 2,
                     refresh = SessionFeature.State.Refresh(id = 2, reason = RefreshReason.Resume),
                     resync = SessionFeature.State.ResyncState(refreshID = 2, isShown = false, responseReceived = false, minimumElapsed = false),
+                    familyRead = CoalescedRead(isInFlight = true),
                 )
             }
         }
@@ -589,7 +593,7 @@ class SelectedTranscriptCancellationTests {
         }
         assertTrue(store.state.isInitialTranscriptInFlight)
         store.send(Action.detail(SessionFeature.Action.VisibilityChanged(false))) {
-            it.updatingDetail { d -> d.copy(isVisible = false, refresh = null, resync = null) }
+            it.updatingDetail { d -> d.copy(isVisible = false, refresh = null, resync = null, familyRead = CoalescedRead()) }
         }
         assertFalse(store.state.isInitialTranscriptInFlight)
 
@@ -602,10 +606,10 @@ class SelectedTranscriptCancellationTests {
         receiveUncachedTranscript("second", secondItems, store)
         assertFalse(store.state.isInitialTranscriptInFlight)
         val cachedItems = listOf(text("cached-1", "cached"))
-        store.send(Action.DrawerRowPressed("cached")) { it.copy(refreshingTranscripts = setOf("cached")) }
+        store.send(Action.DrawerRowPressed("cached")) { it.copy(refreshingTranscripts = setOf("cached"), fetchingTranscripts = setOf("cached")) }
         store.receive(Action.CachedTranscriptRefreshed(sessionID = "cached", items = cachedItems)) {
             store.withDependencies {
-                it.copy(refreshingTranscripts = emptySet(), transcriptReadAt = it.transcriptReadAt + ("cached" to Instant.ofEpochSecond(100)))
+                it.copy(refreshingTranscripts = emptySet(), fetchingTranscripts = emptySet(), transcriptReadAt = it.transcriptReadAt + ("cached" to Instant.ofEpochSecond(100)))
                     .notingUnopenedCopy("cached")
                     .publishingTranscript("cached", cachedItems)
                     .persistingTranscriptCache(including = "cached")
@@ -895,7 +899,7 @@ class SelectedTranscriptCancellationTests {
         }
         store.receive(Action.detail(SessionFeature.Action.SessionSnapshotUpdated(home)))
         store.receive(Action.AttentionRefreshed(emptySet())) { it.copy(noticeReadiness = HomeFeature.State.NoticeReadiness.settled) }
-        store.send(Action.DrawerRowPressed("cached")) { it.copy(refreshingTranscripts = setOf("cached")) }
+        store.send(Action.DrawerRowPressed("cached")) { it.copy(refreshingTranscripts = setOf("cached"), fetchingTranscripts = setOf("cached")) }
         assertTrue(eventually { ancestryStarts.value == 1 && cachedStarts.value == 1 })
 
         // 2. Reopen "home" (already on screen) and pick "home" in its own family: no foreground
@@ -921,7 +925,7 @@ class SelectedTranscriptCancellationTests {
         cachedGate.release()
         store.receive(Action.CachedTranscriptRefreshed(sessionID = "cached", items = freshCached)) {
             store.withDependencies {
-                it.copy(refreshingTranscripts = emptySet(), transcriptReadAt = it.transcriptReadAt + ("cached" to Instant.ofEpochSecond(200)))
+                it.copy(refreshingTranscripts = emptySet(), fetchingTranscripts = emptySet(), transcriptReadAt = it.transcriptReadAt + ("cached" to Instant.ofEpochSecond(200)))
                     .notingUnopenedCopy("cached")
                     .publishingTranscript("cached", freshCached)
                     .persistingTranscriptCache(including = "cached")
@@ -979,11 +983,11 @@ class SelectedTranscriptCancellationTests {
             initial.persistingTranscriptCache(including = "s2")
         }
 
-        // 1. Start a cached refresh on "s1", then cancel it with a foreground `.open` refresh on
-        // "home" while `.reconnecting`; skip "s2" while in flight.
-        store.send(contentBatch("s1", "m1", "A")) { it.copy(refreshingTranscripts = setOf("s1")) }
+        // 1. While `.reconnecting`, live events mark "s1" for later instead of reading it, and a
+        // foreground `.open` refresh on "home" starts; "s2" waits the same way.
+        store.send(contentBatch("s1", "m1", "A")) { it.copy(dirtyCachedTranscriptIDs = listOf("s1")) }
         store.send(Action.detail(SessionFeature.Action.RefreshRequested(RefreshReason.Open))) {
-            it.copy(refreshingTranscripts = emptySet(), dirtyCachedTranscriptIDs = listOf("s1")).updatingDetail { d ->
+            it.updatingDetail { d ->
                 d.copy(nextRefreshID = 1, refresh = SessionFeature.State.Refresh(id = 1, reason = RefreshReason.Open))
             }
         }
@@ -1034,6 +1038,115 @@ class SelectedTranscriptCancellationTests {
         assertEquals(listOf("s1", "s2"), refreshedOrder.toList())
         assertTrue(store.state.dirtyCachedTranscriptIDs.isEmpty())
         assertTrue(store.state.refreshingTranscripts.isEmpty())
+        store.skipInFlightEffects()
+    }
+
+    private fun CoroutineScope.drawerReadsStore(
+        state: HomeFeature.State,
+        clock: Clock,
+        started: MutableList<String>,
+        cancelled: MutableList<String>,
+        gates: MutableMap<String, CompletableDeferred<Unit>>,
+    ): TestStore<HomeFeature.State, Action> {
+        val store = TestStore(state, HomeFeature(), this) {
+            this[Clock] = clock
+            this[DateClient] = DateClient.constant(Instant.ofEpochSecond(100))
+            this[OpenCodeClient] = this[OpenCodeClient].copy(
+                transcript = { _, sessionID, _ ->
+                    started += sessionID
+                    val gate = CompletableDeferred<Unit>()
+                    gates[sessionID] = gate
+                    try {
+                        gate.await()
+                    } catch (cancellation: CancellationException) {
+                        cancelled += sessionID
+                        throw cancellation
+                    }
+                    listOf(text("o1", "Other"), text("o2", "New"))
+                },
+            )
+        }
+        store.exhaustive = false
+        return store
+    }
+
+    /** The drawer opening reads `other`; a finger on its row joins that read instead of sending it again. */
+    @Test fun pressingARowJoinsTheReadTheDrawerStarted() = runTest {
+        val started = Collections.synchronizedList(mutableListOf<String>())
+        val cancelled = Collections.synchronizedList(mutableListOf<String>())
+        val gates = Collections.synchronizedMap(mutableMapOf<String, CompletableDeferred<Unit>>())
+        val store = drawerReadsStore(state(), ImmediateClock(), started, cancelled, gates)
+
+        store.send(Action.SessionDrawerArrived(isOpen = true))
+        assertTrue(eventually { started.count { it == "other" } == 1 })
+        store.send(Action.DrawerRowPressed("other"))
+        store.send(Action.DrawerRowPressed("other"))
+        repeat(20) { yield() }
+        assertEquals(1, started.count { it == "other" })
+        assertTrue(cancelled.isEmpty())
+
+        gates.getValue("other").complete(Unit)
+        store.receive({ it is Action.CachedTranscriptRefreshed && it.sessionID == "other" }, "cachedTranscriptRefreshed")
+        assertEquals(listOf("o1", "o2"), store.state.transcriptCache["other"]?.map { it.id })
+        store.skipInFlightEffects()
+    }
+
+    /** A read still waiting out its delay (live events' 2 s pause) is replaced by the press with one now. */
+    @Test fun pressingARowStillReplacesADelayedRead() = runTest {
+        val started = Collections.synchronizedList(mutableListOf<String>())
+        val clock = TestClock()
+        val store = drawerReadsStore(state(), clock, started, mutableListOf(), Collections.synchronizedMap(mutableMapOf()))
+
+        store.send(contentBatch("other", "m", "A"))
+        assertEquals(setOf("other"), store.state.refreshingTranscripts)
+        assertTrue(store.state.fetchingTranscripts.isEmpty())
+        store.send(Action.DrawerRowPressed("other"))
+        assertEquals(setOf("other"), store.state.fetchingTranscripts)
+        assertTrue(eventually { started.count { it == "other" } == 1 })
+        clock.advance(HomeFeature.cachedTranscriptRefreshDelay)
+        repeat(20) { yield() }
+        assertEquals("The delayed read was replaced, not run as well", 1, started.count { it == "other" })
+        store.skipInFlightEffects()
+    }
+
+    /** A message invalidated off screen marks a cached copy dirty, so it's read again before it's trusted. */
+    @Test fun anInvalidatedCopyIsMarkedDirty() = runTest {
+        val store = TestStore(state(), HomeFeature(), this)
+        store.exhaustive = false
+        store.send(Action.ServerEvent(OpenCodeServerEvent.MessageInvalidated(sessionID = "other")))
+        assertEquals(listOf("other"), store.state.dirtyCachedTranscriptIDs)
+    }
+
+    /** Offline, the drawer marks what it would read and reads none of it, for the reconnect's snapshot to drain. */
+    @Test fun speculativeReadsWaitForTheServer() = runTest {
+        val started = Collections.synchronizedList(mutableListOf<String>())
+        val state = state().connected(HomeConnectionFeature.State.ConnectionStatus.reconnecting)
+        val store = drawerReadsStore(state, ImmediateClock(), started, mutableListOf(), Collections.synchronizedMap(mutableMapOf()))
+
+        store.send(Action.SessionDrawerArrived(isOpen = true))
+        store.send(Action.DrawerRowPressed("other"))
+        // The open session's update would prefetch uncached "slow".
+        store.send(Action.detail(SessionFeature.Action.AcceptedTranscriptUpdated(sessionID = "home", items = listOf(text("h0", "Home")))))
+        repeat(20) { yield() }
+        assertTrue(started.isEmpty())
+        assertEquals(listOf("other"), store.state.dirtyCachedTranscriptIDs)
+        store.skipInFlightEffects()
+    }
+
+    /** Losing the connection cancels a speculative read in flight rather than leaving it to retry, and marks it dirty. */
+    @Test fun losingTheConnectionCancelsSpeculativeReads() = runTest {
+        val started = Collections.synchronizedList(mutableListOf<String>())
+        val cancelled = Collections.synchronizedList(mutableListOf<String>())
+        // The reconnect's timers wait; only the read matters here.
+        val store = drawerReadsStore(state(), TestClock(), started, cancelled, Collections.synchronizedMap(mutableMapOf()))
+
+        store.send(Action.DrawerRowPressed("other"))
+        assertTrue(eventually { started.count { it == "other" } == 1 })
+        store.send(Action.ConnectionLost)
+        assertTrue(eventually { cancelled == listOf("other") })
+        assertTrue(store.state.refreshingTranscripts.isEmpty())
+        assertTrue(store.state.fetchingTranscripts.isEmpty())
+        assertEquals(listOf("other"), store.state.dirtyCachedTranscriptIDs)
         store.skipInFlightEffects()
     }
 

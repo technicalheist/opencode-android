@@ -121,6 +121,16 @@ class DrawerPerfGateTests {
         assertEquals(listOf("b", "d"), state.recentSessions.map { it.id })
     }
 
+    @Test fun hiddenSessionsMatchTheirKeys() {
+        val prefix = server.persistenceID + "|"
+        val state = home((0 until 6).map { session("s$it", updated = it.toLong()) })
+            .copy(hiddenSessionKeys = setOf(prefix + "s1", prefix + "s4", "other|s2"))
+        assertEquals(setOf("s1", "s4"), state.hiddenSessionIDs)
+        assertEquals(setOf("s0", "s2", "s3", "s5"), state.visibleSessions.map { it.id }.toSet())
+        val model = build(state.copy(search = "s"))
+        assertEquals(listOf("s1", "s4"), model.rows.values.filter { it.hidden }.map { it.session.id }.sorted())
+    }
+
     @Test fun projectLookupMatchesResolved() {
         val projects = listOf(
             OpenCodeProject(id = "p1", name = "One", directory = "/one"),

@@ -64,8 +64,6 @@
     <string name="settings_notifications_plugin_check_failed">無法檢查狀態</string>
     <string name="settings_notifications_set_up">使用 OpenCode 設定</string>
     <string name="settings_notifications_check_again">再次檢查</string>
-    <string name="settings_notifications_in_app_footer">顯示在側邊欄按鈕上。</string>
-    <string name="settings_notifications_in_app_notices">應用程式內通知</string>
 
     <!-- Sessions -->
     <string name="settings_sessions_title">工作階段</string>

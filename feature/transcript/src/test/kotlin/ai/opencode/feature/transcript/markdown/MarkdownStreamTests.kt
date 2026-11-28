@@ -1,6 +1,7 @@
 package ai.opencode.feature.transcript.markdown
 
 import ai.opencode.core.testing.TestIsolationRule
+import ai.opencode.feature.media.MemoryWarningCenter
 import ai.opencode.feature.transcript.markdown.OpenCodeMarkdownBlock.Kind
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -188,6 +189,17 @@ class MarkdownStreamTests {
         val store = MarkdownStreamStore(maximumParts = 4)
         for (index in 0 until 20) store.blocks("part-$index", "Text $index", true)
         assertTrue(store.partCount <= 4)
+    }
+
+    @Test fun markdownStreamsGoOnAMemoryWarning() {
+        val center = MemoryWarningCenter()
+        val store = MarkdownStreamStore(memoryWarnings = center)
+        val text = (0 until 4).joinToString("\n\n") { "Paragraph $it of part 0, with **bold** and `code`." }
+        val blocks = store.blocks("part", text, true)
+        assertEquals(1, store.partCount)
+        center.post()
+        assertEquals(0, store.partCount)
+        assertEquals("The next text parses the same from the start", blocks, store.blocks("part", text, true))
     }
 
     // Healing the live tail

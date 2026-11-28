@@ -65,6 +65,8 @@ import ai.opencode.server.live.requestSkills
 import ai.opencode.server.live.requestStageRevert
 import ai.opencode.server.live.requestStartIntegrationOAuth
 import ai.opencode.server.live.requestStopShell
+import ai.opencode.server.live.requestRunningJobs
+import ai.opencode.server.live.requestCancelJob
 import ai.opencode.server.live.requestSwitchAgent
 import ai.opencode.server.live.requestSwitchModel
 import ai.opencode.server.live.requestTranscript
@@ -101,6 +103,7 @@ import ai.opencode.server.model.OpenCodeSessionPage
 import ai.opencode.server.model.OpenCodeSessionPageRequest
 import ai.opencode.server.model.OpenCodeSessionFamily
 import ai.opencode.server.model.OpenCodeShell
+import ai.opencode.server.model.OpenCodeJob
 import ai.opencode.server.model.OpenCodeShellOutputPage
 import ai.opencode.server.model.OpenCodeTranscriptItem
 import ai.opencode.server.model.OpenCodeTranscriptPage
@@ -183,6 +186,10 @@ data class OpenCodeClient(
     val notifyPluginStatus: suspend (server: OpenCodeServer) -> OpenCodeNotifyPluginStatus,
     /** Location-scoped: pass only the open session's directory. */
     val runningShells: suspend (server: OpenCodeServer, directory: String) -> List<OpenCodeShell>,
+    /** The session's running background jobs, its descendants' included (`GET /api/experimental/job`). */
+    val runningJobs: suspend (server: OpenCodeServer, sessionID: String) -> List<OpenCodeJob>,
+    /** Cancels a running job and the work it started; one already finished is a no-op. */
+    val cancelJob: suspend (server: OpenCodeServer, jobID: String) -> Unit,
     /** One shell's status, including exited ones the server still retains. */
     val shell: suspend (server: OpenCodeServer, directory: String, shellID: String) -> OpenCodeShell,
     val shellOutput: suspend (server: OpenCodeServer, directory: String, shellID: String, cursor: Int, limit: Int) -> OpenCodeShellOutputPage,
@@ -307,6 +314,8 @@ data class OpenCodeClient(
             getSession = ::requestGetSession,
             notifyPluginStatus = ::requestNotifyPluginStatus,
             runningShells = ::requestRunningShells,
+            runningJobs = ::requestRunningJobs,
+            cancelJob = ::requestCancelJob,
             shell = ::requestShell,
             shellOutput = ::requestShellOutput,
             stopShell = ::requestStopShell,
@@ -386,6 +395,8 @@ data class OpenCodeClient(
                     getSession = { _, _ -> unimplemented("getSession") },
                     notifyPluginStatus = { unimplemented("notifyPluginStatus") },
                     runningShells = { _, _ -> unimplemented("runningShells") },
+                    runningJobs = { _, _ -> emptyList() },
+                    cancelJob = { _, _ -> },
                     shell = { _, _, _ -> unimplemented("shell") },
                     shellOutput = { _, _, _, _, _ -> unimplemented("shellOutput") },
                     stopShell = { _, _, _ -> unimplemented("stopShell") },

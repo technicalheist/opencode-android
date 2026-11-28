@@ -33,10 +33,6 @@ import ai.opencode.feature.drawer.list.LocalDrawerSelection
 import ai.opencode.feature.drawer.motion.DrawerButton
 import ai.opencode.feature.drawer.motion.rememberDrawerKeyboardHold
 import ai.opencode.feature.drawer.motion.rememberDrawerShortcutMotion
-import ai.opencode.core.experiments.InAppNoticeMode
-import ai.opencode.feature.session.InAppNotice
-import ai.opencode.feature.drawer.notices.InAppNoticeSettings
-import ai.opencode.feature.system.notifications.SessionNotificationsClient
 import ai.opencode.core.experiments.ExperimentalFeature
 import ai.opencode.core.experiments.key
 import ai.opencode.core.sharing.shared
@@ -149,9 +145,8 @@ fun HomeView(
                 // Android: Material's modal drawer width (at most 360 dp, leaving 56 dp of the
                 // session beside it to tap shut).
                 val drawerWidth = if (usesSidebar) SidebarMetrics.width else min(maxWidth - 56.dp, 360.dp)
-                val containerWidth = maxWidth
                 SideEffect { view.usesSidebar = usesSidebar }
-                if (hasDetail) HomeLayout(store, view, usesSidebar, drawerWidth, containerWidth, reducedMotion)
+                if (hasDetail) HomeLayout(store, view, usesSidebar, drawerWidth, reducedMotion)
                 HomeSidebarEffects(store, view, usesSidebar)
             }
         }
@@ -173,7 +168,6 @@ private fun HomeLayout(
     view: HomeViewState,
     usesSidebar: Boolean,
     drawerWidth: Dp,
-    containerWidth: Dp,
     reducedMotion: Boolean,
 ) {
     val controller = rememberSessionDrawerController(view.isSessionDrawerPresented)
@@ -256,7 +250,7 @@ private fun HomeLayout(
         isContentPushed = pushed,
         isSheetPresented = settingsShown || sheetPresented,
         content = {
-            HomeSessionStack(store, view, usesSidebar, containerWidth, onCatchUpOpen = {
+            HomeSessionStack(store, view, usesSidebar, onCatchUpOpen = {
                 controller.captureCardThen {
                     if (store.state.catchUp != null) store.send(HomeFeature.Action.catchUpOpenTapped)
                 }
@@ -383,7 +377,6 @@ private fun HomeSessionStack(
     store: StoreOf<HomeFeature.State, HomeFeature.Action>,
     view: HomeViewState,
     usesSidebar: Boolean,
-    containerWidth: Dp,
     onCatchUpOpen: () -> Unit,
 ) {
     val root = rememberRootStore(store)
@@ -422,7 +415,7 @@ private fun HomeSessionStack(
         root = {
             SessionView(
                 root,
-                navigationIcon = { HomeDrawerButton(store, view, usesSidebar, containerWidth) },
+                navigationIcon = { HomeDrawerButton(store, view, usesSidebar) },
                 listContext = listContext,
                 onCatchUpOpen = if (catchingUp) onCatchUpOpen else null,
                 onConnectionAction = { action -> store.send(serverConnectionAction(action, store.state.server)) },
@@ -454,8 +447,7 @@ private fun HomeSessionStack(
 
 /**
  * What a session screen shows of the drawer's knowledge of it: its project, pin, read and mute
- * state, the drawer button's dot for other sessions, and the In-App Notice and the connection pill,
- * outside Catch Up.
+ * state, the drawer button's dot for other sessions, and the connection pill, outside Catch Up.
  */
 internal fun HomeFeature.State.sessionListContext(session: OpenCodeSession?): SessionListContext {
     val listed = session?.let { s -> sessions.firstOrNull { it.id == s.id } }
@@ -466,7 +458,6 @@ internal fun HomeFeature.State.sessionListContext(session: OpenCodeSession?): Se
         isUnread = listed?.let { isUnread(it) } ?: false,
         isMuted = listed?.let { isMuted(it.id) } ?: false,
         elsewhere = if (isCatchUp) null else drawerBadge(excluding = session?.id),
-        notice = if (isCatchUp) null else inAppNotice,
         connection = if (isCatchUp) null else serverConnectionNotice(),
     )
 }
@@ -494,34 +485,23 @@ internal fun serverConnectionAction(action: ServerConnectionNotice.Action, serve
 
 /**
  * The session header's drawer button: opens the drawer, or toggles the sidebar beside a wide
- * window. Its In-App Notice label opens what it names; several sessions open the drawer, which
- * lists them all.
+ * window.
  */
 @Composable
 private fun HomeDrawerButton(
     store: StoreOf<HomeFeature.State, HomeFeature.Action>,
     view: HomeViewState,
     usesSidebar: Boolean,
-    containerWidth: Dp,
 ) {
     val badge by store.observe { if (it.catchUp != null) null else it.drawerBadge(excluding = it.sessionDetail?.session?.id) }
-    val notice by store.observe { if (it.catchUp != null) null else it.inAppNotice }
     DrawerButton(
         badge = badge,
-        notice = notice,
-        // Up to the header's trailing controls.
-        maxWidth = containerWidth * HEADER_LABEL_FRACTION,
         onOpenSessions = {
             if (usesSidebar) {
                 store.send(HomeFeature.Action.Settings(HomeSettingsFeature.Action.SidebarToggled))
             } else {
                 view.isSessionDrawerPresented = true
             }
-        },
-        onNoticeTapped = { target ->
-            // Several sessions: the drawer lists them all.
-            if (target == InAppNotice.Target.Drawer && !usesSidebar) view.isSessionDrawerPresented = true
-            store.send(HomeFeature.Action.InAppNoticeTapped)
         },
     )
 }
@@ -627,10 +607,8 @@ internal class CatchUpPreviewStores {
 @Composable
 private fun HomeSidebarEffects(store: StoreOf<HomeFeature.State, HomeFeature.Action>, view: HomeViewState, usesSidebar: Boolean) {
     val opensDrawerForPairing by store.observe { it.opensDrawerForPairing }
-    // Beside a sidebar the drawer button has no label, so In-App Notices acts as Off, banners included.
     LaunchedEffect(usesSidebar) {
         if (usesSidebar) view.isSessionDrawerPresented = false
-        dependency(SessionNotificationsClient).setShowsDrawerLabel(!usesSidebar)
         store.send(HomeFeature.Action.DrawerLabelAvailabilityChanged(!usesSidebar))
     }
     // A computer just paired: open its sessions as the drawer button does.
@@ -697,11 +675,6 @@ internal fun HomeLifecycle(store: StoreOf<HomeFeature.State, HomeFeature.Action>
     // Start Call quick action follows.
     LaunchedEffect(serverID, isVoiceAvailable) {
         store.send(HomeFeature.Action.SystemPublishRequested(isVoiceAvailable))
-    }
-    // Notifications arriving in the foreground read In-App Notices' mode through Home's reader.
-    LaunchedEffect(Unit) {
-        val settings = dependency(InAppNoticeSettings)
-        dependency(SessionNotificationsClient).setInAppNoticesProvider { settings.mode() != InAppNoticeMode.off }
     }
     // RESUMED is active, STARTED inactive, below that the background. A configuration change's stop
     // and the recreated activity's first resume aren't a leave/return cycle.
@@ -802,8 +775,6 @@ private fun HomeSettingsBack(store: StoreOf<HomeFeature.State, HomeFeature.Actio
 }
 
 private const val TIME_REVEAL_REACH = 76f
-/** How much of the window the drawer button's notice label may span. */
-private const val HEADER_LABEL_FRACTION = 0.6f
 
 /**
  * Voice set up for [server], recomputed whenever a setting it reads changes (Settings changes them

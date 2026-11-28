@@ -38,6 +38,8 @@
     <string name="drawer_mark_as_unread">Merk sum ólisið</string>
     <string name="drawer_mute">Sløkk fráboðanir</string>
     <string name="drawer_unmute">Tendra fráboðanir</string>
+    <string name="drawer_hide">Goym</string>
+    <string name="drawer_unhide">Vís aftur</string>
     <string name="drawer_move_up">Flyt upp</string>
     <string name="drawer_move_down">Flyt niður</string>
 
@@ -81,8 +83,6 @@
     <string name="drawer_button_open_sessions_description">Opna setur</string>
     <string name="drawer_button_attention_state">Ein seta krevur tína luttøku</string>
     <string name="drawer_button_unread_state">Ólisnar setur</string>
-    <string name="drawer_notice_open_sessions_action">Opna setur</string>
-    <string name="drawer_notice_open_session_action">Opna setuna</string>
 
     <!-- Search pill -->
     <string name="drawer_search_description">Leitiløtur</string>
@@ -121,6 +121,7 @@
     <!-- Session row state for TalkBack -->
     <string name="drawer_row_pinned_state">Fest</string>
     <string name="drawer_row_muted_state">Fráboðanir sløktar</string>
+    <string name="drawer_row_hidden_state">Goymd</string>
     <string name="drawer_row_needs_input_state">Tín luttøka krevst</string>
     <string name="drawer_row_working_state">Arbeiða</string>
     <string name="drawer_row_unread_state">Ólisið</string>

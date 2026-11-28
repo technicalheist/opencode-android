@@ -38,6 +38,8 @@
     <string name="drawer_mark_as_unread">Merkitse lukemattomaksi</string>
     <string name="drawer_mute">Mykistä</string>
     <string name="drawer_unmute">Poista mykistys</string>
+    <string name="drawer_hide">Piilota</string>
+    <string name="drawer_unhide">Näytä</string>
     <string name="drawer_move_up">Siirrä ylös</string>
     <string name="drawer_move_down">Siirrä alas</string>
 
@@ -81,8 +83,6 @@
     <string name="drawer_button_open_sessions_description">Avaa istunnot</string>
     <string name="drawer_button_attention_state">Istunnossa tarvitaan sinua</string>
     <string name="drawer_button_unread_state">Lukemattomia istuntoja</string>
-    <string name="drawer_notice_open_sessions_action">Avaa istunnot</string>
-    <string name="drawer_notice_open_session_action">Avaa istunto</string>
 
     <!-- Search pill -->
     <string name="drawer_search_description">Hae istuntoja</string>
@@ -121,6 +121,7 @@
     <!-- Session row state for TalkBack -->
     <string name="drawer_row_pinned_state">Kiinnitetty</string>
     <string name="drawer_row_muted_state">Mykistetty</string>
+    <string name="drawer_row_hidden_state">Piilotettu</string>
     <string name="drawer_row_needs_input_state">Sinua tarvitaan</string>
     <string name="drawer_row_working_state">Työskennellään</string>
     <string name="drawer_row_unread_state">Lukematon</string>

@@ -901,4 +901,38 @@
     <!-- 2026-11-08-02-default-model -->
     <string name="settings_whatsnew_entry_default_model_title">Nove seje uporabljajo tvoj privzeti model</string>
     <string name="settings_whatsnew_entry_default_model_summary">Nove seje se začnejo z modelom, ki je v OpenCode nastavljen kot privzeti, in zanj nazadnje izbrano ravnjo razmišljanja, ne pa z modelom zadnje seje.</string>
+
+    <!-- 2026-11-11-01-streamed-reply-prefix -->
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_title">Odpri odgovor med nastajanjem</string>
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_summary">Če odprete sejo, ko odgovor še prihaja, lahko že preberete prejeti del, medtem ko nastaja preostanek.</string>
+
+    <!-- 2026-11-13-01-draw-on-images -->
+    <string name="settings_whatsnew_entry_draw_on_images_title">Riši po slikah</string>
+    <string name="settings_whatsnew_entry_draw_on_images_summary">Označite podrobnost, preden vprašate o njej.</string>
+    <string name="settings_whatsnew_entry_draw_on_images_detail_1">Odprite sliko čez cel zaslon in tapnite gumb s peresom. Izberite barvo, rišite in nato tapnite Dodaj, da označeno sliko priložite sporočilu. Izvirnik ostane nespremenjen.</string>
+    <string name="settings_whatsnew_entry_draw_on_images_example">Na posnetku zaslona obkrožite kontrolnik, ki ga želite premakniti, nato opišite, kam naj gre.</string>
+
+    <!-- 2026-11-14-01-fullscreen-viewer -->
+    <string name="settings_whatsnew_entry_fullscreen_viewer_title">Podrsaj med fotografijami in videi</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_summary">Brskajte po slikah in videih seje na enem mestu.</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_detail_1">Podrsajte do videa in tapnite gumb s peresom, da označite trenutni kader. Gumb Dodaj priloži označeni kader, ne da bi ga poslal.</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_example">Začasno ustavite predstavitev na zaslonu, ki ga je treba spremeniti, obkrožite podrobnost in jo dodajte osnutku.</string>
+
+    <!-- 2026-11-15-01-pairing-link-name -->
+    <string name="settings_whatsnew_entry_pairing_link_name_title">Poimenovani strežniki iz OpenCode Console</string>
+    <string name="settings_whatsnew_entry_pairing_link_name_summary">Strežnik, ki ga seznanite prek OpenCode Console, se doda s svojim imenom, na primer »Anomaly Box«.</string>
+
+    <!-- 2026-11-17-01-session-media -->
+    <string name="settings_whatsnew_entry_session_media_title">Predstavnost seje</string>
+    <string name="settings_whatsnew_entry_session_media_summary">Brskajte po slikah, videoposnetkih, zvoku, datotekah in javnih spletnih povezavah v seji.</string>
+    <string name="settings_whatsnew_entry_session_media_detail_1">V meniju ⋮ seje izberite Predstavnost seje. Razdelek Predstavnost prikazuje slike, videe in zvok kot ploščice, združene po mesecih, ali kot seznam. Razdelka Datoteke in Povezave prikazujeta dokumente, prilepljeno besedilo in spletne povezave.</string>
+    <string name="settings_whatsnew_entry_session_media_example">Poiščite posnetek zaslona, ki ste ga poslali danes zjutraj, brez pomikanja po celotni seji.</string>
+
+    <!-- 2026-11-18-02-drawer-call-phone -->
+    <string name="settings_whatsnew_entry_drawer_call_phone_title">Ikona telefona za klice v stranskem predalu</string>
+    <string name="settings_whatsnew_entry_drawer_call_phone_summary">Gumb za klic ob nastavitvah na seznamu sej ima zdaj ikono telefona, enako kot v polju za sporočilo.</string>
+
+    <!-- 2026-11-19-01-background-scripts -->
+    <string name="settings_whatsnew_entry_background_scripts_title">Skripte med opravili v ozadju</string>
+    <string name="settings_whatsnew_entry_background_scripts_summary">Skripte, ki jih agent premakne v ozadje, so prikazane ob subagentih in lupinah. Subagent ostane na seznamu, dokler poteka delo z njegovimi slikami, videi ali skriptami. Skripte in subagente lahko ustavite na seznamu.</string>
 </resources>

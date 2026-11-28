@@ -114,6 +114,26 @@ class ScreenAwakeTests {
         effects.skipInFlightEffects()
     }
 
+    /** The app tells the call when it leaves the front and comes back. */
+    @Test
+    fun theAppTellsTheCallWhenItGoesToTheBackgroundAndBack() = runTest {
+        val store = makeStore(Locked(emptyList()), TestClock())
+        // No call, nothing to tell.
+        store.send(AppFeature.Action.ForegroundChanged(false))
+        store.send(AppFeature.Action.ForegroundChanged(true))
+        assertNull(store.state.home?.sessionDetail?.voice)
+
+        store.send(AppFeature.Action.Home(HomeFeature.Action.detail(SessionFeature.Action.VoiceTapped)))
+        voice(store, VoiceFeature.Action.CallEvent(VoiceCallEvent.Connected))
+        store.send(AppFeature.Action.ForegroundChanged(false))
+        store.receive(voiceAction(VoiceFeature.Action.AppVisibilityChanged(false)))
+        assertEquals(false, store.state.home?.sessionDetail?.voice?.isAppVisible)
+        store.send(AppFeature.Action.ForegroundChanged(true))
+        store.receive(voiceAction(VoiceFeature.Action.AppVisibilityChanged(true)))
+        assertEquals(true, store.state.home?.sessionDetail?.voice?.isAppVisible)
+        effects.skipInFlightEffects()
+    }
+
     /** A call that fails as it starts (no API key) turns the screen on and straight off again, in that order, with nothing left on. */
     @Test
     fun aCallThatFailsAsItStartsLeavesTheScreenFreeToSleep() = runTest {

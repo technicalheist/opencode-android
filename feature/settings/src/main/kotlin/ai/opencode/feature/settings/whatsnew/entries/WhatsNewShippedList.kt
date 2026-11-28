@@ -26,6 +26,13 @@ private var builtEntries: List<WhatsNewEntry> = emptyList()
 
 private fun buildEntries(): List<WhatsNewEntry> =
     listOf(
+        WhatsNewShipped.backgroundScripts,
+        WhatsNewShipped.drawerCallPhone,
+        WhatsNewShipped.sessionMedia,
+        WhatsNewShipped.pairingLinkName,
+        WhatsNewShipped.fullscreenViewer,
+        WhatsNewShipped.drawOnImages,
+        WhatsNewShipped.streamedReplyPrefix,
         WhatsNewShipped.defaultModel,
         WhatsNewShipped.connectingCaptionGlass,
         WhatsNewShipped.onePicker,

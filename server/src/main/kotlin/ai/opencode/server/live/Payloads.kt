@@ -17,6 +17,7 @@ import ai.opencode.server.internal.req
 import ai.opencode.server.internal.str
 import ai.opencode.server.internal.stringMap
 import ai.opencode.server.model.OpenCodeImageAttachment
+import ai.opencode.server.model.OpenCodeJob
 import ai.opencode.server.model.OpenCodeJSONValue
 import ai.opencode.server.model.OpenCodeMediaReference
 import ai.opencode.server.model.OpenCodeModel
@@ -85,6 +86,29 @@ internal data class ShellInfo(
         exitCode = exit?.toInt(),
         startedAt = time?.started?.let(::instantFromMillis),
         completedAt = time?.completed?.let(::instantFromMillis),
+    )
+}
+
+/** `Job.Info`: only the fields the background-work capsule reads. */
+@Serializable
+internal data class JobInfo(
+    val id: String,
+    val kind: String,
+    val sessionID: String,
+    val status: String,
+    val childSessionID: String? = null,
+    val time: Time? = null,
+) {
+    @Serializable
+    data class Time(val started: Double? = null)
+
+    fun job() = OpenCodeJob(
+        id = id,
+        kind = OpenCodeJob.Kind.of(kind),
+        sessionID = sessionID,
+        isRunning = status == "running",
+        childSessionID = childSessionID,
+        startedAt = time?.started?.let(::instantFromMillis),
     )
 }
 

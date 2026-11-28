@@ -37,6 +37,8 @@
     <string name="drawer_mark_as_unread">Tandakan sebagai belum dibaca</string>
     <string name="drawer_mute">Senyapkan</string>
     <string name="drawer_unmute">Nyahsenyap</string>
+    <string name="drawer_hide">Sembunyi</string>
+    <string name="drawer_unhide">Nyahsembunyi</string>
     <string name="drawer_move_up">Alih ke atas</string>
     <string name="drawer_move_down">Alih ke bawah</string>
 
@@ -77,8 +79,6 @@
     <string name="drawer_button_open_sessions_description">Buka sesi</string>
     <string name="drawer_button_attention_state">Satu sesi memerlukan input anda</string>
     <string name="drawer_button_unread_state">Sesi belum dibaca</string>
-    <string name="drawer_notice_open_sessions_action">Buka sesi</string>
-    <string name="drawer_notice_open_session_action">Buka sesi ini</string>
 
     <!-- Search pill -->
     <string name="drawer_search_description">Cari sesi</string>
@@ -117,6 +117,7 @@
     <!-- Session row state for TalkBack -->
     <string name="drawer_row_pinned_state">Disematkan</string>
     <string name="drawer_row_muted_state">Disenyapkan</string>
+    <string name="drawer_row_hidden_state">Tersembunyi</string>
     <string name="drawer_row_needs_input_state">Memerlukan input anda</string>
     <string name="drawer_row_working_state">Sedang bekerja</string>
     <string name="drawer_row_unread_state">Belum dibaca</string>

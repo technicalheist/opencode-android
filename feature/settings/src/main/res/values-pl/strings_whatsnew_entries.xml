@@ -901,4 +901,38 @@
     <!-- 2026-11-08-02-default-model -->
     <string name="settings_whatsnew_entry_default_model_title">Nowe sesje z domyślnym modelem</string>
     <string name="settings_whatsnew_entry_default_model_summary">Nowe sesje używają modelu ustawionego jako domyślny w OpenCode i ostatnio wybranego dla niego poziomu myślenia, zamiast modelu z ostatniej sesji.</string>
+
+    <!-- 2026-11-11-01-streamed-reply-prefix -->
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_title">Otwórz odpowiedź w trakcie generowania</string>
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_summary">Gdy otworzysz sesję w trakcie generowania odpowiedzi, możesz czytać jej gotową część, zanim pojawi się reszta.</string>
+
+    <!-- 2026-11-13-01-draw-on-images -->
+    <string name="settings_whatsnew_entry_draw_on_images_title">Rysuj na obrazach</string>
+    <string name="settings_whatsnew_entry_draw_on_images_summary">Zaznacz szczegół, zanim o niego zapytasz.</string>
+    <string name="settings_whatsnew_entry_draw_on_images_detail_1">Otwórz obraz na pełnym ekranie i dotknij przycisku pióra. Wybierz kolor, narysuj coś i dotknij Dodaj, aby dołączyć obraz z oznaczeniami do wiadomości. Oryginał pozostanie bez zmian.</string>
+    <string name="settings_whatsnew_entry_draw_on_images_example">Zakreśl na zrzucie ekranu element, który chcesz przenieść, i opisz, gdzie ma się znaleźć.</string>
+
+    <!-- 2026-11-14-01-fullscreen-viewer -->
+    <string name="settings_whatsnew_entry_fullscreen_viewer_title">Przesuwaj między zdjęciami i filmami</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_summary">Przeglądaj obrazy i filmy z sesji w jednym miejscu.</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_detail_1">Przesuń do filmu i dotknij przycisku pióra, aby dodać oznaczenia na bieżącej klatce. Przycisk Dodaj dołącza klatkę z oznaczeniami bez jej wysyłania.</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_example">Wstrzymaj nagranie demonstracyjne na ekranie wymagającym zmian, zakreśl szczegół i dodaj klatkę do szkicu.</string>
+
+    <!-- 2026-11-15-01-pairing-link-name -->
+    <string name="settings_whatsnew_entry_pairing_link_name_title">Nazwy serwerów z OpenCode Console</string>
+    <string name="settings_whatsnew_entry_pairing_link_name_summary">Serwer sparowany z OpenCode Console zachowuje swoją nazwę, na przykład „Anomaly Box”.</string>
+
+    <!-- 2026-11-17-01-session-media -->
+    <string name="settings_whatsnew_entry_session_media_title">Multimedia sesji</string>
+    <string name="settings_whatsnew_entry_session_media_summary">Przeglądaj obrazy, wideo, dźwięki, pliki i publiczne linki internetowe z sesji.</string>
+    <string name="settings_whatsnew_entry_session_media_detail_1">Wybierz Multimedia sesji z menu ⋮ sesji. Sekcja Multimedia pokazuje obrazy, filmy i dźwięk jako kafelki pogrupowane według miesięcy lub listę. Sekcje Pliki i Linki zawierają dokumenty, wklejone treści i linki do stron.</string>
+    <string name="settings_whatsnew_entry_session_media_example">Znajdź zrzut ekranu wysłany dziś rano bez przewijania całej sesji.</string>
+
+    <!-- 2026-11-18-02-drawer-call-phone -->
+    <string name="settings_whatsnew_entry_drawer_call_phone_title">Ikona telefonu w panelu bocznym</string>
+    <string name="settings_whatsnew_entry_drawer_call_phone_summary">Przycisk rozmowy obok Ustawień na liście sesji ma teraz ikonę telefonu, taką jak w polu wiadomości.</string>
+
+    <!-- 2026-11-19-01-background-scripts -->
+    <string name="settings_whatsnew_entry_background_scripts_title">Skrypty w zadaniach w tle</string>
+    <string name="settings_whatsnew_entry_background_scripts_summary">Skrypty przeniesione przez agenta do tła widać obok podagentów i terminali. Podagent pozostaje na liście, dopóki trwają jego zadania związane z obrazami, filmami lub skryptami. Zarówno skrypt, jak i podagenta zatrzymasz z listy.</string>
 </resources>

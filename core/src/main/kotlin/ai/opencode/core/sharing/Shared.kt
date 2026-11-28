@@ -99,8 +99,8 @@ internal class SharedReference<T>(
         val new = transform(old)
         if (new == old) return
         state.value = new
-        // Inside the lock so writes keep transition order; the writer encodes, keeping large values
-        // off the main thread.
+        // Inside the lock so writes keep transition order. Live storage encodes file keys on its
+        // writer thread and skips in-memory keys.
         bytes.writeEncoded(key.storage, key.id) { json.encodeToString(key.serializer, new).encodeToByteArray() }
     }
 
@@ -159,7 +159,10 @@ internal interface SharedBytes {
     fun read(kind: SharedStorageKind, id: String): ByteArray?
     fun write(kind: SharedStorageKind, id: String, data: ByteArray?)
 
-    /** [write] with the bytes made by [encode], which a live store may run off the caller's thread. */
+    /**
+     * [write] with the bytes made by [encode]. Live storage runs [encode] on its writer thread for
+     * file keys and skips in-memory keys entirely.
+     */
     fun writeEncoded(kind: SharedStorageKind, id: String, encode: () -> ByteArray) = write(kind, id, encode())
     fun flush() {}
 }

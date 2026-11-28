@@ -901,4 +901,38 @@
     <!-- 2026-11-08-02-default-model -->
     <string name="settings_whatsnew_entry_default_model_title">নতুন সেশনে আপনার ডিফল্ট মডেল</string>
     <string name="settings_whatsnew_entry_default_model_summary">নতুন সেশন এখন আগের সেশনের মডেলের বদলে OpenCode-এ নির্ধারিত আপনার ডিফল্ট মডেল দিয়ে শুরু হয়। সেই মডেলের জন্য আপনার শেষ বেছে নেওয়া চিন্তার মাত্রা ব্যবহার করা হয়।</string>
+
+    <!-- 2026-11-11-01-streamed-reply-prefix -->
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_title">জবাব আসার মাঝেই খুলুন</string>
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_summary">জবাব আসার সময় সেশন খুললে, জবাব আসতে আসতেই ইতিমধ্যে আসা অংশ পড়তে পারবেন।</string>
+
+    <!-- 2026-11-13-01-draw-on-images -->
+    <string name="settings_whatsnew_entry_draw_on_images_title">ছবিতে আঁকুন</string>
+    <string name="settings_whatsnew_entry_draw_on_images_summary">কোনো কিছু নিয়ে প্রশ্ন করার আগে তা চিহ্নিত করে দিন।</string>
+    <string name="settings_whatsnew_entry_draw_on_images_detail_1">ছবি পুরো স্ক্রিনে খুলে কলম বোতামে ট্যাপ করুন। রং বেছে নিয়ে আঁকুন, তারপর চিহ্নিত ছবিটি বার্তায় যুক্ত করতে যোগ করুন বোতামে ট্যাপ করুন। মূল ছবি অপরিবর্তিত থাকবে।</string>
+    <string name="settings_whatsnew_entry_draw_on_images_example">স্ক্রিনশটে যে কন্ট্রোলটি সরাতে চান, সেটি বৃত্ত দিয়ে চিহ্নিত করুন। তারপর কোথায় সরাতে হবে তা বলুন।</string>
+
+    <!-- 2026-11-14-01-fullscreen-viewer -->
+    <string name="settings_whatsnew_entry_fullscreen_viewer_title">সোয়াইপ করে ছবি ও ভিডিও দেখুন</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_summary">সেশনের ছবি ও ভিডিও একসঙ্গে দেখুন।</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_detail_1">সোয়াইপ করে ভিডিওতে যান, তারপর বর্তমান ফ্রেমে চিহ্ন আঁকতে কলম বোতামে ট্যাপ করুন। যোগ করুন বোতাম চিহ্নিত ফ্রেমটি যুক্ত করে, তবে পাঠায় না।</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_example">ডেমোর যে স্ক্রিনে পরিবর্তন দরকার, সেখানে ভিডিও থামান। নির্দিষ্ট অংশটি বৃত্ত দিয়ে চিহ্নিত করে খসড়ায় যোগ করুন।</string>
+
+    <!-- 2026-11-15-01-pairing-link-name -->
+    <string name="settings_whatsnew_entry_pairing_link_name_title">OpenCode Console থেকে নামসহ সার্ভার</string>
+    <string name="settings_whatsnew_entry_pairing_link_name_summary">OpenCode Console থেকে পেয়ার করা সার্ভার তার নামসহ যোগ হয়, যেমন “Anomaly Box”।</string>
+
+    <!-- 2026-11-17-01-session-media -->
+    <string name="settings_whatsnew_entry_session_media_title">সেশনের মিডিয়া</string>
+    <string name="settings_whatsnew_entry_session_media_summary">সেশনের ছবি, ভিডিও, অডিও, ফাইল ও সবার জন্য উন্মুক্ত ওয়েব লিঙ্ক দেখুন।</string>
+    <string name="settings_whatsnew_entry_session_media_detail_1">সেশনের ⋮ মেনু থেকে সেশনের মিডিয়া বেছে নিন। মিডিয়ায় ছবি, ভিডিও ও অডিও মাস অনুযায়ী সাজানো টাইল বা তালিকা হিসেবে দেখা যায়। ফাইল ও লিঙ্কে থাকে নথি, পেস্ট করা লেখা ও ওয়েব লিঙ্কের তালিকা।</string>
+    <string name="settings_whatsnew_entry_session_media_example">পুরো সেশন পেছনে স্ক্রল না করেই আজ সকালে পাঠানো স্ক্রিনশটটি খুঁজে পান।</string>
+
+    <!-- 2026-11-18-02-drawer-call-phone -->
+    <string name="settings_whatsnew_entry_drawer_call_phone_title">ড্রয়ারে কলের জন্য ফোন আইকন</string>
+    <string name="settings_whatsnew_entry_drawer_call_phone_summary">সেশন তালিকায় সেটিংসের পাশের কল বোতামে এখন বার্তা লেখার বক্সের মতোই ফোন আইকন দেখা যায়।</string>
+
+    <!-- 2026-11-19-01-background-scripts -->
+    <string name="settings_whatsnew_entry_background_scripts_title">ব্যাকগ্রাউন্ডের কাজে স্ক্রিপ্ট</string>
+    <string name="settings_whatsnew_entry_background_scripts_summary">এজেন্ট যে স্ক্রিপ্টগুলো ব্যাকগ্রাউন্ডে চালায়, সেগুলো সাবএজেন্ট ও শেলের পাশে দেখা যায়। সাবএজেন্টের ছবি, ভিডিও বা স্ক্রিপ্টের কাজ চললে সেটিও তালিকায় থাকে। তালিকা থেকেই স্ক্রিপ্ট বা সাবএজেন্ট থামাতে পারেন।</string>
 </resources>

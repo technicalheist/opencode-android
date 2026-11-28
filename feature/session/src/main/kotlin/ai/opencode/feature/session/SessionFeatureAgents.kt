@@ -16,6 +16,10 @@ import ai.opencode.server.OpenCodeClientError
 import ai.opencode.server.OpenCodeServer
 import ai.opencode.server.model.AgentDisplayName
 import ai.opencode.server.model.OpenCodeAutocompleteAgent
+import ai.opencode.server.model.OpenCodeModel
+import ai.opencode.server.model.OpenCodeModelRef
+import ai.opencode.server.model.model
+import ai.opencode.server.model.savedLevel
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.isActive
 import kotlin.time.Duration.Companion.seconds
@@ -38,6 +42,10 @@ data class AgentSelectionState(
      * composer expands) asks only for another folder's.
      */
     val listedDirectory: ListedDirectory? = null,
+    /** The server's default model, for a draft whose agent names none. */
+    val defaultModel: OpenCodeModel? = null,
+    /** A draft's hand-picked model for each agent it was picked under, brought back when that agent is picked again. */
+    val draftModelPicks: Map<String, OpenCodeModelRef> = emptyMap(),
     val isEnabled: Shared<Boolean> = shared(SharedKeys.agentSelection),
     val sessionAgents: Shared<Map<String, String>> = shared(AgentPickerSharedKeys.sessionAgents),
     val defaultAgentID: Shared<String> = shared(AgentPickerSharedKeys.defaultAgentID),
@@ -53,7 +61,8 @@ internal const val agentsAttempts = 3
 /** The agent menu's list, picks and applications. */
 internal fun SessionFeature.reduceAgents(state: State, action: Action): Reduced<State, Action> = when (action) {
     Action.AgentsRequested -> {
-        if (!state.agentSelection.isEnabled.value) {
+        // A draft lists agents even with Agent Selection off: its model follows the agent it runs as.
+        if (!state.agentSelection.isEnabled.value && state.session != null) {
             Reduced(state)
         } else if (state.primaryAgents.isNotEmpty() && state.agentSelection.listedDirectory == ListedDirectory(state.effectiveDirectory)) {
             // Already listed for this folder: the chip shows that list.
@@ -132,7 +141,7 @@ internal fun SessionFeature.reduceAgents(state: State, action: Action): Reduced<
                 state.agentSelection.sessionAgents.update { it + (session.id to id) }
                 Reduced(state)
             } else {
-                Reduced(state.withDraftAgent(id))
+                Reduced(state.pickingDraftAgent(id))
             }
         }
     }
@@ -185,7 +194,12 @@ internal fun SessionFeature.adoptDraftAgent(sessionID: String, state: State): St
 // region `SessionFeature.State` members
 
 val State.primaryAgents: List<OpenCodeAutocompleteAgent> get() = agentSelection.primaryAgents
-fun State.withPrimaryAgents(value: List<OpenCodeAutocompleteAgent>): State = copy(agentSelection = agentSelection.copy(primaryAgents = value))
+fun State.withPrimaryAgents(value: List<OpenCodeAutocompleteAgent>): State {
+    val next = copy(agentSelection = agentSelection.copy(primaryAgents = value))
+    val model = currentModel
+    if (session != null || model == null || model != draftDefaultModel) return next
+    return next.copy(currentModel = next.draftDefaultModel)
+}
 
 val State.draftAgent: String? get() = agentSelection.draftAgent
 fun State.withDraftAgent(value: String?): State = copy(agentSelection = agentSelection.copy(draftAgent = value))
@@ -229,6 +243,51 @@ val State.currentAgentName: String
         val id = currentAgentID
         return primaryAgents.firstOrNull { it.id == id }?.displayName ?: AgentDisplayName.of(id) ?: localized(R.string.session_agent_fallback_name)
     }
+
+/**
+ * The agent a draft's first send runs as. With Agent Selection off none is sent, so it's the
+ * server's default, which the server lists first.
+ */
+private val State.draftModelAgent: OpenCodeAutocompleteAgent?
+    get() {
+        val id = if (agentSelection.isEnabled.value) currentAgentID else primaryAgents.firstOrNull()?.id
+        return primaryAgents.firstOrNull { it.id == id }
+    }
+
+/**
+ * A draft's model until a hand pick: its agent's model when the server offers it, else the
+ * server's default. The level last picked for the model wins over the agent's.
+ */
+internal val State.draftDefaultModel: OpenCodeModelRef?
+    get() {
+        val levels = modelVariants.value
+        val configured = draftModelAgent?.model
+        if (configured != null) {
+            val model = models.model(configured)
+            if (model != null) {
+                val level = if (levels[model.id] == null && configured.variant in model.variants) configured.variant else model.savedLevel(levels)
+                return model.ref(level)
+            }
+        }
+        val fallback = agentSelection.defaultModel ?: return null
+        val model = models.model(fallback.ref) ?: fallback
+        return model.ref(model.savedLevel(levels))
+    }
+
+/** A draft's agent pick: the model picked by hand for the last agent is kept for it, and the new agent's comes back. */
+private fun State.pickingDraftAgent(id: String): State {
+    var picks = agentSelection.draftModelPicks
+    val previous = currentAgentID
+    val model = currentModel
+    if (previous != null) {
+        picks = if (model != null && model != draftDefaultModel) picks + (previous to model) else picks - previous
+    }
+    val next = withDraftAgent(id)
+    return next.copy(
+        currentModel = picks[id] ?: next.draftDefaultModel,
+        agentSelection = next.agentSelection.copy(draftModelPicks = picks),
+    )
+}
 
 /** The agent a send applies first, or null when the session already has it. */
 val State.sendAgent: String?

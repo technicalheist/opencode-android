@@ -12,8 +12,8 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
 
 /**
- * Inter (variable) for UI text and IBM Plex Mono for code, as the desktop. Both OFL-1.1
- * (`docs/licenses/`).
+ * Inter (variable) for UI text and OpenMono for code, as the desktop. Both OFL-1.1; the APK
+ * carries the licence texts (`assets/licenses/`).
  */
 object OpenCodeFonts {
     /**
@@ -38,24 +38,16 @@ object OpenCodeFonts {
         },
     )
 
-    /** IBM Plex Mono for code, tool output and paths (desktop `--font-family-mono`). */
+    /**
+     * OpenMono for code, tool output and paths (desktop `--font-family-mono`). It has two weights:
+     * Regular also serves Medium and Bold also serves SemiBold, so no weight is synthesized.
+     * Italic is the system's slant of these upright faces.
+     */
     val monospace: FontFamily = FontFamily(
-        Font(R.font.plex_mono_regular, FontWeight.Normal),
-        Font(R.font.plex_mono_medium, FontWeight.Medium),
-        Font(R.font.plex_mono_semibold, FontWeight.SemiBold),
-        Font(R.font.plex_mono_semibold, FontWeight.Bold),
-    )
-
-    /** Berkeley Mono (variable), only for onboarding's brand marks. */
-    @OptIn(ExperimentalTextApi::class)
-    val berkeleyMono: FontFamily = FontFamily(
-        listOf(FontWeight.Normal, FontWeight.Medium, FontWeight.SemiBold, FontWeight.Bold).map { weight ->
-            Font(
-                R.font.berkeley_mono,
-                weight = weight,
-                variationSettings = FontVariation.Settings(FontVariation.weight(weight.weight)),
-            )
-        },
+        Font(R.font.openmono_regular, FontWeight.Normal),
+        Font(R.font.openmono_regular, FontWeight.Medium),
+        Font(R.font.openmono_bold, FontWeight.SemiBold),
+        Font(R.font.openmono_bold, FontWeight.Bold),
     )
 }
 

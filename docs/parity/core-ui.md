@@ -11,7 +11,11 @@ Status values: `todo`, `partial: <what is missing>`, `done`, `n/a: <reason and w
 the OpenCode desktop design system (`packages/ui`, theme `oc-2`), not iOS's SF / Liquid Glass:
 
 - Fonts: Inter (variable; Normal 440, Medium 530, SemiBold 600, Bold 670) for UI text,
-  IBM Plex Mono for code, tool output and commands (`res/font`, OFL in `docs/licenses/`).
+  OpenMono (Regular and Bold, no programming ligatures; Medium draws as Regular and SemiBold as
+  Bold; italic is the system's slant, as no italic file is bundled) for code, tool output,
+  commands and onboarding's brand marks (`res/font`; refresh with `scripts/update-openmono.py`).
+  Both are OFL: the licence texts are in `core/src/main/assets/licenses/`, so every APK carries
+  them.
   `OpenCodeTextStyles` keep the iOS names at the desktop's sizes (body 15, subheadline 14,
   footnote 13, headline 16 medium, titles medium with tight tracking), all in sp.
 - Colour: `AppTheme.OpenCode` is `BrandPalette` (desktop v2 neutrals, monochrome contrast
@@ -121,7 +125,7 @@ Paths below are relative to `core/src/main/kotlin/ai/opencode/core/`.
 ## Design-system API (for area agents)
 
 - Theme: wrap each window's root in `OpenCodeAppTheme { }` (reads the persisted choice); previews use `OpenCodeTheme(theme, appearance) { }`. Colours: `OpenCodeTheme.colors.<iOS name>` (e.g. `groupedCard`, `secondaryText`, `bodyText(0.92)`, `syntaxKeyword`); Material roles: `MaterialTheme.colorScheme` (mapping table in `OpenCodeColors.kt`).
-- Type: `MaterialTheme.typography.*` (role mapping in `OpenCodeTypography.kt`) or the iOS names in `OpenCodeTextStyles` (`footnote`, `subheadline`, …), Inter at desktop sizes; code in `OpenCodeFonts.monospace` (IBM Plex Mono). `OpenCodeFonts.berkeleyMono` only for the wordmark.
+- Type: `MaterialTheme.typography.*` (role mapping in `OpenCodeTypography.kt`) or the iOS names in `OpenCodeTextStyles` (`footnote`, `subheadline`, …), Inter at desktop sizes; code in `OpenCodeFonts.monospace` (OpenMono), the app's one mono family.
 - Shapes and spacing: `OpenCodeShape.control` for controls, `capsule/circle` for true capsules, `card/panel/sheet`, `OpenCodeRadius.*`, `OpenCodeSpacing.*`.
 - Surfaces: `OpenCodeSurfaces.color/border/dialogShape/popoverShape/raisedShadow/popoverShadow`, `Modifier.openCodeHairline(shape)`, `OpenCodeAlertDialog` instead of `AlertDialog`; Material `Button`s take `shape = OpenCodeShape.control`. Failures outside a form or dialog: `OpenCodeNotice` in an `OpenCodeNoticePresence`.
 - Motion: `Motion.<name>.spec()` / `.animation(reduceMotion)`, `Motion.easeOut(Motion.fadeStandard, …)`, `rememberReduceMotion()`, `SpringSolver` + `motionFrameLoop {}` for custom drivers, `MotionPresence`, `Modifier.motionBlurReveal`.

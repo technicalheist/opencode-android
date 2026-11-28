@@ -29,11 +29,6 @@
     <string name="core_experiment_group_transcript_title">Transcript</string>
     <string name="core_experiment_group_drawer_title">Drawer</string>
 
-    <!-- In-app notice mode -->
-    <string name="core_in_app_notice_mode_off">Off</string>
-    <string name="core_in_app_notice_mode_needs_input">Needs Your Input Only</string>
-    <string name="core_in_app_notice_mode_all">All Updates</string>
-
     <!-- Themes and appearance -->
     <string name="core_theme_system_title">System</string>
     <string name="core_appearance_color_scheme_system_title">System</string>

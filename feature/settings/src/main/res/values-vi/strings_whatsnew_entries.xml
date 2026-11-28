@@ -901,4 +901,38 @@
     <!-- 2026-11-08-02-default-model -->
     <string name="settings_whatsnew_entry_default_model_title">Phiên mới dùng mô hình mặc định của bạn</string>
     <string name="settings_whatsnew_entry_default_model_summary">Phiên mới dùng mô hình mặc định bạn đã đặt trong OpenCode, với mức độ suy nghĩ bạn chọn gần nhất cho mô hình đó, thay vì mô hình của phiên trước.</string>
+
+    <!-- 2026-11-11-01-streamed-reply-prefix -->
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_title">Mở phản hồi khi đang nhận</string>
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_summary">Khi mở phiên lúc phản hồi đang được gửi về, bạn có thể đọc phần đã nhận trong khi chờ phần tiếp theo.</string>
+
+    <!-- 2026-11-13-01-draw-on-images -->
+    <string name="settings_whatsnew_entry_draw_on_images_title">Vẽ lên hình ảnh</string>
+    <string name="settings_whatsnew_entry_draw_on_images_summary">Đánh dấu chi tiết trước khi hỏi về nó.</string>
+    <string name="settings_whatsnew_entry_draw_on_images_detail_1">Mở hình ảnh toàn màn hình rồi chạm nút bút. Chọn màu, vẽ rồi chạm Thêm để đính kèm ảnh đã đánh dấu vào tin nhắn. Ảnh gốc không thay đổi.</string>
+    <string name="settings_whatsnew_entry_draw_on_images_example">Khoanh tròn nút điều khiển bạn muốn di chuyển trong ảnh chụp màn hình, rồi mô tả vị trí mới.</string>
+
+    <!-- 2026-11-14-01-fullscreen-viewer -->
+    <string name="settings_whatsnew_entry_fullscreen_viewer_title">Vuốt chuyển giữa ảnh và video</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_summary">Duyệt ảnh và video của phiên cùng một chỗ.</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_detail_1">Vuốt đến video rồi chạm nút bút để đánh dấu khung hình hiện tại. Nút Thêm sẽ đính kèm khung hình đã đánh dấu mà chưa gửi đi.</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_example">Tạm dừng video minh họa ở màn hình cần sửa, khoanh tròn chi tiết rồi thêm vào bản nháp.</string>
+
+    <!-- 2026-11-15-01-pairing-link-name -->
+    <string name="settings_whatsnew_entry_pairing_link_name_title">Máy chủ có tên từ OpenCode Console</string>
+    <string name="settings_whatsnew_entry_pairing_link_name_summary">Máy chủ ghép cặp từ OpenCode Console sẽ có sẵn tên, chẳng hạn như “Anomaly Box”.</string>
+
+    <!-- 2026-11-17-01-session-media -->
+    <string name="settings_whatsnew_entry_session_media_title">Đa phương tiện trong phiên</string>
+    <string name="settings_whatsnew_entry_session_media_summary">Duyệt hình ảnh, video, âm thanh, tệp và liên kết web công khai trong phiên.</string>
+    <string name="settings_whatsnew_entry_session_media_detail_1">Chọn Đa phương tiện trong phiên từ menu ⋮ của phiên. Mục Đa phương tiện hiển thị hình ảnh, video và âm thanh dưới dạng ô nhóm theo tháng hoặc danh sách. Mục Tệp và Liên kết liệt kê tài liệu, nội dung đã dán và liên kết web.</string>
+    <string name="settings_whatsnew_entry_session_media_example">Tìm ảnh chụp màn hình bạn đã gửi sáng nay mà không cần cuộn lại toàn bộ phiên.</string>
+
+    <!-- 2026-11-18-02-drawer-call-phone -->
+    <string name="settings_whatsnew_entry_drawer_call_phone_title">Biểu tượng điện thoại trong ngăn điều hướng</string>
+    <string name="settings_whatsnew_entry_drawer_call_phone_summary">Nút gọi cạnh Cài đặt trong danh sách phiên nay có biểu tượng điện thoại, giống nút trong ô tin nhắn.</string>
+
+    <!-- 2026-11-19-01-background-scripts -->
+    <string name="settings_whatsnew_entry_background_scripts_title">Script trong tác vụ nền</string>
+    <string name="settings_whatsnew_entry_background_scripts_summary">Script được tác nhân chuyển sang chạy nền sẽ hiện cạnh chất phụ và shell. Chất phụ vẫn nằm trong danh sách khi hình ảnh, video hoặc script của nó còn đang chạy. Bạn có thể dừng script hoặc chất phụ ngay từ danh sách.</string>
 </resources>

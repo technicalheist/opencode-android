@@ -38,6 +38,8 @@
     <string name="drawer_mark_as_unread">Merkja sem ólesna</string>
     <string name="drawer_mute">Þagga</string>
     <string name="drawer_unmute">Hætta að þagga</string>
+    <string name="drawer_hide">Fela</string>
+    <string name="drawer_unhide">Hætta að fela</string>
     <string name="drawer_move_up">Færa upp</string>
     <string name="drawer_move_down">Færa niður</string>
 
@@ -81,8 +83,6 @@
     <string name="drawer_button_open_sessions_description">Opna setur</string>
     <string name="drawer_button_attention_state">Seta þarf svar frá þér</string>
     <string name="drawer_button_unread_state">Ólesnar setur</string>
-    <string name="drawer_notice_open_sessions_action">Opna setur</string>
-    <string name="drawer_notice_open_session_action">Opna setuna</string>
 
     <!-- Search pill -->
     <string name="drawer_search_description">Leitarlotur</string>
@@ -121,6 +121,7 @@
     <!-- Session row state for TalkBack -->
     <string name="drawer_row_pinned_state">Fest</string>
     <string name="drawer_row_muted_state">Þögguð</string>
+    <string name="drawer_row_hidden_state">Faldar</string>
     <string name="drawer_row_needs_input_state">Þarf svar frá þér</string>
     <string name="drawer_row_working_state">Að vinna</string>
     <string name="drawer_row_unread_state">Ólesið</string>

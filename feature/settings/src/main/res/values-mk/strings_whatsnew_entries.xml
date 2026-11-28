@@ -901,4 +901,38 @@
     <!-- 2026-11-08-02-default-model -->
     <string name="settings_whatsnew_entry_default_model_title">Новите сесии го користат стандардниот модел</string>
     <string name="settings_whatsnew_entry_default_model_summary">Новите сесии почнуваат со моделот поставен како стандарден во OpenCode и со последното избрано ниво на размислување за него, наместо со моделот од последната сесија.</string>
+
+    <!-- 2026-11-11-01-streamed-reply-prefix -->
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_title">Отвори одговор додека пристигнува</string>
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_summary">Кога ќе отвориш сесија додека пристигнува одговор, можеш да го прочиташ веќе пристигнатиот дел додека одговорот продолжува.</string>
+
+    <!-- 2026-11-13-01-draw-on-images -->
+    <string name="settings_whatsnew_entry_draw_on_images_title">Цртај врз слики</string>
+    <string name="settings_whatsnew_entry_draw_on_images_summary">Означи детаљ пред да прашаш за него.</string>
+    <string name="settings_whatsnew_entry_draw_on_images_detail_1">Отвори слика на цел екран и допри го копчето со пенкало. Избери боја, нацртај, па допри „Додадете“ за да ја прикачиш означената слика во пораката. Оригиналот останува непроменет.</string>
+    <string name="settings_whatsnew_entry_draw_on_images_example">На слика од екранот заокружи ја контролата што сакаш да се премести, па опиши каде треба да биде.</string>
+
+    <!-- 2026-11-14-01-fullscreen-viewer -->
+    <string name="settings_whatsnew_entry_fullscreen_viewer_title">Лизгај меѓу фотографии и видеа</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_summary">Прелистувај ги сликите и видеата од сесијата заедно.</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_detail_1">Лизгај до видео, па допри го копчето со пенкало за да го означиш тековниот кадар. „Додадете“ го прикачува означениот кадар без да го испрати.</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_example">Паузирај демонстрација на екранот што треба да се смени, заокружи го детаљот и додај го во нацртот.</string>
+
+    <!-- 2026-11-15-01-pairing-link-name -->
+    <string name="settings_whatsnew_entry_pairing_link_name_title">Именувани сервери од OpenCode Console</string>
+    <string name="settings_whatsnew_entry_pairing_link_name_summary">Серверот што го спаруваш преку OpenCode Console се додава со своето име, на пример „Anomaly Box“.</string>
+
+    <!-- 2026-11-17-01-session-media -->
+    <string name="settings_whatsnew_entry_session_media_title">Медиуми од сесијата</string>
+    <string name="settings_whatsnew_entry_session_media_summary">Прегледувај слики, видеа, аудио, датотеки и јавни веб-врски од сесијата.</string>
+    <string name="settings_whatsnew_entry_session_media_detail_1">Избери „Медиуми од сесијата“ од менито ⋮ на сесијата. „Медиуми“ ги прикажува сликите, видеата и аудиото како плочки групирани по месец или како список, а „Датотеки“ и „Врски“ ги наведуваат документите, залепените содржини и веб-врските.</string>
+    <string name="settings_whatsnew_entry_session_media_example">Најди ја сликата од екранот што ја испрати утрово без да лизгаш назад низ целата сесија.</string>
+
+    <!-- 2026-11-18-02-drawer-call-phone -->
+    <string name="settings_whatsnew_entry_drawer_call_phone_title">Телефонска икона за повици во страничното мени</string>
+    <string name="settings_whatsnew_entry_drawer_call_phone_summary">Копчето за повик до „Поставки“ во списокот со сесии прикажува телефон, како копчето во полето за пораки.</string>
+
+    <!-- 2026-11-19-01-background-scripts -->
+    <string name="settings_whatsnew_entry_background_scripts_title">Скрипти во заднина</string>
+    <string name="settings_whatsnew_entry_background_scripts_summary">Скриптите што агентот ги префрла во заднина се прикажуваат покрај субагенсите и школките, а субагенсот останува во списокот додека неговите слики, видеа или скрипти сè уште се обработуваат. Можеш да ги запреш директно од списокот.</string>
 </resources>

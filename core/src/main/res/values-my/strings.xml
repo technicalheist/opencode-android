@@ -29,11 +29,6 @@
     <string name="core_experiment_group_transcript_title">စကားပြောမှတ်တမ်း</string>
     <string name="core_experiment_group_drawer_title">ဘေးအကန့်</string>
 
-    <!-- In-app notice mode -->
-    <string name="core_in_app_notice_mode_off">ပိတ်</string>
-    <string name="core_in_app_notice_mode_needs_input">သင့်တုံ့ပြန်မှု လိုအပ်မှသာ</string>
-    <string name="core_in_app_notice_mode_all">အပ်ဒိတ်အားလုံး</string>
-
     <!-- Themes and appearance -->
     <string name="core_theme_system_title">စနစ်</string>
     <string name="core_appearance_color_scheme_system_title">စနစ်</string>

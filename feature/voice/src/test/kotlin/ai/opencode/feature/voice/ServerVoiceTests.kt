@@ -102,12 +102,12 @@ class ServerVoiceTests {
 
     @Test fun serverVoiceRequestAndResponseShapesMatchServerContract() {
         val webrtcRequest = ServerVoiceSessionRequest(
-            model = "gpt-live-1",
+            model = "gpt-live-1.1",
             session = obj("instructions" to str("Be concise.")),
             transport = ServerVoiceTransportRequest.Webrtc(sdp = "v=0\r\no=- 1 1 IN IP4 127.0.0.1\r\n", dcid = 4),
         )
         val webrtcJSON = parsed(webrtcRequest.json.encodedBytes())
-        assertEquals(str("gpt-live-1"), webrtcJSON["model"])
+        assertEquals(str("gpt-live-1.1"), webrtcJSON["model"])
         assertEquals(str("Be concise."), webrtcJSON["session"]?.get("instructions"))
         assertEquals(str("webrtc"), webrtcJSON["transport"]?.get("type"))
         assertEquals(str("v=0\r\no=- 1 1 IN IP4 127.0.0.1\r\n"), webrtcJSON["transport"]?.get("sdp"))
@@ -255,7 +255,7 @@ class ServerVoiceTests {
         assertEquals(1, capturedConfigs.value.size)
         assertEquals(server, capturedConfigs.value[0].serverVoice)
         assertEquals(ServerVoiceProvider.openAI, capturedConfigs.value[0].provider)
-        assertEquals("gpt-live-1", capturedConfigs.value[0].model)
+        assertEquals("gpt-live-1.1", capturedConfigs.value[0].model)
 
         val geminiShared = resetSharedVoiceState()
         val geminiStream = Channel<VoiceCallEvent>(Channel.UNLIMITED)

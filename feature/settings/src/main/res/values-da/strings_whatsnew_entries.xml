@@ -901,4 +901,38 @@
     <!-- 2026-11-08-02-default-model -->
     <string name="settings_whatsnew_entry_default_model_title">Nye sessioner bruger din standardmodel</string>
     <string name="settings_whatsnew_entry_default_model_summary">Nye sessioner starter med din standardmodel fra OpenCode og den tænkeindsats, du sidst valgte til den, i stedet for modellen fra sidste session.</string>
+
+    <!-- 2026-11-11-01-streamed-reply-prefix -->
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_title">Åbn et svar undervejs</string>
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_summary">Når du åbner en session, mens et svar er på vej, kan du læse det, der allerede er kommet, mens svaret fortsætter.</string>
+
+    <!-- 2026-11-13-01-draw-on-images -->
+    <string name="settings_whatsnew_entry_draw_on_images_title">Tegn på billeder</string>
+    <string name="settings_whatsnew_entry_draw_on_images_summary">Markér en detalje, før du spørger til den.</string>
+    <string name="settings_whatsnew_entry_draw_on_images_detail_1">Åbn et billede i fuld skærm, og tryk på penknappen. Vælg en farve, tegn, og tryk på Tilføj for at vedhæfte billedet med dine markeringer til beskeden. Originalen ændres ikke.</string>
+    <string name="settings_whatsnew_entry_draw_on_images_example">Sæt en cirkel om det betjeningselement, du vil have flyttet i et skærmbillede, og beskriv, hvor det skal hen.</string>
+
+    <!-- 2026-11-14-01-fullscreen-viewer -->
+    <string name="settings_whatsnew_entry_fullscreen_viewer_title">Stryg mellem fotos og videoer</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_summary">Gennemse en sessions billeder og videoer samlet.</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_detail_1">Stryg til en video, og tryk på penknappen for at tegne på det aktuelle videobillede. Tilføj vedhæfter billedet med dine markeringer uden at sende det.</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_example">Sæt en demo på pause ved det skærmbillede, der skal ændres, sæt en cirkel om detaljen, og føj billedet til din kladde.</string>
+
+    <!-- 2026-11-15-01-pairing-link-name -->
+    <string name="settings_whatsnew_entry_pairing_link_name_title">Navngivne servere fra OpenCode Console</string>
+    <string name="settings_whatsnew_entry_pairing_link_name_summary">En server, du parrer via OpenCode Console, får automatisk sit navn med, f.eks. “Anomaly Box”.</string>
+
+    <!-- 2026-11-17-01-session-media -->
+    <string name="settings_whatsnew_entry_session_media_title">Sessionsmedier</string>
+    <string name="settings_whatsnew_entry_session_media_summary">Se en sessions billeder, videoer, lyd, filer og offentlige weblinks.</string>
+    <string name="settings_whatsnew_entry_session_media_detail_1">Vælg Sessionsmedier i sessionens ⋮-menu. Medier viser billeder, videoer og lyd som felter grupperet efter måned eller som en liste. Filer og Links viser dokumenter, indsat tekst og weblinks.</string>
+    <string name="settings_whatsnew_entry_session_media_example">Find det skærmbillede, du sendte i morges, uden at rulle tilbage gennem hele sessionen.</string>
+
+    <!-- 2026-11-18-02-drawer-call-phone -->
+    <string name="settings_whatsnew_entry_drawer_call_phone_title">Telefonikon til opkald i sidepanelet</string>
+    <string name="settings_whatsnew_entry_drawer_call_phone_summary">Opkaldsknappen ved siden af Indstillinger i sessionslisten viser en telefon ligesom knappen i beskedfeltet.</string>
+
+    <!-- 2026-11-19-01-background-scripts -->
+    <string name="settings_whatsnew_entry_background_scripts_title">Scripts i baggrundsarbejde</string>
+    <string name="settings_whatsnew_entry_background_scripts_summary">Scripts, som agenten flytter til baggrunden, vises sammen med underagenter og shells. En underagent bliver på listen, mens dens billeder, videoer eller scripts stadig kører. Stop scripts eller underagenter direkte fra listen.</string>
 </resources>

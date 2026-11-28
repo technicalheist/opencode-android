@@ -31,7 +31,7 @@ Serbian is in Cyrillic, as on desktop.
 
 `scripts/translate.py` fills in missing strings with a model through `opencode run`
 ([install OpenCode](https://opencode.ai)). By default it uses the Anomaly Console models
-(`opencode/…`):
+(`opencode/…`), and deletes each call's session once it has the answer:
 
 ```sh
 python3 scripts/translate.py all          # every language, only strings with no translation

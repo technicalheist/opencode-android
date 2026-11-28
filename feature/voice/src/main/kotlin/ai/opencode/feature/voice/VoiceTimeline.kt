@@ -37,6 +37,10 @@ class VoiceTimeline : Reducer<VoiceFeature.State, VoiceFeature.Action> {
             // Whether a page is up, never which one.
             is VoiceFeature.Action.ViewingChanged ->
                 mark("voice_viewing", action.page?.let { if (it.isOpen) "page=open" else "page=collapsed" } ?: "page=none")
+            is VoiceFeature.Action.AppVisibilityChanged ->
+                if (action.visible != state.isAppVisible) mark("voice_app_visible", if (action.visible) "visible=yes" else "visible=no")
+            is VoiceFeature.Action.DelegatorNotedLooking ->
+                if (action.looking != state.userLooking) mark("voice_user_looking", if (action.looking) "looking=yes" else "looking=no")
             is VoiceFeature.Action.WorkReplied -> mark("voice_reply_received", "callID=${action.callID}", excerpt = action.reply)
             is VoiceFeature.Action.WorkFailed -> mark("voice_work_failed", "callID=${action.callID} error=${action.message}")
             VoiceFeature.Action.MuteTapped -> mark(if (state.isMuted) "voice_unmuted" else "voice_muted")

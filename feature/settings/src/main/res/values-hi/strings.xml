@@ -65,8 +65,6 @@
     <string name="settings_notifications_plugin_check_failed">स्थिति की जाँच नहीं हो सकी</string>
     <string name="settings_notifications_set_up">OpenCode से सेट अप करें</string>
     <string name="settings_notifications_check_again">फिर से जाँचें</string>
-    <string name="settings_notifications_in_app_footer">ड्रॉअर बटन पर दिखाई जाती हैं।</string>
-    <string name="settings_notifications_in_app_notices">ऐप में सूचनाएँ</string>
 
     <!-- Sessions -->
     <string name="settings_sessions_title">सेशन</string>

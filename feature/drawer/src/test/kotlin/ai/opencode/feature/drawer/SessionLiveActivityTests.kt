@@ -216,7 +216,7 @@ class SessionLiveActivityTests {
             this[SessionLiveActivityClient] = recorder(pushes)
         }
 
-        store.send(Action.SceneEnteredBackground) { it.copy(connection = it.connection.copy(isInBackground = true)) }
+        store.send(Action.SceneEnteredBackground) { it.copy(connection = it.connection.copy(isInBackground = true), detailGenerationWhenLeft = it.detailGeneration) }
         store.receive(Action.SessionActivitySettled(open.id, items)) {
             it.withActivity { tracked ->
                 tracked.copy(settledItems = items, content = tracked.content.copy(phase = Phase.done, preview = "Fixed the race."))
@@ -238,7 +238,7 @@ class SessionLiveActivityTests {
     @Test
     fun backgroundingWithoutARunWaitsOnNothing() = homeTest { h ->
         val store = h.store(h.following().copy(sessionActivity = null)) { this[ExperimentalFeatures] = liveActivityOn }
-        store.send(Action.SceneEnteredBackground) { it.copy(connection = it.connection.copy(isInBackground = true)) }
+        store.send(Action.SceneEnteredBackground) { it.copy(connection = it.connection.copy(isInBackground = true), detailGenerationWhenLeft = it.detailGeneration) }
     }
 
     /**
@@ -268,7 +268,7 @@ class SessionLiveActivityTests {
             this[SessionLiveActivityClient] = recorder(pushes)
         }
 
-        store.send(Action.SceneEnteredBackground) { it.copy(connection = it.connection.copy(isInBackground = true)) }
+        store.send(Action.SceneEnteredBackground) { it.copy(connection = it.connection.copy(isInBackground = true), detailGenerationWhenLeft = it.detailGeneration) }
         eventually { began.value != 0 }
         assertEquals(1, began.value)
 

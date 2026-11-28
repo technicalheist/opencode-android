@@ -868,10 +868,11 @@ fun ComposerTextInput(
     val view = LocalView.current
     DisposableEffect(view) {
         val controller = view.windowInsetsController
+        var asked = false
         val listener = object : WindowInsetsController.OnControllableInsetsChangedListener {
             override fun onControllableInsetsChanged(controller: WindowInsetsController, types: Int) {
-                if (types and android.view.WindowInsets.Type.ime() == 0) return
-                controller.removeOnControllableInsetsChangedListener(this)
+                if (asked || types and android.view.WindowInsets.Type.ime() == 0) return
+                asked = true
                 if (hasFocus && !held) keyboard?.show()
             }
         }

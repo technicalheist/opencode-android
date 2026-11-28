@@ -901,4 +901,38 @@
     <!-- 2026-11-08-02-default-model -->
     <string name="settings_whatsnew_entry_default_model_title">Նոր նիստերն օգտագործում են ձեր լռելյայն մոդելը</string>
     <string name="settings_whatsnew_entry_default_model_summary">Նոր նիստերը սկսվում են OpenCode-ում որպես լռելյայն ընտրված մոդելով՝ դրա համար վերջին անգամ ընտրված մտածողության մակարդակով, ոչ թե նախորդ նիստի մոդելով։</string>
+
+    <!-- 2026-11-11-01-streamed-reply-prefix -->
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_title">Բացել պատասխանը ստացման ընթացքում</string>
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_summary">Եթե նիստը բացեք պատասխանի ստացման ընթացքում, կարող եք կարդալ արդեն ստացված մասը՝ մինչ պատասխանը շարունակվում է։</string>
+
+    <!-- 2026-11-13-01-draw-on-images -->
+    <string name="settings_whatsnew_entry_draw_on_images_title">Նկարել պատկերների վրա</string>
+    <string name="settings_whatsnew_entry_draw_on_images_summary">Նշեք մանրուքը՝ նախքան դրա մասին հարցնելը։</string>
+    <string name="settings_whatsnew_entry_draw_on_images_detail_1">Բացեք պատկերը ամբողջ էկրանով և հպեք գրչի կոճակին։ Ընտրեք գույնը, նկարեք, ապա հպեք «Ավելացնել»՝ նշումներով պատկերը հաղորդագրությանը կցելու համար։ Բնօրինակը մնում է անփոփոխ։</string>
+    <string name="settings_whatsnew_entry_draw_on_images_example">Էկրանակադրում շրջանակի մեջ առեք կառավարման այն տարրը, որն ուզում եք տեղափոխել, ապա նկարագրեք՝ ուր։</string>
+
+    <!-- 2026-11-14-01-fullscreen-viewer -->
+    <string name="settings_whatsnew_entry_fullscreen_viewer_title">Սահեցրեք՝ լուսանկարներն ու տեսանյութերը դիտելու համար</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_summary">Դիտեք նիստի պատկերներն ու տեսանյութերը միասին։</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_detail_1">Սահեցնելով անցեք տեսանյութին, ապա հպեք գրչի կոճակին՝ ընթացիկ կադրի վրա նշումներ անելու համար։ «Ավելացնել»-ը կցում է նշումներով կադրը՝ առանց ուղարկելու։</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_example">Դադարեցրեք ցուցադրական տեսանյութը փոփոխության ենթակա էկրանի վրա, շրջանակի մեջ առեք մանրուքը և ավելացրեք սևագրին։</string>
+
+    <!-- 2026-11-15-01-pairing-link-name -->
+    <string name="settings_whatsnew_entry_pairing_link_name_title">Անվանված սերվերներ OpenCode Console-ից</string>
+    <string name="settings_whatsnew_entry_pairing_link_name_summary">OpenCode Console-ից զուգակցված սերվերն ավելացվում է իր անունով, օրինակ՝ «Anomaly Box»։</string>
+
+    <!-- 2026-11-17-01-session-media -->
+    <string name="settings_whatsnew_entry_session_media_title">Նիստի մեդիա</string>
+    <string name="settings_whatsnew_entry_session_media_summary">Դիտեք նիստի պատկերները, տեսանյութերը, ձայնը, ֆայլերն ու հանրային վեբ հղումները։</string>
+    <string name="settings_whatsnew_entry_session_media_detail_1">Նիստի ⋮ ընտրացանկից ընտրեք «Նիստի մեդիա»։ «Մեդիա»-ում պատկերները, տեսանյութերն ու ձայնը ցուցադրվում են ըստ ամիսների խմբավորված սալիկներով կամ ցուցակով, իսկ «Ֆայլեր»-ում և «Հղումներ»-ում՝ փաստաթղթերը, տեղադրված տեքստերն ու վեբ հղումները։</string>
+    <string name="settings_whatsnew_entry_session_media_example">Գտեք այս առավոտ ուղարկած էկրանակադրը՝ առանց ամբողջ նիստը հետ ոլորելու։</string>
+
+    <!-- 2026-11-18-02-drawer-call-phone -->
+    <string name="settings_whatsnew_entry_drawer_call_phone_title">Հեռախոսի պատկերակ՝ կողային վահանակի զանգերի համար</string>
+    <string name="settings_whatsnew_entry_drawer_call_phone_summary">Նիստերի ցուցակում «Կարգավորումներ»-ի կողքի զանգի կոճակն ունի հեռախոսի պատկերակ, ինչպես հաղորդագրության դաշտում։</string>
+
+    <!-- 2026-11-19-01-background-scripts -->
+    <string name="settings_whatsnew_entry_background_scripts_title">Սկրիպտներ՝ ֆոնային աշխատանքներում</string>
+    <string name="settings_whatsnew_entry_background_scripts_summary">Գործակալի՝ ֆոն տեղափոխած սկրիպտները ցուցադրվում են ենթագործակալների և Shell-երի կողքին։ Ենթագործակալը մնում է ցուցակում, քանի դեռ նրա պատկերները, տեսանյութերը կամ սկրիպտները մշակվում են։ Երկուսն էլ կարող եք կանգնեցնել ցուցակից։</string>
 </resources>

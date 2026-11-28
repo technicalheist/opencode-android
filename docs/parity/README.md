@@ -104,7 +104,7 @@ and migrations from iOS builds Android never had. Sub-asserts dropped inside a p
 counted. A JVM count can exceed the iOS count because parameterized iOS tests and framework halves
 (`…FrameworkTests` under Robolectric) are separate Kotlin tests.
 
-Robolectric 4.16 (test-only) runs the tests that need Android framework classes (Bitmap/ImageDecoder
+Robolectric 4.18.1 (test-only) runs the tests that need Android framework classes (Bitmap/ImageDecoder
 pixels, `Intent`, `android.icu`, `Patterns`, `LruCache`, `MimeTypeMap`, AppSearch, the main looper,
 `Vibrator`) in `:app`, `:core`, `:feature:media`, `:feature:voice`, `:feature:system`,
 `:feature:transcript`, `:feature:composer`, `:feature:settings`, `:feature:session` and `:feature:drawer`.

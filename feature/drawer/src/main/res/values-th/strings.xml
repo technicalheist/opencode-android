@@ -37,6 +37,8 @@
     <string name="drawer_mark_as_unread">ทำเครื่องหมายว่ายังไม่อ่าน</string>
     <string name="drawer_mute">ปิดการแจ้งเตือน</string>
     <string name="drawer_unmute">เปิดการแจ้งเตือน</string>
+    <string name="drawer_hide">ซ่อน</string>
+    <string name="drawer_unhide">เลิกซ่อน</string>
     <string name="drawer_move_up">เลื่อนขึ้น</string>
     <string name="drawer_move_down">เลื่อนลง</string>
 
@@ -77,8 +79,6 @@
     <string name="drawer_button_open_sessions_description">เปิดรายการเซสชัน</string>
     <string name="drawer_button_attention_state">มีเซสชันที่ต้องการคำตอบจากคุณ</string>
     <string name="drawer_button_unread_state">เซสชันที่ยังไม่อ่าน</string>
-    <string name="drawer_notice_open_sessions_action">เปิดรายการเซสชัน</string>
-    <string name="drawer_notice_open_session_action">เปิดเซสชัน</string>
 
     <!-- Search pill -->
     <string name="drawer_search_description">ค้นหาเซสชัน</string>
@@ -117,6 +117,7 @@
     <!-- Session row state for TalkBack -->
     <string name="drawer_row_pinned_state">ปักหมุดแล้ว</string>
     <string name="drawer_row_muted_state">ปิดเสียงแล้ว</string>
+    <string name="drawer_row_hidden_state">ซ่อนอยู่</string>
     <string name="drawer_row_needs_input_state">ต้องการคำตอบจากคุณ</string>
     <string name="drawer_row_working_state">การทำงาน</string>
     <string name="drawer_row_unread_state">ยังไม่อ่าน</string>

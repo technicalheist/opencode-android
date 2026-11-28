@@ -20,9 +20,11 @@ import ai.opencode.feature.drawer.HomeFeature
 import ai.opencode.feature.drawer.InboxSidebarFeature
 import ai.opencode.feature.drawer.R
 import ai.opencode.feature.drawer.inboxSidebarArchivedRows
+import ai.opencode.feature.drawer.isHidden
 import ai.opencode.feature.drawer.isMuted
 import ai.opencode.feature.drawer.isPinned
 import ai.opencode.feature.drawer.isUnread
+import ai.opencode.feature.drawer.visibleSessions
 import ai.opencode.feature.system.SessionWindowTarget
 import ai.opencode.feature.system.WindowsClient
 import androidx.compose.animation.core.Animatable
@@ -183,8 +185,8 @@ internal fun DrawerSelectionBar(
 
 /**
  * The chosen sessions' actions: Mark as Read (Mark as Unread when none is unread), Archive and
- * Delete as icons; Mute or Unmute, Pin or Unpin (the regular list; the Inbox Sidebar has no pins)
- * and, for one session where the device has several windows, Open in New Window behind ⋮.
+ * Delete as icons; Mute or Unmute, Pin or Unpin (the regular list; the Inbox Sidebar has no pins),
+ * Hide or Unhide and, for one session where the device has several windows, Open in New Window behind ⋮.
  * Each action ends the selection.
  */
 internal fun selectionActions(
@@ -194,14 +196,16 @@ internal fun selectionActions(
 ): Pair<List<DrawerRowMenuItem>, List<DrawerRowMenuItem>> {
     val state = store.state
     val ids = selection.ids.toList()
-    val sessions = state.sessions.filter { it.id in selection.ids }
+    val sessions = state.visibleSessions.filter { it.id in selection.ids }
     var anyUnread = false
     var allMuted = true
     var allPinned = true
+    var allHidden = true
     for (session in sessions) {
         if (state.isUnread(session)) anyUnread = true
         if (!state.isMuted(session.id)) allMuted = false
         if (!state.isPinned(session.id)) allPinned = false
+        if (!state.isHidden(session.id)) allHidden = false
     }
 
     val main = listOf(
@@ -254,6 +258,14 @@ internal fun selectionActions(
             },
         )
     }
+    overflow.add(
+        DrawerRowMenuItem(if (allHidden) localized(R.string.drawer_unhide) else localized(R.string.drawer_hide), if (allHidden) SFSymbol.Eye else SFSymbol.EyeSlash) {
+            for (session in sessions) {
+                if (state.isHidden(session.id) == allHidden) store.send(HomeFeature.Action.ToggleHidden(session.id))
+            }
+            selection.clear()
+        },
+    )
     val windows = dependency(WindowsClient)
     if (ids.size == 1 && windows.isAvailable()) {
         overflow.add(

@@ -3,11 +3,10 @@
     <!-- Agent activity glyph -->
     <string name="session_activity_running_description">Töös</string>
     <!-- Background work panel -->
-    <string name="session_background_work_show_label">Näita töötavaid alamagente ja shelle</string>
+    <string name="session_background_work_show_label">Näita töötavaid alamagente, skripte ja shelle</string>
     <string name="session_background_work_collapsed_description">Ahendatud</string>
-    <string name="session_background_work_subagents_title">Alamagendid</string>
+    <string name="session_background_work_expanded_description">Laiendatud</string>
     <string name="session_background_work_open_subagent_label">Ava alamagendi seanss</string>
-    <string name="session_background_work_shells_title">Shellid</string>
     <string name="session_background_work_show_shell_label">Näita shelli väljundit</string>
     <!-- The session's images and videos, paged in the full-screen viewer -->
     <string name="session_visual_attached_image">Lisatud pilt</string>
@@ -70,6 +69,8 @@
     <string name="session_sheet_unknown_description">Teadmata</string>
     <string name="session_sheet_context_tokens">%1$s tokenit</string>
     <string name="session_sheet_cost">Kulu</string>
+    <string name="session_sheet_media">Meedia</string>
+    <string name="session_sheet_media_value">Failid ja lingid</string>
     <string name="session_always_notify">Teavita alati</string>
     <string name="session_always_notify_message_phone">Teavita selles telefonis iga vastuse valmimisest, ka siis, kui päring saadeti mujalt.</string>
     <string name="session_always_notify_message_tablet">Teavita selles tahvelarvutis iga vastuse valmimisest, ka siis, kui päring saadeti mujalt.</string>
@@ -199,24 +200,25 @@
         <item quantity="one">%1$d shell</item>
         <item quantity="other">%1$d shelli</item>
     </plurals>
+    <plurals name="session_background_work_script_count">
+        <item quantity="one">%1$d skript</item>
+        <item quantity="other">%1$d skripti</item>
+    </plurals>
     <string name="session_background_work_summary">%1$s · %2$s</string>
+    <string name="session_background_work_elapsed_seconds">%1$d s</string>
+    <string name="session_background_work_elapsed_minutes">%1$d min %2$s s</string>
+    <string name="session_background_work_elapsed_hours">%1$d t %2$s min</string>
+    <string name="session_background_work_stop_script_label">Peata skript</string>
+    <string name="session_background_work_stop_subagent_label">Peata alamagent</string>
+    <string name="session_background_work_stop_shell_label">Peata shell</string>
+    <string name="session_background_work_stop_script_failed">Skripti peatamine ebaõnnestus</string>
+    <string name="session_background_work_stop_subagent_failed">Alamagendi peatamine ebaõnnestus</string>
 
     <!-- Composer buttons -->
     <string name="session_send_message_description">Saada sõnum</string>
     <string name="session_stop_description">Peata</string>
     <string name="session_start_voice_call_description">Alusta häälkõnet</string>
     <string name="session_model_level_default">Vaikimisi</string>
-
-    <!-- In-app notice -->
-    <plurals name="session_notice_session_count">
-        <item quantity="one">%1$d seanss</item>
-        <item quantity="other">%1$d seanssi</item>
-    </plurals>
-    <plurals name="session_notice_needs_input_count">
-        <item quantity="one">%1$d vajab sinu sisendit</item>
-        <item quantity="other">%1$d vajab sinu sisendit</item>
-    </plurals>
-    <string name="session_notice_announcement">%1$s, %2$s</string>
 
     <!-- Server connection pill -->
     <string name="session_server_reconnecting">Taasühendamine serveriga %1$s…</string>

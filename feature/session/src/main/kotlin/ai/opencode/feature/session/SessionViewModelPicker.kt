@@ -198,6 +198,9 @@ internal class SessionModelPanels(
     /** The composer stays expanded while One Picker is drawn. */
     val keepsComposerExpanded: Boolean get() = onePicker.isShown
 
+    /** The draft's project list stays folded while One Picker owes the keyboard back to the field. */
+    val keepsDraftProjectsFolded: Boolean get() = onePicker.restoresComposerFocus
+
     /** One Picker owns downward drags. */
     val swipeYields: Boolean get() = onePicker.isShown
 

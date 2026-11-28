@@ -79,6 +79,7 @@ import ai.opencode.server.model.OpenCodeProject
 import ai.opencode.server.model.OpenCodeRunError
 import ai.opencode.server.model.OpenCodeSession
 import ai.opencode.server.model.OpenCodeSessionFamily
+import ai.opencode.server.model.OpenCodeJob
 import ai.opencode.server.model.OpenCodeShell
 import ai.opencode.server.model.OpenCodeToolCall
 import ai.opencode.server.model.OpenCodeTranscriptItem
@@ -278,6 +279,8 @@ class SessionFeature : Reducer<SessionFeature.State, SessionFeature.Action> {
         val requestDock: RequestDockFeature.State<DraftState> = RequestDockFeature.State(),
         val familySessions: List<OpenCodeSession> = emptyList(),
         val familyReadAt: Instant? = null,
+        /** The family read in flight, and whether another waits behind it. */
+        val familyRead: CoalescedRead = CoalescedRead(),
         val familyRootID: String? = null,
         val activeFamilySessionIDs: Set<String> = emptySet(),
         /** Runs that started or ended since the latest family read began. */
@@ -341,6 +344,12 @@ class SessionFeature : Reducer<SessionFeature.State, SessionFeature.Action> {
         val contextNeedsRead: Boolean = false,
         /** Running shells of the selected session. */
         val shells: List<OpenCodeShell> = emptyList(),
+        /** Running background jobs in the session's tree, by ID. */
+        val jobs: Map<String, OpenCodeJob> = emptyMap(),
+        /** Jobs that started (the job) or settled (null) since the latest jobs read began. */
+        val jobChangesDuringRefresh: Map<String, OpenCodeJob?> = emptyMap(),
+        /** Background rows whose Stop is on its way: script job IDs and subagent session IDs. */
+        val stoppingIDs: Set<String> = emptySet(),
         /** Restored live arrivals predate the next list and must be removable by it. */
         val restoredShellIDs: Set<String> = emptySet(),
         /** An exit can beat the list response that still reports the shell. */
@@ -489,8 +498,7 @@ class SessionFeature : Reducer<SessionFeature.State, SessionFeature.Action> {
                 isLoading = false,
                 // A draft has no history to page; the flag stays true once created.
                 earlierHistory = EarlierHistory.Exhausted,
-                // The model comes with the catalog: the server's default
-                // (`OpenCodeModelCatalog.newSessionModel`).
+                // The model comes with the catalog and the agents (`draftDefaultModel`).
             )
 
             internal fun shellToolStatuses(items: List<OpenCodeTranscriptItem>): Map<String, OpenCodeToolCall.Status> {
@@ -690,6 +698,17 @@ class SessionFeature : Reducer<SessionFeature.State, SessionFeature.Action> {
         data class ShellStarted(val shell: OpenCodeShell) : Action
         data class ShellEnded(val shellID: String) : Action
         data class ShellOutputTapped(val shellID: String) : Action
+        data class JobsResponse(val sessionID: String, val jobs: List<OpenCodeJob>) : Action
+        data class JobUpdated(val job: OpenCodeJob) : Action
+        /** Stops a background script: cancels its job. */
+        data class BackgroundScriptStopTapped(val jobID: String) : Action
+        /** Interrupts the subagent if it runs and cancels every running job in its tree. */
+        data class BackgroundSubagentStopTapped(val sessionID: String) : Action
+        /** Stops a background shell from its row. */
+        data class BackgroundShellStopTapped(val shellID: String) : Action
+        data class BackgroundShellStopFinished(val shellID: String, val failed: Boolean) : Action
+        /** A row's Stop settled; [id] is the script's job or the subagent's session. */
+        data class BackgroundStopFinished(val id: String, val isSubagent: Boolean, val failed: Boolean) : Action
         data class ShellOutput(val action: PresentationAction<ShellOutputFeature.Action>) : Action
         data class BackgroundHintElapsed(val key: String) : Action
         data object MoveToBackgroundTapped : Action
@@ -704,10 +723,11 @@ class SessionFeature : Reducer<SessionFeature.State, SessionFeature.Action> {
         data class ComposerAttachments(val action: ComposerAttachmentsFeature.Action) : Action
         /**
          * A drawn image for the session whose viewer it came from ([from]), added by the rules a
-         * pasted image follows. A session action, since [State.TaskIdentity] is this module's,
-         * above the composer's.
+         * pasted image follows. It takes the place of the pending photo it was drawn on
+         * ([replacing], an attachment ID). A session action, since [State.TaskIdentity] is this
+         * module's, above the composer's.
          */
-        data class DrawingAdded(val attachment: OpenCodeOutgoingAttachment, val from: State.TaskIdentity) : Action
+        data class DrawingAdded(val attachment: OpenCodeOutgoingAttachment, val from: State.TaskIdentity, val replacing: String? = null) : Action
         /** An upward swipe on the unfocused composer asks for the keyboard. */
         data object ComposerSwipedUp : Action
         /** Send a failed message again, with its ID and delivery. */
@@ -898,6 +918,8 @@ class SessionFeature : Reducer<SessionFeature.State, SessionFeature.Action> {
         val family: List<OpenCodeSession>,
         val familyReadAt: Instant?,
         val shells: List<OpenCodeShell>,
+        /** Running jobs in the tree, kept by `experimental.job.updated` while away. */
+        val jobs: Map<String, OpenCodeJob> = emptyMap(),
         val permissions: List<ai.opencode.server.model.OpenCodePermissionRequest>,
         val forms: List<ai.opencode.server.model.OpenCodeFormRequest>,
         val formAnswers: Map<String, Map<String, OpenCodeFormValue>>,
@@ -946,6 +968,7 @@ class SessionFeature : Reducer<SessionFeature.State, SessionFeature.Action> {
         data object EarlierHistory : CancelID
         data object FamilyRefresh : CancelID
         data object Shells : CancelID
+        data object Jobs : CancelID
         data object Revert : CancelID
         data object MissingFolderMove : CancelID
         data class Interrupt(val generation: Int) : CancelID
@@ -998,6 +1021,7 @@ class SessionFeature : Reducer<SessionFeature.State, SessionFeature.Action> {
             SessionFeature::reduceRunLifecycle,
             SessionFeature::reduceModelsAndFamily,
             SessionFeature::reduceBrowserAndBackgroundWork,
+            SessionFeature::reduceJobs,
             SessionFeature::reduceAttachments,
             SessionFeature::reduceRequests,
             SessionFeature::reduceHistory,

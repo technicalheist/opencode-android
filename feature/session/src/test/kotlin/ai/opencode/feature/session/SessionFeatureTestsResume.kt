@@ -99,6 +99,8 @@ class SessionFeatureTestsResume {
                     reads.increment()
                     listOf(complete)
                 },
+                runningShells = { _, _ -> emptyList() },
+                runningJobs = { _, _ -> emptyList() },
             )
         }
         store.send(Action.RequestsConnectionChanged(false)) {
@@ -148,11 +150,16 @@ class SessionFeatureTestsResume {
             nextRefreshID = 1,
             refresh = State.Refresh(id = 1, reason = RefreshReason.Reconnect),
         )
-        val store = h.store(state)
+        val store = h.store(state) {
+            this[OpenCodeClient] = this[OpenCodeClient].copy(runningShells = { _, _ -> emptyList() }, runningJobs = { _, _ -> emptyList() })
+        }
 
         store.send(Action.EventStreamConnected(testServer)) {
             it.copy(streamSupportsProjection = false, liveText = emptyMap(), lastProjectedMessageID = null)
         }
+        // A new stream relists shells and jobs: an exit may have been missed.
+        store.receive(Action.ShellsResponse(session.id, Result.success(emptyList())))
+        store.receive(Action.JobsResponse(session.id, emptyList()))
         // " reply, and" was sent during the gap; the first delta after it must neither replace the
         // row nor append past the hole.
         store.send(

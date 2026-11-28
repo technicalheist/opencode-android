@@ -901,4 +901,38 @@
     <!-- 2026-11-08-02-default-model -->
     <string name="settings_whatsnew_entry_default_model_title">Nýjar setur nota sjálfgefna líkanið þitt</string>
     <string name="settings_whatsnew_entry_default_model_summary">Nýjar setur byrja með sjálfgefna líkaninu þínu í OpenCode og hugsunarstiginu sem þú valdir síðast fyrir það, í stað líkansins úr síðustu setu.</string>
+
+    <!-- 2026-11-11-01-streamed-reply-prefix -->
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_title">Opna svar í vinnslu</string>
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_summary">Þegar þú opnar setu á meðan svar berst geturðu lesið það sem þegar er komið á meðan restin berst.</string>
+
+    <!-- 2026-11-13-01-draw-on-images -->
+    <string name="settings_whatsnew_entry_draw_on_images_title">Teikna á myndir</string>
+    <string name="settings_whatsnew_entry_draw_on_images_summary">Merktu smáatriði áður en þú spyrð um það.</string>
+    <string name="settings_whatsnew_entry_draw_on_images_detail_1">Opnaðu mynd á öllum skjánum og pikkaðu á pennahnappinn. Veldu lit, teiknaðu og pikkaðu svo á Bæta við til að hengja merktu myndina við skilaboðin þín. Upprunalega myndin helst óbreytt.</string>
+    <string name="settings_whatsnew_entry_draw_on_images_example">Dragðu hring utan um stýrihlutinn sem þú vilt færa á skjámynd og lýstu svo hvert hann á að fara.</string>
+
+    <!-- 2026-11-14-01-fullscreen-viewer -->
+    <string name="settings_whatsnew_entry_fullscreen_viewer_title">Strjúka milli ljósmynda og myndbanda</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_summary">Skoðaðu myndir og myndbönd úr setu á einum stað.</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_detail_1">Strjúktu að myndbandi og pikkaðu svo á pennahnappinn til að merkja inn á núverandi ramma. Bæta við hengir merkta rammann við án þess að senda hann.</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_example">Gerðu hlé á kynningarmyndbandi þar sem breyta þarf skjámyndinni, dragðu hring utan um smáatriðið og bættu myndinni við drögin þín.</string>
+
+    <!-- 2026-11-15-01-pairing-link-name -->
+    <string name="settings_whatsnew_entry_pairing_link_name_title">Nafngreindir netþjónar úr OpenCode Console</string>
+    <string name="settings_whatsnew_entry_pairing_link_name_summary">Netþjónn sem þú parar úr OpenCode Console fær nafnið sitt með, til dæmis „Anomaly Box“.</string>
+
+    <!-- 2026-11-17-01-session-media -->
+    <string name="settings_whatsnew_entry_session_media_title">Margmiðlun setu</string>
+    <string name="settings_whatsnew_entry_session_media_summary">Skoðaðu myndir, myndbönd, hljóð, skrár og opinbera veftengla í setu.</string>
+    <string name="settings_whatsnew_entry_session_media_detail_1">Veldu Margmiðlun setu í ⋮ valmynd setunnar. Margmiðlun sýnir myndir, myndbönd og hljóð sem flýtihnappa flokkaða eftir mánuðum eða sem lista. Skrár og Tenglar sýna skjöl, innlímdan texta og veftengla.</string>
+    <string name="settings_whatsnew_entry_session_media_example">Finndu skjámyndina sem þú sendir í morgun án þess að fletta til baka í gegnum alla setuna.</string>
+
+    <!-- 2026-11-18-02-drawer-call-phone -->
+    <string name="settings_whatsnew_entry_drawer_call_phone_title">Símatákn fyrir símtöl í hliðarvalmynd</string>
+    <string name="settings_whatsnew_entry_drawer_call_phone_summary">Símtalshnappurinn við hliðina á Stillingum í setulistanum sýnir síma, eins og hnappurinn í skilaboðareitnum.</string>
+
+    <!-- 2026-11-19-01-background-scripts -->
+    <string name="settings_whatsnew_entry_background_scripts_title">Skriftur í bakgrunnsvinnu</string>
+    <string name="settings_whatsnew_entry_background_scripts_summary">Skriftur sem fulltrúinn færir í bakgrunninn birtast við hlið undirfulltrúa og skelja. Undirfulltrúi helst á listanum meðan myndir, myndbönd eða skriftur hans eru enn í vinnslu. Þú getur stöðvað hvort um sig af listanum.</string>
 </resources>

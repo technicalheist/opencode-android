@@ -1,5 +1,7 @@
 package ai.opencode.app
 
+import ai.opencode.core.sharing.SharedKeys
+import ai.opencode.core.sharing.shared
 import ai.opencode.core.store.Reduced
 import ai.opencode.core.store.Reducer
 import ai.opencode.core.store.Store
@@ -209,6 +211,22 @@ class MultipleWindowsFrameworkTests {
             putString(SessionWindowTarget.EXTRA_SESSION_ID, target.sessionID)
         }
         assertEquals(target, RootStore.target(null, saved))
+    }
+
+    @Test
+    fun aLongAbsenceSkipsTheWindowsSavedSession() {
+        val shared = AppTestShared()
+        val target = SessionWindowTarget(serverID = "server", sessionID = "ses_1")
+        val saved = Bundle().apply {
+            putString(SessionWindowTarget.EXTRA_SERVER_ID, target.serverID)
+            putString(SessionWindowTarget.EXTRA_SESSION_ID, target.sessionID)
+        }
+        shared.run {
+            shared(SharedKeys.appLeftAt).set(Instant.EPOCH - HomeFeature.newSessionAfterAway)
+            assertNull("Restored after a long absence: a new session", RootStore.target(null, saved))
+            val intent = SceneWindows.intent(RuntimeEnvironment.getApplication(), target)
+            assertEquals("Open in New Window still opens its session", target, RootStore.target(intent, saved))
+        }
     }
 }
 

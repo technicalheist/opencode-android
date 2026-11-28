@@ -51,7 +51,14 @@ class VoiceSessionMoveTests {
         assertNotNull(delta)
         assertTrue(delta!!.startsWith(VoiceInstructions.retargetPrefix))
         assertTrue(delta.contains("\"SEER\""))
-        assertTrue(delta.contains("don't announce or mention the move"))
+        // Not told the user is looking: the model names where it is, once.
+        assertTrue(delta.contains("may not be looking now: name the session you're on now in a few words, once"))
+        assertFalse(delta.contains("don't announce or mention the move"))
+
+        // Looking at the screen, they saw the move: say nothing of it.
+        val seen = retargetDelta(h, voice.copy(userLooking = true))
+        assertNotNull(seen)
+        assertTrue(seen!!.contains("is looking at the screen: don't announce or mention the move"))
     }
 
     @Test fun aMoveTheUserDidntMakeIsNoticed() = voiceTest { h ->

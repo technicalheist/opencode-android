@@ -29,11 +29,6 @@
     <string name="core_experiment_group_transcript_title">កំណត់ត្រាសន្ទនា</string>
     <string name="core_experiment_group_drawer_title">ផ្ទាំងចំហៀង</string>
 
-    <!-- In-app notice mode -->
-    <string name="core_in_app_notice_mode_off">បិទ</string>
-    <string name="core_in_app_notice_mode_needs_input">តែពេលត្រូវការការឆ្លើយតបពីអ្នក</string>
-    <string name="core_in_app_notice_mode_all">បច្ចុប្បន្នភាពទាំងអស់</string>
-
     <!-- Themes and appearance -->
     <string name="core_theme_system_title">ប្រព័ន្ធ</string>
     <string name="core_appearance_color_scheme_system_title">ប្រព័ន្ធ</string>

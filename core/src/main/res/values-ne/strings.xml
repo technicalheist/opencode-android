@@ -29,11 +29,6 @@
     <string name="core_experiment_group_transcript_title">वार्तालापको पाठ</string>
     <string name="core_experiment_group_drawer_title">साइड प्यानल</string>
 
-    <!-- In-app notice mode -->
-    <string name="core_in_app_notice_mode_off">बन्द</string>
-    <string name="core_in_app_notice_mode_needs_input">तपाईंको इनपुट चाहिँदा मात्र</string>
-    <string name="core_in_app_notice_mode_all">सबै अपडेटहरू</string>
-
     <!-- Themes and appearance -->
     <string name="core_theme_system_title">प्रणाली</string>
     <string name="core_appearance_color_scheme_system_title">प्रणाली</string>

@@ -1,6 +1,9 @@
 package ai.opencode.feature.session
 
+import ai.opencode.core.dependencies.withDependencies
 import ai.opencode.core.testing.TestIsolationRule
+import ai.opencode.feature.media.CachedImage
+import ai.opencode.feature.media.DecodedImageCache
 import ai.opencode.feature.session.SessionFeature.Action
 import ai.opencode.feature.session.SessionFeature.State
 import ai.opencode.feature.session.SessionMedia.Content
@@ -26,6 +29,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
+import org.robolectric.annotation.GraphicsMode
 import java.time.Instant
 
 /** Under Robolectric: bare URLs are found with `Patterns.WEB_URL`. */
@@ -37,8 +41,8 @@ class SessionMediaTests {
     private val dir = "/project"
     private val hash = "c".repeat(64)
 
-    private fun tool(id: String, path: String, images: List<OpenCodeImageAttachment> = emptyList(), videos: List<OpenCodeTranscriptFile> = emptyList()) =
-        OpenCodeTranscriptItem.Tool(id, OpenCodeToolCall("call-$id", name = "read", status = OpenCodeToolCall.Status.Completed,
+    private fun tool(id: String, path: String, images: List<OpenCodeImageAttachment> = emptyList(), videos: List<OpenCodeTranscriptFile> = emptyList(), status: OpenCodeToolCall.Status = OpenCodeToolCall.Status.Completed) =
+        OpenCodeTranscriptItem.Tool(id, OpenCodeToolCall("call-$id", name = "read", status = status,
             input = OpenCodeJSONValue.Object(mapOf("path" to OpenCodeJSONValue.Str(path))), output = emptyList(), metadata = emptyMap(),
             images = images, videos = videos))
 
@@ -65,7 +69,7 @@ class SessionMediaTests {
             tool("tool_1", "media/amber.png", images = listOf(OpenCodeImageAttachment("read-pixels", byteArrayOf(3)))),
             OpenCodeTranscriptItem.AssistantMarkdown(
                 "msg_2-text",
-                "Here it is:\n\n`docs/report.pdf`\n\n`media/orbit.mp4`\n\nSee [the spec](https://example.com/spec?utm_source=x) and https://opencode.ai/docs. " +
+                "Here it is:\n\n`docs/report.pdf`\n\n`media/orbit.mp4`\n\nSee [the spec](https://example.com/spec?utm_source=x) and [the **OpenCode** docs](https://opencode.ai/docs). " +
                     "Not https://example.com/reset?token=abc.",
             ),
         )
@@ -87,11 +91,38 @@ class SessionMediaTests {
         assertEquals(Origin.agent, origins["link:https://opencode.ai/docs"])
         assertEquals(Origin.user, origins["file:/project/docs/report.pdf"])
         assertEquals(Origin.user, origins["link:https://example.com/spec"])
-        assertEquals("https://example.com/spec", (media.last().content as Content.Link).url)
-        assertEquals("example.com", SessionMedia.title(media.last().content))
+        assertEquals(Content.Link("https://opencode.ai/docs", "the OpenCode docs"), media[1].content)
+        assertEquals(Content.Link("https://example.com/spec", "the spec"), media.last().content)
+        assertEquals("the OpenCode docs", SessionMedia.title(media[1].content))
+        assertEquals("the spec", SessionMedia.title(media.last().content))
+        assertEquals("Spec", SessionMedia.title(Content.Link("https://example.com/spec", null)))
+        assertEquals("example.com", SessionMedia.title(Content.Link("https://example.com/", null)))
         assertEquals("report.pdf", SessionMedia.title(media[3].content))
         assertTrue(media[4].content is Content.PastedText)
         assertEquals("read-pixels", (media[2].content as Content.File).thumbnail?.id)
+    }
+
+    @Test fun privateLinksAndRunningToolsStayOut() {
+        val items = listOf(
+            OpenCodeTranscriptItem.UserText("msg_1", "Preview at http://localhost:5173 and https://box.tail1234.ts.net/app, token https://example.com/a?token=secret"),
+            tool("tool_running", "/project/docs/spec.pdf", status = OpenCodeToolCall.Status.Running),
+            tool("tool_failed", "/project/docs/notes.pdf", status = OpenCodeToolCall.Status.Error),
+            OpenCodeTranscriptItem.AssistantMarkdown("msg_2-text", "![code](src/App.kt)"),
+        )
+        assertEquals(emptyList<SessionMedia.Item>(), SessionMedia.collect(items, dir))
+        // Once done, a document or audio a tool read earns a card; a code file it read doesn't.
+        val done = listOf(tool("tool_code", "src/App.kt"), tool("tool_spec", "/project/docs/spec.pdf"), tool("tool_note", "/project/notes/memo.m4a"))
+        val media = SessionMedia.collect(done, dir)
+        assertEquals(listOf("file:/project/notes/memo.m4a"), ids(SessionMedia.filtered(media, Filter.media)))
+        assertEquals(listOf("file:/project/docs/spec.pdf"), ids(SessionMedia.filtered(media, Filter.files)))
+    }
+
+    @Test fun aToolsPageImagesStayBesideItsDocument() {
+        val pages = listOf(OpenCodeImageAttachment("page-1", byteArrayOf(1)), OpenCodeImageAttachment("page-2", byteArrayOf(2)))
+        val media = SessionMedia.collect(listOf(tool("tool_report", "/project/docs/report.pdf", images = pages)), dir)
+        assertEquals(listOf("image:page-1", "image:page-2"), ids(SessionMedia.filtered(media, Filter.media)))
+        assertEquals(listOf("file:/project/docs/report.pdf"), ids(SessionMedia.filtered(media, Filter.files)))
+        assertNull((media.last().content as Content.File).thumbnail)
     }
 
     @Test fun filtersSplitMediaFilesAndLinksWithNoMixedView() {
@@ -134,6 +165,22 @@ class SessionMediaTests {
         assertTrue(gallery.pages[0].original!!.contentEquals(byteArrayOf(1, 2)))
         assertNull(SessionMedia.gallery(all, all.first { it.id == "file:/project/docs/brief.pdf" }, server, dir))
         assertNull(SessionMedia.gallery(all, all.first { it.isLink }, server, dir))
+    }
+
+    @GraphicsMode(GraphicsMode.Mode.NATIVE)
+    @Test fun aMediaCardOpensOnTheThumbnailItsTileShows() {
+        val stream = java.io.ByteArrayOutputStream()
+        android.graphics.Bitmap.createBitmap(3200, 1800, android.graphics.Bitmap.Config.ARGB_8888)
+            .compress(android.graphics.Bitmap.CompressFormat.PNG, 100, stream)
+        val data = stream.toByteArray()
+        withDependencies({ this[DecodedImageCache] = DecodedImageCache() }) {
+            val shown = CachedImage.thumbnail("att", data)
+            val all = SessionMedia.collect(listOf(OpenCodeTranscriptItem.UserImages("msg_1-images", listOf(OpenCodeImageAttachment("att", data)))), dir)
+            val page = SessionMedia.gallery(all, all.single(), server, dir)!!.pages.single()
+            assertTrue(page.image === shown)
+            assertTrue(page.original === data)
+            assertEquals(ai.opencode.feature.media.AgentImageSize(3200.0, 1800.0), page.placeholderSize)
+        }
     }
 
     @Test fun replyFileCardsShowOnlyOnceTheirCheckFindsThem() {

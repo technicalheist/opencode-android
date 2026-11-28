@@ -901,4 +901,38 @@
     <!-- 2026-11-08-02-default-model -->
     <string name="settings_whatsnew_entry_default_model_title">Шинэ сессүүд өгөгдмөл загварыг ашиглана</string>
     <string name="settings_whatsnew_entry_default_model_summary">Шинэ сессүүд өмнөх сессийн загварын оронд OpenCode-д өгөгдмөлөөр тохируулсан загвараар, түүнд сүүлд сонгосон бодох түвшнээр эхэлнэ.</string>
+
+    <!-- 2026-11-11-01-streamed-reply-prefix -->
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_title">Ирж буй хариултыг нээж унших</string>
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_summary">Хариулт ирж байх үед сессийг нээвэл үргэлжлэн ирэх зуур нь ирсэн хэсгийг унших боломжтой.</string>
+
+    <!-- 2026-11-13-01-draw-on-images -->
+    <string name="settings_whatsnew_entry_draw_on_images_title">Зураг дээр зурах</string>
+    <string name="settings_whatsnew_entry_draw_on_images_summary">Асуух зүйлээ эхлээд зураг дээр тэмдэглээрэй.</string>
+    <string name="settings_whatsnew_entry_draw_on_images_detail_1">Зургийг бүтэн дэлгэцээр нээгээд үзэгний товчийг товшино уу. Өнгөө сонгон зураад «Нэмэх»-ийг товшиж тэмдэглэгээтэй зургийг мессеждээ хавсаргана. Эх зураг өөрчлөгдөхгүй.</string>
+    <string name="settings_whatsnew_entry_draw_on_images_example">Дэлгэцийн зураг дээр зөөлгөхийг хүссэн удирдлагыг дугуйлаад хаашаа зөөхийг тайлбарлаарай.</string>
+
+    <!-- 2026-11-14-01-fullscreen-viewer -->
+    <string name="settings_whatsnew_entry_fullscreen_viewer_title">Зураг, видео хооронд шударч шилжих</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_summary">Сессийн зураг, видеог хамтад нь үзээрэй.</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_detail_1">Видео руу шударч шилжээд үзэгний товчийг товшин тухайн кадр дээр тэмдэглэгээ хийнэ. «Нэмэх»-ийг товшвол тэмдэглэгээтэй кадрыг илгээлгүйгээр хавсаргана.</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_example">Үзүүлэн видеог өөрчлөх шаардлагатай дэлгэц дээр түр зогсоогоод тухайн хэсгийг дугуйлж, ноорогтоо нэмээрэй.</string>
+
+    <!-- 2026-11-15-01-pairing-link-name -->
+    <string name="settings_whatsnew_entry_pairing_link_name_title">OpenCode Console-оос нэртэй сервер нэмэх</string>
+    <string name="settings_whatsnew_entry_pairing_link_name_summary">OpenCode Console-оос хослуулсан сервер «Anomaly Box» гэх мэт нэртэйгээ нэмэгдэнэ.</string>
+
+    <!-- 2026-11-17-01-session-media -->
+    <string name="settings_whatsnew_entry_session_media_title">Сессийн медиа</string>
+    <string name="settings_whatsnew_entry_session_media_summary">Сессийн зураг, видео, аудио, файл болон нийтэд нээлттэй вэб холбоосуудыг үзэх.</string>
+    <string name="settings_whatsnew_entry_session_media_detail_1">Сессийн ⋮ цэснээс «Сессийн медиа»-г сонгоно уу. «Медиа» хэсэгт зураг, видео, аудиог сараар бүлэглэсэн хавтанцар эсвэл жагсаалтаар харуулна. «Файлууд», «Холбоосууд» хэсэгт баримт бичиг, буулгасан текст, вэб холбоосыг жагсаана.</string>
+    <string name="settings_whatsnew_entry_session_media_example">Бүх сессийг буцааж гүйлгэхгүйгээр өглөө илгээсэн дэлгэцийн зургаа олоорой.</string>
+
+    <!-- 2026-11-18-02-drawer-call-phone -->
+    <string name="settings_whatsnew_entry_drawer_call_phone_title">Хажуугийн цэсэн дэх дуудлагын утасны дүрс</string>
+    <string name="settings_whatsnew_entry_drawer_call_phone_summary">Сессийн жагсаалтын «Тохиргоо»-ны дэргэдэх дуудлагын товч мессежийн талбарынхтай адил утасны дүрстэй боллоо.</string>
+
+    <!-- 2026-11-19-01-background-scripts -->
+    <string name="settings_whatsnew_entry_background_scripts_title">Далд ажиллаж буй скриптүүд</string>
+    <string name="settings_whatsnew_entry_background_scripts_summary">Агентын далд горимд шилжүүлсэн скриптүүд дэд агентууд болон shell-үүдийн хажууд харагдана. Дэд агентын зураг, видео эсвэл скриптүүд ажиллаж байгаа бол дэд агент жагсаалтад хэвээр үлдэнэ. Аль алийг нь жагсаалтаас зогсоож болно.</string>
 </resources>

@@ -29,11 +29,6 @@
     <string name="core_experiment_group_transcript_title">Ýazgy</string>
     <string name="core_experiment_group_drawer_title">Gapdal panel</string>
 
-    <!-- In-app notice mode -->
-    <string name="core_in_app_notice_mode_off">Öçürilen</string>
-    <string name="core_in_app_notice_mode_needs_input">Diňe jogabyňyz gerek bolsa</string>
-    <string name="core_in_app_notice_mode_all">Ähli täzelenmeler</string>
-
     <!-- Themes and appearance -->
     <string name="core_theme_system_title">Ulgam</string>
     <string name="core_appearance_color_scheme_system_title">Ulgam</string>

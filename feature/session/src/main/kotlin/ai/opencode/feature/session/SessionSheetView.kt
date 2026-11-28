@@ -75,6 +75,7 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -92,6 +93,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.currentStateAsState
 import ai.opencode.server.OpenCodeServer
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
@@ -140,8 +142,6 @@ data class SessionListContext(
     val isMuted: Boolean = false,
     /** Another session needs input or is unread: the drawer button shows it. */
     val elsewhere: DrawerBadge? = null,
-    /** In-App Notices: what the drawer button says about another session. */
-    val notice: InAppNotice? = null,
     /** Server Flow: the server dropped; a pill above the composer says so. */
     val connection: ServerConnectionNotice? = null,
 ) {
@@ -224,6 +224,7 @@ data class SessionSheetDetails(
  * @param sheet the session's `sessionSheet` child store.
  * @param details what the sheet reads from the session ([SessionSheetDetails]).
  * @param onModelTapped `SessionFeature.Action.modelButtonTapped`.
+ * @param onMediaTapped `SessionFeature.Action.SessionMediaTapped`.
  * @param onDismissRequest the sheet was swiped or tapped away.
  * @param statusOrb Draws the status orb; the default is a plain dot.
  * @param providerIcon Draws the model's provider mark, sized by the caller.
@@ -235,13 +236,19 @@ fun SessionSheetView(
     context: SessionListContext,
     details: SessionSheetDetails,
     onModelTapped: () -> Unit,
+    onMediaTapped: () -> Unit,
     onDismissRequest: () -> Unit,
     statusOrb: @Composable (status: SessionSheetStatus, size: Dp) -> Unit = { status, size -> DefaultStatusOrb(status, size) },
     providerIcon: (@Composable (providerID: String, canonicalProviderID: String?, size: Dp) -> Unit)? = null,
 ) {
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    val scope = rememberCoroutineScope()
+    val openMedia = {
+        onMediaTapped()
+        scope.launch { sheetState.hide() }.invokeOnCompletion { onDismissRequest() }
+    }
     OpenCodeBottomSheet(onDismissRequest = onDismissRequest, sheetState = sheetState) {
-        SessionSheetContent(sheet, context, details, onModelTapped, statusOrb, providerIcon)
+        SessionSheetContent(sheet, context, details, onModelTapped, { openMedia() }, statusOrb, providerIcon)
         SessionActionPresentations(sheet, title = details.session?.title)
     }
 }
@@ -252,6 +259,7 @@ private fun SessionSheetContent(
     context: SessionListContext,
     details: SessionSheetDetails,
     onModelTapped: () -> Unit,
+    onMediaTapped: () -> Unit,
     statusOrb: @Composable (SessionSheetStatus, Dp) -> Unit,
     providerIcon: (@Composable (String, String?, Dp) -> Unit)?,
 ) {
@@ -270,6 +278,7 @@ private fun SessionSheetContent(
         Hero(state, details, context, statusOrb, onRename = { sheet.send(SessionSheetFeature.Action.RenameTapped(details.session?.let { if (it.isUntitled) "" else it.title }.orEmpty())) })
         Tiles(state, isListRow, context, details.session?.title, sheet::send)
         DetailsCard(details, onModelTapped, providerIcon)
+        MediaCard(onMediaTapped)
         if (isListRow && notificationsAvailable) {
             AlwaysNotifyCard(isOn = state.alwaysNotifyPending ?: details.session?.alwaysNotify ?: false, isPending = state.alwaysNotifyPending != null) {
                 sheet.send(SessionSheetFeature.Action.AlwaysNotifyToggled(it))
@@ -356,6 +365,7 @@ fun SessionSheetPrewarm(
                 2 -> Tiles(warm.state, isListRow = true, warm.context, title = null, send = { })
                 3 -> DetailsCard(warm.details, onModelTapped = { }, providerIcon)
                 else -> {
+                    MediaCard { }
                     AlwaysNotifyCard(isOn = false, isPending = false) { }
                     DeleteRow(enabled = true) { }
                     rememberModalBottomSheetState(skipPartiallyExpanded = true)
@@ -815,6 +825,33 @@ private fun CostRow(details: SessionSheetDetails) {
             RollingNumber(SessionSheetFormat.cost(cost), style = OpenCodeTextStyles.callout, alignment = alignment)
         } else {
             Text("—", style = OpenCodeTextStyles.callout, color = OpenCodeTheme.colors.secondaryText)
+        }
+    }
+}
+
+// MARK: Media
+
+@Composable
+private fun MediaCard(onClick: () -> Unit) {
+    val mediaLabel = stringResource(R.string.session_sheet_media)
+    val mediaValue = stringResource(R.string.session_sheet_media_value)
+    DetailRow(
+        mediaLabel,
+        Modifier
+            .testTag("session-sheet-media")
+            .background(cardFill(), cardShape)
+            .openCodeHairline(cardShape)
+            .clip(cardShape)
+            .clickable(role = Role.Button, onClick = onClick)
+            .clearAndSetSemantics {
+                contentDescription = mediaLabel
+                stateDescription = mediaValue
+                role = Role.Button
+            },
+    ) {
+        Row(horizontalArrangement = Arrangement.spacedBy(7.dp), verticalAlignment = Alignment.CenterVertically) {
+            Text(mediaValue, style = OpenCodeTextStyles.callout, color = OpenCodeTheme.colors.secondaryText, maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier.weight(1f, fill = false))
+            OpenCodeIcon(SFSymbol.ChevronRight, contentDescription = null, size = 16.dp, tint = OpenCodeTheme.colors.tertiaryText)
         }
     }
 }

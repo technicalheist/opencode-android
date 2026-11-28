@@ -10,6 +10,7 @@ import ai.opencode.server.live.decodeStreamFrame
 import ai.opencode.server.live.decodeTranscriptPage
 import ai.opencode.server.model.OpenCodeDelivery
 import ai.opencode.server.model.OpenCodeJSONValue
+import ai.opencode.server.model.OpenCodeJob
 import ai.opencode.server.model.OpenCodeShell
 import ai.opencode.server.model.OpenCodeToolBounds
 import ai.opencode.server.model.OpenCodeTranscriptItem
@@ -136,6 +137,32 @@ class OpenCodeEventDecodingTests {
             val frame = """{"type":"$type","location":{"directory":"/repo"},"data":{"id":"sh_1","exit":0,"status":"exited"}}"""
             assertEquals(OpenCodeServerEvent.ShellEnded("sh_1"), decodeStreamFrame(frame))
         }
+    }
+
+    @Test
+    fun jobUpdatedFramesDecodeEveryKind() {
+        fun frame(info: String) = """{"type":"experimental.job.updated","data":{"info":$info}}"""
+        val time = """"time":{"started":7}"""
+        val cases = listOf(
+            """{"kind":"shell","id":"j1","sessionID":"s","status":"running","shellID":"sh","command":"ls",$time}""" to OpenCodeJob.Kind.Shell,
+            """{"kind":"subagent","id":"j2","sessionID":"s","status":"running","childSessionID":"c","agent":"a","description":"d",$time}""" to OpenCodeJob.Kind.Subagent,
+            """{"kind":"image","id":"j3","sessionID":"s","status":"running","path":"/p","model":"m",$time}""" to OpenCodeJob.Kind.Image,
+            """{"kind":"video","id":"j4","sessionID":"s","status":"running","path":"/p",$time}""" to OpenCodeJob.Kind.Video,
+            """{"kind":"codemode","id":"j5","sessionID":"s","status":"running",$time}""" to OpenCodeJob.Kind.CodeMode,
+        )
+        for ((info, kind) in cases) {
+            val job = (decodeStreamFrame(frame(info)) as OpenCodeServerEvent.JobUpdated).job
+            assertEquals(kind, job.kind)
+            assertTrue(job.isRunning)
+            assertEquals(Instant.ofEpochMilli(7), job.startedAt)
+        }
+        val child = (decodeStreamFrame(frame(cases[1].first)) as OpenCodeServerEvent.JobUpdated).job
+        assertEquals("c", child.ownerSessionID)
+        for (status in listOf("completed", "error", "cancelled")) {
+            val ended = decodeStreamFrame(frame("""{"kind":"codemode","id":"j5","sessionID":"s","status":"$status",$time}"""))
+            assertEquals(OpenCodeServerEvent.JobUpdated(OpenCodeJob(id = "j5", kind = OpenCodeJob.Kind.CodeMode, sessionID = "s", isRunning = false, startedAt = Instant.ofEpochMilli(7))), ended)
+        }
+        assertNull(decodeStreamFrame("""{"type":"experimental.job.updated","data":{"info":{"id":"j"}}}"""))
     }
 
     @Test

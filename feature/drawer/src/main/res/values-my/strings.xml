@@ -37,6 +37,8 @@
     <string name="drawer_mark_as_unread">မဖတ်ရသေးဟု မှတ်ပါ</string>
     <string name="drawer_mute">အသိပေးချက် ပိတ်ပါ</string>
     <string name="drawer_unmute">အသိပေးချက် ပြန်ဖွင့်ပါ</string>
+    <string name="drawer_hide">ဖျောက်ရန်</string>
+    <string name="drawer_unhide">ပြန်ပြရန်</string>
     <string name="drawer_move_up">အပေါ်သို့ ရွှေ့ပါ</string>
     <string name="drawer_move_down">အောက်သို့ ရွှေ့ပါ</string>
 
@@ -77,8 +79,6 @@
     <string name="drawer_button_open_sessions_description">စက်ရှင်များကို ဖွင့်ပါ</string>
     <string name="drawer_button_attention_state">စက်ရှင်တစ်ခုတွင် သင့်တုံ့ပြန်မှု လိုအပ်သည်</string>
     <string name="drawer_button_unread_state">မဖတ်ရသေးသော စက်ရှင်များ</string>
-    <string name="drawer_notice_open_sessions_action">စက်ရှင်များကို ဖွင့်ပါ</string>
-    <string name="drawer_notice_open_session_action">စက်ရှင်ကို ဖွင့်ပါ</string>
 
     <!-- Search pill -->
     <string name="drawer_search_description">ရှာဖွေမှုကဏ္ဍများ</string>
@@ -117,6 +117,7 @@
     <!-- Session row state for TalkBack -->
     <string name="drawer_row_pinned_state">ထိပ်တွင် ချိတ်ထားသည်များ</string>
     <string name="drawer_row_muted_state">အကြောင်းကြားချက် ပိတ်ထားသည်</string>
+    <string name="drawer_row_hidden_state">ဖျောက်ထားသည်</string>
     <string name="drawer_row_needs_input_state">သင့်တုံ့ပြန်မှု လိုအပ်သည်</string>
     <string name="drawer_row_working_state">အလုပ်လုပ်တယ်။</string>
     <string name="drawer_row_unread_state">မဖတ်ရသေး</string>

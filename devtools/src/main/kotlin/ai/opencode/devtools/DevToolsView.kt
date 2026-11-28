@@ -1,5 +1,6 @@
 package ai.opencode.devtools
 
+import ai.opencode.core.ui.OpenCodeFonts
 import ai.opencode.core.ui.OpenCodeIconButtonStyle
 import ai.opencode.core.ui.OpenCodeIconButton
 import ai.opencode.core.diagnostics.DiagnosticsEvent
@@ -60,7 +61,6 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.semantics.toggleableState
 import androidx.compose.ui.state.ToggleableState
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -376,7 +376,7 @@ private fun SummaryCard(events: List<DiagnosticsEvent>) {
 
 @Composable
 private fun EventRow(event: DiagnosticsEvent, origin: Double?, metrics: DiagnosticsEvent?) {
-    val mono = MaterialTheme.typography.bodySmall.copy(fontFamily = FontFamily.Monospace)
+    val mono = MaterialTheme.typography.bodySmall.copy(fontFamily = OpenCodeFonts.monospace)
     Column(Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp).semantics(mergeDescendants = true) {}) {
         if (event.kind == DiagnosticsEvent.Kind.RequestEnd) {
             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -388,7 +388,7 @@ private fun EventRow(event: DiagnosticsEvent, origin: Double?, metrics: Diagnost
             event.errorCategory?.let { Text(it.description, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.error) }
         } else {
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                Text(Troubleshooting.relative(event, origin), style = MaterialTheme.typography.labelSmall.copy(fontFamily = FontFamily.Monospace), color = OpenCodeTheme.colors.secondaryText)
+                Text(Troubleshooting.relative(event, origin), style = MaterialTheme.typography.labelSmall.copy(fontFamily = OpenCodeFonts.monospace), color = OpenCodeTheme.colors.secondaryText)
                 Text(event.name.replace('_', ' '), Modifier.weight(1f), style = MaterialTheme.typography.bodyMedium)
                 event.durationMilliseconds?.let { Text(Troubleshooting.ms(it), style = MaterialTheme.typography.bodySmall, color = OpenCodeTheme.colors.secondaryText) }
             }
@@ -443,7 +443,7 @@ private fun LogsPage(state: DevToolsFeature.State, send: (DevToolsFeature.Action
                     Text(
                         line,
                         Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 3.dp),
-                        style = MaterialTheme.typography.labelSmall.copy(fontFamily = FontFamily.Monospace),
+                        style = MaterialTheme.typography.labelSmall.copy(fontFamily = OpenCodeFonts.monospace),
                         color = if (isError) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurface,
                     )
                 }
@@ -502,13 +502,13 @@ private fun NetworkRow(event: DiagnosticsEvent, metrics: DiagnosticsEvent?) {
         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             Text(
                 event.statusCode?.toString() ?: if (event.kind == DiagnosticsEvent.Kind.Stream) "SSE" else "—",
-                style = MaterialTheme.typography.labelMedium.copy(fontFamily = FontFamily.Monospace, fontWeight = FontWeight.SemiBold),
+                style = MaterialTheme.typography.labelMedium.copy(fontFamily = OpenCodeFonts.monospace, fontWeight = FontWeight.SemiBold),
                 color = if (failed) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.primary,
             )
             Text(
                 if (event.kind == DiagnosticsEvent.Kind.Stream) event.name.replace('_', ' ') else "${event.method ?: "GET"} ${event.path ?: "unknown"}",
                 Modifier.weight(1f),
-                style = MaterialTheme.typography.bodySmall.copy(fontFamily = FontFamily.Monospace),
+                style = MaterialTheme.typography.bodySmall.copy(fontFamily = OpenCodeFonts.monospace),
                 maxLines = if (expanded) 4 else 1,
                 overflow = TextOverflow.Ellipsis,
             )

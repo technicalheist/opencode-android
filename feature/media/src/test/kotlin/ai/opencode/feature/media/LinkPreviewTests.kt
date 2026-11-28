@@ -86,6 +86,21 @@ class LinkPreviewTests {
         assertEquals("https://www.youtube.com/watch?v=abc&t=42", LinkPreviewPolicy.normalized("https://www.youtube.com/watch?v=abc&t=42"))
     }
 
+    @Test
+    fun hostsOkHttpCantReadBackAreNotPreviewed() {
+        assertEquals("https://xn--bcher-kva.de/", LinkPreviewPolicy.normalized("https://bücher.de./"))
+        for (url in listOf(
+            "https://example.com，然后运行命令",
+            "https://example.com，然后运行命令。",
+            "https://example.com%EF%BC%8C%E7%84%B6%E5%90%8E",
+            "https://example.com）里有说明",
+            "https://bücher_x.de/",
+        )) {
+            assertNull(url, LinkPreviewPolicy.normalized(url))
+            assertNull(url, target(url))
+        }
+    }
+
     // oEmbed
 
     @Test
@@ -214,6 +229,42 @@ class LinkPreviewLoaderTests {
         assertEquals(results[0], loader.cached(post))
         assertEquals(results[0], loader.load(post))
         assertEquals("Memory answers the next load", 1, server.count)
+    }
+
+    @Test
+    fun diskHitsStayWithinTheMemoryLimit() = runTest {
+        val directory = temporaryDirectory("link-preview-tests")
+        try {
+            val posts = (0 until 100).map { LinkPreviewTarget.XPost(handle = "example_dev", id = "$it") }
+            val server = Server()
+            val first = LinkPreviewLoader(fetch = server.fetch, directory = directory, memoryWarnings = MemoryWarningCenter())
+            for (post in posts) first.load(post)
+            assertEquals(64, first.memoryCount)
+            val restarted = LinkPreviewLoader(fetch = server.fetch, directory = directory, memoryWarnings = MemoryWarningCenter())
+            for (post in posts) restarted.load(post)
+            assertEquals("The restarted loader read every record from disk", 100, server.count)
+            assertEquals("Records read from disk keep the limit too", 64, restarted.memoryCount)
+        } finally {
+            directory.deleteRecursively()
+        }
+    }
+
+    @Test
+    fun aMemoryWarningEmptiesTheLoaderButNotTheDisk() = runTest {
+        val directory = temporaryDirectory("link-preview-tests")
+        try {
+            val center = MemoryWarningCenter()
+            val server = Server()
+            val loader = LinkPreviewLoader(fetch = server.fetch, directory = directory, memoryWarnings = center)
+            val result = loader.load(post)
+            assertEquals(result, loader.cached(post))
+            center.post()
+            assertNull(loader.cached(post))
+            assertEquals(result, loader.load(post))
+            assertEquals("Read back from disk, not fetched", 1, server.count)
+        } finally {
+            directory.deleteRecursively()
+        }
     }
 
     @Test

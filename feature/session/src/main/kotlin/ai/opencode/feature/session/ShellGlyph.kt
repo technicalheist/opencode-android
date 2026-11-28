@@ -30,6 +30,9 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.currentStateAsState
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.isActive
 
 // The meter, its client and the probe type are in `ShellOutputMeter.kt`; the engine in
@@ -49,8 +52,9 @@ private const val END_OF_CAPTURE_CURSOR = Int.MAX_VALUE
  *
  * @param shellIDs the shells whose output drives it (the capsule sums several).
  * @param key keeps the motion across remounts; defaults to the shells.
- * @param probe reads the capture's size once a second while visible. Without one, the glyph
- *   follows whatever else reads the shell (its output sheet).
+ * @param probe reads the capture's size while visible: every second, every 3 s once all have sat
+ *   unchanged for half a minute. Without one, the glyph follows whatever else reads the shell (its
+ *   output sheet).
  * @param isPaused hidden behind something that stands in for it: hold the pose, draw nothing new.
  */
 @Composable
@@ -88,7 +92,12 @@ fun ShellGlyph(
             val now = AgentActivityClock.now()
             if (now - lastDrawn < GLYPH_FRAME_INTERVAL - 0.002) continue
             lastDrawn = now
+            val seen = model.meter.growth.value
             draw(now)
+            if (model.isResting(now, currentIDs)) {
+                val ids = currentIDs
+                merge(model.meter.growth.filter { it != seen }, snapshotFlow { currentIDs }.filter { it != ids }).first()
+            }
         }
     }
 
@@ -110,7 +119,7 @@ fun ShellGlyph(
                     if (error.statusCode == 404) gone += id
                 }
             }
-            delay(ShellOutputMeter.probeInterval)
+            delay(meter.probeInterval(shellIDs.filter { it !in gone }, AgentActivityClock.now()))
         }
     }
 

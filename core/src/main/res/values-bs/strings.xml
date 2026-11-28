@@ -29,11 +29,6 @@
     <string name="core_experiment_group_transcript_title">Transkript</string>
     <string name="core_experiment_group_drawer_title">Bočni meni</string>
 
-    <!-- In-app notice mode -->
-    <string name="core_in_app_notice_mode_off">Isključeno</string>
-    <string name="core_in_app_notice_mode_needs_input">Samo kad je potreban tvoj unos</string>
-    <string name="core_in_app_notice_mode_all">Sva ažuriranja</string>
-
     <!-- Themes and appearance -->
     <string name="core_theme_system_title">Sistem</string>
     <string name="core_appearance_color_scheme_system_title">Sistem</string>

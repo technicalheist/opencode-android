@@ -4,12 +4,16 @@ import ai.opencode.core.files.ComposerFileStaging
 import ai.opencode.core.files.AttachmentFileType
 import ai.opencode.core.testing.TestIsolationRule
 import android.content.ClipData
+import android.content.ContentProvider
+import android.content.ContentValues
 import android.content.Intent
+import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.media.ExifInterface
 import android.net.Uri
+import android.os.ParcelFileDescriptor
 import org.junit.After
 import org.junit.Assert.assertArrayEquals
 import org.junit.Assert.assertEquals
@@ -19,11 +23,14 @@ import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.robolectric.Robolectric
 import org.robolectric.RobolectricTestRunner
+import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 import org.robolectric.annotation.GraphicsMode
 import java.io.ByteArrayInputStream
 import java.io.File
+import java.io.RandomAccessFile
 import java.nio.file.Files
 import java.time.Instant
 import java.util.UUID
@@ -287,4 +294,38 @@ class SharedImageEncoderTests {
         assertNull(SharedImageEncoder.jpeg(ByteArray(SharedImageEncoder.MAX_SOURCE_BYTES + 1)))
         assertNull(SharedImageEncoder.jpeg("not an image".toByteArray()))
     }
+
+    @Test
+    fun imageFilesPastTheFileCapAreRefused() {
+        val bitmap = Bitmap.createBitmap(64, 48, Bitmap.Config.ARGB_8888)
+        bitmap.eraseColor(Color.rgb(51, 102, 204))
+        val file = File.createTempFile("share-", ".png")
+        try {
+            file.outputStream().use { assertTrue(bitmap.compress(Bitmap.CompressFormat.PNG, 100, it)) }
+            bitmap.recycle()
+            // Sparse: grows the reported size without writing the bytes.
+            Robolectric.setupContentProvider(FileBackedProvider::class.java, "share-test")
+            val resolver = RuntimeEnvironment.getApplication().contentResolver
+            val uri = Uri.parse("content://share-test" + file.path)
+            RandomAccessFile(file, "rw").use { it.setLength(SharedImageEncoder.MAX_SOURCE_FILE_BYTES.toLong()) }
+            assertNotNull(SharedImageEncoder.jpeg(file))
+            assertNotNull(SharedImageEncoder.jpeg(resolver, uri))
+            RandomAccessFile(file, "rw").use { it.setLength(SharedImageEncoder.MAX_SOURCE_FILE_BYTES + 1L) }
+            assertNull(SharedImageEncoder.jpeg(file))
+            assertNull(SharedImageEncoder.jpeg(resolver, uri))
+        } finally {
+            file.delete()
+        }
+    }
+}
+
+class FileBackedProvider : ContentProvider() {
+    override fun onCreate() = true
+    override fun openFile(uri: Uri, mode: String): ParcelFileDescriptor =
+        ParcelFileDescriptor.open(File(uri.path!!), ParcelFileDescriptor.MODE_READ_ONLY)
+    override fun getType(uri: Uri): String? = null
+    override fun query(uri: Uri, projection: Array<String>?, selection: String?, selectionArgs: Array<String>?, sortOrder: String?): Cursor? = null
+    override fun insert(uri: Uri, values: ContentValues?): Uri? = null
+    override fun delete(uri: Uri, selection: String?, selectionArgs: Array<String>?) = 0
+    override fun update(uri: Uri, values: ContentValues?, selection: String?, selectionArgs: Array<String>?) = 0
 }

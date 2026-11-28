@@ -901,4 +901,38 @@
     <!-- 2026-11-08-02-default-model -->
     <string name="settings_whatsnew_entry_default_model_title">Нові сесії — з моделлю за замовчуванням</string>
     <string name="settings_whatsnew_entry_default_model_summary">Нові сесії починаються з моделі, заданої в OpenCode за замовчуванням, з останнім вибраним для неї рівнем міркування, а не з моделі попередньої сесії.</string>
+
+    <!-- 2026-11-11-01-streamed-reply-prefix -->
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_title">Читайте відповідь під час надходження</string>
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_summary">Відкривши сесію, поки відповідь ще надходить, ви можете читати вже отриману частину.</string>
+
+    <!-- 2026-11-13-01-draw-on-images -->
+    <string name="settings_whatsnew_entry_draw_on_images_title">Малюйте на зображеннях</string>
+    <string name="settings_whatsnew_entry_draw_on_images_summary">Позначте деталь, перш ніж запитати про неї.</string>
+    <string name="settings_whatsnew_entry_draw_on_images_detail_1">Відкрийте зображення на весь екран і натисніть кнопку пера. Виберіть колір, намалюйте позначки й натисніть «Додати», щоб прикріпити зображення з позначками до повідомлення. Оригінал залишиться без змін.</string>
+    <string name="settings_whatsnew_entry_draw_on_images_example">Обведіть на знімку екрана елемент керування, який хочете перемістити, і опишіть, куди саме.</string>
+
+    <!-- 2026-11-14-01-fullscreen-viewer -->
+    <string name="settings_whatsnew_entry_fullscreen_viewer_title">Гортайте фото й відео</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_summary">Переглядайте зображення й відео сесії разом.</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_detail_1">Прогортайте до відео й натисніть кнопку пера, щоб зробити позначки на поточному кадрі. Кнопка «Додати» прикріпить кадр із позначками, але не надішле його.</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_example">Призупиніть демонстрацію на екрані, який потрібно змінити, обведіть деталь і додайте кадр до чернетки.</string>
+
+    <!-- 2026-11-15-01-pairing-link-name -->
+    <string name="settings_whatsnew_entry_pairing_link_name_title">Назви серверів з OpenCode Console</string>
+    <string name="settings_whatsnew_entry_pairing_link_name_summary">Сервер, сполучений через OpenCode Console, додається зі своєю назвою, наприклад «Anomaly Box».</string>
+
+    <!-- 2026-11-17-01-session-media -->
+    <string name="settings_whatsnew_entry_session_media_title">Медіа сесії</string>
+    <string name="settings_whatsnew_entry_session_media_summary">Переглядайте зображення, відео, аудіо, файли й загальнодоступні вебпосилання сесії.</string>
+    <string name="settings_whatsnew_entry_session_media_detail_1">Виберіть «Медіа сесії» в меню ⋮ сесії. У розділі «Медіа» зображення, відео й аудіо показано плитками за місяцями або списком, а в розділах «Файли» й «Посилання» — документи, вставлені фрагменти й вебпосилання.</string>
+    <string name="settings_whatsnew_entry_session_media_example">Знайдіть знімок екрана, надісланий сьогодні вранці, не гортаючи всю сесію.</string>
+
+    <!-- 2026-11-18-02-drawer-call-phone -->
+    <string name="settings_whatsnew_entry_drawer_call_phone_title">Іконка телефона для дзвінків у бічній панелі</string>
+    <string name="settings_whatsnew_entry_drawer_call_phone_summary">Кнопка дзвінка поруч із налаштуваннями у списку сесій тепер має іконку телефона, як і в полі повідомлення.</string>
+
+    <!-- 2026-11-19-01-background-scripts -->
+    <string name="settings_whatsnew_entry_background_scripts_title">Скрипти у фоновій роботі</string>
+    <string name="settings_whatsnew_entry_background_scripts_summary">Скрипти, які агент переводить у фоновий режим, показуються поруч із субагентами й командами. Субагент залишається у списку, поки триває робота з його зображеннями, відео чи скриптами. І скрипт, і субагента можна зупинити зі списку.</string>
 </resources>

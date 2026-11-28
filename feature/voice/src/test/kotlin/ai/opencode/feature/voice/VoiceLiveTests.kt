@@ -40,7 +40,7 @@ class LiveProtocolTests {
         assertEquals(s("session.start"), json["type"])
         assertEquals(s("evt_start"), json["event_id"])
         val session = json["session"]!!
-        assertEquals(s("gpt-live-1"), session["model"])
+        assertEquals(s("gpt-live-1.1"), session["model"])
         assertEquals(s("Be concise."), session["instructions"])
         assertEquals(s("audio/pcm"), session["audio"]?.get("format")?.get("type"))
         assertEquals(RealtimeJSONs.number(24_000), session["audio"]?.get("format")?.get("rate"))
@@ -245,7 +245,7 @@ class LiveRTCTests {
         assertEquals(RealtimeJSONs.string("v=0\r\n"), json["transport"]?.get("sdp"))
         assertEquals(RealtimeJSONs.number(4), json["transport"]?.get("dcid"))
         val session = json["session"]!!
-        assertEquals(RealtimeJSONs.string("gpt-live-1"), session["model"])
+        assertEquals(RealtimeJSONs.string("gpt-live-1.1"), session["model"])
         assertNull(session["audio"]?.get("format"))
         assertEquals(RealtimeJSONs.string("marin"), session["audio"]?.get("output")?.get("voice"))
         assertEquals(RealtimeJSONs.string("client"), session["delegation"]?.get("type"))
@@ -571,7 +571,7 @@ class VoiceEnginePersistenceTests {
         var voiceEngine = shared.get(VoiceSharedKeys.voiceEngine)
         assertEquals(VoiceEngine.gptLive, voiceEngine)
         assertEquals("GPT-Live", voiceEngine.title)
-        assertEquals("gpt-live-1", voiceEngine.modelID)
+        assertEquals("gpt-live-1.1", voiceEngine.modelID)
 
         val startedConfigs = mutableListOf<RealtimeSessionConfig>()
         val verifiedModels = mutableListOf<String>()
@@ -590,9 +590,9 @@ class VoiceEnginePersistenceTests {
 
         store.send(VoiceFeature.Action.Start)
         store.receive(::isCallEnded)
-        assertEquals(listOf("gpt-live-1"), verifiedModels)
+        assertEquals(listOf("gpt-live-1.1"), verifiedModels)
         assertEquals(VoiceEngine.gptLive, startedConfigs.first().engine)
-        assertEquals("gpt-live-1", startedConfigs.first().model)
+        assertEquals("gpt-live-1.1", startedConfigs.first().model)
         assertTrue(startedConfigs.first().tools.isEmpty())
 
         // Switching to Realtime persists and starts the next call with Realtime's model and tools.
@@ -604,7 +604,7 @@ class VoiceEnginePersistenceTests {
 
         store.send(VoiceFeature.Action.Start)
         store.receive(::isCallEnded)
-        assertEquals(listOf("gpt-live-1", "gpt-realtime-2.1"), verifiedModels)
+        assertEquals(listOf("gpt-live-1.1", "gpt-realtime-2.1"), verifiedModels)
         assertEquals(VoiceEngine.realtime, startedConfigs.last().engine)
         assertEquals("gpt-realtime-2.1", startedConfigs.last().model)
         assertEquals(listOf("delegate", "end_voice_session"), startedConfigs.last().tools.map { it.name })

@@ -38,6 +38,8 @@
     <string name="drawer_mark_as_unread">წაუკითხავად მონიშვნა</string>
     <string name="drawer_mute">დადუმება</string>
     <string name="drawer_unmute">დადუმების გაუქმება</string>
+    <string name="drawer_hide">დამალვა</string>
+    <string name="drawer_unhide">ჩვენება</string>
     <string name="drawer_move_up">ზემოთ გადატანა</string>
     <string name="drawer_move_down">ქვემოთ გადატანა</string>
 
@@ -81,8 +83,6 @@
     <string name="drawer_button_open_sessions_description">სესიების გახსნა</string>
     <string name="drawer_button_attention_state">სესიას თქვენი პასუხი სჭირდება</string>
     <string name="drawer_button_unread_state">წაუკითხავი სესიები</string>
-    <string name="drawer_notice_open_sessions_action">სესიების გახსნა</string>
-    <string name="drawer_notice_open_session_action">სესიის გახსნა</string>
 
     <!-- Search pill -->
     <string name="drawer_search_description">ძიების სესიები</string>
@@ -121,6 +121,7 @@
     <!-- Session row state for TalkBack -->
     <string name="drawer_row_pinned_state">ჩამაგრებული</string>
     <string name="drawer_row_muted_state">დადუმებული</string>
+    <string name="drawer_row_hidden_state">დამალული</string>
     <string name="drawer_row_needs_input_state">საჭიროა თქვენი პასუხი</string>
     <string name="drawer_row_working_state">მუშაობს</string>
     <string name="drawer_row_unread_state">წაუკითხავი</string>

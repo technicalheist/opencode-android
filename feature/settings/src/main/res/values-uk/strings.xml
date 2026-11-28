@@ -67,8 +67,6 @@
     <string name="settings_notifications_plugin_check_failed">Не вдалося перевірити стан</string>
     <string name="settings_notifications_set_up">Налаштувати з OpenCode</string>
     <string name="settings_notifications_check_again">Перевірити ще раз</string>
-    <string name="settings_notifications_in_app_footer">Показуються на кнопці бічної панелі.</string>
-    <string name="settings_notifications_in_app_notices">Повідомлення в застосунку</string>
 
     <!-- Sessions -->
     <string name="settings_sessions_title">Сесії</string>

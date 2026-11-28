@@ -25,6 +25,9 @@ import ai.opencode.feature.session.SessionTestSupport.testSession
 import ai.opencode.server.OpenCodeClient
 import ai.opencode.server.OpenCodeClientError
 import ai.opencode.server.model.OpenCodeAutocompleteAgent
+import ai.opencode.server.model.OpenCodeModel
+import ai.opencode.server.model.OpenCodeModelCatalog
+import ai.opencode.server.model.OpenCodeModelRef
 import ai.opencode.server.model.OpenCodePendingRequests
 import ai.opencode.server.model.OpenCodeProject
 import ai.opencode.server.model.OpenCodeSession
@@ -412,6 +415,94 @@ class SessionFeatureTestsAgentSelection {
         store.receive(Action.PendingInputsRequested(sessionID = "ses_new"))
         assertEquals(listOf("agent ses_new plan", "prompt hello steer"), calls.value)
         h.skipInFlightEffects()
+    }
+
+    private val zen = OpenCodeModel(modelID = "big-pickle", providerID = "opencode", name = "Big Pickle")
+    private val flash = OpenCodeModel(modelID = "flash", providerID = "opencode", name = "Flash", variants = listOf("high", "max"))
+    private val opus = OpenCodeModel(modelID = "opus", providerID = "opencode", name = "Opus")
+    private val mini = OpenCodeModel(modelID = "mini", providerID = "opencode", name = "Mini")
+    private val catalog = OpenCodeModelCatalog(models = listOf(zen, flash, opus, mini), defaultModel = zen)
+    private val modelAgents = listOf(
+        OpenCodeAutocompleteAgent(id = "build", name = "build", mode = "primary", model = flash.ref("max")),
+        OpenCodeAutocompleteAgent(id = "plan", name = "plan", mode = "primary", model = opus.ref),
+        OpenCodeAutocompleteAgent(id = "ask", name = "ask", mode = "primary"),
+    )
+
+    private fun Harness.modelDraft(): State = state {
+        val project = OpenCodeProject(id = "proj_1", name = "demo", directory = "/tmp/demo")
+        State.draft(server = testServer, draftProject = project, projects = listOf(project))
+    }
+
+    private fun State.catalogued(): State = copy(models = catalog.models, agentSelection = agentSelection.copy(defaultModel = zen))
+
+    /** A new session starts on its agent's model, whether the agents or the catalog arrive first. */
+    @Test fun aDraftStartsOnItsAgentsModel() {
+        for (agentsFirst in listOf(true, false)) sessionTest { h ->
+            val store = h.store(h.modelDraft())
+            if (agentsFirst) {
+                store.send(Action.AgentsResponse(Result.success(modelAgents))) { it.withPrimaryAgents(modelAgents).listed() }
+                store.send(Action.ModelsResponse(Result.success(catalog))) { it.catalogued().copy(currentModel = flash.ref("max")) }
+            } else {
+                store.send(Action.ModelsResponse(Result.success(catalog))) { it.catalogued().copy(currentModel = zen.ref) }
+                store.send(Action.AgentsResponse(Result.success(modelAgents))) {
+                    it.copy(currentModel = flash.ref("max"), agentSelection = it.agentSelection.copy(primaryAgents = modelAgents)).listed()
+                }
+            }
+        }
+    }
+
+    /** The level last picked for the agent's model wins over the agent's own. */
+    @Test fun aSavedLevelWinsOverTheAgentsLevel() = sessionTest { h ->
+        val state = h.modelDraft().withPrimaryAgents(modelAgents)
+        state.modelVariants.set(mapOf(flash.id to "high"))
+        val store = h.store(state)
+        store.send(Action.ModelsResponse(Result.success(catalog))) { it.catalogued().copy(currentModel = flash.ref("high")) }
+    }
+
+    /** A level the agent's model doesn't offer is dropped. */
+    @Test fun anAgentsLevelTheModelDoesNotOfferIsDropped() = sessionTest { h ->
+        val build = OpenCodeAutocompleteAgent(id = "build", name = "build", mode = "primary", model = opus.ref("max"))
+        val store = h.store(h.modelDraft().withPrimaryAgents(listOf(build)))
+        store.send(Action.ModelsResponse(Result.success(catalog))) { it.catalogued().copy(currentModel = opus.ref) }
+    }
+
+    /** An agent's model the server doesn't offer leaves the draft on the server's default. */
+    @Test fun anAgentsModelTheServerDoesNotOfferFallsBackToTheDefault() = sessionTest { h ->
+        val missing = OpenCodeAutocompleteAgent(id = "build", name = "build", mode = "primary", model = OpenCodeModelRef(id = "gone", providerID = "opencode"))
+        val store = h.store(h.modelDraft().withPrimaryAgents(listOf(missing)))
+        store.send(Action.ModelsResponse(Result.success(catalog))) { it.catalogued().copy(currentModel = zen.ref) }
+    }
+
+    /** Switching a draft's agent switches its model; a model picked by hand comes back with its agent. */
+    @Test fun switchingADraftsAgentSwitchesItsModelAndKeepsAHandPick() = sessionTest { h ->
+        val state = h.modelDraft().withPrimaryAgents(modelAgents).catalogued().copy(currentModel = flash.ref("max"))
+        val store = h.store(state)
+        store.send(Action.AgentPicked("plan")) { it.withDraftAgent("plan").copy(currentModel = opus.ref) }
+        store.send(Action.AgentPicked("build")) { it.withDraftAgent("build").copy(currentModel = flash.ref("max")) }
+        store.send(Action.ModelPicked(mini)) { it.copy(currentModel = mini.ref) }
+        store.send(Action.AgentPicked("ask")) {
+            it.copy(currentModel = zen.ref, agentSelection = it.agentSelection.copy(draftAgent = "ask", draftModelPicks = mapOf("build" to mini.ref)))
+        }
+        store.send(Action.AgentPicked("build")) { it.withDraftAgent("build").copy(currentModel = mini.ref) }
+    }
+
+    /**
+     * With Agent Selection off a draft still lists agents, and starts on the model of the
+     * server's default agent, which it lists first.
+     */
+    @Test fun agentSelectionOffStartsADraftOnTheServersDefaultAgentsModel() = sessionTest { h ->
+        val state = h.modelDraft().catalogued().copy(currentModel = zen.ref)
+        state.agentSelection.isEnabled.set(false)
+        state.agentSelection.defaultAgentID.set("build")
+        val planFirst = listOf(modelAgents[1], modelAgents[0])
+        val store = h.store(state) {
+            this[Clock] = ImmediateClock()
+            this[OpenCodeClient] = this[OpenCodeClient].copy(primaryAgents = { _, _ -> planFirst })
+        }
+        store.send(Action.AgentsRequested)
+        store.receive({ it is Action.AgentsResponse && it.result.isSuccess }, "agentsResponse.success") {
+            it.copy(currentModel = opus.ref, agentSelection = it.agentSelection.copy(primaryAgents = planFirst)).listed()
+        }
     }
 }
 

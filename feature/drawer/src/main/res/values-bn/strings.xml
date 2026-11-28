@@ -38,6 +38,8 @@
     <string name="drawer_mark_as_unread">অপঠিত হিসেবে চিহ্নিত করুন</string>
     <string name="drawer_mute">মিউট করুন</string>
     <string name="drawer_unmute">আনমিউট করুন</string>
+    <string name="drawer_hide">লুকান</string>
+    <string name="drawer_unhide">দেখান</string>
     <string name="drawer_move_up">উপরে সরান</string>
     <string name="drawer_move_down">নিচে সরান</string>
 
@@ -81,8 +83,6 @@
     <string name="drawer_button_open_sessions_description">সেশন খুলুন</string>
     <string name="drawer_button_attention_state">একটি সেশনে আপনার ইনপুট প্রয়োজন</string>
     <string name="drawer_button_unread_state">অপঠিত সেশন</string>
-    <string name="drawer_notice_open_sessions_action">সেশন খুলুন</string>
-    <string name="drawer_notice_open_session_action">সেশনটি খুলুন</string>
 
     <!-- Search pill -->
     <string name="drawer_search_description">অনুসন্ধান সেশন</string>
@@ -121,6 +121,7 @@
     <!-- Session row state for TalkBack -->
     <string name="drawer_row_pinned_state">পিন করা</string>
     <string name="drawer_row_muted_state">মিউট করা</string>
+    <string name="drawer_row_hidden_state">লুকানো</string>
     <string name="drawer_row_needs_input_state">আপনার ইনপুট প্রয়োজন</string>
     <string name="drawer_row_working_state">কাজ চলছে</string>
     <string name="drawer_row_unread_state">অপঠিত</string>

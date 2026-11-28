@@ -170,6 +170,9 @@ class ClientToolsTests {
 
         // In the background the call keeps the socket, but nobody sees a card.
         store.send(AppFeature.Action.ForegroundChanged(false)) { it.copy(isInForeground = false) }
+        store.receive(voiceAction(VoiceFeature.Action.AppVisibilityChanged(false))) {
+            it.withDetail { detail -> detail.copy(voice = detail.voice?.copy(isAppVisible = false)) }
+        }
         val background = call(2, ClientTool.voiceRequestScreen, sessionID = "ses_agent")
         events.send(ClientToolsEvent.Call(background))
         store.receive(AppFeature.Action.ClientTools(ClientToolsFeature.Action.Socket(ClientToolsEvent.Call(background))))

@@ -359,7 +359,7 @@ private fun Welcome(on: Boolean, send: (Action) -> Unit) {
             Entrance(on, 0) {
                 Text(
                     "opencode",
-                    style = TextStyle(fontFamily = OpenCodeFonts.berkeleyMono, fontWeight = FontWeight.Bold, fontSize = 44.sp),
+                    style = TextStyle(fontFamily = OpenCodeFonts.monospace, fontWeight = FontWeight.Bold, fontSize = 44.sp),
                     modifier = Modifier.semantics { contentDescription = "OpenCode" },
                 )
             }

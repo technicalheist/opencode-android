@@ -215,6 +215,8 @@ class NewSessionDraftTests {
     @Test fun pickingARecentProjectChangesOnlyTheDraftsProject() = draftTest { h ->
         val store = h.store(h.draft(text = "Keep this")) { noSends() }
         store.send(Action.DraftProjectTapped(projects[2])) { it.copy(draftProject = projects[2]) }
+        store.receive(Action.AgentsRequested)
+        store.receive({ it is Action.AgentsResponse }, "agentsResponse")
         assertEquals("Keep this", store.state.draft)
         assertNull(store.state.session)
         assertTrue(store.state.items.isEmpty())
@@ -355,6 +357,8 @@ class NewSessionDraftTests {
         store.receive(Action.ProjectPicked::class) {
             it.copy(draftProject = folder, activePicker = null)
         }
+        store.receive(Action.AgentsRequested)
+        store.receive({ it is Action.AgentsResponse }, "agentsResponse")
         store.send(Action.ProjectPickerDismissed) { it.copy(folderBrowser = null) }
         assertNull(store.state.session)
         assertEquals("Fix the build", store.state.draft)

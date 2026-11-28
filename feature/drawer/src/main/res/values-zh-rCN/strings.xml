@@ -37,6 +37,8 @@
     <string name="drawer_mark_as_unread">标为未读</string>
     <string name="drawer_mute">静音</string>
     <string name="drawer_unmute">取消静音</string>
+    <string name="drawer_hide">隐藏</string>
+    <string name="drawer_unhide">取消隐藏</string>
     <string name="drawer_move_up">上移</string>
     <string name="drawer_move_down">下移</string>
 
@@ -77,8 +79,6 @@
     <string name="drawer_button_open_sessions_description">打开会话列表</string>
     <string name="drawer_button_attention_state">有会话需要你输入</string>
     <string name="drawer_button_unread_state">有未读会话</string>
-    <string name="drawer_notice_open_sessions_action">打开会话列表</string>
-    <string name="drawer_notice_open_session_action">打开会话</string>
 
     <!-- Search pill -->
     <string name="drawer_search_description">搜索会话</string>
@@ -117,6 +117,7 @@
     <!-- Session row state for TalkBack -->
     <string name="drawer_row_pinned_state">已置顶</string>
     <string name="drawer_row_muted_state">已静音</string>
+    <string name="drawer_row_hidden_state">已隐藏</string>
     <string name="drawer_row_needs_input_state">需要你输入</string>
     <string name="drawer_row_working_state">工作中</string>
     <string name="drawer_row_unread_state">未读</string>

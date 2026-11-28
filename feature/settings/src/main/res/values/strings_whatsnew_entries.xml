@@ -901,4 +901,38 @@
     <!-- 2026-11-08-02-default-model -->
     <string name="settings_whatsnew_entry_default_model_title">New Sessions Use Your Default Model</string>
     <string name="settings_whatsnew_entry_default_model_summary">New sessions start on the model set as your default in OpenCode, at the thinking level you last picked for it, instead of the last session’s model.</string>
+
+    <!-- 2026-11-11-01-streamed-reply-prefix -->
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_title">Open a Reply Midstream</string>
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_summary">When you open a session while a reply is streaming, you can read what has already arrived as the reply continues.</string>
+
+    <!-- 2026-11-13-01-draw-on-images -->
+    <string name="settings_whatsnew_entry_draw_on_images_title">Draw on Images</string>
+    <string name="settings_whatsnew_entry_draw_on_images_summary">Point out a detail before asking about it.</string>
+    <string name="settings_whatsnew_entry_draw_on_images_detail_1">Open an image full screen and tap the pen button. Choose a colour, draw, then tap Add to attach the marked-up image to your message. The original stays unchanged.</string>
+    <string name="settings_whatsnew_entry_draw_on_images_example">Circle the control you want moved in a screenshot, then describe where it should go.</string>
+
+    <!-- 2026-11-14-01-fullscreen-viewer -->
+    <string name="settings_whatsnew_entry_fullscreen_viewer_title">Swipe Between Photos and Videos</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_summary">Browse a session’s images and videos together.</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_detail_1">Swipe to a video, then tap the pen button to mark up the current frame. Add attaches the marked-up frame without sending it.</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_example">Pause a demo on the screen that needs changing, circle the detail, and add it to your draft.</string>
+
+    <!-- 2026-11-15-01-pairing-link-name -->
+    <string name="settings_whatsnew_entry_pairing_link_name_title">Named Servers From OpenCode Console</string>
+    <string name="settings_whatsnew_entry_pairing_link_name_summary">A server you pair from OpenCode Console arrives with its name, such as “Anomaly Box”.</string>
+
+    <!-- 2026-11-17-01-session-media -->
+    <string name="settings_whatsnew_entry_session_media_title">Session Media</string>
+    <string name="settings_whatsnew_entry_session_media_summary">Browse a session’s images, videos, audio, files and public web links.</string>
+    <string name="settings_whatsnew_entry_session_media_detail_1">Choose Session Media from a session’s ⋮ menu. Media shows its images, videos and audio as tiles grouped by month or as a list, and Files and Links list its documents, pastes and web links.</string>
+    <string name="settings_whatsnew_entry_session_media_example">Find the screenshot you sent this morning without scrolling back through the whole session.</string>
+
+    <!-- 2026-11-18-02-drawer-call-phone -->
+    <string name="settings_whatsnew_entry_drawer_call_phone_title">Phone Icon for Calls in the Drawer</string>
+    <string name="settings_whatsnew_entry_drawer_call_phone_summary">The call button beside Settings in the session list shows a phone, like the one in the message box.</string>
+
+    <!-- 2026-11-19-01-background-scripts -->
+    <string name="settings_whatsnew_entry_background_scripts_title">Scripts in Background Work</string>
+    <string name="settings_whatsnew_entry_background_scripts_summary">Scripts the agent moves to the background show beside subagents and shells, and a subagent stays listed while its images, videos or scripts still run. Stop either from the list.</string>
 </resources>

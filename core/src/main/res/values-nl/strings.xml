@@ -29,11 +29,6 @@
     <string name="core_experiment_group_transcript_title">Transcriptie</string>
     <string name="core_experiment_group_drawer_title">Zijmenu</string>
 
-    <!-- In-app notice mode -->
-    <string name="core_in_app_notice_mode_off">Uit</string>
-    <string name="core_in_app_notice_mode_needs_input">Alleen als je invoer nodig is</string>
-    <string name="core_in_app_notice_mode_all">Alle updates</string>
-
     <!-- Themes and appearance -->
     <string name="core_theme_system_title">Systeem</string>
     <string name="core_appearance_color_scheme_system_title">Systeem</string>

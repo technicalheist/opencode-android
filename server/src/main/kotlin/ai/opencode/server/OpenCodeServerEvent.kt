@@ -3,6 +3,7 @@ package ai.opencode.server
 import ai.opencode.server.model.OpenCodeJSONValue
 import ai.opencode.server.model.OpenCodePendingInput
 import ai.opencode.server.model.OpenCodeProject
+import ai.opencode.server.model.OpenCodeJob
 import ai.opencode.server.model.OpenCodeShell
 
 /** The event subscriber fell behind: the rest of this connection is incomplete. Reconnect and hydrate from REST. */
@@ -54,6 +55,9 @@ sealed interface OpenCodeServerEvent {
     data class ShellStarted(val shell: OpenCodeShell) : OpenCodeServerEvent
     data class ShellEnded(val shellID: String) : OpenCodeServerEvent
 
+    /** `experimental.job.updated`: a job started, moved to the background, or ended. Ephemeral; reconnects re-list running jobs. */
+    data class JobUpdated(val job: OpenCodeJob) : OpenCodeServerEvent
+
     /** A project's name, repository, or icon metadata changed on the server. */
     data class ProjectUpdated(val project: OpenCodeProject) : OpenCodeServerEvent
 
@@ -80,7 +84,7 @@ sealed interface OpenCodeServerEvent {
             is MessageInvalidated -> sessionID
             is RevertChanged -> sessionID
             is ShellStarted -> shell.sessionID
-            Connected, is SessionCreated, is AttentionChanged, is ShellEnded, is ProjectUpdated, ModelsChanged, AgentsChanged -> null
+            Connected, is SessionCreated, is AttentionChanged, is ShellEnded, is JobUpdated, is ProjectUpdated, ModelsChanged, AgentsChanged -> null
         }
 }
 

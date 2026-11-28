@@ -67,8 +67,6 @@
     <string name="settings_notifications_plugin_check_failed">Nie udało się sprawdzić statusu</string>
     <string name="settings_notifications_set_up">Skonfiguruj z OpenCode</string>
     <string name="settings_notifications_check_again">Sprawdź ponownie</string>
-    <string name="settings_notifications_in_app_footer">Widoczne na przycisku panelu bocznego.</string>
-    <string name="settings_notifications_in_app_notices">Powiadomienia w aplikacji</string>
 
     <!-- Sessions -->
     <string name="settings_sessions_title">Sesje</string>

@@ -39,6 +39,14 @@ import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.Robolectric
+import org.robolectric.RobolectricTestRunner
+import org.robolectric.Shadows.shadowOf
+import org.robolectric.annotation.Config
+import android.os.Looper
+import androidx.activity.ComponentActivity
+import androidx.compose.ui.platform.ComposeView
 import java.io.File
 import java.nio.file.Files
 import java.time.Instant
@@ -286,7 +294,7 @@ class VoiceFeatureTestsCallLog {
         store.receive(Action.DelegatorFinished::class)
 
         val firstRequest = capturedRequests.value.firstOrNull() ?: throw AssertionError("No request")
-        assertTrue(firstRequest.contains("The user is viewing session \"Voice lab\" (id ses_voice, project project, working)."))
+        assertTrue(firstRequest.contains("The call is attached to session \"Voice lab\" (id ses_voice, project project, working)."))
         assertTrue(firstRequest.contains("Tracked session work from this call:"))
         assertTrue(firstRequest.contains("- \"Blog game\" (id ses_blog, prompt msg_blog): finished — replied: Finished the scoring loop."))
         assertTrue(firstRequest.contains("Other voice delegator requests currently in flight: 1."))
@@ -298,7 +306,7 @@ class VoiceFeatureTestsCallLog {
         store.receive(Action.DelegatorFinished::class)
 
         val secondRequest = capturedRequests.value.lastOrNull() ?: throw AssertionError("No request")
-        assertTrue(secondRequest.contains("The user is viewing session \"Voice lab\" (id ses_voice, project project, idle)."))
+        assertTrue(secondRequest.contains("The call is attached to session \"Voice lab\" (id ses_voice, project project, idle)."))
         store.finish()
     }
 
@@ -559,3 +567,17 @@ class VoiceFeatureTestsCallLog {
     }
 }
 
+@RunWith(RobolectricTestRunner::class)
+@Config(sdk = [35], qualifiers = "xxhdpi")
+class VoiceCallReplayViewTests {
+    /** An hour-long call's replay opens. */
+    @Test fun anHourLongCallOpens() {
+        val activity = Robolectric.buildActivity(ComponentActivity::class.java).setup().get()
+        val view = ComposeView(activity)
+        activity.setContentView(view)
+        val log = VoiceCallLog(id = UUID(0, 1), startedAt = Instant.EPOCH, endedAt = Instant.EPOCH.plusSeconds(3_600), title = "Call", engine = "test")
+        view.setContent { VoiceCallReplayView(log, onBack = {}) }
+        shadowOf(Looper.getMainLooper()).idle()
+        view.disposeComposition()
+    }
+}

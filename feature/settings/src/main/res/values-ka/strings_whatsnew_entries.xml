@@ -901,4 +901,38 @@
     <!-- 2026-11-08-02-default-model -->
     <string name="settings_whatsnew_entry_default_model_title">ახალი სესიები ნაგულისხმევ მოდელს იყენებს</string>
     <string name="settings_whatsnew_entry_default_model_summary">ახალი სესიები წინა სესიის მოდელის ნაცვლად OpenCode-ში ნაგულისხმევად დაყენებული მოდელით იწყება, მისთვის ბოლოს არჩეული ფიქრის დონით.</string>
+
+    <!-- 2026-11-11-01-streamed-reply-prefix -->
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_title">პასუხის გახსნა წერის პროცესში</string>
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_summary">თუ სესიას პასუხის წერისას გახსნით, უკვე მიღებულ ნაწილს წაიკითხავთ, სანამ პასუხი გრძელდება.</string>
+
+    <!-- 2026-11-13-01-draw-on-images -->
+    <string name="settings_whatsnew_entry_draw_on_images_title">სურათებზე ხატვა</string>
+    <string name="settings_whatsnew_entry_draw_on_images_summary">მონიშნეთ დეტალი, სანამ მასზე კითხვას დასვამთ.</string>
+    <string name="settings_whatsnew_entry_draw_on_images_detail_1">გახსენით სურათი სრულ ეკრანზე და შეეხეთ კალმის ღილაკს. აირჩიეთ ფერი, დახატეთ და შეეხეთ „დამატებას“, რომ მონიშნული სურათი შეტყობინებას დაურთოთ. ორიგინალი უცვლელი დარჩება.</string>
+    <string name="settings_whatsnew_entry_draw_on_images_example">ეკრანის სურათზე შემოხაზეთ გადასატანი ელემენტი, შემდეგ აღწერეთ, სად უნდა გადავიდეს.</string>
+
+    <!-- 2026-11-14-01-fullscreen-viewer -->
+    <string name="settings_whatsnew_entry_fullscreen_viewer_title">ფოტოებსა და ვიდეოებს შორის გადასმა</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_summary">დაათვალიერეთ სესიის სურათები და ვიდეოები ერთად.</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_detail_1">გადასმით გადადით ვიდეოზე, შემდეგ შეეხეთ კალმის ღილაკს მიმდინარე კადრზე მოსანიშნად. „დამატება“ მონიშნულ კადრს დაურთავს შეტყობინებას გაგზავნის გარეშე.</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_example">შეაჩერეთ დემო შესაცვლელ ეკრანზე, შემოხაზეთ დეტალი და დაამატეთ მონახაზს.</string>
+
+    <!-- 2026-11-15-01-pairing-link-name -->
+    <string name="settings_whatsnew_entry_pairing_link_name_title">სერვერების სახელები OpenCode Console-დან</string>
+    <string name="settings_whatsnew_entry_pairing_link_name_summary">OpenCode Console-დან დაწყვილებულ სერვერს სახელიც მოჰყვება, მაგალითად, „Anomaly Box“.</string>
+
+    <!-- 2026-11-17-01-session-media -->
+    <string name="settings_whatsnew_entry_session_media_title">სესიის მედია</string>
+    <string name="settings_whatsnew_entry_session_media_summary">დაათვალიერე სესიის სურათები, ვიდეოები, აუდიო, ფაილები და საჯარო ვებბმულები.</string>
+    <string name="settings_whatsnew_entry_session_media_detail_1">სესიის ⋮ მენიუში აირჩიეთ „სესიის მედია“. „მედიაში“ სურათები, ვიდეოები და აუდიო ნაჩვენებია თვეების მიხედვით დაჯგუფებულ ფილებად ან სიად, ხოლო „ფაილებსა“ და „ბმულებში“ — დოკუმენტები, ჩასმული ტექსტები და ვებბმულები.</string>
+    <string name="settings_whatsnew_entry_session_media_example">იპოვეთ დილით გაგზავნილი ეკრანის სურათი მთელი სესიის უკან გადახვევის გარეშე.</string>
+
+    <!-- 2026-11-18-02-drawer-call-phone -->
+    <string name="settings_whatsnew_entry_drawer_call_phone_title">ტელეფონის ხატულა გვერდით პანელში</string>
+    <string name="settings_whatsnew_entry_drawer_call_phone_summary">სესიების სიაში, „პარამეტრების“ გვერდით, ზარის ღილაკზე ახლა ტელეფონის ხატულაა, როგორც შეტყობინების ველში.</string>
+
+    <!-- 2026-11-19-01-background-scripts -->
+    <string name="settings_whatsnew_entry_background_scripts_title">სკრიპტები ფონურ სამუშაოებში</string>
+    <string name="settings_whatsnew_entry_background_scripts_summary">აგენტის მიერ ფონზე გადატანილი სკრიპტები ქვეაგენტებისა და გარსების გვერდით ჩანს. ქვეაგენტი სიაში რჩება, სანამ მისი სურათების, ვიდეოების ან სკრიპტების დამუშავება გრძელდება. ორივეს შეჩერება სიიდანვე შეგიძლიათ.</string>
 </resources>

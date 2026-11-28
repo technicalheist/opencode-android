@@ -389,6 +389,7 @@ class FullscreenViewerFeature(
             if (index < 0) Reduced(state) else {
                 val page = state.preview.pages[index]
                 Reduced(state.withPage(index, page.copy(image = action.image ?: page.image,
+                    placeholderSize = if (action.image != null) null else page.placeholderSize,
                     originalFailed = action.image == null && page.original != null,
                     loadFailed = action.image == null,
                     hasDecodedOriginal = action.image != null && page.original != null)))
@@ -409,16 +410,18 @@ class FullscreenViewerFeature(
         Action.CloseTapped -> Reduced(state.copy(isDismissed = true, drawing = null), Effect.cancel(listOf(ExportSlot, PageLoadID(state.selectedID))))
 
         Action.SaveTapped -> {
-            val image = state.selectedPage?.image
-            if (state.isSaving || state.selectedPage?.isVideo == true || state.selectedPage?.file != null || image == null) {
+            val page = state.selectedPage
+            val image = page?.image
+            if (state.isSaving || page == null || page.isVideo || page.file != null || image == null) {
                 Reduced(state)
             } else {
                 val photoSave = dependency(PhotoSaveClient)
+                val export = exportedImage(page, image)
                 Reduced(
                     state.copy(isSaving = true),
                     Effect.run { send ->
                         val saved = try {
-                            photoSave.saveImage(image)
+                            photoSave.saveImage(checkNotNull(export()))
                             true
                         } catch (cancellation: kotlinx.coroutines.CancellationException) {
                             throw cancellation
@@ -459,7 +462,8 @@ class FullscreenViewerFeature(
                 Reduced(state)
             } else {
                 val imageShare = dependency(ImageShareClient)
-                Reduced(state, Effect.run { _ -> imageShare.share(image, page.label) })
+                val export = exportedImage(page, image)
+                Reduced(state, Effect.run { _ -> export()?.let { imageShare.share(it, page.label) } })
             }
         }
 
@@ -629,6 +633,13 @@ class FullscreenViewerFeature(
     private fun fileImageKey(file: AgentFileDestination, server: OpenCodeServer?): String? =
         server?.let { AgentImageCache.key(it, file.reference, file.directory) }
 
+
+    /** What Save and Share export: the original, decoded off the main thread while only its thumbnail is on screen. */
+    private fun exportedImage(page: TranscriptImagePreview.Page, image: Bitmap): suspend () -> Bitmap? {
+        val original = page.original.takeIf { !page.hasDecodedOriginal } ?: return { image }
+        val decodeContext = dependency(VisualDecodeContext)
+        return { withContext(decodeContext) { decodeBitmap(original) } }
+    }
 
     private fun decodeBitmap(data: ByteArray): Bitmap? =
         if (data.isEmpty()) null else BitmapFactory.decodeByteArray(data, 0, data.size)

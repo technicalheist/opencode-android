@@ -11,8 +11,10 @@ import ai.opencode.core.store.Reduced
 import ai.opencode.core.store.Reducer
 import ai.opencode.core.store.Store
 import ai.opencode.core.ui.ThisDevice
+import ai.opencode.feature.drawer.AppAwayDate
 import ai.opencode.feature.drawer.HomeFeature
 import ai.opencode.feature.drawer.restoringInitialSession
+import ai.opencode.feature.drawer.wasAwayLongEnoughForNewSession
 import ai.opencode.feature.system.NotificationDestination
 import ai.opencode.feature.system.SceneWindowClient
 import ai.opencode.feature.system.SessionWindowTarget
@@ -315,9 +317,12 @@ class RootStore(
         fun target(intent: Intent?, saved: Bundle?): SessionWindowTarget? {
             fun read(server: String?, session: String?) =
                 if (server != null && session != null) SessionWindowTarget(server, session) else null
-            saved?.let { read(it.getString(SessionWindowTarget.EXTRA_SERVER_ID), it.getString(SessionWindowTarget.EXTRA_SESSION_ID)) }
+            val opensWindowTarget = intent?.action == SessionWindowTarget.ACTION
+            // After a long absence the first window opens a new session rather than the one it showed.
+            val restored = if (opensWindowTarget || !wasAwayLongEnoughForNewSession(dependency(AppAwayDate).now())) saved else null
+            restored?.let { read(it.getString(SessionWindowTarget.EXTRA_SERVER_ID), it.getString(SessionWindowTarget.EXTRA_SESSION_ID)) }
                 ?.let { return it }
-            if (intent?.action != SessionWindowTarget.ACTION) return null
+            if (!opensWindowTarget) return null
             return read(intent.getStringExtra(SessionWindowTarget.EXTRA_SERVER_ID), intent.getStringExtra(SessionWindowTarget.EXTRA_SESSION_ID))
         }
     }

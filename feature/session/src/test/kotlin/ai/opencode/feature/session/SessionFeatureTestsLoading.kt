@@ -437,15 +437,17 @@ class SessionFeatureTestsLoading {
         }
         store.receive(Action.AcceptedTranscriptUpdated(sessionID = session.id, items = emptyList()))
         store.receive(Action.FirstContentFrameRendered) {
-            it.copy(hasRenderedFirstContentFrame = true).withRequestLoadAttempt(RequestDockFeature.State.LoadAttempt.Initial)
+            it.copy(hasRenderedFirstContentFrame = true, familyRead = CoalescedRead(isInFlight = true))
+                .withRequestLoadAttempt(RequestDockFeature.State.LoadAttempt.Initial)
         }
         // Merged effects answer in launch order (family, shells, models).
         store.receive(
             Action.FamilyResponse(Result.success(OpenCodeSessionFamily(sessions = listOf(session), activeSessionIDs = emptySet()))),
         ) {
-            it.copy(familyReadAt = now, pendingWorkPollSeconds = 2)
+            it.copy(familyReadAt = now, familyRead = CoalescedRead(), pendingWorkPollSeconds = 2)
         }
         store.receive(Action.ShellsResponse(sessionID = session.id, result = Result.success(emptyList())))
+        store.receive(Action.JobsResponse(sessionID = session.id, jobs = emptyList()))
         store.receive(Action.PendingInputsRequested(sessionID = session.id))
         assertTrue(store.state.isLoadingEarlier)
         assertTrue(store.state.isTranscriptLoading)
@@ -850,16 +852,17 @@ class SessionFeatureTestsLoading {
             it.copy(initialTranscriptRequestIsExternal = false, isLoading = false, loadError = loadError.message)
         }
         store.receive(Action.FirstContentFrameRendered) {
-            it.copy(hasRenderedFirstContentFrame = true, isLoadingModels = true)
+            it.copy(hasRenderedFirstContentFrame = true, isLoadingModels = true, familyRead = CoalescedRead(isInFlight = true))
                 .withRequestLoadAttempt(RequestDockFeature.State.LoadAttempt.Initial)
         }
         // Merged effects answer in launch order (family, shells, models).
         store.receive(
             Action.FamilyResponse(Result.success(OpenCodeSessionFamily(sessions = listOf(session), activeSessionIDs = setOf(session.id)))),
         ) {
-            it.copy(familyReadAt = now, pendingWorkPollSeconds = 2)
+            it.copy(familyReadAt = now, familyRead = CoalescedRead(), pendingWorkPollSeconds = 2)
         }
         store.receive(Action.ShellsResponse(sessionID = session.id, result = Result.success(emptyList())))
+        store.receive(Action.JobsResponse(sessionID = session.id, jobs = emptyList()))
         store.receive(Action.ModelsResponse(Result.success(catalog))) {
             it.copy(isLoadingModels = false, models = listOf(model))
         }
@@ -935,15 +938,17 @@ class SessionFeatureTestsLoading {
             it.copy(refresh = null, resync = null, loadError = loadError.message)
         }
         store.receive(Action.FirstContentFrameRendered) {
-            it.copy(hasRenderedFirstContentFrame = true).withRequestLoadAttempt(RequestDockFeature.State.LoadAttempt.Initial)
+            it.copy(hasRenderedFirstContentFrame = true, familyRead = CoalescedRead(isInFlight = true))
+                .withRequestLoadAttempt(RequestDockFeature.State.LoadAttempt.Initial)
         }
         // Merged effects answer in launch order (family, shells, models).
         store.receive(
             Action.FamilyResponse(Result.success(OpenCodeSessionFamily(sessions = listOf(session), activeSessionIDs = emptySet()))),
         ) {
-            it.copy(familyReadAt = now, pendingWorkPollSeconds = 2)
+            it.copy(familyReadAt = now, familyRead = CoalescedRead(), pendingWorkPollSeconds = 2)
         }
         store.receive(Action.ShellsResponse(sessionID = session.id, result = Result.success(emptyList())))
+        store.receive(Action.JobsResponse(sessionID = session.id, jobs = emptyList()))
         store.receive(Action.PendingInputsRequested(sessionID = session.id))
         assertFalse(store.state.isTranscriptLoading)
         assertFalse(store.state.showsEmptyState)

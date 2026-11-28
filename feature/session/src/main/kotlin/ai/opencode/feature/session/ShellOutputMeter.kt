@@ -2,6 +2,8 @@ package ai.opencode.feature.session
 
 import ai.opencode.core.dependencies.DependencyKey
 import ai.opencode.server.OpenCodeServer
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlin.math.max
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
@@ -22,12 +24,21 @@ class ShellOutputMeter {
         val at: Double,
         val bytesPerSecond: Double = 0.0,
         val grewAt: Double? = null,
+        /** When it last grew, or was first read. */
+        val changedAt: Double = at,
     )
 
-    data class Reading(val bytesPerSecond: Double = 0.0, val isOutput: Boolean = false)
+    data class Reading(val bytesPerSecond: Double = 0.0, val isOutput: Boolean = false) {
+        /** Nothing for the glyph to show: no rate, no recent growth. */
+        val isQuiet: Boolean get() = bytesPerSecond == 0.0 && !isOutput
+    }
 
     private val lock = Any()
     private val samples = HashMap<String, Sample>()
+    private val growthCount = MutableStateFlow(0L)
+
+    /** Counts the reads that saw a shell grow: a glyph at rest waits for the next. */
+    val growth: StateFlow<Long> get() = growthCount
 
     fun record(id: String, size: Int, now: Double = AgentActivityClock.now()) {
         synchronized(lock) {
@@ -45,8 +56,16 @@ class ShellOutputMeter {
                 at = now,
                 bytesPerSecond = grown.toDouble() / (now - previous.at),
                 grewAt = if (grown > 0) now else previous.grewAt,
+                changedAt = if (grown > 0) now else previous.changedAt,
             )
+            if (grown > 0) growthCount.value += 1
         }
+    }
+
+    /** How long the probe waits before reading [ids] again. */
+    fun probeInterval(ids: List<String>, now: Double): Duration = synchronized(lock) {
+        val idle = ids.all { id -> samples[id]?.let { now - it.changedAt >= IDLE_AFTER } ?: false }
+        if (idle) idleProbeInterval else probeInterval
     }
 
     /** No one has read the shell's size this past interval. */
@@ -79,6 +98,10 @@ class ShellOutputMeter {
         /** The process-wide meter, private to this module's glyphs and [ShellOutputMeterClient.liveValue]. */
         internal val shared = ShellOutputMeter()
         val probeInterval: Duration = 1.seconds
+
+        /** The probe's pace once every shell has sat unchanged for [IDLE_AFTER]: output that starts again shows within this. */
+        val idleProbeInterval: Duration = 3.seconds
+        const val IDLE_AFTER: Double = 30.0
 
         /** A rate this old no longer describes the shell. */
         const val STALE_AFTER: Double = 2.5

@@ -1,6 +1,7 @@
 package ai.opencode.feature.session
 
 import ai.opencode.feature.session.agentactivity.GyroCell
+import ai.opencode.feature.session.agentactivity.GyroField
 import ai.opencode.feature.session.agentactivity.ShellGlyphModel
 import ai.opencode.feature.session.agentactivity.ShellOutputFeed
 import ai.opencode.feature.session.agentactivity.ShellPromptGlyph
@@ -11,6 +12,8 @@ import org.junit.Test
 import kotlin.math.abs
 import kotlin.math.floor
 import kotlin.math.max
+import kotlin.math.roundToInt
+import kotlin.time.Duration.Companion.seconds
 
 /**
  * The shell glyph's physics (R1 Glide), fed as the app feeds it: a byte rate becomes Poisson
@@ -145,5 +148,111 @@ class ShellGlyphTests {
             lapped = lapped || model.isLapping
         }
         assertTrue(lapped)
+    }
+
+    // Rest and wake (an idle dev server stops its timeline and its probe slows)
+
+    /** Advances [model] at 60 Hz from [start] for [seconds], returning when it first rested and the last field. */
+    private fun play(
+        model: ShellGlyphModel,
+        start: Double,
+        seconds: Double,
+        ids: List<String> = listOf("sh_dev"),
+        each: (Double) -> Unit = {},
+    ): Pair<Double?, GyroField?> {
+        var restedAt: Double? = null
+        var field: GyroField? = null
+        for (frame in 1..(seconds * 60).toInt()) {
+            val now = start + frame.toDouble() / 60
+            each(now)
+            field = model.advance(now = now, shellIDs = ids, reduceMotion = false)
+            if (restedAt == null && model.isResting(now, ids)) restedAt = now
+        }
+        return restedAt to field
+    }
+
+    @Test fun anIdleShellRestsAtOnceAndSteppingOnDrawsNothingNew() {
+        val meter = ShellOutputMeter()
+        val model = ShellGlyphModel(meter)
+        meter.record("sh_dev", size = 4_096, now = 0.0)
+        val (restedAt, rested) = play(model, start = 0.0, seconds = 1.0)
+        // First sight is settled: it needs only its phosphor to land.
+        val at = checkNotNull(restedAt)
+        assertTrue("Rested at $at s", at < 0.5)
+        // What the paused timeline would have drawn over the next 10 s, with the probe finding the
+        // size unchanged: the same field, so pausing is invisible.
+        var size = 4_096
+        val (_, later) = play(model, start = 1.0, seconds = 10.0) { now ->
+            if ((now * 60).roundToInt() % 60 == 0) meter.record("sh_dev", size = size, now = now)
+        }
+        assertTrue(model.isResting(11.0, listOf("sh_dev")))
+        val before = checkNotNull(rested)
+        val after = checkNotNull(later)
+        for (i in before.dots.indices) {
+            assertTrue(abs(before.dots[i].light - after.dots[i].light) < 0.002 && before.dots[i].fresh == after.dots[i].fresh)
+        }
+        assertTrue(abs(before.glow - after.glow) < 0.002)
+        // Output growing wakes it on the read that sees it.
+        size += 800
+        meter.record("sh_dev", size = size, now = 11.5)
+        assertTrue(!model.isResting(11.5, listOf("sh_dev")))
+    }
+
+    @Test fun afterABurstItRestsOnlyOnceHomeAndDrained() {
+        val meter = ShellOutputMeter()
+        val model = ShellGlyphModel(meter)
+        var size = 0
+        meter.record("sh_dev", size = size, now = 0.0)
+        play(model, start = 0.0, seconds = 3.0) { now ->
+            if ((now * 60).roundToInt() % 60 == 0) {
+                size += 30_000
+                meter.record("sh_dev", size = size, now = now)
+            }
+        }
+        assertTrue(model.isLapping)
+        assertTrue(!model.isResting(3.0, listOf("sh_dev")))
+        val (restedAt, _) = play(model, start = 3.0, seconds = 15.0)
+        // Still: it never woke on its own.
+        assertTrue(model.isResting(18.0, listOf("sh_dev")))
+        val at = checkNotNull(restedAt)
+        // Not while it coasts, lands or the flow meter drains; well before forever.
+        assertTrue("Rested at $at s", at > 6 && at < 17)
+        assertTrue(!model.isLapping)
+    }
+
+    @Test fun aRestingGlyphWakesOnTheNextReadThatSeesGrowth() {
+        val meter = ShellOutputMeter()
+        val model = ShellGlyphModel(meter)
+        meter.record("sh_dev", size = 4_096, now = 0.0)
+        meter.record("sh_dev", size = 4_096, now = 1.0)
+        val (restedAt, _) = play(model, start = 1.0, seconds = 1.0)
+        assertNotNull(restedAt)
+        val seen = meter.growth.value
+        // A probe that finds the size unchanged leaves it asleep.
+        meter.record("sh_dev", size = 4_096, now = 2.0)
+        assertEquals(seen, meter.growth.value)
+        // The sheet's read a moment after the probe is dropped, so the probe's next read sees the growth.
+        meter.record("sh_dev", size = 5_000, now = 2.1)
+        assertEquals(seen, meter.growth.value)
+        meter.record("sh_dev", size = 5_000, now = 3.0)
+        assertTrue(meter.growth.value != seen)
+        assertTrue(!model.isResting(3.0, listOf("sh_dev")))
+    }
+
+    @Test fun theProbeSlowsOnlyOnceEveryShellSitsUnchanged() {
+        val meter = ShellOutputMeter()
+        assertEquals("Never read: read it now", 1.seconds, meter.probeInterval(listOf("sh_a"), now = 0.0))
+        meter.record("sh_a", size = 100, now = 0.0)
+        meter.record("sh_a", size = 100, now = 29.0)
+        assertEquals(1.seconds, meter.probeInterval(listOf("sh_a"), now = 29.5))
+        meter.record("sh_a", size = 100, now = 30.0)
+        assertEquals(ShellOutputMeter.idleProbeInterval, meter.probeInterval(listOf("sh_a"), now = 30.0))
+        // Another shell still growing keeps the pace.
+        meter.record("sh_b", size = 0, now = 10.0)
+        meter.record("sh_b", size = 50, now = 25.0)
+        assertEquals(1.seconds, meter.probeInterval(listOf("sh_a", "sh_b"), now = 40.0))
+        // Growth puts it straight back to a second.
+        meter.record("sh_a", size = 900, now = 40.0)
+        assertEquals(1.seconds, meter.probeInterval(listOf("sh_a"), now = 40.0))
     }
 }

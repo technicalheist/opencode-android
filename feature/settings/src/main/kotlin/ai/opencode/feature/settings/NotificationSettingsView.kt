@@ -1,7 +1,5 @@
 package ai.opencode.feature.settings
 
-import ai.opencode.core.experiments.InAppNoticeMode
-import ai.opencode.core.sharing.shared
 import ai.opencode.core.store.observe
 import ai.opencode.core.ui.OpenCodeErrorText
 import ai.opencode.core.ui.OpenCodeTheme
@@ -12,9 +10,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.semantics
@@ -32,7 +28,7 @@ sealed interface NotifyPluginCheck {
 
 /**
  * Settings → Notifications, this phone's permission, whether the server runs the notify plugin
- * (with Set Up with OpenCode to have OpenCode install it), and the In-App Notices picker.
+ * (with Set Up with OpenCode to have OpenCode install it).
  */
 @Composable
 fun NotificationSettingsView(store: SettingsStore) {
@@ -41,7 +37,6 @@ fun NotificationSettingsView(store: SettingsStore) {
     val setupError by store.observe { it.notificationSetupError }
     val notifyPlugin by store.observe { it.notifyPlugin }
     val disconnected by store.observe { it.connectionStatus == ConnectionStatus.disconnected }
-    val noticeMode by remember { shared(InAppNoticeMode.key).flow }.collectAsState()
     LaunchedEffect(store) {
         store.send(SettingsFeature.Action.Delegate(SettingsFeature.SettingsDelegate.NotificationSettingsRequested))
         store.send(SettingsFeature.Action.Delegate(SettingsFeature.SettingsDelegate.NotifyPluginCheckRequested))
@@ -52,7 +47,6 @@ fun NotificationSettingsView(store: SettingsStore) {
     val serverHeader = stringResource(R.string.settings_notifications_server_header)
     val setUpFooter = stringResource(R.string.settings_notifications_set_up_footer)
     val pluginNeededFooter = stringResource(R.string.settings_notifications_plugin_needed_footer)
-    val inAppFooter = stringResource(R.string.settings_notifications_in_app_footer)
 
     SettingsPageScaffold(title = stringResource(R.string.settings_notifications_title), store = store) {
         settingsSection(
@@ -130,18 +124,6 @@ fun NotificationSettingsView(store: SettingsStore) {
                     store.send(SettingsFeature.Action.Delegate(SettingsFeature.SettingsDelegate.NotifyPluginCheckRequested))
                 },
                 enabled = notifyPlugin != NotifyPluginCheck.Checking,
-            )
-        }
-        settingsSection(
-            key = "in-app",
-            footer = footerText(inAppFooter),
-        ) {
-            SettingsMenuRow(
-                title = stringResource(R.string.settings_notifications_in_app_notices),
-                value = noticeMode.title,
-                selection = noticeMode,
-                options = InAppNoticeMode.entries.map { SettingsMenuOption(it, it.title) },
-                onSelect = { store.send(SettingsFeature.Action.Settings(HomeSettingsFeature.Action.InAppNoticeModeChanged(it))) },
             )
         }
     }

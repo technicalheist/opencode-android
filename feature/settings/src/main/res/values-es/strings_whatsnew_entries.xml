@@ -901,4 +901,38 @@
     <!-- 2026-11-08-02-default-model -->
     <string name="settings_whatsnew_entry_default_model_title">Nuevas sesiones con tu modelo predeterminado</string>
     <string name="settings_whatsnew_entry_default_model_summary">Las nuevas sesiones usan el modelo predeterminado de OpenCode, con el último nivel de razonamiento que elegiste para él, en lugar del modelo de la sesión anterior.</string>
+
+    <!-- 2026-11-11-01-streamed-reply-prefix -->
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_title">Abre una respuesta en curso</string>
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_summary">Si abres una sesión mientras llega una respuesta, puedes leer lo que ya ha llegado sin esperar a que termine.</string>
+
+    <!-- 2026-11-13-01-draw-on-images -->
+    <string name="settings_whatsnew_entry_draw_on_images_title">Dibuja sobre imágenes</string>
+    <string name="settings_whatsnew_entry_draw_on_images_summary">Señala un detalle antes de preguntar por él.</string>
+    <string name="settings_whatsnew_entry_draw_on_images_detail_1">Abre una imagen a pantalla completa y toca el botón del lápiz. Elige un color, dibuja y toca Añadir para adjuntar la imagen marcada a tu mensaje. El original no cambia.</string>
+    <string name="settings_whatsnew_entry_draw_on_images_example">Rodea el control que quieres mover en una captura de pantalla y describe dónde debe ir.</string>
+
+    <!-- 2026-11-14-01-fullscreen-viewer -->
+    <string name="settings_whatsnew_entry_fullscreen_viewer_title">Desliza entre fotos y vídeos</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_summary">Explora las imágenes y los vídeos de una sesión en un solo lugar.</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_detail_1">Desliza hasta un vídeo y toca el botón del lápiz para marcar el fotograma actual. Añadir adjunta el fotograma marcado sin enviarlo.</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_example">Pausa una demo en la pantalla que quieres cambiar, rodea el detalle y añádelo a tu borrador.</string>
+
+    <!-- 2026-11-15-01-pairing-link-name -->
+    <string name="settings_whatsnew_entry_pairing_link_name_title">Servidores con nombre desde OpenCode Console</string>
+    <string name="settings_whatsnew_entry_pairing_link_name_summary">Al emparejar un servidor desde OpenCode Console, se añade con su nombre, como «Anomaly Box».</string>
+
+    <!-- 2026-11-17-01-session-media -->
+    <string name="settings_whatsnew_entry_session_media_title">Multimedia de la sesión</string>
+    <string name="settings_whatsnew_entry_session_media_summary">Explora las imágenes, vídeos, audio, archivos y enlaces web públicos de una sesión.</string>
+    <string name="settings_whatsnew_entry_session_media_detail_1">Elige Multimedia de la sesión en el menú ⋮ de una sesión. Multimedia muestra sus imágenes, vídeos y audios en mosaicos agrupados por mes o en una lista. Archivos y Enlaces muestran sus documentos, textos pegados y enlaces web.</string>
+    <string name="settings_whatsnew_entry_session_media_example">Encuentra la captura de pantalla que enviaste esta mañana sin recorrer toda la sesión.</string>
+
+    <!-- 2026-11-18-02-drawer-call-phone -->
+    <string name="settings_whatsnew_entry_drawer_call_phone_title">Icono de teléfono en el panel lateral</string>
+    <string name="settings_whatsnew_entry_drawer_call_phone_summary">El botón de llamada junto a Ajustes en la lista de sesiones muestra un teléfono, como el del cuadro de mensaje.</string>
+
+    <!-- 2026-11-19-01-background-scripts -->
+    <string name="settings_whatsnew_entry_background_scripts_title">Scripts en segundo plano</string>
+    <string name="settings_whatsnew_entry_background_scripts_summary">Los scripts que el agente pasa a segundo plano aparecen junto a los subagentes y las shells. Los subagentes siguen en la lista mientras sus imágenes, vídeos o scripts estén en curso. Puedes detener tanto scripts como subagentes desde la lista.</string>
 </resources>

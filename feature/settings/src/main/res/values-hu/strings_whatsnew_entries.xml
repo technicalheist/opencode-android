@@ -901,4 +901,38 @@
     <!-- 2026-11-08-02-default-model -->
     <string name="settings_whatsnew_entry_default_model_title">Új munkamenetek az alapértelmezett modellel</string>
     <string name="settings_whatsnew_entry_default_model_summary">Az új munkamenetek az OpenCode-ban alapértelmezettként beállított modellel indulnak, a hozzá legutóbb választott gondolkodási szinten, nem pedig az előző munkamenet modelljével.</string>
+
+    <!-- 2026-11-11-01-streamed-reply-prefix -->
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_title">Válasz megnyitása írás közben</string>
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_summary">Ha válaszadás közben nyit meg egy munkamenetet, a már megérkezett részt olvashatja, miközben a válasz folytatódik.</string>
+
+    <!-- 2026-11-13-01-draw-on-images -->
+    <string name="settings_whatsnew_entry_draw_on_images_title">Rajzolás képekre</string>
+    <string name="settings_whatsnew_entry_draw_on_images_summary">Jelöljön meg egy részletet, mielőtt rákérdez.</string>
+    <string name="settings_whatsnew_entry_draw_on_images_detail_1">Nyisson meg egy képet teljes képernyőn, és koppintson a toll gombra. Válasszon színt, rajzoljon, majd a Hozzáadás gombbal csatolja a megjelölt képet az üzenetéhez. Az eredeti változatlan marad.</string>
+    <string name="settings_whatsnew_entry_draw_on_images_example">Karikázza be az áthelyezendő vezérlőt egy képernyőképen, majd írja le, hová kerüljön.</string>
+
+    <!-- 2026-11-14-01-fullscreen-viewer -->
+    <string name="settings_whatsnew_entry_fullscreen_viewer_title">Lapozás fotók és videók között</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_summary">Böngéssze együtt a munkamenet képeit és videóit.</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_detail_1">Lapozzon egy videóhoz, majd a toll gombra koppintva rajzoljon az aktuális képkockára. A Hozzáadás csatolja a megjelölt képkockát, de nem küldi el.</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_example">Állítsa meg a bemutatót a módosítandó képernyőnél, karikázza be a részletet, és adja hozzá a piszkozatához.</string>
+
+    <!-- 2026-11-15-01-pairing-link-name -->
+    <string name="settings_whatsnew_entry_pairing_link_name_title">Elnevezett szerverek az OpenCode Console-ból</string>
+    <string name="settings_whatsnew_entry_pairing_link_name_summary">Az OpenCode Console-ból párosított kiszolgáló a nevével együtt jelenik meg, például „Anomaly Box”.</string>
+
+    <!-- 2026-11-17-01-session-media -->
+    <string name="settings_whatsnew_entry_session_media_title">Munkamenet médiája</string>
+    <string name="settings_whatsnew_entry_session_media_summary">Böngésszen a munkamenet képei, videói, hanganyagai, fájljai és nyilvános weblinkjei között.</string>
+    <string name="settings_whatsnew_entry_session_media_detail_1">Válassza a Munkamenet médiája lehetőséget a munkamenet ⋮ menüjében. A Média a képeket, videókat és hangokat havi csoportosítású csempékként vagy listaként mutatja, a Fájlok és a Linkek pedig a dokumentumokat, beillesztett tartalmakat és webes linkeket sorolja fel.</string>
+    <string name="settings_whatsnew_entry_session_media_example">Keresse meg a ma reggel küldött képernyőképet a teljes munkamenet visszagörgetése nélkül.</string>
+
+    <!-- 2026-11-18-02-drawer-call-phone -->
+    <string name="settings_whatsnew_entry_drawer_call_phone_title">Telefonikon az oldalmenü hívásgombján</string>
+    <string name="settings_whatsnew_entry_drawer_call_phone_summary">A munkamenetlistában a Beállítások melletti hívásgombon most telefonikon látható, akárcsak az üzenetmezőben.</string>
+
+    <!-- 2026-11-19-01-background-scripts -->
+    <string name="settings_whatsnew_entry_background_scripts_title">Szkriptek a háttérmunkák között</string>
+    <string name="settings_whatsnew_entry_background_scripts_summary">Az ügynök által háttérbe helyezett szkriptek az alügynökök és shellek mellett jelennek meg. Az alügynök a listán marad, amíg a képei, videói vagy szkriptjei futnak. Mindkettő leállítható a listából.</string>
 </resources>

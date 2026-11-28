@@ -54,8 +54,7 @@ object SessionPushNotifications {
             .setStyle(NotificationCompat.BigTextStyle().bigText(shown.body))
             .setAutoCancel(true)
             .setCategory(NotificationCompat.CATEGORY_MESSAGE)
-            .setSilent(presentation == NotificationPresentation.ListOnly)
-            .setPriority(if (presentation == NotificationPresentation.ListOnly) NotificationCompat.PRIORITY_LOW else NotificationCompat.PRIORITY_HIGH)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
         // The thread is "<ref>:<session>", set only after verifying.
         shown.thread?.let { builder.setGroup(it) }
         builder.extras.putString(EXTRA_SESSION, sessionID)

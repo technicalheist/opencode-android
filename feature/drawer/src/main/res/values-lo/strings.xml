@@ -37,6 +37,8 @@
     <string name="drawer_mark_as_unread">ໝາຍວ່າຍັງບໍ່ອ່ານ</string>
     <string name="drawer_mute">ປິດສຽງ</string>
     <string name="drawer_unmute">ເປີດສຽງ</string>
+    <string name="drawer_hide">ຫລົບຊ່ອນ</string>
+    <string name="drawer_unhide">ຍົກເລີກການເຊື່ອງ</string>
     <string name="drawer_move_up">ຍ້າຍຂຶ້ນ</string>
     <string name="drawer_move_down">ຍ້າຍລົງ</string>
 
@@ -77,8 +79,6 @@
     <string name="drawer_button_open_sessions_description">ເປີດເຊດຊັນ</string>
     <string name="drawer_button_attention_state">ມີເຊດຊັນທີ່ຕ້ອງການຄຳຕອບຈາກເຈົ້າ</string>
     <string name="drawer_button_unread_state">ເຊດຊັນທີ່ຍັງບໍ່ອ່ານ</string>
-    <string name="drawer_notice_open_sessions_action">ເປີດເຊດຊັນ</string>
-    <string name="drawer_notice_open_session_action">ເປີດເຊດຊັນນີ້</string>
 
     <!-- Search pill -->
     <string name="drawer_search_description">ເຊດຊັນຄົ້ນຫາ</string>
@@ -117,6 +117,7 @@
     <!-- Session row state for TalkBack -->
     <string name="drawer_row_pinned_state">ປັກໝຸດໄວ້</string>
     <string name="drawer_row_muted_state">ປິດສຽງໄວ້</string>
+    <string name="drawer_row_hidden_state">ຫລົບຊ່ອນແລ້ວ</string>
     <string name="drawer_row_needs_input_state">ຕ້ອງການຄຳຕອບຈາກເຈົ້າ</string>
     <string name="drawer_row_working_state">ເຮັດວຽກ</string>
     <string name="drawer_row_unread_state">ຍັງບໍ່ອ່ານ</string>

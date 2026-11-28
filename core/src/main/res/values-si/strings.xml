@@ -29,11 +29,6 @@
     <string name="core_experiment_group_transcript_title">සංවාද පිටපත</string>
     <string name="core_experiment_group_drawer_title">පැති පැනලය</string>
 
-    <!-- In-app notice mode -->
-    <string name="core_in_app_notice_mode_off">අක්‍රියයි</string>
-    <string name="core_in_app_notice_mode_needs_input">ඔබේ යෙදවුම අවශ්‍ය විට පමණි</string>
-    <string name="core_in_app_notice_mode_all">සියලු යාවත්කාලීන</string>
-
     <!-- Themes and appearance -->
     <string name="core_theme_system_title">පද්ධතිය</string>
     <string name="core_appearance_color_scheme_system_title">පද්ධතිය</string>

@@ -6,6 +6,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
+import androidx.compose.ui.graphics.nativePaint
 import androidx.compose.ui.graphics.toArgb
 import kotlin.math.max
 
@@ -38,7 +39,7 @@ internal fun DrawScope.drawLiftedRowSurface(surface: Color, cornerRadius: Float,
     }
     drawIntoCanvas { canvas ->
         val paint = Paint()
-        paint.asFrameworkPaint().apply {
+        paint.nativePaint.apply {
             isAntiAlias = true
             color = surface.toArgb()
             setShadowLayer(

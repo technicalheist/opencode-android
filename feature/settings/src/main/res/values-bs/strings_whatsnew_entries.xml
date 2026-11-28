@@ -901,4 +901,38 @@
     <!-- 2026-11-08-02-default-model -->
     <string name="settings_whatsnew_entry_default_model_title">Nove sesije koriste tvoj podrazumijevani model</string>
     <string name="settings_whatsnew_entry_default_model_summary">Nove sesije počinju s podrazumijevanim modelom iz OpenCode postavki i zadnjim odabranim nivoom razmišljanja za njega, umjesto s modelom prethodne sesije.</string>
+
+    <!-- 2026-11-11-01-streamed-reply-prefix -->
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_title">Otvori odgovor dok stiže</string>
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_summary">Kad otvoriš sesiju dok odgovor još stiže, možeš čitati dio koji je već stigao.</string>
+
+    <!-- 2026-11-13-01-draw-on-images -->
+    <string name="settings_whatsnew_entry_draw_on_images_title">Crtaj po slikama</string>
+    <string name="settings_whatsnew_entry_draw_on_images_summary">Označi detalj prije nego što pitaš o njemu.</string>
+    <string name="settings_whatsnew_entry_draw_on_images_detail_1">Otvori sliku preko cijelog ekrana i dodirni dugme olovke. Odaberi boju, crtaj, pa dodirni Dodaj da priložiš označenu sliku poruci. Original ostaje nepromijenjen.</string>
+    <string name="settings_whatsnew_entry_draw_on_images_example">Na snimku ekrana zaokruži kontrolu koju želiš premjestiti, pa opiši gdje treba biti.</string>
+
+    <!-- 2026-11-14-01-fullscreen-viewer -->
+    <string name="settings_whatsnew_entry_fullscreen_viewer_title">Prelazi prstom između fotografija i videa</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_summary">Pregledaj slike i videozapise sesije na jednom mjestu.</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_detail_1">Prevuci prstom do videa, pa dodirni dugme olovke da označiš trenutni kadar. Dugme Dodaj prilaže označeni kadar bez slanja.</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_example">Pauziraj demonstraciju na ekranu koji treba izmijeniti, zaokruži detalj i dodaj ga u nacrt.</string>
+
+    <!-- 2026-11-15-01-pairing-link-name -->
+    <string name="settings_whatsnew_entry_pairing_link_name_title">Imenovani serveri iz OpenCode Console</string>
+    <string name="settings_whatsnew_entry_pairing_link_name_summary">Server koji upariš putem OpenCode Console dolazi sa svojim nazivom, poput „Anomaly Box“.</string>
+
+    <!-- 2026-11-17-01-session-media -->
+    <string name="settings_whatsnew_entry_session_media_title">Mediji sesije</string>
+    <string name="settings_whatsnew_entry_session_media_summary">Pregledaj slike, videozapise, zvuk, datoteke i javne web linkove iz sesije.</string>
+    <string name="settings_whatsnew_entry_session_media_detail_1">Odaberi Mediji sesije u meniju ⋮ sesije. Mediji prikazuju slike, videozapise i zvuk kao pločice grupisane po mjesecima ili kao listu, a Datoteke i Linkovi prikazuju dokumente, zalijepljeni tekst i web linkove.</string>
+    <string name="settings_whatsnew_entry_session_media_example">Pronađi snimak ekrana koji si jutros poslao bez listanja cijele sesije unazad.</string>
+
+    <!-- 2026-11-18-02-drawer-call-phone -->
+    <string name="settings_whatsnew_entry_drawer_call_phone_title">Ikonica telefona za pozive u bočnom meniju</string>
+    <string name="settings_whatsnew_entry_drawer_call_phone_summary">Dugme za poziv pored Postavki na listi sesija prikazuje telefon, kao i ono u polju za poruku.</string>
+
+    <!-- 2026-11-19-01-background-scripts -->
+    <string name="settings_whatsnew_entry_background_scripts_title">Skripte u pozadinskom radu</string>
+    <string name="settings_whatsnew_entry_background_scripts_summary">Skripte koje agent prebaci u pozadinu prikazuju se uz podagente i ljuske, a podagent ostaje na listi dok su njegove slike, videozapisi ili skripte još u obradi. I skripte i podagente možeš zaustaviti s liste.</string>
 </resources>

@@ -32,7 +32,12 @@ private fun SessionFeature.appendAttachment(state: State, attachment: OpenCodeOu
 internal fun SessionFeature.reduceAttachments(state: State, action: Action): Reduced<State, Action>? {
     if (action is Action.DrawingAdded) {
         if (state.taskIdentity != action.from || !state.takesPasteAttachments) return Reduced(state)
-        return appendAttachment(state, action.attachment)
+        val index = state.pendingAttachments.indexOfFirst { it.id == action.replacing }
+        if (index < 0) return appendAttachment(state, action.attachment)
+        haptics.play(Haptic.selection)
+        val attachments = state.pendingAttachments.toMutableList()
+        attachments[index] = action.attachment
+        return Reduced(state.withPendingAttachments(attachments))
     }
     val attachments = (action as? Action.ComposerAttachments)?.action ?: return null
     return when (attachments) {

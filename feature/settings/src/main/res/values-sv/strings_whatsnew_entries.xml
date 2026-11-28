@@ -901,4 +901,38 @@
     <!-- 2026-11-08-02-default-model -->
     <string name="settings_whatsnew_entry_default_model_title">Nya sessioner använder din standardmodell</string>
     <string name="settings_whatsnew_entry_default_model_summary">Nya sessioner startar med din standardmodell i OpenCode och den resonemangsnivå du senast valde för den, i stället för den senaste sessionens modell.</string>
+
+    <!-- 2026-11-11-01-streamed-reply-prefix -->
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_title">Öppna ett svar medan det skrivs</string>
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_summary">När du öppnar en session medan ett svar skrivs kan du läsa det som redan kommit medan svaret fortsätter.</string>
+
+    <!-- 2026-11-13-01-draw-on-images -->
+    <string name="settings_whatsnew_entry_draw_on_images_title">Rita på bilder</string>
+    <string name="settings_whatsnew_entry_draw_on_images_summary">Markera en detalj innan du frågar om den.</string>
+    <string name="settings_whatsnew_entry_draw_on_images_detail_1">Öppna en bild i helskärm och tryck på pennknappen. Välj en färg, rita och tryck sedan på Lägg till för att bifoga den markerade bilden i ditt meddelande. Originalet ändras inte.</string>
+    <string name="settings_whatsnew_entry_draw_on_images_example">Ringa in kontrollen du vill flytta i en skärmbild och beskriv sedan var den ska vara.</string>
+
+    <!-- 2026-11-14-01-fullscreen-viewer -->
+    <string name="settings_whatsnew_entry_fullscreen_viewer_title">Svep mellan foton och videor</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_summary">Bläddra bland sessionens bilder och videor på samma ställe.</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_detail_1">Svep till en video och tryck på pennknappen för att rita på den aktuella bildrutan. Lägg till bifogar den markerade bildrutan utan att skicka den.</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_example">Pausa en demo vid vyn som behöver ändras, ringa in detaljen och lägg till den i ditt utkast.</string>
+
+    <!-- 2026-11-15-01-pairing-link-name -->
+    <string name="settings_whatsnew_entry_pairing_link_name_title">Namngivna servrar från OpenCode Console</string>
+    <string name="settings_whatsnew_entry_pairing_link_name_summary">En server som du parar ihop från OpenCode Console får med sig sitt namn, till exempel ”Anomaly Box”.</string>
+
+    <!-- 2026-11-17-01-session-media -->
+    <string name="settings_whatsnew_entry_session_media_title">Sessionsmedia</string>
+    <string name="settings_whatsnew_entry_session_media_summary">Bläddra bland sessionens bilder, videor, ljud, filer och offentliga webblänkar.</string>
+    <string name="settings_whatsnew_entry_session_media_detail_1">Välj Sessionsmedia i sessionens ⋮-meny. Media visar bilder, videor och ljud som rutor grupperade per månad eller som en lista. Filer och Länkar listar dokument, inklistrat innehåll och webblänkar.</string>
+    <string name="settings_whatsnew_entry_session_media_example">Hitta skärmbilden du skickade i morse utan att bläddra tillbaka genom hela sessionen.</string>
+
+    <!-- 2026-11-18-02-drawer-call-phone -->
+    <string name="settings_whatsnew_entry_drawer_call_phone_title">Telefonikon för samtal i sidomenyn</string>
+    <string name="settings_whatsnew_entry_drawer_call_phone_summary">Samtalsknappen bredvid Inställningar i sessionslistan visar en telefon, precis som den i meddelanderutan.</string>
+
+    <!-- 2026-11-19-01-background-scripts -->
+    <string name="settings_whatsnew_entry_background_scripts_title">Skript i bakgrundsarbete</string>
+    <string name="settings_whatsnew_entry_background_scripts_summary">Skript som agenten flyttar till bakgrunden visas bredvid underagenter och skal. En underagent står kvar i listan så länge dess bild-, video- eller skriptjobb körs. Stoppa skript eller underagenter direkt från listan.</string>
 </resources>

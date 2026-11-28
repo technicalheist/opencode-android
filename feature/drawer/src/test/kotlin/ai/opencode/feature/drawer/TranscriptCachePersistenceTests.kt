@@ -26,6 +26,8 @@ import ai.opencode.server.OpenCodeServerEvent
 import ai.opencode.server.ServerSharedKeys
 import ai.opencode.server.TranscriptCachePersistence
 import ai.opencode.server.model.OpenCodeHomeSnapshot
+import ai.opencode.server.model.OpenCodeProject
+import ai.opencode.server.model.OpenCodeProjectIcon
 import ai.opencode.server.model.OpenCodeSession
 import ai.opencode.server.model.OpenCodeTranscriptItem
 import kotlinx.coroutines.CoroutineScope
@@ -421,5 +423,139 @@ class TranscriptCachePersistenceTests {
         assertEquals(false, nextLaunch.sessionDetail?.isLoading)
         assertEquals(false, nextLaunch.sessionDetail?.initialTranscriptIsFresh)
         store.finish()
+    }
+
+    /**
+     * The open session's watchdog reads it every 20–36 s. Ten reads that find the same rows
+     * schedule no write; one that finds a new row schedules one and stamps the entry's access time.
+     */
+    @Test
+    fun unchangedReadsOfTheOpenSessionScheduleNoTranscriptCacheWrite() = runTest {
+        val start = date(1_800_000_000)
+        val open = makeSession("open", updatedAt = 1_800_000_000)
+        val items = listOf<OpenCodeTranscriptItem>(OpenCodeTranscriptItem.UserText(id = "cached", text = "Saved"))
+        // A real clock moving on, unlike the test default (the epoch, which stamps nothing).
+        val time = LockIsolated(start)
+        val world = World(
+            extra = {
+                this[HomeSnapshotDate] = DateClient {
+                    time.update { it.plusSeconds(30) }
+                    time.value
+                }
+            },
+        )
+        val state = world.state {
+            ServerSharedKeys.cachedTranscriptSnapshots().set(
+                CachedTranscriptSnapshots(
+                    entries = listOf(
+                        CachedTranscriptSnapshots.Entry(serverID = server.persistenceID, sessionID = open.id, updatedAt = start, items = items, lastAccessedAt = start),
+                    ),
+                ),
+            )
+            shared(SharedKeys.lastViewedSessionIDs).update { it + (server.persistenceID to open.id) }
+            HomeFeature.State(server, OpenCodeHomeSnapshot(projects = emptyList(), sessions = listOf(open), activeSessionIDs = emptySet()))
+        }
+        val store = world.store(this, state)
+        store.exhaustive = false
+        val opened = requireNotNull(store.persisted.entries.firstOrNull()?.lastAccessedAt)
+        assertTrue("Opening the session stamps its entry", opened > start)
+
+        val before = store.persisted
+        repeat(10) {
+            store.send(detail(SessionFeature.Action.AcceptedTranscriptUpdated(sessionID = open.id, items = items)))
+        }
+        assertTrue("Ten unchanged reads leave the cache, so nothing is scheduled", store.persisted === before)
+
+        val fresh = items + OpenCodeTranscriptItem.UserText(id = "fresh", text = "New")
+        store.send(detail(SessionFeature.Action.AcceptedTranscriptUpdated(sessionID = open.id, items = fresh)))
+        val entry = requireNotNull(store.persisted.entries.firstOrNull())
+        assertEquals(fresh, entry.items)
+        assertTrue(requireNotNull(entry.lastAccessedAt) > opened)
+        store.skipInFlightEffects()
+    }
+
+    /** An idle, unchanged list re-stamps its snapshot at most every `snapshotStampInterval`; a change, or anything running, stamps at once. */
+    @Test
+    fun unchangedIdleSnapshotRestampsOnlyNowAndThen() {
+        val start = date(1_800_000_000)
+        val listed = makeSession("s", updatedAt = 1_800_000_000)
+        val world = World()
+        world.state {
+            var state = HomeFeature.State(server, OpenCodeHomeSnapshot(projects = emptyList(), sessions = listOf(listed), activeSessionIDs = emptySet()))
+            val snapshots = shared(ServerSharedKeys.cachedHomeSnapshots)
+            var writes = 0
+            fun persist(at: Instant) {
+                val before = snapshots.value
+                state.persistingSnapshot(at)
+                if (snapshots.value !== before) writes += 1
+            }
+
+            persist(start)
+            assertEquals(1, writes)
+            assertEquals(start, state.cachedHomeSnapshot?.capturedAt)
+
+            // Leaving the app, coming back, routine refreshes.
+            val interval = HomeFeature.snapshotStampInterval.inWholeSeconds
+            for (second in 5L until interval step 5) persist(start.plusSeconds(second))
+            assertEquals("Unchanged and idle within the interval: nothing written", 1, writes)
+            assertEquals(start, state.cachedHomeSnapshot?.capturedAt)
+
+            val later = start.plusSeconds(interval)
+            persist(later)
+            assertEquals("Past the interval, the stamp is renewed", 2, writes)
+            assertEquals(later, state.cachedHomeSnapshot?.capturedAt)
+
+            // A run keeps its relaunch window exact: every persist stamps.
+            state = state.copy(activeSessionIDs = setOf(listed.id))
+            persist(later.plusSeconds(1))
+            persist(later.plusSeconds(2))
+            assertEquals(4, writes)
+            assertEquals(later.plusSeconds(2), state.cachedHomeSnapshot?.capturedAt)
+
+            // Offline, the last live stamp stays.
+            state = state.copy(
+                activeSessionIDs = emptySet(),
+                connection = state.connection.copy(connectionStatus = HomeConnectionFeature.State.ConnectionStatus.reconnecting),
+            )
+            persist(later.plusSeconds(100))
+            assertEquals(5, writes)
+            assertEquals(later.plusSeconds(2), state.cachedHomeSnapshot?.capturedAt)
+        }
+    }
+
+    /**
+     * Every run's end reads the projects again. Unchanged, Home keeps the list it has, so later
+     * comparisons stop at its identity; a real change (a new icon) still lands.
+     */
+    @Test
+    fun anUnchangedProjectListKeepsItsArray() = runTest {
+        val icon = "data:image/png;base64," + "A".repeat(32_000)
+        fun projects() = (0 until 10).map { OpenCodeProject(id = "p$it", name = "Project $it", directory = "/p$it", icon = OpenCodeProjectIcon(url = icon)) }
+        val listed = makeSession("s", updatedAt = 1_800_000_000)
+        val world = World()
+        val state = world.state {
+            HomeFeature.State(server, OpenCodeHomeSnapshot(projects = projects(), sessions = listOf(listed), activeSessionIDs = emptySet()))
+        }
+        val store = world.store(this, state) {
+            this[Clock] = ImmediateClock()
+            this[OpenCodeClient] = OpenCodeClient.testValue.copy(
+                homeAttention = { _, _, _ -> emptySet() },
+                transcript = { _, _, _ -> emptyList() },
+            )
+        }
+        store.exhaustive = false
+        val kept = store.state.projects
+
+        val refetched = projects()
+        assertTrue(refetched !== kept)
+        store.send(HomeFeature.Action.SnapshotRefreshed(OpenCodeHomeSnapshot(projects = refetched, sessions = listOf(listed), activeSessionIDs = emptySet())))
+        assertTrue("The same projects keep Home's list", store.state.projects === kept)
+        assertTrue("And the saved snapshot's", store.withDependencies { store.state.cachedHomeSnapshot }?.snapshot?.projects === kept)
+
+        val changed = projects().toMutableList()
+        changed[3] = changed[3].copy(icon = OpenCodeProjectIcon(url = "data:image/png;base64,Bw=="))
+        store.send(HomeFeature.Action.SnapshotRefreshed(OpenCodeHomeSnapshot(projects = changed, sessions = listOf(listed), activeSessionIDs = emptySet())))
+        assertEquals("A new icon still lands", changed, store.state.projects)
+        store.skipInFlightEffects()
     }
 }

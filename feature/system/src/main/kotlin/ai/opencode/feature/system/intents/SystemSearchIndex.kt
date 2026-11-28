@@ -95,7 +95,6 @@ internal object SystemSearchIndex {
             .setPropertyString("uri", url)
             .build()
         return GenericDocument.Builder<GenericDocument.Builder<*>>(serverKey, identifier(serverKey, session.id), THING)
-            .setCreationTimestampMillis(session.updatedAt.toEpochMilli())
             .setPropertyString("name", session.title)
             .apply { session.projectName?.let { setPropertyString("description", it) } }
             .setPropertyString("url", url)

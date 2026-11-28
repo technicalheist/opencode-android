@@ -247,7 +247,7 @@ class ReplyWatchCoreTests {
             hasDirectVoiceWork = false,
             otherDelegatorRequestsInFlight = 1,
         )
-        assertTrue(idleViewing.contains("The user is viewing session \"OPENCODE IOS\" (id ses_ios, project opencode-ios, idle)."))
+        assertTrue(idleViewing.contains("The call is attached to session \"OPENCODE IOS\" (id ses_ios, project opencode-ios, idle)."))
         assertTrue(idleViewing.contains("- \"Blog game\" (id ses_blog, prompt msg_blog): working (live status: active on server)."))
         assertTrue(idleViewing.contains("Other voice delegator requests currently in flight: 1."))
 
@@ -257,6 +257,6 @@ class ReplyWatchCoreTests {
             needsInput = true,
             draftDirectory = viewing.directory,
         )
-        assertTrue(activeViewing.contains("The user is viewing session \"OPENCODE IOS\" (id ses_ios, project opencode-ios, working). It is waiting on a pending request: the user's approval or answer goes through list_requests and answer_question or reply_permission, never send_message."))
+        assertTrue(activeViewing.contains("The call is attached to session \"OPENCODE IOS\" (id ses_ios, project opencode-ios, working). It is waiting on a pending request: the user's approval or answer goes through list_requests and answer_question or reply_permission, never send_message."))
     }
 }

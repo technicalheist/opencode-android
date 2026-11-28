@@ -77,6 +77,10 @@ internal fun HomeFeature.State.updatingSessionSeenWatermarks(transform: (Session
 internal fun HomeFeature.State.updatingMutedSessionKeys(transform: (Set<String>) -> Set<String>): HomeFeature.State =
     writingThrough(SharedKeys.mutedSessionKeys, mutedSessionKeys, transform) { copy(mutedSessionKeys = it) }
 
+/** `$hiddenSessionKeys.withLock { … }`. */
+internal fun HomeFeature.State.updatingHiddenSessionKeys(transform: (Set<String>) -> Set<String>): HomeFeature.State =
+    writingThrough(SharedKeys.hiddenSessionKeys, hiddenSessionKeys, transform) { copy(hiddenSessionKeys = it) }
+
 /** `$initializedInboxServerIDs.withLock { … }`. */
 internal fun HomeFeature.State.updatingInitializedInboxServerIDs(transform: (Set<String>) -> Set<String>): HomeFeature.State =
     writingThrough(SharedKeys.initializedInboxServerIDs, initializedInboxServerIDs, transform) { copy(initializedInboxServerIDs = it) }
@@ -97,7 +101,7 @@ internal inline fun HomeFeature.State.updatingSession(sessionID: String, transfo
 
 /**
  * Home's list and remembered snapshot learn the first prompt a session's screen just learned
- * ([learningFirstPrompt]), so its row, Catch Up card, notices and system surfaces read the same.
+ * ([learningFirstPrompt]), so its row, Catch Up card and system surfaces read the same.
  */
 internal fun HomeFeature.State.learningFirstPrompt(session: OpenCodeSession?): HomeFeature.State {
     val preview = session?.firstPrompt ?: return this
@@ -159,11 +163,15 @@ val HomeFeature.State.firstSessionProject: OpenCodeProject?
 /**
  * Root sessions only: subagents' sessions are kept for their family's activity but open from their
  * parent, as on desktop. Archived sessions stay out of every list. Searching adds the server's
- * matches from every session; results of an earlier query show only while they still match.
+ * matches from every session; results of an earlier query show only while they still match. Hidden
+ * sessions show only while searching.
  */
 val HomeFeature.State.visibleSessions: List<OpenCodeSession>
     get() {
-        if (search.isEmpty()) return sessions.filter { it.parentID == null && !it.isArchived }
+        if (search.isEmpty()) {
+            val hidden = hiddenSessionIDs
+            return sessions.filter { it.parentID == null && !it.isArchived && it.id !in hidden }
+        }
         val local = sessions.filter { it.parentID == null && !it.isArchived && it.title.contains(search, ignoreCase = true) }
         val found = sessionPages.search
         if (found == null || found.results.isEmpty()) return local
@@ -178,6 +186,18 @@ val HomeFeature.State.visibleSessions: List<OpenCodeSession>
             extra += result
         }
         return local + extra
+    }
+
+/** This server's hidden sessions by ID, worked out once for a loop over the sessions rather than a key built per session. */
+val HomeFeature.State.hiddenSessionIDs: Set<String>
+    get() {
+        if (hiddenSessionKeys.isEmpty()) return emptySet()
+        val prefix = server.persistenceID + "|"
+        val ids = HashSet<String>()
+        for (key in hiddenSessionKeys) {
+            if (key.startsWith(prefix)) ids += key.removePrefix(prefix)
+        }
+        return ids
     }
 
 val HomeFeature.State.pinnedSessions: List<OpenCodeSession> get() = drawerSessions.pinned
@@ -519,6 +539,7 @@ fun HomeFeature.State.syncingSeenWatermark(detail: SessionFeature.State, session
 
 fun HomeFeature.State.sessionKey(id: String): String = "${server.persistenceID}|$id"
 fun HomeFeature.State.isPinned(id: String): Boolean = sessionKey(id) in pinnedSessionKeys
+fun HomeFeature.State.isHidden(id: String): Boolean = sessionKey(id) in hiddenSessionKeys
 
 /**
  * One implementation, in `StatusSnapshot`, so the drawer's bulk loops and a single question here
@@ -582,6 +603,7 @@ fun HomeFeature.State.purgingSession(sessionID: String): HomeFeature.State {
         localActivity = localActivity - sessionID,
         transcriptCache = transcriptCache - sessionID,
         refreshingTranscripts = refreshingTranscripts - sessionID,
+        fetchingTranscripts = fetchingTranscripts - sessionID,
         dirtyCachedTranscriptIDs = dirtyCachedTranscriptIDs - sessionID,
         transcriptReadAt = transcriptReadAt - sessionID,
         sessionSnapshots = (sessionSnapshots - sessionID).mapValues { (_, snapshot) ->
@@ -605,6 +627,7 @@ fun HomeFeature.State.purgingSession(sessionID: String): HomeFeature.State {
         .clearingSeenWatermark(sessionID)
         .updatingManuallyUnreadSessionKeys { it - key }
         .updatingMutedSessionKeys { it - key }
+        .updatingHiddenSessionKeys { it - key }
     if (s.lastViewedSessionIDs[serverID] == sessionID) s = s.updatingLastViewedSessionIDs { it - serverID }
     return s
 }
@@ -631,10 +654,6 @@ val HomeFeature.State.sessionIndicators: Map<String, Indicator>
         val status = statusSnapshot()
         return sessions.associate { it.id to status.indicator(it) }
     }
-
-/** Whether a notice may show now: the app is in front on a session, and neither the drawer, Settings, nor Catch Up is up. */
-val HomeFeature.State.canShowInAppNotice: Boolean
-    get() = sessionDetail?.isVisible == true && !isDrawerOpen && !isSettingsShown && catchUp == null
 
 /** The open session and its family's root. */
 val HomeFeature.State.openSessionIDs: Set<String>

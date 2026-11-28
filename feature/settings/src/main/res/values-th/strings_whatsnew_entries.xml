@@ -901,4 +901,38 @@
     <!-- 2026-11-08-02-default-model -->
     <string name="settings_whatsnew_entry_default_model_title">เซสชันใหม่ใช้โมเดลเริ่มต้นของคุณ</string>
     <string name="settings_whatsnew_entry_default_model_summary">เซสชันใหม่จะใช้โมเดลที่ตั้งเป็นค่าเริ่มต้นใน OpenCode พร้อมระดับการคิดที่คุณเลือกล่าสุดสำหรับโมเดลนั้น แทนโมเดลจากเซสชันล่าสุด</string>
+
+    <!-- 2026-11-11-01-streamed-reply-prefix -->
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_title">เปิดอ่านคำตอบระหว่างส่ง</string>
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_summary">เมื่อเปิดเซสชันระหว่างที่คำตอบกำลังส่งมา คุณจะอ่านส่วนที่มาถึงแล้วได้โดยไม่ต้องรอให้ส่งจบ</string>
+
+    <!-- 2026-11-13-01-draw-on-images -->
+    <string name="settings_whatsnew_entry_draw_on_images_title">วาดบนรูปภาพ</string>
+    <string name="settings_whatsnew_entry_draw_on_images_summary">ชี้จุดที่ต้องการก่อนถามถึง</string>
+    <string name="settings_whatsnew_entry_draw_on_images_detail_1">เปิดรูปภาพเต็มจอแล้วแตะปุ่มปากกา เลือกสี วาด แล้วแตะเพิ่มเพื่อแนบรูปที่วาดไว้กับข้อความ รูปต้นฉบับจะไม่เปลี่ยนแปลง</string>
+    <string name="settings_whatsnew_entry_draw_on_images_example">วงส่วนควบคุมที่ต้องการย้ายในภาพหน้าจอ แล้วอธิบายว่าควรย้ายไปที่ไหน</string>
+
+    <!-- 2026-11-14-01-fullscreen-viewer -->
+    <string name="settings_whatsnew_entry_fullscreen_viewer_title">ปัดดูรูปถ่ายและวิดีโอ</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_summary">ดูรูปภาพและวิดีโอในเซสชันรวมกัน</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_detail_1">ปัดไปที่วิดีโอ แล้วแตะปุ่มปากกาเพื่อวาดบนเฟรมปัจจุบัน แตะเพิ่มเพื่อแนบเฟรมที่วาดไว้โดยยังไม่ส่ง</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_example">หยุดวิดีโอสาธิตไว้ที่หน้าจอที่ต้องแก้ไข วงจุดที่ต้องการ แล้วเพิ่มลงในฉบับร่าง</string>
+
+    <!-- 2026-11-15-01-pairing-link-name -->
+    <string name="settings_whatsnew_entry_pairing_link_name_title">เซิร์ฟเวอร์พร้อมชื่อจาก OpenCode Console</string>
+    <string name="settings_whatsnew_entry_pairing_link_name_summary">เซิร์ฟเวอร์ที่จับคู่จาก OpenCode Console จะมาพร้อมชื่อ เช่น “Anomaly Box”</string>
+
+    <!-- 2026-11-17-01-session-media -->
+    <string name="settings_whatsnew_entry_session_media_title">สื่อในเซสชัน</string>
+    <string name="settings_whatsnew_entry_session_media_summary">ดูรูปภาพ วิดีโอ เสียง ไฟล์ และลิงก์เว็บสาธารณะในเซสชัน</string>
+    <string name="settings_whatsnew_entry_session_media_detail_1">เลือกสื่อในเซสชันจากเมนู ⋮ ของเซสชัน ส่วนสื่อจะแสดงรูปภาพ วิดีโอ และเสียงเป็นไทล์แยกตามเดือนหรือเป็นรายการ ส่วนไฟล์และลิงก์จะแสดงเอกสาร ข้อความที่วาง และลิงก์เว็บ</string>
+    <string name="settings_whatsnew_entry_session_media_example">หาภาพหน้าจอที่ส่งเมื่อเช้าได้โดยไม่ต้องเลื่อนย้อนดูทั้งเซสชัน</string>
+
+    <!-- 2026-11-18-02-drawer-call-phone -->
+    <string name="settings_whatsnew_entry_drawer_call_phone_title">ไอคอนโทรศัพท์สำหรับการโทรในแถบด้านข้าง</string>
+    <string name="settings_whatsnew_entry_drawer_call_phone_summary">ปุ่มโทรข้างการตั้งค่าในรายการเซสชันใช้ไอคอนโทรศัพท์เหมือนในช่องข้อความ</string>
+
+    <!-- 2026-11-19-01-background-scripts -->
+    <string name="settings_whatsnew_entry_background_scripts_title">สคริปต์ในงานเบื้องหลัง</string>
+    <string name="settings_whatsnew_entry_background_scripts_summary">สคริปต์ที่เอเจนต์ย้ายไปทำงานเบื้องหลังจะแสดงข้างตัวแทนย่อยและเชลล์ ตัวแทนย่อยจะยังอยู่ในรายการขณะที่งานรูปภาพ วิดีโอ หรือสคริปต์ของตัวเองยังทำงานอยู่ หยุดสคริปต์หรือตัวแทนย่อยได้จากรายการ</string>
 </resources>

@@ -901,4 +901,38 @@
     <!-- 2026-11-08-02-default-model -->
     <string name="settings_whatsnew_entry_default_model_title">새 세션은 기본 모델로 시작</string>
     <string name="settings_whatsnew_entry_default_model_summary">새 세션은 이전 세션의 모델 대신 OpenCode에서 설정한 기본 모델로 시작해요. 생각 수준은 그 모델에서 마지막으로 선택한 수준을 사용해요.</string>
+
+    <!-- 2026-11-11-01-streamed-reply-prefix -->
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_title">생성 중인 응답 열기</string>
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_summary">응답이 생성되는 중에 세션을 열어도 이미 도착한 내용을 읽을 수 있어요.</string>
+
+    <!-- 2026-11-13-01-draw-on-images -->
+    <string name="settings_whatsnew_entry_draw_on_images_title">이미지에 그리기</string>
+    <string name="settings_whatsnew_entry_draw_on_images_summary">궁금한 부분을 표시한 뒤 질문해 보세요.</string>
+    <string name="settings_whatsnew_entry_draw_on_images_detail_1">이미지를 전체 화면으로 열고 펜 버튼을 누르세요. 색상을 골라 그린 다음 추가를 누르면 표시한 이미지가 메시지에 첨부돼요. 원본은 그대로 유지돼요.</string>
+    <string name="settings_whatsnew_entry_draw_on_images_example">스크린샷에서 옮기고 싶은 컨트롤에 동그라미를 그리고 어디로 옮길지 설명해 보세요.</string>
+
+    <!-- 2026-11-14-01-fullscreen-viewer -->
+    <string name="settings_whatsnew_entry_fullscreen_viewer_title">밀어서 사진과 비디오 둘러보기</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_summary">세션의 이미지와 비디오를 함께 둘러보세요.</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_detail_1">밀어서 비디오로 이동한 뒤 펜 버튼을 눌러 현재 프레임에 표시하세요. 추가를 누르면 표시한 프레임이 전송되지 않고 첨부만 돼요.</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_example">데모에서 수정이 필요한 화면을 일시 정지하고 해당 부분에 동그라미를 그려 초안에 추가해 보세요.</string>
+
+    <!-- 2026-11-15-01-pairing-link-name -->
+    <string name="settings_whatsnew_entry_pairing_link_name_title">OpenCode Console의 서버 이름 가져오기</string>
+    <string name="settings_whatsnew_entry_pairing_link_name_summary">OpenCode Console에서 페어링한 서버는 “Anomaly Box” 같은 이름도 함께 가져와요.</string>
+
+    <!-- 2026-11-17-01-session-media -->
+    <string name="settings_whatsnew_entry_session_media_title">세션 미디어</string>
+    <string name="settings_whatsnew_entry_session_media_summary">세션의 이미지, 비디오, 오디오, 파일과 공개 웹 링크를 둘러보세요.</string>
+    <string name="settings_whatsnew_entry_session_media_detail_1">세션의 ⋮ 메뉴에서 세션 미디어를 선택하세요. 미디어에서는 이미지, 비디오, 오디오를 월별 타일이나 목록으로 볼 수 있어요. 파일과 링크에서는 문서, 붙여넣은 내용, 웹 링크를 확인할 수 있어요.</string>
+    <string name="settings_whatsnew_entry_session_media_example">세션 전체를 거슬러 올라가지 않고도 오늘 아침에 보낸 스크린샷을 찾아보세요.</string>
+
+    <!-- 2026-11-18-02-drawer-call-phone -->
+    <string name="settings_whatsnew_entry_drawer_call_phone_title">탐색 패널의 통화 버튼에 전화 아이콘 표시</string>
+    <string name="settings_whatsnew_entry_drawer_call_phone_summary">세션 목록의 설정 옆 통화 버튼에도 메시지 입력란과 같은 전화 아이콘이 표시돼요.</string>
+
+    <!-- 2026-11-19-01-background-scripts -->
+    <string name="settings_whatsnew_entry_background_scripts_title">백그라운드 작업에 스크립트 표시</string>
+    <string name="settings_whatsnew_entry_background_scripts_summary">에이전트가 백그라운드로 옮긴 스크립트가 하위 에이전트, 셸과 함께 표시돼요. 하위 에이전트의 이미지, 비디오 또는 스크립트 작업이 진행 중이면 목록에 계속 남아요. 스크립트와 하위 에이전트 모두 목록에서 중지할 수 있어요.</string>
 </resources>

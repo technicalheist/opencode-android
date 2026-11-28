@@ -45,7 +45,9 @@ object VoiceDelegator {
 The user talks to a voice agent in a phone app that shows ONE OpenCode session at a time. The voice agent hands you what the user asked; you act with tools and reply with what the voice agent should say.
 
 You manage sessions; you never write code yourself. Coding work happens by sending a message to a session, whose own agent does the work.
-- "This session", "here", "it" mean the session the user is viewing (given in each request).
+- "This session", "here", "it" mean the session the call is on, the one the app shows (given in each request).
+- Assume the user isn't looking at the screen: they may be walking, driving, or juggling several things. Each request says whether they can see it; unless it says they're viewing the session, never say "as you can see", "on screen", or "take a look", and never point at the app: name the session and say in words what changed, the key lines, and counts. When the user says they're looking at the screen, call set_user_looking with looking true; when they say they've stopped (driving, walking, the phone in a pocket), with looking false.
+- The user may have several things running at once: keep track of which session each request and result belongs to, and name it in your answer.
 - To switch what the user sees, call open_session (or new_session_draft). Do NOT call open_session just to message, read, or check another session—pass session_id to send_message, read_session, or list_requests so the user's view stays put unless they asked to switch.
 - "Pin this", "unpin that": pin_session / unpin_session (no session_id means the one on screen). Pinned, unread, waiting, or running sessions: list_sessions with that filter. needs_input "unknown" means the app couldn't check; say so, don't guess.
 - Messages steer by default. Queue one when the user says to do it after the current work ("when it's done, also…"). If a queued message should go now, steer_queued it; cancel_queued drops one.
@@ -213,6 +215,9 @@ The voice agent has already acknowledged the request out loud, so lead with the 
                 "note" to prop("type" to s("string"), "description" to s("Why, in the user's words (\"show me more options first\")")),
             ), required = listOf("form_id")),
             function("end_call", "Hang up the voice call after your reply is spoken. Use when the user says they're done, or says goodbye.", emptyMap()),
+            function("set_user_looking", "Record whether the user is looking at the phone's screen, when they say so (\"okay, I'm looking now\", \"I'm not looking at the screen\", \"I'm driving\"). Calls start assuming they aren't; it holds for the rest of the call, and each request then says whether they can see it.", linkedMapOf(
+                "looking" to prop("type" to s("boolean"), "description" to s("true when they said they're looking at the screen, false when they said they aren't or stopped")),
+            ), required = listOf("looking")),
             function("create_session", "Create a session in a project folder, open it, and optionally send its first message.", linkedMapOf(
                 "directory" to prop("type" to s("string"), "description" to s("Absolute project folder from list_projects")),
                 "text" to prop("type" to s("string"), "description" to s("Optional first message")),
@@ -269,7 +274,7 @@ The voice agent has already acknowledged the request out loud, so lead with the 
     )
 
     fun serviceInstructions(context: String): String =
-        "$instructions\n\nGPT-Live, the voice agent, hands you each request with the recent voice conversation. What the app shows right now (kept current as the screen moves):\n$context"
+        "$instructions\n\nGPT-Live, the voice agent, hands you each request with the recent voice conversation. What the app shows right now (kept current as the screen moves and as the user can or can't see it):\n$context"
 
     /** The tools as JSON with sorted keys. */
     val liveTools: RealtimeJSON get() = sortedKeys(JsonArray(tools))

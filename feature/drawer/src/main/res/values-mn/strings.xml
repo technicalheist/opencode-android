@@ -38,6 +38,8 @@
     <string name="drawer_mark_as_unread">Уншаагүйгээр тэмдэглэх</string>
     <string name="drawer_mute">Мэдэгдлийг хаах</string>
     <string name="drawer_unmute">Мэдэгдлийг нээх</string>
+    <string name="drawer_hide">Нуух</string>
+    <string name="drawer_unhide">Ил гаргах</string>
     <string name="drawer_move_up">Дээш зөөх</string>
     <string name="drawer_move_down">Доош зөөх</string>
 
@@ -81,8 +83,6 @@
     <string name="drawer_button_open_sessions_description">Сессүүдийг нээх</string>
     <string name="drawer_button_attention_state">Нэг сессэд таны оролцоо хэрэгтэй</string>
     <string name="drawer_button_unread_state">Уншаагүй сессүүд</string>
-    <string name="drawer_notice_open_sessions_action">Сессүүдийг нээх</string>
-    <string name="drawer_notice_open_session_action">Сессийг нээх</string>
 
     <!-- Search pill -->
     <string name="drawer_search_description">Сесс хайх</string>
@@ -121,6 +121,7 @@
     <!-- Session row state for TalkBack -->
     <string name="drawer_row_pinned_state">Бэхэлсэн</string>
     <string name="drawer_row_muted_state">Мэдэгдлийг хаасан</string>
+    <string name="drawer_row_hidden_state">Нуусан</string>
     <string name="drawer_row_needs_input_state">Таны оролцоо хэрэгтэй</string>
     <string name="drawer_row_working_state">Ажиллаж байна</string>
     <string name="drawer_row_unread_state">Уншаагүй</string>

@@ -901,4 +901,38 @@
     <!-- 2026-11-08-02-default-model -->
     <string name="settings_whatsnew_entry_default_model_title">Uued seansid kasutavad sinu vaikemudelit</string>
     <string name="settings_whatsnew_entry_default_model_summary">Uued seansid algavad OpenCode’is määratud vaikemudeliga ja sellele viimati valitud mõtlemistasemega, mitte eelmise seansi mudeliga.</string>
+
+    <!-- 2026-11-11-01-streamed-reply-prefix -->
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_title">Ava vastus juba saabumise ajal</string>
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_summary">Kui avad seansi vastuse saabumise ajal, saad juba saabunud osa lugeda, kuni vastus täieneb.</string>
+
+    <!-- 2026-11-13-01-draw-on-images -->
+    <string name="settings_whatsnew_entry_draw_on_images_title">Joonista piltidele</string>
+    <string name="settings_whatsnew_entry_draw_on_images_summary">Märgi detail enne selle kohta küsimist.</string>
+    <string name="settings_whatsnew_entry_draw_on_images_detail_1">Ava pilt täisekraanil ja puuduta pliiatsinuppu. Vali värv, joonista ja puuduta nuppu Lisa, et lisada märgistatud pilt oma sõnumile. Algne pilt jääb muutmata.</string>
+    <string name="settings_whatsnew_entry_draw_on_images_example">Tõmba kuvatõmmisel ring ümber juhtelemendile, mida soovid liigutada, ja kirjelda, kuhu see peaks minema.</string>
+
+    <!-- 2026-11-14-01-fullscreen-viewer -->
+    <string name="settings_whatsnew_entry_fullscreen_viewer_title">Liigu pühkides fotode ja videote vahel</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_summary">Sirvi seansi pilte ja videoid üheskoos.</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_detail_1">Pühi videoni ja puuduta pliiatsinuppu, et praegusele kaadrile märkmeid joonistada. Nupp Lisa lisab märgistatud kaadri sõnumile, kuid ei saada seda.</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_example">Peata demovideo muutmist vajaval kuval, tõmba detailile ring ümber ja lisa kaader mustandile.</string>
+
+    <!-- 2026-11-15-01-pairing-link-name -->
+    <string name="settings_whatsnew_entry_pairing_link_name_title">Nimega serverid OpenCode Console’ist</string>
+    <string name="settings_whatsnew_entry_pairing_link_name_summary">OpenCode Console’i kaudu seotud server lisatakse koos nimega, näiteks „Anomaly Box“.</string>
+
+    <!-- 2026-11-17-01-session-media -->
+    <string name="settings_whatsnew_entry_session_media_title">Seansi meedia</string>
+    <string name="settings_whatsnew_entry_session_media_summary">Sirvi seansi pilte, videoid, heli, faile ja avalikke veebilinke.</string>
+    <string name="settings_whatsnew_entry_session_media_detail_1">Vali seansi ⋮ menüüst Seansi meedia. Meedia näitab pilte, videoid ja heli kuude kaupa rühmitatud paanidena või nimekirjana. Failid ja Lingid loetlevad dokumente, kleebitud tekste ja veebilinke.</string>
+    <string name="settings_whatsnew_entry_session_media_example">Leia hommikul saadetud kuvatõmmis kogu seanssi tagasi kerimata.</string>
+
+    <!-- 2026-11-18-02-drawer-call-phone -->
+    <string name="settings_whatsnew_entry_drawer_call_phone_title">Telefoniikoon külgpaneeli kõnenupul</string>
+    <string name="settings_whatsnew_entry_drawer_call_phone_summary">Seansside nimekirjas seadete kõrval oleval kõnenupul on nüüd telefoniikoon, nagu sõnumikastiski.</string>
+
+    <!-- 2026-11-19-01-background-scripts -->
+    <string name="settings_whatsnew_entry_background_scripts_title">Skriptid taustatööde hulgas</string>
+    <string name="settings_whatsnew_entry_background_scripts_summary">Agendi taustale viidud skriptid kuvatakse alamagentide ja shellide kõrval. Alamagent jääb nimekirja, kuni selle piltide, videote või skriptidega seotud töö kestab. Mõlemad saad peatada otse nimekirjast.</string>
 </resources>

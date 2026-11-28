@@ -67,8 +67,6 @@
     <string name="settings_notifications_plugin_check_failed">Nepodarilo sa overiť stav</string>
     <string name="settings_notifications_set_up">Nastaviť cez OpenCode</string>
     <string name="settings_notifications_check_again">Skontrolovať znova</string>
-    <string name="settings_notifications_in_app_footer">Zobrazujú sa na tlačidle bočného panela.</string>
-    <string name="settings_notifications_in_app_notices">Oznámenia v aplikácii</string>
 
     <!-- Sessions -->
     <string name="settings_sessions_title">Relácie</string>

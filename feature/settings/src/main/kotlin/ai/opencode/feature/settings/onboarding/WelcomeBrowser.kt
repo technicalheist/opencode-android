@@ -43,7 +43,7 @@ import kotlin.math.min
 import kotlin.math.sin
 
 private fun mono(size: Float, weight: FontWeight = FontWeight.Normal) =
-    TextStyle(fontFamily = OpenCodeFonts.berkeleyMono, fontSize = size.sp, fontWeight = weight, letterSpacing = 0.sp)
+    TextStyle(fontFamily = OpenCodeFonts.monospace, fontSize = size.sp, fontWeight = weight, letterSpacing = 0.sp)
 
 /**
  * The OpenCode website (`opencode.ai`) in dark mode, as the laptop's browser shows it on

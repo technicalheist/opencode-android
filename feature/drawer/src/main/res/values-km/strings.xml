@@ -37,6 +37,8 @@
     <string name="drawer_mark_as_unread">សម្គាល់ថាមិនទាន់អាន</string>
     <string name="drawer_mute">បិទការជូនដំណឹង</string>
     <string name="drawer_unmute">បើកការជូនដំណឹង</string>
+    <string name="drawer_hide">លាក់</string>
+    <string name="drawer_unhide">ឈប់លាក់</string>
     <string name="drawer_move_up">ផ្លាស់ទីឡើងលើ</string>
     <string name="drawer_move_down">ផ្លាស់ទីចុះក្រោម</string>
 
@@ -77,8 +79,6 @@
     <string name="drawer_button_open_sessions_description">បើកសម័យ</string>
     <string name="drawer_button_attention_state">មានសម័យត្រូវការការឆ្លើយតបពីអ្នក</string>
     <string name="drawer_button_unread_state">សម័យមិនទាន់អាន</string>
-    <string name="drawer_notice_open_sessions_action">បើកសម័យ</string>
-    <string name="drawer_notice_open_session_action">បើកសម័យនេះ</string>
 
     <!-- Search pill -->
     <string name="drawer_search_description">សម័យស្វែងរក</string>
@@ -117,6 +117,7 @@
     <!-- Session row state for TalkBack -->
     <string name="drawer_row_pinned_state">បានខ្ទាស់</string>
     <string name="drawer_row_muted_state">បានបិទការជូនដំណឹង</string>
+    <string name="drawer_row_hidden_state">បានលាក់</string>
     <string name="drawer_row_needs_input_state">ត្រូវការការឆ្លើយតបពីអ្នក</string>
     <string name="drawer_row_working_state">ធ្វើការ</string>
     <string name="drawer_row_unread_state">មិនទាន់អាន</string>

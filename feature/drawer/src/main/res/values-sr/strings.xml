@@ -39,6 +39,8 @@
     <string name="drawer_mark_as_unread">Означи као непрочитано</string>
     <string name="drawer_mute">Утишај</string>
     <string name="drawer_unmute">Укључи звук</string>
+    <string name="drawer_hide">Сакриј</string>
+    <string name="drawer_unhide">Прикажи</string>
     <string name="drawer_move_up">Помери нагоре</string>
     <string name="drawer_move_down">Помери надоле</string>
 
@@ -85,8 +87,6 @@
     <string name="drawer_button_open_sessions_description">Отвори сесије</string>
     <string name="drawer_button_attention_state">Сесија захтева ваш унос</string>
     <string name="drawer_button_unread_state">Непрочитане сесије</string>
-    <string name="drawer_notice_open_sessions_action">Отвори сесије</string>
-    <string name="drawer_notice_open_session_action">Отвори сесију</string>
 
     <!-- Search pill -->
     <string name="drawer_search_description">Претражи сесије</string>
@@ -125,6 +125,7 @@
     <!-- Session row state for TalkBack -->
     <string name="drawer_row_pinned_state">Закачено</string>
     <string name="drawer_row_muted_state">Утишано</string>
+    <string name="drawer_row_hidden_state">Скривено</string>
     <string name="drawer_row_needs_input_state">Потребан је ваш унос</string>
     <string name="drawer_row_working_state">У току</string>
     <string name="drawer_row_unread_state">Непрочитано</string>

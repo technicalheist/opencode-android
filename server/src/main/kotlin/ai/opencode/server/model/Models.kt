@@ -276,6 +276,30 @@ enum class OpenCodeExportFormat(val rawValue: String, val fileExtension: String)
 
 data class OpenCodeSessionFamily(val sessions: List<OpenCodeSession>, val activeSessionIDs: Set<String>)
 
+/**
+ * A background job (`Job.Info`, experimental). A subagent job's work runs in [childSessionID];
+ * every other kind's runs in [sessionID].
+ */
+data class OpenCodeJob(
+    val id: String,
+    val kind: Kind,
+    val sessionID: String,
+    val isRunning: Boolean,
+    val childSessionID: String? = null,
+    val startedAt: Instant? = null,
+) {
+    enum class Kind(val rawValue: String) {
+        Shell("shell"), Subagent("subagent"), Image("image"), Video("video"), CodeMode("codemode"), Unknown("");
+
+        companion object {
+            fun of(raw: String): Kind = entries.firstOrNull { it.rawValue == raw } ?: Unknown
+        }
+    }
+
+    /** The session whose tree the work keeps busy. */
+    val ownerSessionID: String get() = if (kind == Kind.Subagent) childSessionID ?: sessionID else sessionID
+}
+
 /** A running server shell (`Shell.Info`). `metadata.sessionID` names the owner. */
 data class OpenCodeShell(
     val id: String,

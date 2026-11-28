@@ -58,6 +58,7 @@ import androidx.compose.foundation.text.input.selectAll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -93,6 +94,7 @@ import androidx.compose.ui.semantics.customActions
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -220,11 +222,12 @@ private fun UserBubbleFace(
         metrics = metrics,
         fold = fold,
         folds = folds,
-        content = {
+        content = { maxLines ->
             Box {
                 // Its selectable copy stands in while selecting; hidden from TalkBack then.
                 UserBubbleText(
                     text,
+                    maxLines,
                     Modifier
                         .graphicsLayer { alpha = (if (isSelecting) 0f else pendingAlpha) * reveal.text.toFloat() }
                         .then(if (isSelecting) Modifier.clearAndSetSemantics { } else Modifier),
@@ -259,6 +262,8 @@ private fun UserBubbleFace(
 object UserBubbleFold {
     const val overLines = 12
     const val showLines = 8
+    /** Lines a closed fold lays out: enough to fold and to fill what it shows. */
+    const val closedLines = overLines + 3
     const val lineSpacing = 2f
     val fade: Dp = 44.dp
     /** Show More's row, under the text inside the bubble. */
@@ -304,21 +309,23 @@ object UserBubbleFold {
 /**
  * Lays the text out whole when it fits the limit, otherwise folded with its control: one
  * measurement, so the row's first layout is already its height (iOS `UserBubbleFoldView`).
- * Folded, the text is laid out whole and cut, so its last lines fade out mid-sentence rather than
- * ending on an ellipsis.
+ * Closed, it lays out only [UserBubbleFold.closedLines], ending in an ellipsis below the cut, so its
+ * last shown lines fade out mid-sentence; open or opening, it lays out the whole text.
  */
 @Composable
 private fun UserBubbleFoldView(
     metrics: UserBubbleFold.Metrics,
     fold: UserBubbleFold.State,
     folds: BooleanArray,
-    content: @Composable () -> Unit,
+    content: @Composable (maxLines: Int) -> Unit,
     control: @Composable () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val fadePx = with(LocalDensity.current) { UserBubbleFold.fade.toPx() }
     // Read only while laying out and drawing.
     val openness = remember { Animatable(if (fold.isExpanded) 1f else 0f) }
+    val isClosed by remember { derivedStateOf { openness.value == 0f } }
+    val maxLines = if (isClosed && !fold.isExpanded) UserBubbleFold.closedLines else Int.MAX_VALUE
     val rowHeight = LocalRowHeightMotion.current
     val reduceMotion = rememberReduceMotion()
     LaunchedEffect(fold.isExpanded) {
@@ -372,7 +379,7 @@ private fun UserBubbleFoldView(
                             canvas.restore()
                         }
                     },
-                ) { content() }
+                ) { content(maxLines) }
             },
             {
                 val label = if (fold.isExpanded) stringResource(R.string.transcript_show_less) else stringResource(R.string.transcript_show_more)
@@ -415,11 +422,13 @@ private fun UserBubbleFoldView(
  * it mentions none.
  */
 @Composable
-private fun UserBubbleText(text: String, modifier: Modifier) {
+private fun UserBubbleText(text: String, maxLines: Int, modifier: Modifier) {
     val colors = OpenCodeTheme.colors
     val marked = remember(text) { SessionLink.marked(text) }
+    // Android lays out every line past maxLines unless it ellipsizes; the ellipsis sits under the fold.
+    val overflow = if (maxLines == Int.MAX_VALUE) TextOverflow.Clip else TextOverflow.Ellipsis
     if (marked == null) {
-        Text(text, style = UserBubbleTextStyle, color = colors.text, modifier = modifier)
+        Text(text, style = UserBubbleTextStyle, color = colors.text, overflow = overflow, maxLines = maxLines, modifier = modifier)
         return
     }
     val style = currentMarkdownStyle()
@@ -433,7 +442,7 @@ private fun UserBubbleText(text: String, modifier: Modifier) {
             style, targets, density, listener, siteIcon = null,
         )
     }
-    ArrivingText(presented, emptyList(), UserBubbleTextStyle, colors.text, modifier)
+    ArrivingText(presented, emptyList(), UserBubbleTextStyle, colors.text, modifier, overflow = overflow, maxLines = maxLines)
     ReportsSessionLinks(presented.sessionIDs)
 }
 

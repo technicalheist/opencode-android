@@ -64,8 +64,6 @@
     <string name="settings_notifications_plugin_check_failed">无法检查状态</string>
     <string name="settings_notifications_set_up">通过 OpenCode 设置</string>
     <string name="settings_notifications_check_again">再次检查</string>
-    <string name="settings_notifications_in_app_footer">显示在侧边栏按钮上。</string>
-    <string name="settings_notifications_in_app_notices">应用内注意事项</string>
 
     <!-- Sessions -->
     <string name="settings_sessions_title">会话</string>

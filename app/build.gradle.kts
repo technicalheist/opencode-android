@@ -29,10 +29,11 @@ android {
         }
         release {
             // R8 is what makes Compose fast in release: it strips the debug-only paths, inlines
-            // and devirtualises the runtime. Every library we use ships its own keep rules.
+            // and devirtualises the runtime. Libraries ship their own keep rules;
+            // proguard-rules.pro holds workarounds.
             isMinifyEnabled = true
             isShrinkResources = true
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"))
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
         create("benchmark") {
             initWith(getByName("release"))
@@ -75,6 +76,7 @@ dependencies {
     implementation(libs.androidx.navigation3.runtime)
     implementation(libs.androidx.navigation3.ui)
     implementation(libs.androidx.lifecycle.process)
+    implementation(libs.androidx.work.runtime)
     debugImplementation(libs.compose.ui.tooling)
     // TestIsolationGuard, WireFixture and the network block (see AGENTS.md "Tests").
     testImplementation(testFixtures(project(":server")))
@@ -83,6 +85,9 @@ dependencies {
     constraints {
         implementation(libs.androidx.fragment) {
             because("Firebase Messaging's Play services pull in fragment 1.1.0, which Google Play flags as outdated")
+        }
+        implementation(libs.androidx.navigationevent) {
+            because("1.1.x throws when a popup closes during a predictive back gesture")
         }
     }
 }

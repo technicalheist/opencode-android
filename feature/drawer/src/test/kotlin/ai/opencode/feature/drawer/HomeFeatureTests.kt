@@ -4,7 +4,6 @@ import ai.opencode.core.dependencies.Clock
 import ai.opencode.core.dependencies.DependencyValues
 import ai.opencode.core.dependencies.ImmediateClock
 import ai.opencode.core.dependencies.TestClock
-import ai.opencode.core.experiments.InAppNoticeMode
 import ai.opencode.core.haptics.Haptic
 import ai.opencode.core.haptics.HapticsClient
 import ai.opencode.core.sharing.SharedKeys
@@ -641,8 +640,6 @@ class HomeFeatureTests {
 
         store.send(Action.Settings(HomeSettingsFeature.Action.SidebarToggled)) { it.copy(isSidebarShown = false) }
         assertFalse(h.shared(SharedKeys.sidebarShown))
-        store.send(Action.Settings(HomeSettingsFeature.Action.InAppNoticeModeChanged(InAppNoticeMode.all)))
-        assertEquals(InAppNoticeMode.all, h.shared(InAppNoticeMode.key))
         store.send(Action.Settings(HomeSettingsFeature.Action.VoiceModeEnabledChanged(true)))
         assertTrue(h.shared(SharedKeys.voiceModeEnabled))
         store.send(Action.Settings(HomeSettingsFeature.Action.RaiseToTalkChanged(true)))

@@ -901,4 +901,38 @@
     <!-- 2026-11-08-02-default-model -->
     <string name="settings_whatsnew_entry_default_model_title">Nové relace používají výchozí model</string>
     <string name="settings_whatsnew_entry_default_model_summary">Nové relace začínají s výchozím modelem nastaveným v OpenCode a s úrovní myšlení, kterou jste pro něj naposledy vybrali, místo modelu z poslední relace.</string>
+
+    <!-- 2026-11-11-01-streamed-reply-prefix -->
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_title">Otevření rozepsané odpovědi</string>
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_summary">Když otevřete relaci během psaní odpovědi, můžete si přečíst už přijatou část, zatímco odpověď dál přibývá.</string>
+
+    <!-- 2026-11-13-01-draw-on-images -->
+    <string name="settings_whatsnew_entry_draw_on_images_title">Kreslení do obrázků</string>
+    <string name="settings_whatsnew_entry_draw_on_images_summary">Označte detail, než se na něj zeptáte.</string>
+    <string name="settings_whatsnew_entry_draw_on_images_detail_1">Otevřete obrázek na celou obrazovku a klepněte na tlačítko pera. Vyberte barvu, kreslete a pak klepnutím na Přidat přiložte označený obrázek ke zprávě. Originál zůstane beze změny.</string>
+    <string name="settings_whatsnew_entry_draw_on_images_example">Na snímku obrazovky zakroužkujte ovládací prvek, který chcete přesunout, a popište, kam má přijít.</string>
+
+    <!-- 2026-11-14-01-fullscreen-viewer -->
+    <string name="settings_whatsnew_entry_fullscreen_viewer_title">Přejíždění mezi fotkami a videi</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_summary">Prohlížejte si obrázky a videa z relace společně.</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_detail_1">Přejeďte na video a klepnutím na tlačítko pera označte aktuální snímek. Tlačítko Přidat přiloží označený snímek, ale neodešle ho.</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_example">Pozastavte ukázku na obrazovce, kterou je třeba změnit, zakroužkujte detail a přidejte snímek do konceptu.</string>
+
+    <!-- 2026-11-15-01-pairing-link-name -->
+    <string name="settings_whatsnew_entry_pairing_link_name_title">Pojmenované servery z OpenCode Console</string>
+    <string name="settings_whatsnew_entry_pairing_link_name_summary">Server spárovaný přes OpenCode Console se přidá i se svým názvem, například „Anomaly Box“.</string>
+
+    <!-- 2026-11-17-01-session-media -->
+    <string name="settings_whatsnew_entry_session_media_title">Média relace</string>
+    <string name="settings_whatsnew_entry_session_media_summary">Procházejte obrázky, videa, zvuk, soubory a veřejné webové odkazy v relaci.</string>
+    <string name="settings_whatsnew_entry_session_media_detail_1">V nabídce ⋮ relace vyberte Média relace. V části Média najdete obrázky, videa a zvuk jako dlaždice seskupené podle měsíců nebo jako seznam. Části Soubory a Odkazy obsahují dokumenty, vložené texty a webové odkazy.</string>
+    <string name="settings_whatsnew_entry_session_media_example">Najděte snímek obrazovky odeslaný dnes ráno bez procházení celé relace.</string>
+
+    <!-- 2026-11-18-02-drawer-call-phone -->
+    <string name="settings_whatsnew_entry_drawer_call_phone_title">Ikona telefonu pro hovory ve výsuvném panelu</string>
+    <string name="settings_whatsnew_entry_drawer_call_phone_summary">Tlačítko hovoru vedle Nastavení v seznamu relací má ikonu telefonu, stejně jako tlačítko v poli pro zprávu.</string>
+
+    <!-- 2026-11-19-01-background-scripts -->
+    <string name="settings_whatsnew_entry_background_scripts_title">Skripty mezi úlohami na pozadí</string>
+    <string name="settings_whatsnew_entry_background_scripts_summary">Skripty, které agent přesune na pozadí, se zobrazují vedle subagentů a shellů. Subagent zůstává v seznamu, dokud probíhá práce s jeho obrázky či videi nebo běží jeho skripty. Skripty i subagenty můžete zastavit přímo ze seznamu.</string>
 </resources>

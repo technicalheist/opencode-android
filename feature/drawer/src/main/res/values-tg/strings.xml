@@ -38,6 +38,8 @@
     <string name="drawer_mark_as_unread">Нохонда қайд кунед</string>
     <string name="drawer_mute">Огоҳиҳоро хомӯш кунед</string>
     <string name="drawer_unmute">Огоҳиҳоро фаъол кунед</string>
+    <string name="drawer_hide">Пинҳон кардан</string>
+    <string name="drawer_unhide">Нишон додан</string>
     <string name="drawer_move_up">Боло баред</string>
     <string name="drawer_move_down">Поён баред</string>
 
@@ -81,8 +83,6 @@
     <string name="drawer_button_open_sessions_description">Сессияҳоро кушоед</string>
     <string name="drawer_button_attention_state">Сессия ба посухи шумо ниёз дорад</string>
     <string name="drawer_button_unread_state">Сессияҳои нохонда</string>
-    <string name="drawer_notice_open_sessions_action">Сессияҳоро кушоед</string>
-    <string name="drawer_notice_open_session_action">Сессияро кушоед</string>
 
     <!-- Search pill -->
     <string name="drawer_search_description">Сеансҳои ҷустуҷӯ</string>
@@ -121,6 +121,7 @@
     <!-- Session row state for TalkBack -->
     <string name="drawer_row_pinned_state">Собитшуда</string>
     <string name="drawer_row_muted_state">Бе огоҳӣ</string>
+    <string name="drawer_row_hidden_state">Пинҳоншуда</string>
     <string name="drawer_row_needs_input_state">Ба посухи шумо ниёз дорад</string>
     <string name="drawer_row_working_state">Кор карда истодааст</string>
     <string name="drawer_row_unread_state">Нохонда</string>

@@ -349,18 +349,25 @@ data class ReplyWatch(
         draftDirectory: String,
         hasDirectVoiceWork: Boolean = false,
         otherDelegatorRequestsInFlight: Int = 0,
+        screen: VoiceScreenVisibility = VoiceScreenVisibility.notLooking,
     ): String {
         val lines = mutableListOf<String>()
         if (viewing != null) {
             val running = isSessionRunning(viewing.id) || hasDirectVoiceWork
-            var line = "The user is viewing session \"${viewing.title}\" (id ${viewing.id}, project ${VoiceDelegatorWorkspace.folder(viewing.directory)}, ${if (running) "working" else "idle"})."
+            val place = "session \"${viewing.title}\" (id ${viewing.id}, project ${VoiceDelegatorWorkspace.folder(viewing.directory)}, ${if (running) "working" else "idle"})."
+            var line = if (screen == VoiceScreenVisibility.visible) "The user is viewing $place" else "The call is attached to $place"
             if (needsInput) {
                 line += " It is waiting on a pending request: the user's approval or answer goes through list_requests and answer_question or reply_permission, never send_message."
             }
             lines += line
         } else {
-            lines += "The user is on a new, empty session draft in the project folder $draftDirectory."
+            lines += if (screen == VoiceScreenVisibility.visible) {
+                "The user is on a new, empty session draft in the project folder $draftDirectory."
+            } else {
+                "The call is on a new, empty session draft in the project folder $draftDirectory."
+            }
         }
+        screen.unseenNote?.let { lines += it }
         if (watched.isNotEmpty() || completed.isNotEmpty()) {
             lines += "Tracked session work from this call:"
             for (prompt in watched) {

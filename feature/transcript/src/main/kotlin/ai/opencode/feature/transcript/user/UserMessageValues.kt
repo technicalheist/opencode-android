@@ -1,6 +1,5 @@
 package ai.opencode.feature.transcript.user
 
-import android.net.Uri
 import androidx.compose.runtime.Immutable
 import java.time.Instant
 import java.util.Locale
@@ -95,11 +94,8 @@ data class SharedLocation(
 ) {
     val coordinateText: String get() = String.format(Locale.US, "%.6f, %.6f", latitude, longitude)
 
-    val mapsURL: String
-        get() = Uri.parse("https://maps.apple.com/").buildUpon()
-            .appendQueryParameter("ll", String.format(Locale.US, "%.6f,%.6f", latitude, longitude))
-            .appendQueryParameter("q", place ?: address ?: "Shared Location")
-            .build().toString()
+    val googleMapsURL: String
+        get() = String.format(Locale.US, "https://www.google.com/maps/search/?api=1&query=%.6f,%.6f", latitude, longitude)
 
     val accuracyText: String? get() = accuracy?.let { "±${it.roundToInt()} m" }
 

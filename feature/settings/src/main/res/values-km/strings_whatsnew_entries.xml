@@ -901,4 +901,38 @@
     <!-- 2026-11-08-02-default-model -->
     <string name="settings_whatsnew_entry_default_model_title">សម័យថ្មីប្រើម៉ូដែលលំនាំដើមរបស់អ្នក</string>
     <string name="settings_whatsnew_entry_default_model_summary">សម័យថ្មីចាប់ផ្ដើមដោយប្រើម៉ូដែលលំនាំដើមដែលអ្នកបានកំណត់ក្នុង OpenCode ជាមួយកម្រិតការគិតដែលអ្នកបានជ្រើសរើសចុងក្រោយសម្រាប់វា ជំនួសម៉ូដែលរបស់សម័យមុន។</string>
+
+    <!-- 2026-11-11-01-streamed-reply-prefix -->
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_title">បើកការឆ្លើយតបពេលកំពុងទទួល</string>
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_summary">ពេលអ្នកបើកសម័យ ខណៈការឆ្លើយតបកំពុងមកដល់ អ្នកអាចអានអ្វីដែលបានមកដល់ហើយ ខណៈការឆ្លើយតបនៅបន្ត។</string>
+
+    <!-- 2026-11-13-01-draw-on-images -->
+    <string name="settings_whatsnew_entry_draw_on_images_title">គូរលើរូបភាព</string>
+    <string name="settings_whatsnew_entry_draw_on_images_summary">ចង្អុលបង្ហាញចំណុចណាមួយ មុននឹងសួរអំពីវា។</string>
+    <string name="settings_whatsnew_entry_draw_on_images_detail_1">បើករូបភាពពេញអេក្រង់ រួចប៉ះប៊ូតុងប៊ិច។ ជ្រើសពណ៌ គូរ រួចប៉ះ បន្ថែម ដើម្បីភ្ជាប់រូបភាពដែលបានគូសសម្គាល់ទៅសាររបស់អ្នក។ រូបដើមមិនផ្លាស់ប្តូរទេ។</string>
+    <string name="settings_whatsnew_entry_draw_on_images_example">គូសរង្វង់ជុំវិញប៊ូតុងបញ្ជាដែលអ្នកចង់ផ្លាស់ទីក្នុងរូបថតអេក្រង់ រួចប្រាប់ថាគួរផ្លាស់ទៅកន្លែងណា។</string>
+
+    <!-- 2026-11-14-01-fullscreen-viewer -->
+    <string name="settings_whatsnew_entry_fullscreen_viewer_title">អូសប្ដូររវាងរូបថតនិងវីដេអូ</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_summary">មើលរូបភាពនិងវីដេអូរបស់សម័យនៅជាមួយគ្នា។</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_detail_1">អូសទៅវីដេអូ រួចប៉ះប៊ូតុងប៊ិចដើម្បីគូសសម្គាល់លើស៊ុមបច្ចុប្បន្ន។ ប៊ូតុង បន្ថែម នឹងភ្ជាប់ស៊ុមដែលបានគូសសម្គាល់ ដោយមិនផ្ញើវាទេ។</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_example">ផ្អាកវីដេអូបង្ហាញត្រង់អេក្រង់ដែលត្រូវកែ គូសរង្វង់ជុំវិញចំណុចនោះ រួចបន្ថែមវាទៅសេចក្តីព្រាងរបស់អ្នក។</string>
+
+    <!-- 2026-11-15-01-pairing-link-name -->
+    <string name="settings_whatsnew_entry_pairing_link_name_title">ម៉ាស៊ីនមេមានឈ្មោះពី OpenCode Console</string>
+    <string name="settings_whatsnew_entry_pairing_link_name_summary">ម៉ាស៊ីនមេដែលអ្នកផ្គូផ្គងពី OpenCode Console នឹងមានឈ្មោះមកជាមួយ ដូចជា “Anomaly Box”។</string>
+
+    <!-- 2026-11-17-01-session-media -->
+    <string name="settings_whatsnew_entry_session_media_title">មេឌៀក្នុងសម័យ</string>
+    <string name="settings_whatsnew_entry_session_media_summary">រកមើលរូបភាព វីដេអូ សំឡេង ឯកសារ និងតំណគេហទំព័រសាធារណៈក្នុងសម័យ។</string>
+    <string name="settings_whatsnew_entry_session_media_detail_1">ជ្រើស មេឌៀក្នុងសម័យ ពីម៉ឺនុយ ⋮ របស់សម័យ។ មេឌៀ បង្ហាញរូបភាព វីដេអូ និងសំឡេងជាក្រឡាដាក់ជាក្រុមតាមខែ ឬជាបញ្ជី។ ឯកសារ និង តំណ បង្ហាញបញ្ជីឯកសារ អត្ថបទដែលបានបិទភ្ជាប់ និងតំណគេហទំព័រ។</string>
+    <string name="settings_whatsnew_entry_session_media_example">រករូបថតអេក្រង់ដែលអ្នកបានផ្ញើព្រឹកនេះ ដោយមិនបាច់រមូរថយក្រោយពេញសម័យ។</string>
+
+    <!-- 2026-11-18-02-drawer-call-phone -->
+    <string name="settings_whatsnew_entry_drawer_call_phone_title">រូបតំណាងទូរសព្ទសម្រាប់ការហៅក្នុងផ្ទាំងចំហៀង</string>
+    <string name="settings_whatsnew_entry_drawer_call_phone_summary">ប៊ូតុងហៅនៅក្បែរ ការកំណត់ ក្នុងបញ្ជីសម័យ បង្ហាញរូបទូរសព្ទដូចប៊ូតុងក្នុងប្រអប់សារ។</string>
+
+    <!-- 2026-11-19-01-background-scripts -->
+    <string name="settings_whatsnew_entry_background_scripts_title">ស្គ្រីបក្នុងការងារផ្ទៃខាងក្រោយ</string>
+    <string name="settings_whatsnew_entry_background_scripts_summary">ស្គ្រីបដែលភ្នាក់ងារផ្លាស់ទីទៅផ្ទៃខាងក្រោយ បង្ហាញនៅក្បែរភ្នាក់ងាររងនិងសែល។ ភ្នាក់ងាររងនៅតែមានក្នុងបញ្ជី ខណៈរូបភាព វីដេអូ ឬស្គ្រីបរបស់វានៅកំពុងដំណើរការ។ អ្នកអាចឈប់ស្គ្រីប ឬភ្នាក់ងាររងពីបញ្ជីបាន។</string>
 </resources>

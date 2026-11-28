@@ -325,7 +325,7 @@ private fun routingClientTools(state: AppFeature.State, action: AppFeature.Actio
 }
 
 /** The call's own action, as Home receives it. */
-private fun voiceAction(action: VoiceFeature.Action): AppFeature.Action =
+internal fun voiceAction(action: VoiceFeature.Action): AppFeature.Action =
     AppFeature.Action.Home(HomeFeature.Action.detail(SessionFeature.Action.Voice(PresentationAction.Presented(action))))
 
 private fun route(

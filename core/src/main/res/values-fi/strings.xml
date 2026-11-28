@@ -29,11 +29,6 @@
     <string name="core_experiment_group_transcript_title">Keskusteluloki</string>
     <string name="core_experiment_group_drawer_title">Sivuvalikko</string>
 
-    <!-- In-app notice mode -->
-    <string name="core_in_app_notice_mode_off">Pois käytöstä</string>
-    <string name="core_in_app_notice_mode_needs_input">Vain kun sinua tarvitaan</string>
-    <string name="core_in_app_notice_mode_all">Kaikki päivitykset</string>
-
     <!-- Themes and appearance -->
     <string name="core_theme_system_title">Järjestelmä</string>
     <string name="core_appearance_color_scheme_system_title">Järjestelmä</string>

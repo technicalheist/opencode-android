@@ -901,4 +901,38 @@
     <!-- 2026-11-08-02-default-model -->
     <string name="settings_whatsnew_entry_default_model_title">Les noves sessions fan servir el teu model per defecte</string>
     <string name="settings_whatsnew_entry_default_model_summary">Les noves sessions comencen amb el model que has definit per defecte a OpenCode i l’últim nivell de pensament que hi has triat, en lloc del model de l’última sessió.</string>
+
+    <!-- 2026-11-11-01-streamed-reply-prefix -->
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_title">Obre una resposta en curs</string>
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_summary">Si obres una sessió mentre arriba una resposta, pots llegir el que ja ha arribat mentre es continua generant.</string>
+
+    <!-- 2026-11-13-01-draw-on-images -->
+    <string name="settings_whatsnew_entry_draw_on_images_title">Dibuixa sobre les imatges</string>
+    <string name="settings_whatsnew_entry_draw_on_images_summary">Assenyala un detall abans de preguntar-hi res.</string>
+    <string name="settings_whatsnew_entry_draw_on_images_detail_1">Obre una imatge a pantalla completa i toca el botó del llapis. Tria un color, dibuixa i toca Afegeix per adjuntar la imatge amb les marques al missatge. L\'original no es modifica.</string>
+    <string name="settings_whatsnew_entry_draw_on_images_example">Encercla el control que vols moure en una captura de pantalla i descriu on ha d\'anar.</string>
+
+    <!-- 2026-11-14-01-fullscreen-viewer -->
+    <string name="settings_whatsnew_entry_fullscreen_viewer_title">Llisca entre fotos i vídeos</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_summary">Explora les imatges i els vídeos d\'una sessió en un sol lloc.</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_detail_1">Llisca fins a un vídeo i toca el botó del llapis per fer marques al fotograma actual. Afegeix adjunta el fotograma amb les marques sense enviar-lo.</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_example">Posa una demostració en pausa a la pantalla que cal canviar, encercla el detall i afegeix-la a l\'esborrany.</string>
+
+    <!-- 2026-11-15-01-pairing-link-name -->
+    <string name="settings_whatsnew_entry_pairing_link_name_title">Servidors amb nom des d\'OpenCode Console</string>
+    <string name="settings_whatsnew_entry_pairing_link_name_summary">Els servidors que aparelles des d\'OpenCode Console ja venen amb el seu nom, com ara «Anomaly Box».</string>
+
+    <!-- 2026-11-17-01-session-media -->
+    <string name="settings_whatsnew_entry_session_media_title">Multimèdia de la sessió</string>
+    <string name="settings_whatsnew_entry_session_media_summary">Explora les imatges, els vídeos, l\'àudio, els fitxers i els enllaços web públics d\'una sessió.</string>
+    <string name="settings_whatsnew_entry_session_media_detail_1">Tria Multimèdia de la sessió al menú ⋮ d\'una sessió. Multimèdia mostra les imatges, els vídeos i l\'àudio en mosaics agrupats per mes o en una llista, i Fitxers i Enllaços mostren els documents, els textos enganxats i els enllaços web.</string>
+    <string name="settings_whatsnew_entry_session_media_example">Troba la captura de pantalla que has enviat aquest matí sense haver de recórrer tota la sessió.</string>
+
+    <!-- 2026-11-18-02-drawer-call-phone -->
+    <string name="settings_whatsnew_entry_drawer_call_phone_title">Icona de telèfon per a les trucades al panell lateral</string>
+    <string name="settings_whatsnew_entry_drawer_call_phone_summary">El botó de trucada al costat de Configuració, a la llista de sessions, mostra un telèfon com el del quadre de missatge.</string>
+
+    <!-- 2026-11-19-01-background-scripts -->
+    <string name="settings_whatsnew_entry_background_scripts_title">Scripts a les tasques en segon pla</string>
+    <string name="settings_whatsnew_entry_background_scripts_summary">Els scripts que l\'agent passa a segon pla apareixen al costat dels subagents i els intèrprets d\'ordres. Els subagents continuen a la llista mentre les seves imatges, vídeos o scripts segueixen en curs. Pots aturar tant els scripts com els subagents des de la llista.</string>
 </resources>

@@ -38,6 +38,8 @@
     <string name="drawer_mark_as_unread">O‘qilmagan deb belgilash</string>
     <string name="drawer_mute">Bildirishnomalarni o‘chirish</string>
     <string name="drawer_unmute">Bildirishnomalarni yoqish</string>
+    <string name="drawer_hide">Yashirish</string>
+    <string name="drawer_unhide">Ko‘rsatish</string>
     <string name="drawer_move_up">Yuqoriga ko‘chirish</string>
     <string name="drawer_move_down">Pastga ko‘chirish</string>
 
@@ -81,8 +83,6 @@
     <string name="drawer_button_open_sessions_description">Sessiyalarni ochish</string>
     <string name="drawer_button_attention_state">Sessiyada javobingiz kerak</string>
     <string name="drawer_button_unread_state">O‘qilmagan sessiyalar</string>
-    <string name="drawer_notice_open_sessions_action">Sessiyalarni ochish</string>
-    <string name="drawer_notice_open_session_action">Sessiyani ochish</string>
 
     <!-- Search pill -->
     <string name="drawer_search_description">Qidiruv seanslari</string>
@@ -121,6 +121,7 @@
     <!-- Session row state for TalkBack -->
     <string name="drawer_row_pinned_state">Mahkamlangan</string>
     <string name="drawer_row_muted_state">Bildirishnomalar o‘chirilgan</string>
+    <string name="drawer_row_hidden_state">Yashirilgan</string>
     <string name="drawer_row_needs_input_state">Javobingiz kerak</string>
     <string name="drawer_row_working_state">Bajarilmoqda</string>
     <string name="drawer_row_unread_state">O‘qilmagan</string>

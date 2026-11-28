@@ -75,6 +75,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
+import androidx.compose.ui.graphics.nativePaint
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalResources
@@ -496,7 +497,7 @@ private fun WhatsNewDotSymbol(symbol: String, tint: Color, modifier: Modifier = 
     }
     val unit = density.density
     val glowPaint = remember(unit) {
-        Paint().also { it.asFrameworkPaint().maskFilter = BlurMaskFilter(5f * unit, BlurMaskFilter.Blur.NORMAL) }
+        Paint().also { it.nativePaint.maskFilter = BlurMaskFilter(5f * unit, BlurMaskFilter.Blur.NORMAL) }
     }
     // On the shared ambient clock: a large, slow field, so the background rate (30 Hz).
     AmbientTimeline(rate = AmbientRate.Background) { sample ->

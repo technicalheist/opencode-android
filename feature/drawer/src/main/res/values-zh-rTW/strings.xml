@@ -37,6 +37,8 @@
     <string name="drawer_mark_as_unread">標示為未讀</string>
     <string name="drawer_mute">靜音</string>
     <string name="drawer_unmute">取消靜音</string>
+    <string name="drawer_hide">隱藏</string>
+    <string name="drawer_unhide">取消隱藏</string>
     <string name="drawer_move_up">上移</string>
     <string name="drawer_move_down">下移</string>
 
@@ -77,8 +79,6 @@
     <string name="drawer_button_open_sessions_description">開啟工作階段清單</string>
     <string name="drawer_button_attention_state">有工作階段需要你回應</string>
     <string name="drawer_button_unread_state">有未讀工作階段</string>
-    <string name="drawer_notice_open_sessions_action">開啟工作階段清單</string>
-    <string name="drawer_notice_open_session_action">開啟此工作階段</string>
 
     <!-- Search pill -->
     <string name="drawer_search_description">搜尋工作階段</string>
@@ -117,6 +117,7 @@
     <!-- Session row state for TalkBack -->
     <string name="drawer_row_pinned_state">已釘選</string>
     <string name="drawer_row_muted_state">已靜音</string>
+    <string name="drawer_row_hidden_state">已隱藏</string>
     <string name="drawer_row_needs_input_state">需要你回應</string>
     <string name="drawer_row_working_state">工作中</string>
     <string name="drawer_row_unread_state">未讀</string>

@@ -4,6 +4,7 @@ import ai.opencode.core.dependencies.Clock
 import ai.opencode.core.dependencies.ImmediateClock
 import ai.opencode.core.dependencies.TestClock
 import ai.opencode.core.haptics.HapticsClient
+import ai.opencode.core.store.StoreOf
 import ai.opencode.core.store.TestStore
 import ai.opencode.core.testing.TestIsolationRule
 import ai.opencode.feature.drawer.HomeFeature.Action
@@ -13,6 +14,8 @@ import ai.opencode.feature.drawer.HomeFeatureTestSupport.receiveBounded
 import ai.opencode.feature.drawer.HomeFeatureTestSupport.snapshot
 import ai.opencode.feature.drawer.list.DrawerListInputs
 import ai.opencode.feature.drawer.list.DrawerListModel
+import ai.opencode.feature.drawer.list.DrawerSelection
+import ai.opencode.feature.drawer.list.selectionActions
 import ai.opencode.server.OpenCodeClient
 import ai.opencode.server.OpenCodeClientError
 import ai.opencode.server.OpenCodeServer
@@ -23,7 +26,9 @@ import ai.opencode.server.model.OpenCodeSessionPage
 import ai.opencode.server.model.OpenCodeSessionPageRequest
 import java.time.Instant
 import kotlin.reflect.KClass
+import kotlinx.coroutines.flow.flowOf
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotEquals
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
@@ -146,6 +151,34 @@ class DrawerSessionPagesReviewTests {
         store.exhaustive = false
         store.send(Action.DrawerRowDropped(sessionID = found.id, pinnedIndex = 0))
         assertTrue(store.state.isPinned(found.id))
+    }
+
+    @Test
+    fun unhidingAServerResultFromTheSelectionUnhidesIt() = homeTest { h ->
+        val found = session("old", "Alpha", updated = 2)
+        val initial = h.state(listOf(session("new", updated = 30)))
+        val searched = initial.copy(
+            search = "Alpha",
+            sessionPages = initial.sessionPages.copy(search = SessionSearch("Alpha", results = listOf(found))),
+            hiddenSessionKeys = setOf(initial.sessionKey(found.id)),
+        )
+        val store = h.store(searched)
+        store.exhaustive = false
+        val sent = mutableListOf<Action>()
+        val view = object : StoreOf<HomeFeature.State, Action> {
+            override val state: HomeFeature.State get() = store.state
+            override val states = flowOf(store.state)
+            override fun send(action: Action) {
+                sent += action
+            }
+        }
+        val selection = DrawerSelection()
+        selection.toggle(found.id)
+        val (_, overflow) = selectionActions(view, selection, pins = true)
+        overflow.first { it.title == "Unhide" }.action()
+        assertEquals(listOf<Action>(Action.ToggleHidden(found.id)), sent)
+        store.send(Action.ToggleHidden(found.id))
+        assertFalse(store.state.isHidden(found.id))
     }
 
     @Test

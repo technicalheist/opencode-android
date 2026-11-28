@@ -64,8 +64,6 @@
     <string name="settings_notifications_plugin_check_failed">အခြေအနေကို မစစ်နိုင်ပါ</string>
     <string name="settings_notifications_set_up">OpenCode ဖြင့် စီစဉ်ပါ</string>
     <string name="settings_notifications_check_again">ပြန်စစ်ပါ</string>
-    <string name="settings_notifications_in_app_footer">ဘေးအကန့်ခလုတ်ပေါ်တွင် ပြထားသည်။</string>
-    <string name="settings_notifications_in_app_notices">အက်ပ်တွင်း သတိပေးချက်များ</string>
 
     <!-- Sessions -->
     <string name="settings_sessions_title">ဆက်ရှင်များ</string>

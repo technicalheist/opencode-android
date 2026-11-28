@@ -5,7 +5,10 @@ import ai.opencode.feature.session.*
 import ai.opencode.core.dependencies.Clock
 import ai.opencode.core.dependencies.dependency
 import ai.opencode.core.diagnostics.LabMarks
+import ai.opencode.core.log.AppLog
+import ai.opencode.core.sharing.SharedKeys
 import ai.opencode.core.sharing.SharedStore
+import ai.opencode.core.sharing.shared
 import ai.opencode.core.store.Effect
 import ai.opencode.core.store.Reduced
 import ai.opencode.core.store.cancellable
@@ -35,6 +38,8 @@ import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.withContext
 import kotlin.time.Duration.Companion.milliseconds
+import java.time.Duration
+import java.time.Instant
 import ai.opencode.feature.voice.VoiceAppState
 import ai.opencode.feature.composer.DictationFeature
 import ai.opencode.core.tuning.DeveloperMode
@@ -48,7 +53,9 @@ import ai.opencode.core.tuning.DeveloperMode
 internal fun HomeFeature.reduceConnection(state: State, action: Action): HomeReduced = when (action) {
     Action.Task -> {
         LabMarks.mark("home_task_started")
-        var s = if (state.isConnected) state.initializingInbox() else state
+        // A launch has already chosen its session (`restoringInitialSession`).
+        var s = state.forgettingAppLeft()
+        if (s.isConnected) s = s.initializingInbox()
         // A restored session was open before any change could publish it.
         dependency(EventStreamFocusClient).publish(streamFocusOwner, s.streamFocusSessionIDs)
         val composerPersistence = dependency(ComposerPersistence)
@@ -80,16 +87,19 @@ internal fun HomeFeature.reduceConnection(state: State, action: Action): HomeRed
         val persistence = dependency(TranscriptCachePersistence)
         val sharedStore = dependency(SharedStore)
         val flush = Effect.run<Action> {
-            persistence.flush()
-            // Home's snapshots and read dates still waiting for the writer land too.
-            withContext(Dispatchers.IO) { sharedStore.flush() }
+            withContext(Dispatchers.IO) {
+                persistence.flush()
+                // Home's snapshots and read dates still waiting for the writer land too.
+                sharedStore.flush()
+            }
         }
         Reduced(state, Effect.merge(flush, flushPersistedComposer(state)))
     }
 
     Action.SceneEnteredBackground -> {
         val sessionID = state.sessionDetail?.session?.id
-        val s = if (sessionID != null) state.syncingSeenItemsFromOpenDetail(sessionID) else state
+        val synced = if (sessionID != null) state.syncingSeenItemsFromOpenDetail(sessionID) else state
+        val s = synced.appLeft(dependency(AppAwayDate).now())
         Reduced(s, Effect.merge(publishAppBadge(s), waitToSettleSessionActivity(s)))
     }
 
@@ -117,14 +127,15 @@ internal fun HomeFeature.reduceConnection(state: State, action: Action): HomeRed
     }
 
     Action.ConnectionLost -> {
-        val s = state.unsettlingNotices()
+        val background = cancelBackgroundTranscriptReads(state.unsettlingNotices())
+        val s = background.state
         Reduced(
             s,
             Effect.merge(
                 Effect.cancel(HomeFeature.CancelID.Refresh),
-                Effect.cancel(HomeFeature.CancelID.ActiveAncestry),
                 Effect.cancel(HomeFeature.CancelID.Attention),
                 Effect.cancel(HomeFeature.CancelID.SnapshotRetry),
+                background.effect,
                 requestsDisconnected(s),
             ),
         )
@@ -154,9 +165,10 @@ internal fun HomeFeature.reduceConnection(state: State, action: Action): HomeRed
         if (state.credentialsRejected) Reduced(state) else refreshSnapshot(state.unsettlingNotices())
 
     Action.SceneBecameActive -> {
+        val s = state.returnedToApp(dependency(AppAwayDate).now())
         // Decided on the connection's state before it settles this action.
-        val silence = dependency(ServerLinkClient).streamSilence(state.server.persistenceID)
-        if (!state.connection.resyncsWhenActive(silence)) Reduced(state) else refreshSnapshot(state.unsettlingNotices())
+        val silence = dependency(ServerLinkClient).streamSilence(s.server.persistenceID)
+        if (!s.connection.resyncsWhenActive(silence)) Reduced(s) else refreshSnapshot(s.unsettlingNotices())
     }
 
     Action.ReconnectingGraceElapsed, is Action.OfflineGraceElapsed -> Reduced(state)
@@ -223,7 +235,7 @@ private fun HomeFeature.snapshotRefreshed(state: State, action: Action.SnapshotR
     s = s.copy(
         localActivity = localActivity,
         locallyViewedMilliseconds = locallyViewed,
-        projects = incoming.projects,
+        projects = if (s.projects == incoming.projects) s.projects else incoming.projects,
         snapshotLoaded = true,
     )
     // The list is one page of the newest roots, not the whole server. Whatever is open or pinned
@@ -501,9 +513,36 @@ internal fun HomeFeature.flushPersistedComposer(state: State): Effect<Action> {
 }
 
 /**
- * The board the call's delegator reads while a call is up; null otherwise, so Home pays nothing for
- * it between calls.
+ * Everything the board is built from, compared per action in its place. While nothing changed each
+ * collection compares by reference, so a call's caption deltas don't rebuild the drawer's status.
  */
+internal data class VoiceSessionBoardInput(
+    /** Read and mute state, attention and whether activity shows; `busy` is left empty and compared through its sources. */
+    val status: State.StatusSnapshot,
+    val sessions: List<OpenCodeSession>,
+    val activeSessionIDs: Set<String>,
+    val parents: State.ParentSources,
+    val pinnedSessionKeys: List<String>,
+    val openSessionID: String?,
+    val home: VoiceAppState.Home?,
+)
+
+/** Null between calls, so Home pays nothing for the board then. */
+internal val State.voiceSessionBoardInput: VoiceSessionBoardInput?
+    get() {
+        if (sessionDetail?.voice == null) return null
+        return VoiceSessionBoardInput(
+            status = statusSnapshot(busy = emptySet()),
+            sessions = sessions,
+            activeSessionIDs = activeSessionIDs,
+            parents = parentSources,
+            pinnedSessionKeys = pinnedSessionKeys,
+            openSessionID = sessionDetail?.session?.id,
+            home = if (DeveloperMode.isEnabled) voiceAppStateHome else null,
+        )
+    }
+
+/** The board while a call is up; null otherwise. Built only when [voiceSessionBoardInput] changes. */
 internal val State.voiceSessionBoard: VoiceSessionBoard?
     get() {
         if (sessionDetail?.voice == null) return null
@@ -544,3 +583,43 @@ internal val State.voiceAppStateHome: VoiceAppState.Home
             )
         },
     )
+
+fun wasAwayLongEnoughForNewSession(now: Instant): Boolean {
+    val leftAt = shared(SharedKeys.appLeftAt).value ?: return false
+    return Duration.between(leftAt, now) >= HomeFeature.newSessionAfterAway
+}
+
+internal fun State.appLeft(at: Instant): State {
+    // Further windows on a tablet keep what they show; the app's one leave time is the first window's.
+    if (isWindowLocal) return this
+    shared(SharedKeys.appLeftAt).set(at)
+    return copy(detailGenerationWhenLeft = detailGeneration)
+}
+
+/**
+ * Back from the background: after [HomeFeature.newSessionAfterAway], a session on screen gives way
+ * to a new one. A live call or recording keeps its screen, and anything opened on the way back (a
+ * notification, a link) wins.
+ */
+internal fun State.returnedToApp(now: Instant): State {
+    if (isWindowLocal) return this
+    val leftGeneration = detailGenerationWhenLeft
+    val leftAt = shared(SharedKeys.appLeftAt).value
+    val awayLongEnough = wasAwayLongEnoughForNewSession(now)
+    val s = forgettingAppLeft()
+    if (!awayLongEnough || leftAt == null) return s
+    if (leftGeneration != detailGeneration) return s
+    if (selectedTranscriptFetch != null || pendingSubagentPush != null) return s
+    val detail = sessionDetail ?: return s
+    if (detail.isDraft || detail.voice?.phase?.isTerminal == false || detail.carriedDictation != null) return s
+    if (subagentStack.any { it.carriedDictation != null }) return s
+    AppLog.app.info { "away ${Duration.between(leftAt, now).seconds}s opens a new session" }
+    return s.leavingCatchUp().openingDraft(reason = "you came back after a while")
+}
+
+internal fun State.forgettingAppLeft(): State {
+    if (isWindowLocal) return this
+    val appLeftAt = shared(SharedKeys.appLeftAt)
+    if (appLeftAt.value != null) appLeftAt.set(null)
+    return if (detailGenerationWhenLeft == null) this else copy(detailGenerationWhenLeft = null)
+}

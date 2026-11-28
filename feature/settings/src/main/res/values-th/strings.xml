@@ -64,8 +64,6 @@
     <string name="settings_notifications_plugin_check_failed">ตรวจสอบสถานะไม่ได้</string>
     <string name="settings_notifications_set_up">ตั้งค่าด้วย OpenCode</string>
     <string name="settings_notifications_check_again">ตรวจสอบอีกครั้ง</string>
-    <string name="settings_notifications_in_app_footer">แสดงบนปุ่มแถบด้านข้าง</string>
-    <string name="settings_notifications_in_app_notices">ประกาศในแอป</string>
 
     <!-- Sessions -->
     <string name="settings_sessions_title">เซสชัน</string>

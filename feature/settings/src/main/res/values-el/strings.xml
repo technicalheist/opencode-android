@@ -65,8 +65,6 @@
     <string name="settings_notifications_plugin_check_failed">Αδυναμία ελέγχου κατάστασης</string>
     <string name="settings_notifications_set_up">Ρύθμιση με το OpenCode</string>
     <string name="settings_notifications_check_again">Νέος έλεγχος</string>
-    <string name="settings_notifications_in_app_footer">Εμφανίζονται στο κουμπί του πλαϊνού μενού.</string>
-    <string name="settings_notifications_in_app_notices">Ειδοποιήσεις εντός εφαρμογής</string>
 
     <!-- Sessions -->
     <string name="settings_sessions_title">Συνεδρίες</string>

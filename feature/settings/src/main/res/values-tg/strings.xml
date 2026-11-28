@@ -65,8 +65,6 @@
     <string name="settings_notifications_plugin_check_failed">Ҳолат санҷида нашуд</string>
     <string name="settings_notifications_set_up">Бо OpenCode танзим кунед</string>
     <string name="settings_notifications_check_again">Аз нав санҷед</string>
-    <string name="settings_notifications_in_app_footer">Дар тугмаи менюи паҳлуӣ нишон дода мешаванд.</string>
-    <string name="settings_notifications_in_app_notices">Огоҳиҳои дохили барнома</string>
 
     <!-- Sessions -->
     <string name="settings_sessions_title">Сеансхо</string>

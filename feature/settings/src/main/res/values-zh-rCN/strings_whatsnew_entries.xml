@@ -901,4 +901,38 @@
     <!-- 2026-11-08-02-default-model -->
     <string name="settings_whatsnew_entry_default_model_title">新会话使用你的默认模型</string>
     <string name="settings_whatsnew_entry_default_model_summary">新会话会使用你在 OpenCode 中设置的默认模型，并沿用你上次为它选择的思考强度，不再使用上个会话的模型。</string>
+
+    <!-- 2026-11-11-01-streamed-reply-prefix -->
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_title">边生成边查看回复</string>
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_summary">回复还在生成时打开会话，也能立即阅读已收到的内容，并继续查看后续回复。</string>
+
+    <!-- 2026-11-13-01-draw-on-images -->
+    <string name="settings_whatsnew_entry_draw_on_images_title">在图片上涂画</string>
+    <string name="settings_whatsnew_entry_draw_on_images_summary">提问前，先标出你想问的细节。</string>
+    <string name="settings_whatsnew_entry_draw_on_images_detail_1">全屏打开图片，点击画笔按钮。选择颜色并涂画，再点击“添加”，即可将标注后的图片附加到消息中。原图不会改变。</string>
+    <string name="settings_whatsnew_entry_draw_on_images_example">在截图中圈出要移动的控件，再说明要移到哪里。</string>
+
+    <!-- 2026-11-14-01-fullscreen-viewer -->
+    <string name="settings_whatsnew_entry_fullscreen_viewer_title">滑动切换照片和视频</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_summary">在同一处浏览会话中的图片和视频。</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_detail_1">滑动切换到视频，再点击画笔按钮标注当前画面。点击“添加”只会附加标注后的画面，不会发送。</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_example">将演示视频暂停在需要修改的画面，圈出细节，再添加到草稿中。</string>
+
+    <!-- 2026-11-15-01-pairing-link-name -->
+    <string name="settings_whatsnew_entry_pairing_link_name_title">从 OpenCode Console 配对时保留服务器名称</string>
+    <string name="settings_whatsnew_entry_pairing_link_name_summary">通过 OpenCode Console 配对的服务器会自带名称，例如“Anomaly Box”。</string>
+
+    <!-- 2026-11-17-01-session-media -->
+    <string name="settings_whatsnew_entry_session_media_title">会话媒体</string>
+    <string name="settings_whatsnew_entry_session_media_summary">浏览会话中的图片、视频、音频、文件和公开网页链接。</string>
+    <string name="settings_whatsnew_entry_session_media_detail_1">从会话的 ⋮ 菜单中选择“会话媒体”。“媒体”以按月分组的图块或列表展示图片、视频和音频；“文件”和“链接”则列出文档、粘贴内容和网页链接。</string>
+    <string name="settings_whatsnew_entry_session_media_example">不用翻遍整个会话，就能找到今天早上发送的截图。</string>
+
+    <!-- 2026-11-18-02-drawer-call-phone -->
+    <string name="settings_whatsnew_entry_drawer_call_phone_title">侧边栏通话按钮改用电话图标</string>
+    <string name="settings_whatsnew_entry_drawer_call_phone_summary">会话列表中“设置”旁的通话按钮现使用电话图标，与消息输入框中的一致。</string>
+
+    <!-- 2026-11-19-01-background-scripts -->
+    <string name="settings_whatsnew_entry_background_scripts_title">后台任务中显示脚本</string>
+    <string name="settings_whatsnew_entry_background_scripts_summary">智能体移至后台的脚本会与子代理和 Shell 一起显示。只要子代理的图片、视频或脚本任务仍在运行，它就会留在列表中。脚本和子代理都可以从列表中停止。</string>
 </resources>

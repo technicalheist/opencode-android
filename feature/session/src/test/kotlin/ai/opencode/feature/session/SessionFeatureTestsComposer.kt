@@ -91,6 +91,17 @@ class SessionFeatureTestsComposer {
         store.finish()
     }
 
+    @Test fun aDrawingOnAPendingPhotoTakesItsPlace() = sessionTest { h ->
+        val state = h.drawingSession()
+        val photo = state.pendingAttachments.first()
+        val pasted = OpenCodeOutgoingAttachment(id = UUID(0, 3).toString(), data = byteArrayOf(2), mime = "image/png")
+        val store = h.store(state.withPendingAttachments(listOf(photo, pasted)))
+        store.send(Action.DrawingAdded(drawnImage, from = state.taskIdentity, replacing = photo.id)) {
+            it.withPendingAttachments(listOf(drawnImage, pasted))
+        }
+        store.finish()
+    }
+
     @Test fun aDrawingForAnotherComposerAddsNothing() = sessionTest { h ->
         val state = h.drawingSession()
         val elsewhere = state.taskIdentity.copy(visit = state.taskIdentity.visit + 1)

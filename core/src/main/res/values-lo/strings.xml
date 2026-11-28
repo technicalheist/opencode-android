@@ -29,11 +29,6 @@
     <string name="core_experiment_group_transcript_title">ບົດຖອດສຽງ</string>
     <string name="core_experiment_group_drawer_title">ແຖບເມນູຂ້າງ</string>
 
-    <!-- In-app notice mode -->
-    <string name="core_in_app_notice_mode_off">ປິດ</string>
-    <string name="core_in_app_notice_mode_needs_input">ສະເພາະເມື່ອຕ້ອງການຄຳຕອບຈາກເຈົ້າ</string>
-    <string name="core_in_app_notice_mode_all">ອັບເດດທັງໝົດ</string>
-
     <!-- Themes and appearance -->
     <string name="core_theme_system_title">ລະບົບ</string>
     <string name="core_appearance_color_scheme_system_title">ລະບົບ</string>

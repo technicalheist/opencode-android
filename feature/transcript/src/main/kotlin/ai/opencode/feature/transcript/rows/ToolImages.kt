@@ -40,8 +40,8 @@ fun ToolImageMosaic(images: List<OpenCodeImageAttachment>, modifier: Modifier = 
     val loadedAspects = remember { mutableStateMapOf<String, Float>() }
     // The row's place in the transcript, to say its height is about to change.
     val row = remember { AgentImageRowAnchor() }
-    val decoded by produceState(images.map { CachedImage.cached(it.id, it.mediaHash) }, images) {
-        value = withContext(Dispatchers.Default) { images.map(MediaReferenceResolver::decodedImage) }
+    val decoded by produceState(images.map { CachedImage.cachedThumbnail(it.id, it.mediaHash) }, images) {
+        value = withContext(Dispatchers.Default) { images.map(MediaReferenceResolver::thumbnail) }
     }
     val aspects = ToolImageMosaic.aspects(images, decoded.map { it?.let { image -> IntSize(image.width, image.height) } }, loadedAspects)
     AgentImageRowAnchor.Placement(row)

@@ -43,7 +43,7 @@ internal fun HomeFeature.cancelBackgroundTranscriptReads(
 ): Reduced<HomeFeature.State, HomeFeature.Action> {
     val cancelledCached = state.refreshingTranscripts - including
     val refreshing = state.refreshingTranscripts + including
-    var s = state.copy(refreshingTranscripts = emptySet())
+    var s = state.copy(refreshingTranscripts = emptySet(), fetchingTranscripts = emptySet())
     if (including.isNotEmpty()) s = s.copy(dirtyCachedTranscriptIDs = s.dirtyCachedTranscriptIDs.filterNot { it in including })
     for (sessionID in cancelledCached.sorted()) s = s.notingDirtyCachedTranscript(sessionID)
     val cancelCached = refreshing.sorted().map { HomeFeature.CancelID.CachedTranscript(it) }
@@ -119,7 +119,7 @@ internal fun HomeFeature.resolveActiveAncestry(state: HomeFeature.State): Effect
 /**
  * Reads a session's transcript again, outside the open one, so opening it shows what's new at
  * once: one read per session at a time. [freshFor] skips a session read that recently; [force]
- * replaces a read still waiting out its delay with one now.
+ * replaces a read in flight, except that a read wanted now joins one already sent without a delay.
  */
 internal fun HomeFeature.refreshCachedTranscript(
     state: HomeFeature.State,
@@ -141,10 +141,17 @@ internal fun HomeFeature.refreshCachedTranscript(
             return Reduced(state)
         }
     }
-    if (state.isInitialTranscriptInFlight) return Reduced(state.notingDirtyCachedTranscript(sessionID))
+    // Offline, the reconnect's snapshot drains what's marked here.
+    if (state.isInitialTranscriptInFlight || !state.isConnected) return Reduced(state.notingDirtyCachedTranscript(sessionID))
     var s = state.copy(dirtyCachedTranscriptIDs = state.dirtyCachedTranscriptIDs - sessionID)
-    if (sessionID in s.refreshingTranscripts && !force) return Reduced(s)
-    s = s.copy(refreshingTranscripts = s.refreshingTranscripts + sessionID)
+    if (sessionID in s.refreshingTranscripts) {
+        if (!force) return Reduced(s)
+        if (after == Duration.ZERO && sessionID in s.fetchingTranscripts) return Reduced(s)
+    }
+    s = s.copy(
+        refreshingTranscripts = s.refreshingTranscripts + sessionID,
+        fetchingTranscripts = if (after == Duration.ZERO) s.fetchingTranscripts + sessionID else s.fetchingTranscripts - sessionID,
+    )
     val server = s.server
     val client = dependency(OpenCodeClient)
     val clock = dependency(Clock)
@@ -171,8 +178,9 @@ internal fun HomeFeature.refreshCachedTranscript(
  * at once. Only the top few are ever fetched, staggered behind the snapshot and the open session.
  */
 internal fun HomeFeature.prefetchTranscripts(state: HomeFeature.State): Effect<HomeFeature.Action> {
-    // Keep speculative history off the connection while an initial or foreground request is in flight.
-    if (state.isInitialTranscriptInFlight) return Effect.none()
+    // Keep speculative history off the connection while an initial or foreground request is in
+    // flight, and off a server that isn't answering.
+    if (state.isInitialTranscriptInFlight || !state.isConnected) return Effect.none()
     val openIDs = setOfNotNull(state.sessionDetail?.session?.id, state.topDetail?.session?.id, state.selectedTranscriptFetch?.sessionID)
     val byID = state.sessions.associateBy { it.id }
     val catchUp = state.catchUp

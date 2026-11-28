@@ -377,7 +377,6 @@ object InlineMarkdownParser {
         // MARK: Links
 
         fun closeBracket() {
-            flush()
             val opener = brackets
             if (opener == null) {
                 appendLiteral("]")
@@ -397,6 +396,7 @@ object InlineMarkdownParser {
                 pos++
                 return
             }
+            flush()
             processEmphasis(opener.previousDelimiter)
             val link = Node(if (opener.image) IMAGE else LINK)
             link.url = tail.first

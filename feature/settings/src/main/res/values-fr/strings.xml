@@ -66,8 +66,6 @@
     <string name="settings_notifications_plugin_check_failed">Impossible de vérifier l’état</string>
     <string name="settings_notifications_set_up">Configurer avec OpenCode</string>
     <string name="settings_notifications_check_again">Vérifier à nouveau</string>
-    <string name="settings_notifications_in_app_footer">Affichés sur le bouton du volet latéral.</string>
-    <string name="settings_notifications_in_app_notices">Avis dans l’application</string>
 
     <!-- Sessions -->
     <string name="settings_sessions_title">Sessions</string>

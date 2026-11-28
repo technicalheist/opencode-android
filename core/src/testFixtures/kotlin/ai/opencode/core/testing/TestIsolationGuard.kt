@@ -208,6 +208,7 @@ object TestIsolationGuard {
         sharedProbe("Shared.uploadUnsupportedServerIDs", SharedKeys.uploadUnsupportedServerIDs, "[]"),
         sharedProbe("Shared.pinnedSessionKeys", SharedKeys.pinnedSessionKeys, "[]"),
         sharedProbe("Shared.mutedSessionKeys", SharedKeys.mutedSessionKeys, "[]"),
+        sharedProbe("Shared.hiddenSessionKeys", SharedKeys.hiddenSessionKeys, "[]"),
         sharedProbe("Shared.favoriteModelIDs", SharedKeys.favoriteModelIDs, "[]"),
         sharedProbe("Shared.appTheme", ThemeSharedKeys.appTheme, "System"),
         sharedProbe("Shared.appearanceColorScheme", ThemeSharedKeys.appearanceColorScheme, "System"),

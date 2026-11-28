@@ -509,7 +509,7 @@ class VoiceClaimTests {
             .recording(VoiceTranscriptTail.Role.user, "Also pack a charger", id = "u_pending")
 
         val verifyNote = VoiceActionClaim.verifyPrompt(question = "Did that go out?", claim = "That went through.")
-        val expectedContext = """[Phone context] Viewing session "Session View" (ses_view)"""
+        val expectedContext = """[Phone context] Call on session "Session View" (ses_view) · """ + VoiceScreenVisibility.notLooking.unseenNote!!
         val expectedPrompt = VoiceSessionDelegator.formatPrompt(
             deltaLines = emptyList(),
             promisedClaim = verifyNote,

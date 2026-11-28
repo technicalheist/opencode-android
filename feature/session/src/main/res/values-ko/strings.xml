@@ -3,11 +3,10 @@
     <!-- Agent activity glyph -->
     <string name="session_activity_running_description">실행 중</string>
     <!-- Background work panel -->
-    <string name="session_background_work_show_label">실행 중인 하위 에이전트와 셸 표시</string>
+    <string name="session_background_work_show_label">실행 중인 하위 에이전트, 스크립트 및 셸 표시</string>
     <string name="session_background_work_collapsed_description">접힘</string>
-    <string name="session_background_work_subagents_title">하위 에이전트</string>
+    <string name="session_background_work_expanded_description">펼쳐짐</string>
     <string name="session_background_work_open_subagent_label">하위 에이전트의 세션 열기</string>
-    <string name="session_background_work_shells_title">셸</string>
     <string name="session_background_work_show_shell_label">셸 출력 보기</string>
     <!-- The session's images and videos, paged in the full-screen viewer -->
     <string name="session_visual_attached_image">첨부 이미지</string>
@@ -70,6 +69,8 @@
     <string name="session_sheet_unknown_description">알 수 없음</string>
     <string name="session_sheet_context_tokens">%1$s 토큰</string>
     <string name="session_sheet_cost">비용</string>
+    <string name="session_sheet_media">미디어</string>
+    <string name="session_sheet_media_value">파일 및 링크</string>
     <string name="session_always_notify">항상 알림</string>
     <string name="session_always_notify_message_phone">다른 기기에서 보낸 메시지도 응답이 완료되면 이 휴대폰으로 알려요.</string>
     <string name="session_always_notify_message_tablet">다른 기기에서 보낸 메시지도 응답이 완료되면 이 태블릿으로 알려요.</string>
@@ -192,22 +193,24 @@
     <plurals name="session_background_work_shell_count">
         <item quantity="other">셸 %1$d개</item>
     </plurals>
+    <plurals name="session_background_work_script_count">
+        <item quantity="other">스크립트 %1$d개</item>
+    </plurals>
     <string name="session_background_work_summary">%1$s · %2$s</string>
+    <string name="session_background_work_elapsed_seconds">%1$d초</string>
+    <string name="session_background_work_elapsed_minutes">%1$d분 %2$s초</string>
+    <string name="session_background_work_elapsed_hours">%1$d시간 %2$s분</string>
+    <string name="session_background_work_stop_script_label">스크립트 중지</string>
+    <string name="session_background_work_stop_subagent_label">하위 에이전트 중지</string>
+    <string name="session_background_work_stop_shell_label">셸 중지</string>
+    <string name="session_background_work_stop_script_failed">스크립트를 중지할 수 없어요</string>
+    <string name="session_background_work_stop_subagent_failed">하위 에이전트를 중지할 수 없어요</string>
 
     <!-- Composer buttons -->
     <string name="session_send_message_description">메시지 보내기</string>
     <string name="session_stop_description">중지</string>
     <string name="session_start_voice_call_description">음성 통화 시작</string>
     <string name="session_model_level_default">기본값</string>
-
-    <!-- In-app notice -->
-    <plurals name="session_notice_session_count">
-        <item quantity="other">세션 %1$d개</item>
-    </plurals>
-    <plurals name="session_notice_needs_input_count">
-        <item quantity="other">%1$d개 세션에 입력이 필요해요</item>
-    </plurals>
-    <string name="session_notice_announcement">%1$s, %2$s</string>
 
     <!-- Server connection pill -->
     <string name="session_server_reconnecting">%1$s에 다시 연결 중…</string>

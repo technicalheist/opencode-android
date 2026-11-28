@@ -29,11 +29,6 @@
     <string name="core_experiment_group_transcript_title">Sarunas pieraksts</string>
     <string name="core_experiment_group_drawer_title">Sānu panelis</string>
 
-    <!-- In-app notice mode -->
-    <string name="core_in_app_notice_mode_off">Izslēgts</string>
-    <string name="core_in_app_notice_mode_needs_input">Tikai tad, ja vajadzīga tava ievade</string>
-    <string name="core_in_app_notice_mode_all">Visi atjauninājumi</string>
-
     <!-- Themes and appearance -->
     <string name="core_theme_system_title">Sistēma</string>
     <string name="core_appearance_color_scheme_system_title">Sistēma</string>

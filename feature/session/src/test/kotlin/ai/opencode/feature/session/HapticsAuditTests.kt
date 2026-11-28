@@ -287,6 +287,8 @@ class HapticsAuditTests {
         store.send(Action.DraftProjectTapped(projects[0]))
         assertTrue("The project already chosen is a no-op", log.names.isEmpty())
         store.send(Action.DraftProjectTapped(projects[1])) { it.copy(draftProject = projects[1]) }
+        store.receive(Action.AgentsRequested)
+        store.receive({ it is Action.AgentsResponse }, "agentsResponse")
         assertEquals(listOf("selection"), log.names)
         store.send(Action.DraftProjectTapped(projects[1]))
         assertEquals(listOf("selection"), log.names)
@@ -299,6 +301,8 @@ class HapticsAuditTests {
         store.send(Action.ProjectButtonTapped) { it.openProjectPicker() }
         assertTrue("Opening the sheet is navigation", log.names.isEmpty())
         store.send(Action.ProjectPicked(projects[1])) { it.copy(draftProject = projects[1], activePicker = null) }
+        store.receive(Action.AgentsRequested)
+        store.receive({ it is Action.AgentsResponse }, "agentsResponse")
         assertEquals(listOf("selection"), log.names)
         store.finish()
     }
@@ -315,6 +319,8 @@ class HapticsAuditTests {
         val log = HapticsRecorder()
         val store = h.newSessionStore(log)
         store.send(Action.ProjectPicked(projects[1])) { it.copy(draftProject = projects[1]) }
+        store.receive(Action.AgentsRequested)
+        store.receive({ it is Action.AgentsResponse }, "agentsResponse")
         assertTrue("A shortcut or the voice agent moving the draft isn't a press", log.names.isEmpty())
         store.finish()
     }

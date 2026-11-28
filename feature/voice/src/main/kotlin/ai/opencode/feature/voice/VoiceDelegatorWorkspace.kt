@@ -184,6 +184,8 @@ class VoiceDelegatorWorkspace(
         val settledRequest: suspend (sessionID: String) -> Unit = {},
         /** Hang up once the delegator's answer (the goodbye) has been spoken. */
         val endCall: suspend () -> Unit = {},
+        /** The user said they're looking at the screen (true) or aren't. */
+        val setUserLooking: suspend (looking: Boolean) -> Unit = {},
         /** A Voice message carried the long header into this session. */
         val explained: suspend (sessionID: String) -> Unit,
         /** The server admitted a Voice message into a session. */
@@ -588,6 +590,19 @@ class VoiceDelegatorWorkspace(
             "end_call" -> {
                 effects.endCall()
                 return json(mapOf("ending" to "after your reply is spoken; make it a short goodbye"))
+            }
+
+            "set_user_looking" -> {
+                val looking = arguments.bool("looking") ?: throw OpenCodeClientError("Pass looking: true or false.")
+                effects.setUserLooking(looking)
+                effects.note(if (looking) "The user is looking at the screen." else "The user isn’t looking at the screen.")
+                return json(
+                    if (looking) {
+                        mapOf("looking" to true, "note" to "While the app is in front, requests say they're viewing the session; still say results in words.")
+                    } else {
+                        mapOf("looking" to false, "note" to "Describe results in words from now on, without pointing at the screen.")
+                    },
+                )
             }
 
             "create_session" -> return createSession(arguments, server)

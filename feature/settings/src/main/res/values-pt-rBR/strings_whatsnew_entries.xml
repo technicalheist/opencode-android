@@ -901,4 +901,38 @@
     <!-- 2026-11-08-02-default-model -->
     <string name="settings_whatsnew_entry_default_model_title">Novas sessões usam seu modelo padrão</string>
     <string name="settings_whatsnew_entry_default_model_summary">Novas sessões começam com o modelo definido como padrão no OpenCode e o último nível de raciocínio escolhido para ele, em vez do modelo da última sessão.</string>
+
+    <!-- 2026-11-11-01-streamed-reply-prefix -->
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_title">Abra uma resposta em andamento</string>
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_summary">Ao abrir uma sessão enquanto a resposta está chegando, você pode ler o que já chegou sem esperar o fim.</string>
+
+    <!-- 2026-11-13-01-draw-on-images -->
+    <string name="settings_whatsnew_entry_draw_on_images_title">Desenhe em imagens</string>
+    <string name="settings_whatsnew_entry_draw_on_images_summary">Destaque um detalhe antes de perguntar sobre ele.</string>
+    <string name="settings_whatsnew_entry_draw_on_images_detail_1">Abra uma imagem em tela inteira e toque no botão da caneta. Escolha uma cor, desenhe e toque em Adicionar para anexar a imagem marcada à sua mensagem. A original não muda.</string>
+    <string name="settings_whatsnew_entry_draw_on_images_example">Circule o controle que você quer mover em uma captura de tela e descreva onde ele deve ficar.</string>
+
+    <!-- 2026-11-14-01-fullscreen-viewer -->
+    <string name="settings_whatsnew_entry_fullscreen_viewer_title">Deslize entre fotos e vídeos</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_summary">Veja as imagens e os vídeos de uma sessão juntos.</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_detail_1">Deslize até um vídeo e toque no botão da caneta para marcar o quadro atual. Adicionar anexa o quadro marcado sem enviá-lo.</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_example">Pause uma demonstração na tela que precisa mudar, circule o detalhe e adicione ao seu rascunho.</string>
+
+    <!-- 2026-11-15-01-pairing-link-name -->
+    <string name="settings_whatsnew_entry_pairing_link_name_title">Servidores com nome do OpenCode Console</string>
+    <string name="settings_whatsnew_entry_pairing_link_name_summary">Um servidor emparelhado pelo OpenCode Console já vem com seu nome, como “Anomaly Box”.</string>
+
+    <!-- 2026-11-17-01-session-media -->
+    <string name="settings_whatsnew_entry_session_media_title">Mídia da sessão</string>
+    <string name="settings_whatsnew_entry_session_media_summary">Veja imagens, vídeos, áudios, arquivos e links públicos da web de uma sessão.</string>
+    <string name="settings_whatsnew_entry_session_media_detail_1">Escolha Mídia da sessão no menu ⋮ da sessão. Mídia mostra imagens, vídeos e áudios em blocos agrupados por mês ou em lista. Arquivos e Links listam documentos, textos colados e links da web.</string>
+    <string name="settings_whatsnew_entry_session_media_example">Encontre a captura de tela que você enviou hoje de manhã sem percorrer toda a sessão.</string>
+
+    <!-- 2026-11-18-02-drawer-call-phone -->
+    <string name="settings_whatsnew_entry_drawer_call_phone_title">Ícone de telefone no painel lateral</string>
+    <string name="settings_whatsnew_entry_drawer_call_phone_summary">O botão de chamada ao lado de Configurações na lista de sessões mostra um telefone, como o da caixa de mensagem.</string>
+
+    <!-- 2026-11-19-01-background-scripts -->
+    <string name="settings_whatsnew_entry_background_scripts_title">Scripts em segundo plano</string>
+    <string name="settings_whatsnew_entry_background_scripts_summary">Os scripts que o agente move para segundo plano aparecem ao lado de subagentes e shells. Um subagente continua na lista enquanto suas imagens, vídeos ou scripts estiverem em execução. Você pode parar qualquer um deles pela lista.</string>
 </resources>

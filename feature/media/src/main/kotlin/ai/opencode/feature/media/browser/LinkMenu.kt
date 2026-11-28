@@ -512,13 +512,11 @@ class LinkHitLayout(
         }
     }
 
-    /** Every web link in the laid-out text and the line rects it covers. */
-    val laidOutLinks: List<Hit<String>> get() = links.map { (range, url) -> Hit(url, rects(range)) }
-
     private fun <T> hit(items: List<Pair<IntRange, T>>, point: Offset, predicate: (T) -> Boolean = { true }): Hit<T>? {
+        val near = layout.getLineForVerticalPosition(point.y - slopY) - 1..layout.getLineForVerticalPosition(point.y + slopY)
         for ((range, value) in items) {
             if (!predicate(value)) continue
-            if (rects(range, leadingBelow = true).any { Rect(it.left - slopX, it.top - slopY, it.right + slopX, it.bottom + slopY).contains(point) }) {
+            if (rects(range, leadingBelow = true, near).any { Rect(it.left - slopX, it.top - slopY, it.right + slopX, it.bottom + slopY).contains(point) }) {
                 return Hit(value, rects(range))
             }
         }
@@ -535,14 +533,14 @@ class LinkHitLayout(
      * the line above. The text's first line is trimmed to its glyphs, so its baseline
      * gives the ascent.
      */
-    private fun rects(range: IntRange, leadingBelow: Boolean): List<Rect> {
+    private fun rects(range: IntRange, leadingBelow: Boolean, lines: IntRange = 0 until layout.lineCount): List<Rect> {
         val textLength = layout.layoutInput.text.length
         val start = range.first.coerceIn(0, textLength)
         val end = (range.last + 1).coerceIn(start, textLength)
         if (start >= end) return emptyList()
         val result = ArrayList<Rect>()
-        val firstLine = layout.getLineForOffset(start)
-        val lastLine = layout.getLineForOffset(end - 1)
+        val firstLine = maxOf(layout.getLineForOffset(start), lines.first)
+        val lastLine = minOf(layout.getLineForOffset(end - 1), lines.last)
         for (line in firstLine..lastLine) {
             val lineStart = maxOf(start, layout.getLineStart(line))
             val lineEnd = minOf(end, layout.getLineEnd(line, visibleEnd = true))
@@ -702,8 +700,10 @@ fun LinkMenu(
                         },
                         onClick = {
                             chooser = null
-                            val laidOut = textLayout()?.let { LinkHitLayout(it, webRanges, slopX = slopX, slopY = slopY).laidOutLinks }
-                            menu = laidOut?.firstOrNull { it.value == url } ?: LinkHitLayout.Hit(url, emptyList())
+                            val layout = textLayout()
+                            val range = webRanges.firstOrNull { it.second == url }?.first
+                            val rects = if (layout != null && range != null) LinkHitLayout(layout, webRanges, slopX = slopX, slopY = slopY).rects(range) else emptyList()
+                            menu = LinkHitLayout.Hit(url, rects)
                         },
                     )
                 }

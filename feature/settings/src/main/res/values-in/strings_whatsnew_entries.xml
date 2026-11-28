@@ -901,4 +901,38 @@
     <!-- 2026-11-08-02-default-model -->
     <string name="settings_whatsnew_entry_default_model_title">Sesi baru memakai model bawaan Anda</string>
     <string name="settings_whatsnew_entry_default_model_summary">Sesi baru dimulai dengan model bawaan yang Anda atur di OpenCode dan tingkat berpikir terakhir yang Anda pilih untuk model itu, bukan model dari sesi terakhir.</string>
+
+    <!-- 2026-11-11-01-streamed-reply-prefix -->
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_title">Buka balasan yang masih mengalir</string>
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_summary">Saat membuka sesi ketika balasan masih mengalir, Anda bisa membaca bagian yang sudah diterima sambil menunggu sisanya.</string>
+
+    <!-- 2026-11-13-01-draw-on-images -->
+    <string name="settings_whatsnew_entry_draw_on_images_title">Gambar di atas gambar</string>
+    <string name="settings_whatsnew_entry_draw_on_images_summary">Tandai detail sebelum menanyakannya.</string>
+    <string name="settings_whatsnew_entry_draw_on_images_detail_1">Buka gambar dalam layar penuh lalu ketuk tombol pena. Pilih warna, gambar, lalu ketuk Tambah untuk melampirkan gambar bertanda ke pesan Anda. Gambar asli tidak berubah.</string>
+    <string name="settings_whatsnew_entry_draw_on_images_example">Lingkari kontrol yang ingin dipindahkan pada tangkapan layar, lalu jelaskan posisi barunya.</string>
+
+    <!-- 2026-11-14-01-fullscreen-viewer -->
+    <string name="settings_whatsnew_entry_fullscreen_viewer_title">Geser antar foto dan video</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_summary">Jelajahi gambar dan video sesi di satu tempat.</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_detail_1">Geser ke video, lalu ketuk tombol pena untuk menandai bingkai saat ini. Tambah melampirkan bingkai bertanda tanpa mengirimnya.</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_example">Jeda demo pada layar yang perlu diubah, lingkari detailnya, lalu tambahkan ke draf Anda.</string>
+
+    <!-- 2026-11-15-01-pairing-link-name -->
+    <string name="settings_whatsnew_entry_pairing_link_name_title">Server bernama dari OpenCode Console</string>
+    <string name="settings_whatsnew_entry_pairing_link_name_summary">Server yang Anda pasangkan dari OpenCode Console sudah dilengkapi namanya, seperti “Anomaly Box”.</string>
+
+    <!-- 2026-11-17-01-session-media -->
+    <string name="settings_whatsnew_entry_session_media_title">Media sesi</string>
+    <string name="settings_whatsnew_entry_session_media_summary">Jelajahi gambar, video, audio, berkas, dan tautan web publik dalam sesi.</string>
+    <string name="settings_whatsnew_entry_session_media_detail_1">Pilih Media sesi dari menu ⋮ sesi. Media menampilkan gambar, video, dan audio sebagai ubin yang dikelompokkan per bulan atau sebagai daftar. Berkas dan Tautan memuat dokumen, teks tempelan, dan tautan web.</string>
+    <string name="settings_whatsnew_entry_session_media_example">Temukan tangkapan layar yang Anda kirim tadi pagi tanpa menggulir seluruh sesi ke belakang.</string>
+
+    <!-- 2026-11-18-02-drawer-call-phone -->
+    <string name="settings_whatsnew_entry_drawer_call_phone_title">Ikon telepon untuk panggilan di panel samping</string>
+    <string name="settings_whatsnew_entry_drawer_call_phone_summary">Tombol panggilan di samping Pengaturan pada daftar sesi memakai ikon telepon, seperti di kotak pesan.</string>
+
+    <!-- 2026-11-19-01-background-scripts -->
+    <string name="settings_whatsnew_entry_background_scripts_title">Skrip dalam pekerjaan latar belakang</string>
+    <string name="settings_whatsnew_entry_background_scripts_summary">Skrip yang dipindahkan agen ke latar belakang tampil bersama subagen dan shell. Subagen tetap tercantum selama gambar, video, atau skripnya masih diproses. Hentikan skrip atau subagen langsung dari daftar.</string>
 </resources>

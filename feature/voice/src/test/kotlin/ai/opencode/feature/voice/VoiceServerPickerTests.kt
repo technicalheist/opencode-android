@@ -97,6 +97,10 @@ class VoiceServerPickerTests {
         assertFalse("Only Grok has a key", ServerVoiceModels.offers(VoiceRoute.ServerRoute.OpenAI(VoiceRoute.OpenAI.gptLive), models))
         assertTrue(ServerVoiceModels.offers(VoiceRoute.ServerRoute.OpenAI(VoiceRoute.OpenAI.gptLive), listOf(ServerVoiceModel(model = "gpt-live-1", available = true))))
         assertTrue(
+            "A server listing either GPT-Live version brokers the phone's gpt-live-1.1 calls",
+            ServerVoiceModels.offers(VoiceRoute.ServerRoute.OpenAI(VoiceRoute.OpenAI.gptLive), listOf(ServerVoiceModel(model = "gpt-live-1.1", available = true))),
+        )
+        assertTrue(
             ServerVoiceModels.offers(
                 VoiceRoute.ServerRoute.OpenAI(VoiceRoute.OpenAI.realtime),
                 listOf(ServerVoiceModel(model = "gpt-realtime-2.1", available = true)),

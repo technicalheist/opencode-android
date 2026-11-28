@@ -38,6 +38,8 @@
     <string name="drawer_mark_as_unread">Означи како непрочитано</string>
     <string name="drawer_mute">Исклучи известувања</string>
     <string name="drawer_unmute">Вклучи известувања</string>
+    <string name="drawer_hide">Сокриј</string>
+    <string name="drawer_unhide">Прикажи</string>
     <string name="drawer_move_up">Помести нагоре</string>
     <string name="drawer_move_down">Помести надолу</string>
 
@@ -81,8 +83,6 @@
     <string name="drawer_button_open_sessions_description">Отвори сесии</string>
     <string name="drawer_button_attention_state">Една сесија бара твој внес</string>
     <string name="drawer_button_unread_state">Непрочитани сесии</string>
-    <string name="drawer_notice_open_sessions_action">Отвори сесии</string>
-    <string name="drawer_notice_open_session_action">Отвори ја сесијата</string>
 
     <!-- Search pill -->
     <string name="drawer_search_description">Пребарувајте сесии</string>
@@ -121,6 +121,7 @@
     <!-- Session row state for TalkBack -->
     <string name="drawer_row_pinned_state">Закачена</string>
     <string name="drawer_row_muted_state">Без известувања</string>
+    <string name="drawer_row_hidden_state">Скриени</string>
     <string name="drawer_row_needs_input_state">Се бара твој внес</string>
     <string name="drawer_row_working_state">Работи</string>
     <string name="drawer_row_unread_state">Непрочитана</string>

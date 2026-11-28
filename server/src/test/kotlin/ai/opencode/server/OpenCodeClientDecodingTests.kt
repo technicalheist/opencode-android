@@ -6,8 +6,10 @@ import ai.opencode.core.diagnostics.DiagnosticsRecorder
 import ai.opencode.core.testing.TestIsolationRule
 import ai.opencode.server.live.ACTIVE_ANCESTRY_CONCURRENCY
 import ai.opencode.server.live.OpenCodeReadCache
+import ai.opencode.server.live.ParsedMessageCache
 import ai.opencode.server.live.decodeTranscript
 import ai.opencode.server.live.decodeTranscriptPage
+import ai.opencode.server.model.OpenCodeAutocompleteAgent
 import ai.opencode.server.model.OpenCodeCompaction
 import ai.opencode.server.model.OpenCodeDelivery
 import ai.opencode.server.model.OpenCodeFormRequest
@@ -15,6 +17,7 @@ import ai.opencode.server.model.OpenCodeFormValue
 import ai.opencode.server.model.OpenCodeJSONValue
 import ai.opencode.server.model.OpenCodeModel
 import ai.opencode.server.model.OpenCodeModelCatalog
+import ai.opencode.server.model.OpenCodeModelRef
 import ai.opencode.server.model.OpenCodePermissionReply
 import ai.opencode.server.model.OpenCodePermissionRequest
 import ai.opencode.server.model.OpenCodePromptSource
@@ -30,12 +33,17 @@ import ai.opencode.server.retry.NetworkRetry
 import ai.opencode.server.retry.withRetryPolicy
 import ai.opencode.server.testing.WireFixture
 import ai.opencode.server.testing.WireFixture.Reply
+import kotlin.coroutines.AbstractCoroutineContextElement
+import kotlin.coroutines.CoroutineContext
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CompletableDeferred
+import kotlinx.coroutines.ThreadContextElement
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitCancellation
 import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.withContext
+import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
 import okhttp3.Interceptor
@@ -147,6 +155,38 @@ class OpenCodeClientDecodingTests {
                 recorder.setEnabled(false)
             }
         }
+    }
+
+    private object Key : CoroutineContext.Key<AbstractCoroutineContextElement>
+
+    private suspend fun assertParsesOffTheCallingThread(page: Boolean, read: suspend (OpenCodeServer) -> Unit) {
+        val message = """{"id":"msg_${UUID.randomUUID()}","type":"assistant","content":[{"type":"text","text":"Older"}]}"""
+        val body = if (page) """{"data":[$message]}""" else """{"data":$message}"""
+        val fixture = WireFixture { Reply.Json(200, body) }
+        withFixture(fixture) {
+            val caller = Thread.currentThread()
+            val ranOn = mutableSetOf<Thread>()
+            val tracker = object : ThreadContextElement<Unit>, AbstractCoroutineContextElement(Key) {
+                override fun updateThreadContext(context: CoroutineContext) {
+                    synchronized(ranOn) { ranOn += Thread.currentThread() }
+                }
+                override fun restoreThreadContext(context: CoroutineContext, oldState: Unit) = Unit
+            }
+            val tally = AtomicInteger()
+            withContext(tracker) {
+                ParsedMessageCache.parsed.withValue(tally) { read(it.server) }
+            }
+            assertEquals(1, tally.get())
+            assertTrue(ranOn.any { thread -> thread != caller })
+        }
+    }
+
+    @Test
+    fun transcriptReadsParseOffTheCallingThread() = runTest {
+        val client = OpenCodeClient.liveValue
+        assertParsesOffTheCallingThread(page = true) { client.historyPage(it, "ses_root", null) }
+        assertParsesOffTheCallingThread(page = true) { client.transcript(it, "ses_root", 30) }
+        assertParsesOffTheCallingThread(page = false) { client.message(it, "ses_root", "msg_root") }
     }
 
     @Test
@@ -824,6 +864,14 @@ class OpenCodeClientDecodingTests {
             assertEquals("Skip for now", fixture.requests[1].queryValue("message"))
             assertNull(fixture.requests[2].queryValue("location[directory]"))
         }
+    }
+
+    @Test
+    fun anAgentsMalformedModelDecodesAsNoModel() {
+        val text = """[{"name":"build","mode":"primary","model":"opencode/flash"},{"name":"plan","mode":"primary","model":{"providerID":"opencode","id":"opus"}}]"""
+        val agents = WIRE_JSON.decodeFromString(ListSerializer(OpenCodeAutocompleteAgent.serializer()), text)
+        assertNull(agents[0].model)
+        assertEquals(OpenCodeModelRef(id = "opus", providerID = "opencode"), agents[1].model)
     }
 
     @Test

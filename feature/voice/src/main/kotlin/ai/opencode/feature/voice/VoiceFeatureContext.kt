@@ -9,6 +9,41 @@ import java.time.Instant
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 
+/** Whether the user can see the app during a call. */
+enum class VoiceScreenVisibility {
+    /** The app is in front and the user said, this call, that they're looking. */
+    visible,
+
+    /** The app is in the background (the phone is locked or another app is in front), or the phone is at the user's ear. */
+    appHidden,
+
+    /** The app is in front, but the user hasn't said they're looking at it (or said they stopped): the default. */
+    notLooking,
+    ;
+
+    val userSeesScreen: Boolean get() = this == visible
+
+    /** What the delegator is told while the user can't see the screen. */
+    val unseenNote: String?
+        get() = when (this) {
+            visible -> null
+            appHidden -> "The user can't see the screen right now (the phone is locked or the app is in the background): $IN_WORDS"
+            notLooking -> "Assume the user isn't looking at the screen (they haven't said they are): $IN_WORDS"
+        }
+
+    private companion object {
+        const val IN_WORDS = "refer to sessions by name and describe results in words (what changed, the key lines, counts), never \"as you can see\" or anything on screen."
+    }
+}
+
+/** Seen only when the app is in front, away from the ear, and the user said they're looking. */
+val VoiceFeature.State.screenVisibility: VoiceScreenVisibility
+    get() = when {
+        !isAppVisible || isAtEar -> VoiceScreenVisibility.appHidden
+        userLooking -> VoiceScreenVisibility.visible
+        else -> VoiceScreenVisibility.notLooking
+    }
+
 fun VoiceFeature.State.viewingSession(at: Instant): OpenCodeSession? =
     target.sessionID?.let { OpenCodeSession(id = it, serverTitle = sessionTitle, projectID = "", directory = target.directory, updatedAt = at) }
 
@@ -76,6 +111,7 @@ internal fun delegatorContext(state: VoiceFeature.State, otherRequests: Int): St
         draftDirectory = state.target.directory,
         hasDirectVoiceWork = state.pendingWork.isNotEmpty(),
         otherDelegatorRequestsInFlight = otherRequests,
+        screen = state.screenVisibility,
     )
     val move = state.lastMove
     if (move != null) {

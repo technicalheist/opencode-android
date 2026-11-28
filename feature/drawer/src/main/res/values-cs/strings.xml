@@ -40,6 +40,8 @@
     <string name="drawer_mark_as_unread">Označit jako nepřečtené</string>
     <string name="drawer_mute">Ztlumit</string>
     <string name="drawer_unmute">Zrušit ztlumení</string>
+    <string name="drawer_hide">Skrýt</string>
+    <string name="drawer_unhide">Zobrazit</string>
     <string name="drawer_move_up">Posunout nahoru</string>
     <string name="drawer_move_down">Posunout dolů</string>
 
@@ -89,8 +91,6 @@
     <string name="drawer_button_open_sessions_description">Otevřít relace</string>
     <string name="drawer_button_attention_state">Relace potřebuje vaši reakci</string>
     <string name="drawer_button_unread_state">Nepřečtené relace</string>
-    <string name="drawer_notice_open_sessions_action">Otevřít relace</string>
-    <string name="drawer_notice_open_session_action">Otevřít relaci</string>
 
     <!-- Search pill -->
     <string name="drawer_search_description">Vyhledávání relací</string>
@@ -129,6 +129,7 @@
     <!-- Session row state for TalkBack -->
     <string name="drawer_row_pinned_state">Připnuté</string>
     <string name="drawer_row_muted_state">Ztlumené</string>
+    <string name="drawer_row_hidden_state">Skryté</string>
     <string name="drawer_row_needs_input_state">Je potřeba vaše reakce</string>
     <string name="drawer_row_working_state">Pracuje</string>
     <string name="drawer_row_unread_state">Nepřečtené</string>

@@ -38,6 +38,8 @@
     <string name="drawer_mark_as_unread">Markera som oläst</string>
     <string name="drawer_mute">Tysta</string>
     <string name="drawer_unmute">Slå på aviseringar</string>
+    <string name="drawer_hide">Göm</string>
+    <string name="drawer_unhide">Visa</string>
     <string name="drawer_move_up">Flytta upp</string>
     <string name="drawer_move_down">Flytta ner</string>
 
@@ -81,8 +83,6 @@
     <string name="drawer_button_open_sessions_description">Öppna sessioner</string>
     <string name="drawer_button_attention_state">En session behöver ditt svar</string>
     <string name="drawer_button_unread_state">Olästa sessioner</string>
-    <string name="drawer_notice_open_sessions_action">Öppna sessioner</string>
-    <string name="drawer_notice_open_session_action">Öppna sessionen</string>
 
     <!-- Search pill -->
     <string name="drawer_search_description">Sök sessioner</string>
@@ -121,6 +121,7 @@
     <!-- Session row state for TalkBack -->
     <string name="drawer_row_pinned_state">Fäst</string>
     <string name="drawer_row_muted_state">Tystad</string>
+    <string name="drawer_row_hidden_state">Dolda</string>
     <string name="drawer_row_needs_input_state">Behöver ditt svar</string>
     <string name="drawer_row_working_state">Arbetar</string>
     <string name="drawer_row_unread_state">Oläst</string>

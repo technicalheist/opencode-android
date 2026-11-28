@@ -67,8 +67,6 @@
     <string name="settings_notifications_plugin_check_failed">Nepodařilo se ověřit stav</string>
     <string name="settings_notifications_set_up">Nastavit pomocí OpenCode</string>
     <string name="settings_notifications_check_again">Znovu zkontrolovat</string>
-    <string name="settings_notifications_in_app_footer">Zobrazují se na tlačítku výsuvného panelu.</string>
-    <string name="settings_notifications_in_app_notices">Upozornění v aplikaci</string>
 
     <!-- Sessions -->
     <string name="settings_sessions_title">Relace</string>

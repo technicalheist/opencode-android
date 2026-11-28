@@ -487,20 +487,23 @@ fun State.openProjectPicker(): State =
 /** Typed admission and queued prompts bridge gaps in server execution; a voice call also owns work until its replies arrive. */
 val State.isRunning: Boolean get() = isAwaitingReply || isExternallyActive || isRunningVoiceWork
 
-/** Busy descendants are visible even after this session's own run ends. */
+/**
+ * Busy descendants are visible even after this session's own run ends, and so is an idle one
+ * whose tree still runs a job.
+ */
 val State.activeSubagents: List<OpenCodeSession>
     get() {
         val selectedID = session?.id ?: return emptyList()
         val parents = HashMap<String, String>()
         for (member in familySessions) member.parentID?.let { parents[member.id] = it }
         return familySessions.filter {
-            it.id != selectedID && it.id in activeFamilySessionIDs &&
-                selectedID in SessionActivity.ancestors(setOf(it.id), parents)
+            it.id != selectedID && selectedID in SessionActivity.ancestors(setOf(it.id), parents) &&
+                (it.id in activeFamilySessionIDs || (jobs.isNotEmpty() && subagentJobIDs(it.id, parents).isNotEmpty()))
         }.sortedBy { it.id }
     }
 
 val State.isBusy: Boolean get() = isRunning || activeSubagents.isNotEmpty()
-val State.hasBackgroundWork: Boolean get() = activeSubagents.isNotEmpty() || backgroundShells.isNotEmpty()
+val State.hasBackgroundWork: Boolean get() = activeSubagents.isNotEmpty() || backgroundShells.isNotEmpty() || backgroundScripts.isNotEmpty()
 
 val State.transcriptSubagents: Map<String, TranscriptSubagent>
     get() {

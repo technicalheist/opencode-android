@@ -901,4 +901,38 @@
     <!-- 2026-11-08-02-default-model -->
     <string name="settings_whatsnew_entry_default_model_title">Yangi sessiyalar standart modelingizdan foydalanadi</string>
     <string name="settings_whatsnew_entry_default_model_summary">Yangi sessiyalar oxirgi sessiyadagi model bilan emas, OpenCode’da standart qilib belgilangan model va u uchun oxirgi tanlangan fikrlash darajasi bilan boshlanadi.</string>
+
+    <!-- 2026-11-11-01-streamed-reply-prefix -->
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_title">Javobni yozilayotganida ochish</string>
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_summary">Javob yozilayotganda sessiyani ochsangiz, javob davom etar ekan, kelib bo‘lgan qismini o‘qishingiz mumkin.</string>
+
+    <!-- 2026-11-13-01-draw-on-images -->
+    <string name="settings_whatsnew_entry_draw_on_images_title">Rasmlarga chizish</string>
+    <string name="settings_whatsnew_entry_draw_on_images_summary">Biror tafsilot haqida so‘rashdan oldin uni belgilab ko‘rsating.</string>
+    <string name="settings_whatsnew_entry_draw_on_images_detail_1">Rasmni to‘liq ekranda ochib, qalam tugmasini bosing. Rang tanlang, chizing, so‘ng belgilangan rasmni xabarga biriktirish uchun Qo\'shish tugmasini bosing. Asl rasm o‘zgarmaydi.</string>
+    <string name="settings_whatsnew_entry_draw_on_images_example">Ekran tasvirida ko‘chirmoqchi bo‘lgan boshqaruv elementini doiraga oling, so‘ng uni qayerga ko‘chirish kerakligini yozing.</string>
+
+    <!-- 2026-11-14-01-fullscreen-viewer -->
+    <string name="settings_whatsnew_entry_fullscreen_viewer_title">Surat va videolar orasida surib o‘tish</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_summary">Sessiyadagi rasm va videolarni bir joyda ko‘ring.</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_detail_1">Surib videoga o‘ting, so‘ng joriy kadrga chizish uchun qalam tugmasini bosing. Qo\'shish tugmasi belgilangan kadrni yubormasdan biriktiradi.</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_example">Namoyish videosini o‘zgartirish kerak bo‘lgan ekranda pauzalang, tafsilotni doiraga oling va qoralamangizga qo‘shing.</string>
+
+    <!-- 2026-11-15-01-pairing-link-name -->
+    <string name="settings_whatsnew_entry_pairing_link_name_title">OpenCode Console’dan nomlangan serverlar</string>
+    <string name="settings_whatsnew_entry_pairing_link_name_summary">OpenCode Console orqali juftlangan server o‘z nomi bilan qo‘shiladi, masalan, “Anomaly Box”.</string>
+
+    <!-- 2026-11-17-01-session-media -->
+    <string name="settings_whatsnew_entry_session_media_title">Sessiya mediasi</string>
+    <string name="settings_whatsnew_entry_session_media_summary">Sessiyadagi rasmlar, videolar, audio, fayllar va ochiq veb-havolalarni ko‘ring.</string>
+    <string name="settings_whatsnew_entry_session_media_detail_1">Sessiyaning ⋮ menyusidan Sessiya mediasi bandini tanlang. Media bo‘limi rasm, video va audiolarni oylar bo‘yicha guruhlangan plitkalar yoki ro‘yxat shaklida ko‘rsatadi. Fayllar va Havolalar bo‘limlarida hujjatlar, joylashtirilgan matnlar va veb-havolalar beriladi.</string>
+    <string name="settings_whatsnew_entry_session_media_example">Bugun ertalab yuborgan ekran tasviringizni butun sessiyani orqaga varaqlamay toping.</string>
+
+    <!-- 2026-11-18-02-drawer-call-phone -->
+    <string name="settings_whatsnew_entry_drawer_call_phone_title">Yon paneldagi qo‘ng‘iroqlar uchun telefon belgisi</string>
+    <string name="settings_whatsnew_entry_drawer_call_phone_summary">Sessiyalar ro‘yxatida Sozlamalar yonidagi qo‘ng‘iroq tugmasida endi xabar maydonidagi kabi telefon belgisi bor.</string>
+
+    <!-- 2026-11-19-01-background-scripts -->
+    <string name="settings_whatsnew_entry_background_scripts_title">Fondagi ishlar orasida skriptlar</string>
+    <string name="settings_whatsnew_entry_background_scripts_summary">Agent fonga o‘tkazgan skriptlar subagentlar va shelllar yonida ko‘rinadi. Subagentning rasm, video yoki skriptlari hali ishlayotgan bo‘lsa, u ro‘yxatda qoladi. Har ikkalasini ham ro‘yxatdan to‘xtatish mumkin.</string>
 </resources>

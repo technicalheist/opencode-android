@@ -6,12 +6,9 @@ import ai.opencode.core.dependencies.ImmediateClock
 import ai.opencode.core.dependencies.PasteboardClient
 import ai.opencode.core.dependencies.TestClock
 import ai.opencode.core.dependencies.UuidClient
-import ai.opencode.core.haptics.HapticsClient
 import ai.opencode.core.store.TestStore
-import ai.opencode.core.ui.OpenCodeShapeGeometry
 import ai.opencode.feature.session.SessionFeature.Action
 import ai.opencode.feature.session.SessionTestSupport.Harness
-import ai.opencode.feature.session.SessionTestSupport.HapticsRecorder
 import ai.opencode.feature.session.SessionTestSupport.LockIsolated
 import ai.opencode.feature.session.SessionTestSupport.append
 import ai.opencode.feature.session.SessionTestSupport.receive
@@ -21,15 +18,16 @@ import ai.opencode.server.OpenCodeClient
 import ai.opencode.server.OpenCodeClientError
 import ai.opencode.server.model.OpenCodeDelivery
 import ai.opencode.server.model.OpenCodeJSONValue
+import ai.opencode.server.model.OpenCodeJob
 import ai.opencode.server.model.OpenCodeModelCatalog
 import ai.opencode.server.model.OpenCodePendingInput
 import ai.opencode.server.model.OpenCodePendingRequests
 import ai.opencode.server.model.OpenCodeSession
+import ai.opencode.server.model.OpenCodeSessionFamily
 import ai.opencode.server.model.OpenCodeShell
 import ai.opencode.server.model.OpenCodeShellOutputPage
 import ai.opencode.server.model.OpenCodeToolCall
 import ai.opencode.server.model.OpenCodeTranscriptItem
-import androidx.compose.ui.geometry.Rect
 import kotlinx.coroutines.awaitCancellation
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
@@ -40,7 +38,6 @@ import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import java.time.Instant
-import kotlin.math.abs
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.seconds
 
@@ -135,26 +132,8 @@ private suspend fun TestStore<SessionFeature.State, Action>.receiveInAnyOrder(va
 
 private val missing = OpenCodeClientError(message = "Missing", statusCode = 404)
 
-/**
- * Move to Background, the shell output sheet and the panel's drag.
- * `glassRadiusFitsCapsuleAndPanelThroughoutMorph` checks `OpenCodeShapeGeometry`.
- */
+/** Move to Background, the shell output sheet and background jobs. */
 class BackgroundWorkTests {
-    @Test fun glassRadiusFitsCapsuleAndPanelThroughoutMorph() {
-        // The 44 pt target contains 34 pt of surface. The desktop's 12 dp corners fit it whole.
-        val capsuleHeight = 44f - 2 * BackgroundWorkMotion.capsuleInset
-        assertEquals(12f, OpenCodeShapeGeometry.radius(BackgroundWorkMotion.panelRadius, capsuleHeight))
-        assertEquals(BackgroundWorkMotion.panelRadius, OpenCodeShapeGeometry.radius(BackgroundWorkMotion.panelRadius, 160f))
-        var height = 0f
-        while (height <= 320f) {
-            val radius = OpenCodeShapeGeometry.radius(BackgroundWorkMotion.panelRadius, height)
-            assertTrue(radius >= 0)
-            assertTrue(radius <= height / 2)
-            assertTrue(radius <= BackgroundWorkMotion.panelRadius)
-            height += 0.5f
-        }
-    }
-
     // region Move to Background
 
     /**
@@ -247,6 +226,8 @@ class BackgroundWorkTests {
         assertFalse("The offer leaves as soon as it is taken", store.state.showsMoveToBackground)
         store.receive(Action.MoveToBackgroundFinished(session.id, "msg_a-tool-call_1", null))
         store.receive(Action.ShellsResponse::class) { it.copy(shells = listOf(listed)) }
+        // A moved script outlives its call too: the jobs are listed with the shells.
+        store.receive(Action.JobsResponse(session.id, emptyList()))
         assertEquals(listOf(session.id), moved.value)
 
         // The server settles the tool; the shell now outlives it in the capsule.
@@ -876,182 +857,233 @@ class BackgroundWorkTests {
 
     // endregion
 
-    // region Panel Drag Dismissal & Return
+    // region Background jobs
 
-    private fun Rect.offsetBy(dy: Float) = translate(0f, dy)
+    private fun reconnecting(h: Harness) =
+        h.state().copy(nextRefreshID = 1, refresh = SessionFeature.State.Refresh(id = 1, reason = RefreshReason.Reconnect))
 
-    @Test fun panelDragTracksFingerScalesTowardCapsuleAndDismissesPastDistanceOrVelocity() {
-        val panel = Rect(20f, 480f, 410f, 740f)
-        val pill = Rect(20f, 706f, 216f, 740f)
-        val recorder = HapticsRecorder()
-        val log = { recorder.log.map { it.name } }
-        val controller = BackgroundWorkDragController(haptics = recorder.client)
+    private fun job(id: String, kind: OpenCodeJob.Kind, owner: String = session.id, child: String? = null, running: Boolean = true) =
+        OpenCodeJob(id = id, kind = kind, sessionID = owner, isRunning = running, childSessionID = child, startedAt = Instant.ofEpochMilli(1))
 
-        // First sample after gesture recognition starts at zero offset (no grab jump).
-        controller.update(translation = 8f, velocity = 120f)
-        assertEquals(0f, controller.drag.offset)
-        assertEquals(panel, controller.drag.placed(panel, pill, reduceMotion = false).first)
-        assertTrue(log().isEmpty())
+    private fun execute(jobID: String, code: String): OpenCodeTranscriptItem = OpenCodeTranscriptItem.Tool(
+        id = "msg_a-$jobID",
+        call = OpenCodeToolCall(
+            callID = jobID, messageID = "msg_a", name = "execute", status = OpenCodeToolCall.Status.Completed,
+            input = OpenCodeJSONValue.Object(mapOf("code" to OpenCodeJSONValue.Str(code))), output = emptyList(), error = null,
+            metadata = mapOf("jobID" to OpenCodeJSONValue.Str(jobID)),
+        ),
+    )
 
-        // Dragging down 40 pt (below the 56 pt threshold) translates down and scales slightly toward the capsule.
-        controller.update(translation = 48f, velocity = 120f)
-        assertEquals(40f, controller.drag.offset)
-        val (midFrame, midScale) = controller.drag.placed(panel, pill, reduceMotion = false)
-        assertEquals(panel.left, midFrame.left)
-        assertEquals(panel.top + 40, midFrame.top)
-        assertTrue(midScale < 1 && midScale > BackgroundWorkTunables.dragMinScale)
-        assertTrue(midFrame.width < panel.width && midFrame.width > pill.width)
-        assertTrue("Below threshold stays quiet", log().isEmpty())
+    private val child = OpenCodeSession(id = "ses_child", serverTitle = "Child", projectID = "p", directory = "/project", updatedAt = Instant.EPOCH, parentID = session.id)
+    private val grandchild = OpenCodeSession(id = "ses_grand", serverTitle = "Grand", projectID = "p", directory = "/project", updatedAt = Instant.EPOCH, parentID = child.id)
 
-        // Under Reduce Motion the panel follows the finger 1:1 without scaling.
-        val reduced = controller.drag.placed(panel, pill, reduceMotion = true)
-        assertEquals(1f, reduced.second)
-        assertEquals(panel.offsetBy(40f), reduced.first)
-
-        // Releasing below distance and velocity thresholds springs back to the open panel.
-        val belowDecision = controller.end(velocity = 90f)
-        assertEquals(BackgroundWorkDrag.ReleaseDecision.ReturnToPanel(velocity = 90f), belowDecision)
-        assertTrue(controller.drag.isReturning)
-
-        // Crossing the distance threshold plays `.threshold` once, and releasing dismisses from where it is.
-        controller.reset()
-        controller.update(translation = 6f, velocity = 180f)
-        controller.update(translation = 40f, velocity = 180f)
-        assertTrue(log().isEmpty())
-        controller.update(translation = 66f, velocity = 180f)
-        assertEquals(60f, controller.drag.offset)
-        assertEquals(listOf("threshold"), log())
-        controller.update(translation = 80f, velocity = 180f)
-        assertEquals("Staying past threshold does not repeat the haptic", listOf("threshold"), log())
-
-        // Backing above the threshold and crossing again ticks `.threshold` again.
-        controller.update(translation = 50f, velocity = -120f)
-        assertFalse(controller.drag.isPastThreshold)
-        controller.update(translation = 74f, velocity = 200f)
-        assertEquals(listOf("threshold", "threshold"), log())
-
-        val dismissDecision = controller.end(velocity = 220f)
-        assertEquals(BackgroundWorkDrag.ReleaseDecision.DismissToCapsule(velocity = 220f), dismissDecision)
-        assertEquals("Offset stays at release position so the capsule morph starts there", 68f, controller.drag.offset)
-
-        // A fast downward flick dismisses even before the distance threshold.
-        controller.reset()
-        controller.update(translation = 6f, velocity = 720f)
-        controller.update(translation = 30f, velocity = 720f)
-        assertEquals(24f, controller.drag.offset)
-        assertEquals(BackgroundWorkDrag.ReleaseDecision.DismissToCapsule(velocity = 720f), controller.end(velocity = 720f))
-        assertEquals(24f, controller.drag.offset)
+    @Test fun backgroundScriptsAreTheSessionsOwnCodeModeJobsNamedByTheirFirstLine() = sessionTest { h ->
+        val state = h.state().copy(
+            items = listOf(execute("cm_1", "\n  const a = 1\nreturn a"), execute("cm_2", "  ")),
+            familySessions = listOf(session, child),
+            jobs = listOf(
+                job("cm_1", OpenCodeJob.Kind.CodeMode),
+                job("cm_2", OpenCodeJob.Kind.CodeMode),
+                job("cm_3", OpenCodeJob.Kind.CodeMode, owner = child.id),
+                job("img", OpenCodeJob.Kind.Image),
+            ).associateBy { it.id },
+        )
+        assertEquals(listOf("const a = 1", "cm_2"), state.backgroundScripts.map { it.label })
+        assertTrue(state.hasBackgroundWork)
     }
 
-    @Test fun panelDragRubberBandsUpwardAndArbitratesScrolledListBeforeTakingOver() {
-        val drag = BackgroundWorkDrag()
-        drag.beginOrUpdate(translation = -6f, velocity = -200f)
-        assertEquals("Grab frame has zero jump", 0f, drag.offset)
-        drag.beginOrUpdate(translation = -46f, velocity = -200f)
-        assertTrue(drag.offset < 0 && drag.offset > -BackgroundWorkTunables.upwardRubberBand)
-        val roundTrip = BackgroundWorkDrag.rubberBandedOffset(BackgroundWorkDrag.rawPull(drag.offset))
-        assertTrue(abs(roundTrip - drag.offset) < 0.001f)
-        val released = drag.end(-200f)
-        assertEquals(BackgroundWorkDrag.ReleaseDecision.ReturnToPanel(velocity = drag.velocity), released)
-
-        // When the list is scrolled (`scrollOffset > 0`), dragging down scrolls the list first
-        // and only moves the panel once the list reaches its top (`scrollOffset <= 0`).
-        val scrolled = BackgroundWorkDrag()
-        scrolled.beginOrUpdate(translation = 12f, velocity = 240f, scrollOffset = 48f, isScrollable = true)
-        assertTrue(!scrolled.isDragging && scrolled.offset == 0f)
-        scrolled.beginOrUpdate(translation = 36f, velocity = 240f, scrollOffset = 24f, isScrollable = true)
-        assertTrue(!scrolled.isDragging && scrolled.offset == 0f)
-        scrolled.beginOrUpdate(translation = 60f, velocity = 240f, scrollOffset = 0f, isScrollable = true)
-        assertTrue("Takes over at the top with zero jump", scrolled.isDragging && scrolled.offset == 0f)
-        scrolled.beginOrUpdate(translation = 84f, velocity = 240f, scrollOffset = -12f, isScrollable = true)
-        assertEquals(24f, scrolled.offset)
+    @Test fun aScriptStillBlockingTheTurnIsNotBackgroundWork() = sessionTest { h ->
+        // Every script runs as a job; its execute call only ends with the job's ID once it moves to the background.
+        val blocking = h.state().copy(jobs = mapOf("cm_1" to job("cm_1", OpenCodeJob.Kind.CodeMode)))
+        assertTrue(blocking.backgroundScripts.isEmpty())
+        assertFalse(blocking.hasBackgroundWork)
+        val moved = blocking.copy(items = listOf(execute("cm_1", "await build()")))
+        assertEquals(listOf("cm_1"), moved.backgroundScripts.map { it.id })
+        assertTrue(moved.hasBackgroundWork)
     }
 
-    @Test fun panelDragMovesContinuouslyAcrossGrabReleaseAndMidFlightRegrab() {
-        val panel = Rect(20f, 480f, 410f, 740f)
-        val pill = Rect(20f, 706f, 216f, 740f)
-        val controller = BackgroundWorkDragController(haptics = HapticsClient())
-        val frames = mutableListOf(panel)
-
-        fun currentFrame(): Rect = controller.drag.placed(panel, pill, reduceMotion = false).first
-        fun maxEdgeDelta(a: Rect, b: Rect): Float =
-            listOf(abs(b.left - a.left), abs(b.right - a.right), abs(b.top - a.top), abs(b.bottom - a.bottom)).max()
-
-        // Grab and drag down in 1 pt finger increments to 24 pt.
-        for (step in 0..24) {
-            controller.update(translation = (6 + step).toFloat(), velocity = 60f)
-            frames += currentFrame()
-        }
-        assertTrue(abs(controller.drag.offset - 24) < 0.001f)
-
-        // Release below threshold: step 120 Hz return partway (10 frames), then regrab mid-return.
-        val decision = controller.end(velocity = 0f)
-        assertEquals(BackgroundWorkDrag.ReleaseDecision.ReturnToPanel(velocity = 0f), decision)
-        repeat(10) {
-            controller.stepReturn(dt = 1.0 / 120.0)
-            frames += currentFrame()
-        }
-        val caughtOffset = controller.drag.offset
-        assertTrue("Caught in flight at $caughtOffset", caughtOffset > 4 && caughtOffset < 22)
-
-        // Regrab mid-return and drag 6 pt down, then release to settle back at `panel`.
-        for (delta in 0..6) {
-            controller.update(translation = (10 + delta).toFloat(), velocity = 60f)
-            frames += currentFrame()
-        }
-        assertTrue(abs(controller.drag.offset - (caughtOffset + 6)) < 0.001f)
-        controller.end(velocity = 0f)
-        var safety = 0
-        while (controller.drag.isReturning && safety < 240) {
-            controller.stepReturn(dt = 1.0 / 120.0)
-            frames += currentFrame()
-            safety += 1
-        }
-        assertTrue(!controller.drag.isReturning && controller.drag.offset == 0f)
-        assertEquals(panel, frames.last())
-
-        // Every single frame-to-frame transition across grab, drag, release, regrab, and settle
-        // moves by at most 2.5 pt on every edge: no jump, only the release spring's
-        // peak speed (24 pt back at ω 28.5 peaks near 250 pt/s, 2.1 pt a frame at 120 Hz).
-        val maxStep = frames.zipWithNext().maxOf { (a, b) -> maxEdgeDelta(a, b) }
-        assertTrue("Largest frame-to-frame edge step was $maxStep pt", maxStep <= 2.5f)
-
-        // Grabbing during the open morph (where `open()` resets the controller) starts at
-        // offset 0 with zero jump, and `stopReturn()` at the start of `close()` stops any
-        // in-flight return or active drag without leaving `isDragging` stuck.
-        controller.reset()
-        controller.update(translation = 6f, velocity = 120f)
-        assertTrue(controller.drag.isDragging)
-        assertEquals("No jump on grab during the open morph", 0f, controller.drag.offset)
-        assertEquals(panel, currentFrame())
-        controller.update(translation = 7f, velocity = 120f)
-        assertTrue(abs(controller.drag.offset - 1) < 0.001f)
-        assertTrue(maxEdgeDelta(panel, currentFrame()) <= 1.5f)
-
-        // If `close()` starts while a drag or return spring is active, `stopReturn()` clears
-        // `isDragging` and `isReturning` while keeping `offset` for the close morph.
-        controller.update(translation = 26f, velocity = 120f)
-        assertTrue(abs(controller.drag.offset - 20) < 0.001f)
-        var dismissedVelocity: Float? = null
-        val cancelledBelow = controller.end(velocity = 0f) { dismissedVelocity = it }
-        assertEquals(BackgroundWorkDrag.ReleaseDecision.ReturnToPanel(velocity = 0f), cancelledBelow)
-        assertTrue(dismissedVelocity == null && controller.drag.isReturning)
-        controller.stopReturn()
-        assertTrue(!controller.drag.isReturning && !controller.drag.isDragging)
-        assertTrue(abs(controller.drag.offset - 20) < 0.001f)
-
-        // A cancelled drag (`isGestureActive` reset -> `end(velocity: 0, onDismiss:)`) past
-        // `dragCloses` invokes `onDismiss` so the panel closes instead of sticking partway down.
-        controller.reset()
-        controller.update(translation = 6f, velocity = 120f)
-        controller.update(translation = 76f, velocity = 120f)
-        assertTrue(controller.drag.isDragging && controller.drag.offset == 70f)
-        val cancelledPast = controller.end(velocity = 0f) { dismissedVelocity = it }
-        assertEquals(BackgroundWorkDrag.ReleaseDecision.DismissToCapsule(velocity = 0f), cancelledPast)
-        assertEquals(0f, dismissedVelocity)
-        assertTrue(!controller.drag.isDragging && !controller.drag.isReturning)
-        assertEquals(70f, controller.drag.offset)
+    @Test fun anIdleSubagentStaysListedWhileItsTreeRunsAJob() = sessionTest { h ->
+        val base = h.state().copy(familySessions = listOf(session, child, grandchild))
+        assertTrue(base.activeSubagents.isEmpty())
+        val nested = base.copy(jobs = mapOf("img" to job("img", OpenCodeJob.Kind.Image, owner = grandchild.id)))
+        assertEquals(listOf(child.id, grandchild.id), nested.activeSubagents.map { it.id })
+        assertTrue(nested.backgroundScripts.isEmpty())
+        val video = base.copy(jobs = mapOf("v" to job("v", OpenCodeJob.Kind.Video)))
+        assertFalse("The session's own media never shows alone", video.hasBackgroundWork)
+        val subagentJob = base.copy(jobs = mapOf("j" to job("j", OpenCodeJob.Kind.Subagent, child = child.id)))
+        assertEquals(listOf(child.id), subagentJob.activeSubagents.map { it.id })
     }
+
+    @Test fun stoppingASubagentInterruptsItAndCancelsItsTreesJobs() = sessionTest { h ->
+        val calls = LockIsolated(listOf<String>())
+        val jobs = listOf(
+            job("j_child", OpenCodeJob.Kind.Subagent, child = child.id),
+            job("img", OpenCodeJob.Kind.Image, owner = grandchild.id),
+            job("own", OpenCodeJob.Kind.CodeMode),
+        ).associateBy { it.id }
+        val state = h.state().copy(familySessions = listOf(session, child, grandchild), activeFamilySessionIDs = setOf(child.id), jobs = jobs)
+        val store = h.store(state) {
+            this[OpenCodeClient] = this[OpenCodeClient].copy(
+                interrupt = { _, id -> calls.append("interrupt:$id"); true },
+                cancelJob = { _, id -> calls.append("cancel:$id") },
+            )
+        }
+        store.send(Action.BackgroundSubagentStopTapped(child.id)) { it.copy(stoppingIDs = setOf(child.id)) }
+        store.receive(Action.BackgroundStopFinished(child.id, isSubagent = true, failed = false)) { it.copy(stoppingIDs = emptySet()) }
+        assertEquals(setOf("interrupt:${child.id}", "cancel:j_child", "cancel:img"), calls.value.toSet())
+        assertEquals(3, calls.value.size)
+    }
+
+    @Test fun stoppingAShellFromItsRowEndsIt() = sessionTest { h ->
+        val calls = LockIsolated(listOf<String>())
+        val shell = OpenCodeShell(id = "sh_1", command = "bun dev", sessionID = session.id, isListed = true)
+        val store = h.store(h.state().copy(shells = listOf(shell))) {
+            this[OpenCodeClient] = this[OpenCodeClient].copy(stopShell = { _, directory, id -> calls.append("$directory:$id") })
+        }
+        store.send(Action.BackgroundShellStopTapped("sh_1")) { it.copy(stoppingIDs = setOf("sh_1")) }
+        store.receive(Action.BackgroundShellStopFinished("sh_1", failed = false)) {
+            it.copy(stoppingIDs = emptySet(), shells = emptyList(), endedShellIDs = setOf("sh_1"))
+        }
+        assertEquals(listOf("${session.directory}:sh_1"), calls.value)
+    }
+
+    @Test fun aFailedShellStopSaysSo() = sessionTest { h ->
+        val shell = OpenCodeShell(id = "sh_1", command = "bun dev", sessionID = session.id, isListed = true)
+        val store = h.store(h.state().copy(shells = listOf(shell))) {
+            this[UuidClient] = UuidClient.incrementing()
+            this[OpenCodeClient] = this[OpenCodeClient].copy(stopShell = { _, _, _ -> throw OpenCodeClientError("Down") })
+        }
+        store.send(Action.BackgroundShellStopTapped("sh_1")) { it.copy(stoppingIDs = setOf("sh_1")) }
+        store.receive(Action.BackgroundShellStopFinished("sh_1", failed = true)) {
+            it.copy(
+                stoppingIDs = emptySet(),
+                items = it.items + OpenCodeTranscriptItem.Info(id = "info-00000000-0000-0000-0000-000000000000", text = "Couldn’t stop shell"),
+            )
+        }
+    }
+
+    @Test fun aFailedScriptStopSaysSo() = sessionTest { h ->
+        val state = h.state().copy(jobs = mapOf("cm_1" to job("cm_1", OpenCodeJob.Kind.CodeMode)))
+        val store = h.store(state) {
+            this[UuidClient] = UuidClient.incrementing()
+            this[OpenCodeClient] = this[OpenCodeClient].copy(cancelJob = { _, _ -> throw OpenCodeClientError("Down") })
+        }
+        store.send(Action.BackgroundScriptStopTapped("cm_1")) { it.copy(stoppingIDs = setOf("cm_1")) }
+        store.receive(Action.BackgroundStopFinished("cm_1", isSubagent = false, failed = true)) {
+            it.copy(
+                stoppingIDs = emptySet(),
+                items = it.items + OpenCodeTranscriptItem.Info(id = "info-00000000-0000-0000-0000-000000000000", text = "Couldn’t stop script"),
+            )
+        }
+    }
+
+    @Test fun jobUpdatesDuringAListOutliveIt() = sessionTest { h ->
+        val running = job("cm_1", OpenCodeJob.Kind.CodeMode)
+        val store = h.store(h.state())
+        // Started while the list was in flight: the list doesn't have it yet.
+        store.send(Action.JobUpdated(running)) { it.copy(jobs = mapOf(running.id to running), jobChangesDuringRefresh = mapOf(running.id to running)) }
+        store.send(Action.JobsResponse(session.id, emptyList())) { it.copy(jobChangesDuringRefresh = emptyMap()) }
+        assertEquals(setOf(running.id), store.state.jobs.keys)
+        // Ended while the list was in flight: the list still has it.
+        store.send(Action.JobUpdated(running.copy(isRunning = false))) { it.copy(jobs = emptyMap(), jobChangesDuringRefresh = mapOf(running.id to null)) }
+        store.send(Action.JobsResponse(session.id, listOf(running))) { it.copy(jobChangesDuringRefresh = emptyMap()) }
+        assertTrue(store.state.jobs.isEmpty())
+        // Another tree's job never lands here.
+        store.send(Action.JobUpdated(job("other", OpenCodeJob.Kind.CodeMode, owner = "ses_elsewhere")))
+    }
+
+    /** A child's job that started before the family walk found the child shows once it does. */
+    @Test fun aNewSubagentsEarlyJobShowsOnceTheFamilyFindsIt() = sessionTest { h ->
+        val early = job("cm_child", OpenCodeJob.Kind.CodeMode, owner = child.id)
+        val state = h.state().copy(familyRootID = session.id, familySessions = listOf(session))
+        val store = h.store(state) {
+            this[OpenCodeClient] = this[OpenCodeClient].copy(
+                runningJobs = { _, _ -> listOf(early) },
+                familyPendingRequests = { _, _, _ -> OpenCodePendingRequests(permissions = emptyList(), forms = emptyList()) },
+                pendingInputs = { _, _ -> emptyList() },
+            )
+        }
+        store.exhaustive = false
+
+        store.send(Action.JobUpdated(early))
+        assertTrue(store.state.jobs.isEmpty())
+        store.send(Action.FamilyResponse(Result.success(OpenCodeSessionFamily(sessions = listOf(session, child), activeSessionIDs = setOf(child.id)))))
+        store.receive(Action.JobsResponse(session.id, listOf(early)))
+        assertEquals(setOf(early.id), store.state.jobs.keys)
+        h.skipInFlightEffects()
+    }
+
+    /** A new stream's re-list drops a settle the stream missed. */
+    @Test fun aSettleMissedWhileTheStreamWasDownIsGoneAfterTheReconnect() = sessionTest { h ->
+        val stale = job("cm_1", OpenCodeJob.Kind.CodeMode)
+        val store = h.store(reconnecting(h).copy(items = listOf(execute(stale.id, "await build()")), jobs = mapOf(stale.id to stale))) {
+            this[OpenCodeClient] = this[OpenCodeClient].copy(
+                runningShells = { _, _ -> emptyList() },
+                runningJobs = { _, _ -> emptyList() },
+            )
+        }
+        store.exhaustive = false
+        assertEquals(listOf("cm_1"), store.state.backgroundScripts.map { it.id })
+
+        store.send(Action.EventStreamConnected(server))
+        store.receive(Action.JobsResponse(session.id, emptyList())) { it.copy(jobs = emptyMap()) }
+        assertFalse(store.state.hasBackgroundWork)
+        h.skipInFlightEffects()
+    }
+
+    @Test fun eventsDuringTheReconnectsListWinOverItsStaleResponse() = sessionTest { h ->
+        val settled = job("cm_old", OpenCodeJob.Kind.CodeMode)
+        val started = job("cm_new", OpenCodeJob.Kind.CodeMode)
+        val listed = Channel<List<OpenCodeJob>>(Channel.UNLIMITED)
+        val moved = listOf(execute(settled.id, "await old()"), execute(started.id, "await new()"))
+        val store = h.store(reconnecting(h).copy(items = moved, jobs = mapOf(settled.id to settled))) {
+            this[OpenCodeClient] = this[OpenCodeClient].copy(
+                runningShells = { _, _ -> emptyList() },
+                runningJobs = { _, _ -> listed.receive() },
+            )
+        }
+        store.exhaustive = false
+
+        store.send(Action.EventStreamConnected(server))
+        store.send(Action.JobUpdated(settled.copy(isRunning = false)))
+        store.send(Action.JobUpdated(started))
+        // The read began before both: it still lists the settled job and not the new one.
+        listed.trySend(listOf(settled))
+        store.receive(Action.JobsResponse(session.id, listOf(settled))) {
+            it.copy(jobs = mapOf(started.id to started), jobChangesDuringRefresh = emptyMap())
+        }
+        assertEquals(listOf(started.id), store.state.backgroundScripts.map { it.id })
+        h.skipInFlightEffects()
+    }
+
+    @Test fun aSwitchSnapshotKeepsItsTreesJobsWhileAway() = sessionTest { h ->
+        val running = job("cm_1", OpenCodeJob.Kind.CodeMode)
+        val left = h.state().copy(familySessions = listOf(session, child), jobs = mapOf(running.id to running))
+        var snapshot = requireNotNull(h.state { SessionFeature.SwitchSnapshot.from(left) })
+        assertEquals(left.jobs, snapshot.jobs)
+
+        val childJob = job("img", OpenCodeJob.Kind.Image, owner = child.id)
+        snapshot = snapshot.applying(childJob)
+        // Another tree's job never joins it.
+        assertEquals(snapshot, snapshot.applying(job("other", OpenCodeJob.Kind.CodeMode, owner = "ses_elsewhere")))
+        snapshot = snapshot.applying(running.copy(isRunning = false))
+        assertEquals(setOf(childJob.id), snapshot.jobs.keys)
+
+        val restored = h.state { snapshot.restoreSessionData(h.state().copy(familySessions = listOf(session, child))) }
+        assertEquals(setOf(childJob.id), restored.jobs.keys)
+        assertEquals(listOf(child.id), restored.activeSubagents.map { it.id })
+    }
+
+    @Test fun aSubagentJobWhoseChildIsntListedYetIsKept() = sessionTest { h ->
+        // The family read hasn't reached the child the job runs in; its owner is the child.
+        val pending = job("j", OpenCodeJob.Kind.Subagent, child = "ses_unlisted")
+        val store = h.store(h.state())
+        store.send(Action.JobUpdated(pending)) {
+            it.copy(jobs = mapOf(pending.id to pending), jobChangesDuringRefresh = mapOf(pending.id to pending))
+        }
+    }
+
+    // endregion
 
     // endregion
 }

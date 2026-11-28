@@ -78,11 +78,19 @@ class ShellPromptGlyph(state: State, val reduceMotion: Boolean = false, val tuni
     /** Each dot's phosphor. */
     private var light = DoubleArray(0)
 
+    /** The last [fill] left every dot's phosphor where it was heading. */
+    private var phosphorSettled = false
+
     init {
         set(state, immediate = true)
     }
 
     val isLapping: Boolean get() = phase != Phase.rest
+
+    /** Home on the prompt with every spring, dot and the flow meter settled: stepping on draws the same field. */
+    val isResting: Boolean
+        get() = phase == Phase.rest && flow < 0.01 && phosphorSettled &&
+            nudge.settled && body.settled && glow.settled && chev.settled
 
     /** The chevron's offset as drawn, nudge included. */
     val offset: Double get() = x + nudge.value
@@ -219,6 +227,7 @@ class ShellPromptGlyph(state: State, val reduceMotion: Boolean = false, val tuni
         val first = light.size != cells.size
         if (first) light = DoubleArray(cells.size)
         val dots = ArrayList<GyroField.Dot>(cells.size)
+        var unsettled = 0.0
         cells.forEachIndexed { i, cell ->
             val cx = cell.column.toDouble()
             val cy = cell.row.toDouble()
@@ -241,8 +250,10 @@ class ShellPromptGlyph(state: State, val reduceMotion: Boolean = false, val tuni
             val lv = light[i]
             val nv = lv + (p - lv) * (1 - exp(-dt / (if (p > lv) 0.03 else decay)))
             light[i] = nv
+            unsettled = max(unsettled, abs(p - nv))
             dots.add(GyroField.Dot(light = nv, fresh = fresh * 0.4, accent = 0.0, size = cell.size))
         }
+        phosphorSettled = unsettled < 0.001
         return GyroField(dots = dots, glow = glow.value, weights = emptyMap())
     }
 

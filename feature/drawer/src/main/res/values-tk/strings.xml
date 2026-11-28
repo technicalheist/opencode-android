@@ -38,6 +38,8 @@
     <string name="drawer_mark_as_unread">Okalmadyk diýip belle</string>
     <string name="drawer_mute">Duýduryşlary öçür</string>
     <string name="drawer_unmute">Duýduryşlary aç</string>
+    <string name="drawer_hide">Gizle</string>
+    <string name="drawer_unhide">Görkez</string>
     <string name="drawer_move_up">Ýokary geçir</string>
     <string name="drawer_move_down">Aşak geçir</string>
 
@@ -81,8 +83,6 @@
     <string name="drawer_button_open_sessions_description">Sessiýalary açyň</string>
     <string name="drawer_button_attention_state">Bir sessiýada jogabyňyz gerek</string>
     <string name="drawer_button_unread_state">Okalmadyk sessiýalar</string>
-    <string name="drawer_notice_open_sessions_action">Sessiýalary açyň</string>
-    <string name="drawer_notice_open_session_action">Sessiýany açyň</string>
 
     <!-- Search pill -->
     <string name="drawer_search_description">Gözleg sessiýalary</string>
@@ -121,6 +121,7 @@
     <!-- Session row state for TalkBack -->
     <string name="drawer_row_pinned_state">Berkidilen</string>
     <string name="drawer_row_muted_state">Bildirişleri öçürilen</string>
+    <string name="drawer_row_hidden_state">Gizlenen</string>
     <string name="drawer_row_needs_input_state">Jogabyňyz gerek</string>
     <string name="drawer_row_working_state">Işleýär</string>
     <string name="drawer_row_unread_state">Okalmadyk</string>

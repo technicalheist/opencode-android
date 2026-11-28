@@ -36,7 +36,7 @@ class PasteboardClient(
                     item?.text?.toString()?.takeIf { it.isNotBlank() } ?: item?.uri?.toString()
                 },
                 hasImages = {
-                    val description = clipboard.primaryClipDescription
+                    val description = runCatching { clipboard.primaryClipDescription }.getOrNull()
                     description != null && (0 until description.mimeTypeCount).any { description.getMimeType(it).startsWith("image/") }
                 },
                 imageURIs = {

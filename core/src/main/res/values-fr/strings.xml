@@ -29,11 +29,6 @@
     <string name="core_experiment_group_transcript_title">Transcription</string>
     <string name="core_experiment_group_drawer_title">Volet latéral</string>
 
-    <!-- In-app notice mode -->
-    <string name="core_in_app_notice_mode_off">Désactivé</string>
-    <string name="core_in_app_notice_mode_needs_input">Si votre intervention est requise</string>
-    <string name="core_in_app_notice_mode_all">Toutes les mises à jour</string>
-
     <!-- Themes and appearance -->
     <string name="core_theme_system_title">Système</string>
     <string name="core_appearance_color_scheme_system_title">Système</string>

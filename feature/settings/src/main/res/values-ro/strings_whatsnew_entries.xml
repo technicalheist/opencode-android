@@ -901,4 +901,38 @@
     <!-- 2026-11-08-02-default-model -->
     <string name="settings_whatsnew_entry_default_model_title">Sesiunile noi folosesc modelul tău implicit</string>
     <string name="settings_whatsnew_entry_default_model_summary">Sesiunile noi pornesc cu modelul implicit setat în OpenCode și cu ultimul nivel de gândire ales pentru el, nu cu modelul ultimei sesiuni.</string>
+
+    <!-- 2026-11-11-01-streamed-reply-prefix -->
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_title">Deschide un răspuns în curs</string>
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_summary">Când deschizi o sesiune în timp ce sosește un răspuns, poți citi ce a sosit deja, fără să aștepți să se termine.</string>
+
+    <!-- 2026-11-13-01-draw-on-images -->
+    <string name="settings_whatsnew_entry_draw_on_images_title">Desenează pe imagini</string>
+    <string name="settings_whatsnew_entry_draw_on_images_summary">Marchează un detaliu înainte să întrebi despre el.</string>
+    <string name="settings_whatsnew_entry_draw_on_images_detail_1">Deschide o imagine pe tot ecranul și atinge butonul cu creionul. Alege o culoare, desenează, apoi atinge Adaugă pentru a atașa imaginea adnotată la mesaj. Originalul rămâne neschimbat.</string>
+    <string name="settings_whatsnew_entry_draw_on_images_example">Încercuiește într-o captură de ecran elementul pe care vrei să-l muți, apoi descrie unde ar trebui să ajungă.</string>
+
+    <!-- 2026-11-14-01-fullscreen-viewer -->
+    <string name="settings_whatsnew_entry_fullscreen_viewer_title">Glisează între fotografii și videoclipuri</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_summary">Răsfoiește imaginile și videoclipurile unei sesiuni în același loc.</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_detail_1">Glisează la un videoclip, apoi atinge butonul cu creionul pentru a adnota cadrul curent. Adaugă atașează cadrul adnotat fără să-l trimită.</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_example">Pune demonstrația pe pauză la ecranul care trebuie modificat, încercuiește detaliul și adaugă imaginea la ciornă.</string>
+
+    <!-- 2026-11-15-01-pairing-link-name -->
+    <string name="settings_whatsnew_entry_pairing_link_name_title">Servere cu nume din OpenCode Console</string>
+    <string name="settings_whatsnew_entry_pairing_link_name_summary">Un server asociat din OpenCode Console este adăugat cu numele său, de exemplu „Anomaly Box”.</string>
+
+    <!-- 2026-11-17-01-session-media -->
+    <string name="settings_whatsnew_entry_session_media_title">Conținut media al sesiunii</string>
+    <string name="settings_whatsnew_entry_session_media_summary">Răsfoiește imaginile, videoclipurile, fișierele audio, fișierele și linkurile web publice dintr-o sesiune.</string>
+    <string name="settings_whatsnew_entry_session_media_detail_1">Alege Conținut media al sesiunii din meniul ⋮ al sesiunii. Media afișează imaginile, videoclipurile și înregistrările audio ca miniaturi grupate pe luni sau ca listă, iar Fișiere și Linkuri listează documentele, textele lipite și linkurile web.</string>
+    <string name="settings_whatsnew_entry_session_media_example">Găsește captura de ecran trimisă azi-dimineață fără să derulezi înapoi prin toată sesiunea.</string>
+
+    <!-- 2026-11-18-02-drawer-call-phone -->
+    <string name="settings_whatsnew_entry_drawer_call_phone_title">Pictogramă de telefon pentru apeluri în panoul lateral</string>
+    <string name="settings_whatsnew_entry_drawer_call_phone_summary">Butonul de apel de lângă Setări din lista de sesiuni afișează un telefon, la fel ca cel din caseta de mesaj.</string>
+
+    <!-- 2026-11-19-01-background-scripts -->
+    <string name="settings_whatsnew_entry_background_scripts_title">Scripturi în activitatea din fundal</string>
+    <string name="settings_whatsnew_entry_background_scripts_summary">Scripturile pe care agentul le mută în fundal apar alături de subagenți și shell-uri, iar un subagent rămâne în listă cât timp imaginile, videoclipurile sau scripturile sale încă rulează. Poți opri atât scripturile, cât și subagenții din listă.</string>
 </resources>

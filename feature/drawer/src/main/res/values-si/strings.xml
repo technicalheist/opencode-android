@@ -38,6 +38,8 @@
     <string name="drawer_mark_as_unread">නොකියවූ ලෙස සලකුණු කරන්න</string>
     <string name="drawer_mute">නිහඬ කරන්න</string>
     <string name="drawer_unmute">නිහඬ බව ඉවත් කරන්න</string>
+    <string name="drawer_hide">සඟවන්න</string>
+    <string name="drawer_unhide">සැඟවීම ඉවත් කරන්න</string>
     <string name="drawer_move_up">ඉහළට ගෙන යන්න</string>
     <string name="drawer_move_down">පහළට ගෙන යන්න</string>
 
@@ -81,8 +83,6 @@
     <string name="drawer_button_open_sessions_description">සැසි විවෘත කරන්න</string>
     <string name="drawer_button_attention_state">සැසියකට ඔබේ යෙදවුම අවශ්‍යයි</string>
     <string name="drawer_button_unread_state">නොකියවූ සැසි</string>
-    <string name="drawer_notice_open_sessions_action">සැසි විවෘත කරන්න</string>
-    <string name="drawer_notice_open_session_action">සැසිය විවෘත කරන්න</string>
 
     <!-- Search pill -->
     <string name="drawer_search_description">සෙවුම් සැසි</string>
@@ -121,6 +121,7 @@
     <!-- Session row state for TalkBack -->
     <string name="drawer_row_pinned_state">ඉහළ රඳවා ඇති</string>
     <string name="drawer_row_muted_state">නිහඬ කළ</string>
+    <string name="drawer_row_hidden_state">සැඟවූ</string>
     <string name="drawer_row_needs_input_state">ඔබේ යෙදවුම අවශ්‍යයි</string>
     <string name="drawer_row_working_state">ක්‍රියා කරමින්</string>
     <string name="drawer_row_unread_state">නොකියවූ</string>

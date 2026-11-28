@@ -29,11 +29,6 @@
     <string name="core_experiment_group_transcript_title">對話紀錄</string>
     <string name="core_experiment_group_drawer_title">側邊欄</string>
 
-    <!-- In-app notice mode -->
-    <string name="core_in_app_notice_mode_off">關閉</string>
-    <string name="core_in_app_notice_mode_needs_input">僅限需要你回應時</string>
-    <string name="core_in_app_notice_mode_all">所有更新</string>
-
     <!-- Themes and appearance -->
     <string name="core_theme_system_title">系統</string>
     <string name="core_appearance_color_scheme_system_title">系統</string>

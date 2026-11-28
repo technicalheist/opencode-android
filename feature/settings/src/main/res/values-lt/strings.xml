@@ -67,8 +67,6 @@
     <string name="settings_notifications_plugin_check_failed">Nepavyko patikrinti būsenos</string>
     <string name="settings_notifications_set_up">Nustatyti su OpenCode</string>
     <string name="settings_notifications_check_again">Patikrinti dar kartą</string>
-    <string name="settings_notifications_in_app_footer">Rodomi ant šoninio skydelio mygtuko.</string>
-    <string name="settings_notifications_in_app_notices">Pranešimai programoje</string>
 
     <!-- Sessions -->
     <string name="settings_sessions_title">Sesijos</string>

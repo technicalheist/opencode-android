@@ -64,8 +64,6 @@
     <string name="settings_notifications_plugin_check_failed">གནས་སྟངས་ཞིབ་དཔྱད་འབད་མ་ཚུགས།</string>
     <string name="settings_notifications_set_up">OpenCode དང་གཅིག་ཁར་གཞི་སྒྲིག་འབད།</string>
     <string name="settings_notifications_check_again">ལོག་ཞིབ་དཔྱད་འབད།</string>
-    <string name="settings_notifications_in_app_footer">ཟུར་ཐོའི་ཨེབ་རྟ་གུ་སྟོནམ་ཨིན།</string>
-    <string name="settings_notifications_in_app_notices">གློག་རིམ་ནང་གི་གསལ་བསྒྲགས།</string>
 
     <!-- Sessions -->
     <string name="settings_sessions_title">ལཱ་ཡུན་ཚུ།</string>

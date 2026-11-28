@@ -64,8 +64,6 @@
     <string name="settings_notifications_plugin_check_failed">ກວດສະຖານະບໍ່ໄດ້</string>
     <string name="settings_notifications_set_up">ຕັ້ງຄ່າດ້ວຍ OpenCode</string>
     <string name="settings_notifications_check_again">ກວດອີກຄັ້ງ</string>
-    <string name="settings_notifications_in_app_footer">ສະແດງຢູ່ປຸ່ມແຖບເມນູຂ້າງ.</string>
-    <string name="settings_notifications_in_app_notices">ແຈ້ງການໃນແອັບ</string>
 
     <!-- Sessions -->
     <string name="settings_sessions_title">ເຊດຊັນ</string>

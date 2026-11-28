@@ -38,6 +38,8 @@
     <string name="drawer_mark_as_unread">न पढ़ा हुआ मानें</string>
     <string name="drawer_mute">म्यूट करें</string>
     <string name="drawer_unmute">म्यूट हटाएँ</string>
+    <string name="drawer_hide">छिपाना</string>
+    <string name="drawer_unhide">दिखाएँ</string>
     <string name="drawer_move_up">ऊपर ले जाएँ</string>
     <string name="drawer_move_down">नीचे ले जाएँ</string>
 
@@ -81,8 +83,6 @@
     <string name="drawer_button_open_sessions_description">सेशन खोलें</string>
     <string name="drawer_button_attention_state">एक सेशन में आपका इनपुट चाहिए</string>
     <string name="drawer_button_unread_state">न पढ़े गए सेशन</string>
-    <string name="drawer_notice_open_sessions_action">सेशन खोलें</string>
-    <string name="drawer_notice_open_session_action">सेशन खोलें</string>
 
     <!-- Search pill -->
     <string name="drawer_search_description">सेशन खोजें</string>
@@ -121,6 +121,7 @@
     <!-- Session row state for TalkBack -->
     <string name="drawer_row_pinned_state">पिन किए गए</string>
     <string name="drawer_row_muted_state">म्यूट</string>
+    <string name="drawer_row_hidden_state">छिपे हुए</string>
     <string name="drawer_row_needs_input_state">आपका इनपुट चाहिए</string>
     <string name="drawer_row_working_state">कार्य जारी है</string>
     <string name="drawer_row_unread_state">न पढ़े गए</string>

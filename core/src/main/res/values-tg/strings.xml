@@ -29,11 +29,6 @@
     <string name="core_experiment_group_transcript_title">Матни суҳбат</string>
     <string name="core_experiment_group_drawer_title">Менюи паҳлуӣ</string>
 
-    <!-- In-app notice mode -->
-    <string name="core_in_app_notice_mode_off">Хомӯш</string>
-    <string name="core_in_app_notice_mode_needs_input">Танҳо ҳангоми ниёз ба посухи шумо</string>
-    <string name="core_in_app_notice_mode_all">Ҳамаи навсозиҳо</string>
-
     <!-- Themes and appearance -->
     <string name="core_theme_system_title">Система</string>
     <string name="core_appearance_color_scheme_system_title">Система</string>

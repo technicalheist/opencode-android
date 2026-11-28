@@ -901,4 +901,38 @@
     <!-- 2026-11-08-02-default-model -->
     <string name="settings_whatsnew_entry_default_model_title">Uudet istunnot käyttävät oletusmalliasi</string>
     <string name="settings_whatsnew_entry_default_model_summary">Uudet istunnot alkavat OpenCode-oletusmallillasi ja sille viimeksi valitsemallasi pohdinnan tasolla, eivät edellisen istunnon mallilla.</string>
+
+    <!-- 2026-11-11-01-streamed-reply-prefix -->
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_title">Avaa vastaus kesken kirjoituksen</string>
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_summary">Kun avaat istunnon vastauksen vielä saapuessa, voit lukea jo saapuneen osan samalla kun vastaus jatkuu.</string>
+
+    <!-- 2026-11-13-01-draw-on-images -->
+    <string name="settings_whatsnew_entry_draw_on_images_title">Piirrä kuviin</string>
+    <string name="settings_whatsnew_entry_draw_on_images_summary">Merkitse yksityiskohta ennen kuin kysyt siitä.</string>
+    <string name="settings_whatsnew_entry_draw_on_images_detail_1">Avaa kuva koko näytölle ja napauta kynäpainiketta. Valitse väri, piirrä ja liitä merkitty kuva viestiisi napauttamalla Lisää. Alkuperäinen säilyy ennallaan.</string>
+    <string name="settings_whatsnew_entry_draw_on_images_example">Ympyröi kuvakaappauksesta siirrettävä säädin ja kerro sitten, mihin haluat sen.</string>
+
+    <!-- 2026-11-14-01-fullscreen-viewer -->
+    <string name="settings_whatsnew_entry_fullscreen_viewer_title">Selaa kuvia ja videoita pyyhkäisemällä</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_summary">Selaa istunnon kuvia ja videoita yhdessä.</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_detail_1">Pyyhkäise videoon ja merkitse nykyinen ruutu napauttamalla kynäpainiketta. Lisää liittää merkityn ruudun viestiin lähettämättä sitä.</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_example">Pysäytä esittelyvideo muutettavan näkymän kohdalle, ympyröi yksityiskohta ja lisää kuva luonnokseesi.</string>
+
+    <!-- 2026-11-15-01-pairing-link-name -->
+    <string name="settings_whatsnew_entry_pairing_link_name_title">Nimetyt palvelimet OpenCode Console -konsolista</string>
+    <string name="settings_whatsnew_entry_pairing_link_name_summary">OpenCode Console -konsolin kautta pariksi liitetty palvelin saa samalla nimensä, kuten ”Anomaly Box”.</string>
+
+    <!-- 2026-11-17-01-session-media -->
+    <string name="settings_whatsnew_entry_session_media_title">Istunnon media</string>
+    <string name="settings_whatsnew_entry_session_media_summary">Selaa istunnon kuvia, videoita, ääniä, tiedostoja ja julkisia verkkolinkkejä.</string>
+    <string name="settings_whatsnew_entry_session_media_detail_1">Valitse istunnon ⋮-valikosta Istunnon media. Media näyttää kuvat, videot ja äänet kuukausittain ryhmiteltynä ruudukkona tai luettelona. Tiedostot ja Linkit näyttävät asiakirjat, liitetyt tekstit ja verkkolinkit.</string>
+    <string name="settings_whatsnew_entry_session_media_example">Löydä aamulla lähettämäsi kuvakaappaus selaamatta koko istuntoa taaksepäin.</string>
+
+    <!-- 2026-11-18-02-drawer-call-phone -->
+    <string name="settings_whatsnew_entry_drawer_call_phone_title">Puhelinkuvake sivuvalikon puhelupainikkeessa</string>
+    <string name="settings_whatsnew_entry_drawer_call_phone_summary">Istuntoluettelossa asetusten vieressä oleva puhelupainike näyttää puhelinkuvakkeen, kuten viestikentässäkin.</string>
+
+    <!-- 2026-11-19-01-background-scripts -->
+    <string name="settings_whatsnew_entry_background_scripts_title">Skriptit taustatöissä</string>
+    <string name="settings_whatsnew_entry_background_scripts_summary">Agentin taustalle siirtämät skriptit näkyvät aliagenttien ja komentotulkkien rinnalla. Aliagentti pysyy luettelossa, kunnes sen kuvien tai videoiden käsittely ja skriptien suoritus on päättynyt. Voit pysäyttää skriptin tai aliagentin luettelosta.</string>
 </resources>

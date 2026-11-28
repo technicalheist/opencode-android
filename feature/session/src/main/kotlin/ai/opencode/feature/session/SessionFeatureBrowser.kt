@@ -220,21 +220,33 @@ internal fun SessionFeature.reduceBrowserAndBackgroundWork(state: State, action:
             } else {
                 // Moved even if its send let the claim go meanwhile.
                 next = next.copy(movedWorkKeys = next.movedWorkKeys + key)
-                // The moved shell now outlives its tool call; list it for the capsule.
-                refreshShells(next)
+                // The moved shell (or script) now outlives its tool call; list it for the capsule.
+                val shells = refreshShells(next)
+                val jobs = refreshJobs(shells.state)
+                Reduced(jobs.state, Effect.merge(shells.effect, jobs.effect))
             }
         }
     }
 
     is Action.FamilyResponse -> {
+        val queued = state.familyRead.isQueued
+        val finished = state.copy(familyRead = CoalescedRead())
         val family = action.result.getOrNull()
-        if (family != null) {
-            familyResponse(family, state)
+        val applied = if (family != null) {
+            // Only the last answer of a queued run makes the family fresh.
+            familyResponse(family, finished, isLatest = !queued)
         } else {
             val error = action.result.exceptionOrNull()
             val summary = (error as? OpenCodeClientError)?.logSummary ?: error?.let { it::class.java.simpleName } ?: "client error"
             AppLog.network.notice("Family read failed: $summary")
-            if (!state.requestsConnectionIsAvailable || state.pendingWorkPollSeconds != null) Reduced(state) else pollPendingWork(state)
+            if (!finished.requestsConnectionIsAvailable || finished.pendingWorkPollSeconds != null) Reduced(finished) else pollPendingWork(finished)
+        }
+        if (!queued) {
+            applied
+        } else {
+            // After applying: a new read forgets the run changes this one keeps.
+            val again = refreshFamily(applied.state)
+            Reduced(again.state, Effect.merge(applied.effect, again.effect))
         }
     }
 
@@ -277,7 +289,7 @@ internal fun SessionFeature.reduceBrowserAndBackgroundWork(state: State, action:
             familySessions = state.familySessions.filter { it.id != sessionID },
             activeFamilySessionIDs = state.activeFamilySessionIDs - sessionID,
             familyTranscriptCache = state.familyTranscriptCache - sessionID,
-        )
+        ).pruningJobs(ownedBy = sessionID)
         // Its requests went with it. Left here, reconciliation would keep them for an owner it never
         // rediscovers, docked forever.
         next = next.pruneRequests(removing = { _, owner -> owner == sessionID })
@@ -390,7 +402,11 @@ private fun SessionFeature.moveToBackgroundTapped(state: State): Reduced<State, 
     )
 }
 
-private fun SessionFeature.familyResponse(family: ai.opencode.server.model.OpenCodeSessionFamily, state: State): Reduced<State, Action> {
+private fun SessionFeature.familyResponse(
+    family: ai.opencode.server.model.OpenCodeSessionFamily,
+    state: State,
+    isLatest: Boolean,
+): Reduced<State, Action> {
     // A previous session's response, still in flight when a live call or recording carried this
     // screen to another session.
     val familyRootID = state.familyRootID
@@ -414,7 +430,8 @@ private fun SessionFeature.familyResponse(family: ai.opencode.server.model.OpenC
     for ((sessionID, isRunning) in state.familyRunChanges) {
         if (isRunning) active += sessionID else active -= sessionID
     }
-    var next = state.copy(familyReadAt = date.now(), familySessions = members, activeFamilySessionIDs = active)
+    val readAt = if (isLatest) date.now() else state.familyReadAt
+    var next = state.copy(familyReadAt = readAt, familySessions = members, activeFamilySessionIDs = active)
     val selected = next.session ?: return Reduced(next)
     val rootID = next.familyRootID
     if (family.sessions.none { it.id == selected.id } && rootID != null && family.sessions.any { it.id == rootID }) {
@@ -427,6 +444,12 @@ private fun SessionFeature.familyResponse(family: ai.opencode.server.model.OpenC
         val polled = pollPendingWork(next)
         next = polled.state
         poll = polled.effect
+    }
+    // A new member's jobs that started before it was known were dropped as another tree's.
+    if (members.any { it.id !in previousFamilyIDs }) {
+        val jobs = refreshJobs(next)
+        next = jobs.state
+        poll = Effect.merge(poll, jobs.effect)
     }
     return if (selectedIsActive == selectedWasActive) {
         Reduced(next, poll)
@@ -473,17 +496,23 @@ internal fun SessionFeature.refreshBackgroundWork(state: State, reason: RefreshR
     if (!refreshes) return Reduced(state)
     val family = refreshFamily(state)
     val shells = refreshShells(family.state)
-    return Reduced(shells.state, Effect.merge(family.effect, shells.effect))
+    // Jobs arrive as events; only a return re-lists them.
+    val jobs = if (reason == RefreshReason.Resume) refreshJobs(shells.state) else Reduced(shells.state)
+    return Reduced(jobs.state, Effect.merge(family.effect, shells.effect, jobs.effect))
 }
 
-internal fun SessionFeature.refreshFamily(state: State): Reduced<State, Action> {
+/** Reads the family again. `coalescing`: while a read is in flight, one more follows it instead of this replacing it. */
+internal fun SessionFeature.refreshFamily(state: State, coalescing: Boolean = false): Reduced<State, Action> {
     val rootID = state.familyRootID ?: return Reduced(state)
     val root = state.familySessions.firstOrNull { it.id == rootID } ?: return Reduced(state)
+    if (coalescing && state.familyRead.isInFlight) {
+        return Reduced(state.copy(familyRead = CoalescedRead(isInFlight = true, isQueued = true)))
+    }
     // The new read's active status postdates every change seen so far.
     val server = state.server
     val client = openCodeClient
     return Reduced(
-        state.copy(familyRunChanges = emptyMap()),
+        state.copy(familyRead = CoalescedRead(isInFlight = true), familyRunChanges = emptyMap()),
         Effect.run<Action> { send ->
             try {
                 send(Action.FamilyResponse(Result.success(client.sessionFamily(server, root))))
@@ -535,3 +564,6 @@ fun State.forgetSessionLinks(ids: List<String>): State {
 }
 
 // endregion
+
+/** One background read at a time: asking while one is in flight queues a single read after it, instead of cancelling it and starting over. */
+data class CoalescedRead(val isInFlight: Boolean = false, val isQueued: Boolean = false)

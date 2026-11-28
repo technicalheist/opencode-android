@@ -38,6 +38,8 @@
     <string name="drawer_mark_as_unread">Megjelölés olvasatlanként</string>
     <string name="drawer_mute">Némítás</string>
     <string name="drawer_unmute">Némítás feloldása</string>
+    <string name="drawer_hide">Elrejtés</string>
+    <string name="drawer_unhide">Megjelenítés</string>
     <string name="drawer_move_up">Mozgatás fel</string>
     <string name="drawer_move_down">Mozgatás le</string>
 
@@ -81,8 +83,6 @@
     <string name="drawer_button_open_sessions_description">Munkamenetek megnyitása</string>
     <string name="drawer_button_attention_state">Egy munkamenet beavatkozást igényel</string>
     <string name="drawer_button_unread_state">Olvasatlan munkamenetek</string>
-    <string name="drawer_notice_open_sessions_action">Munkamenetek megnyitása</string>
-    <string name="drawer_notice_open_session_action">Munkamenet megnyitása</string>
 
     <!-- Search pill -->
     <string name="drawer_search_description">Munkamenetek keresése</string>
@@ -121,6 +121,7 @@
     <!-- Session row state for TalkBack -->
     <string name="drawer_row_pinned_state">Rögzített</string>
     <string name="drawer_row_muted_state">Némított</string>
+    <string name="drawer_row_hidden_state">Rejtett</string>
     <string name="drawer_row_needs_input_state">Beavatkozás szükséges</string>
     <string name="drawer_row_working_state">Dolgozik</string>
     <string name="drawer_row_unread_state">Olvasatlan</string>

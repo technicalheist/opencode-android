@@ -182,8 +182,8 @@ private fun TypeSection() = Section("Type (iOS text style → M3 role)") {
         Triple("caption1", "labelMedium", t.labelMedium),
         Triple("caption2", "labelSmall", t.labelSmall),
     ).forEach { (ios, m3, style) -> TypeRow(ios, m3, style) }
-    Text("opencode", style = TextStyle(fontFamily = OpenCodeFonts.berkeleyMono, fontWeight = FontWeight.Bold, fontSize = 44.sp))
-    Text("opencode pair --remote", style = OpenCodeTextStyles.callout.copy(fontFamily = OpenCodeFonts.berkeleyMono))
+    Text("opencode", style = TextStyle(fontFamily = OpenCodeFonts.monospace, fontWeight = FontWeight.Bold, fontSize = 44.sp))
+    Text("opencode pair --remote", style = OpenCodeTextStyles.callout.copy(fontFamily = OpenCodeFonts.monospace))
 }
 
 @Composable

@@ -27,17 +27,21 @@ fun HomeFeature.State.persistingSnapshot(now: Instant): HomeFeature.State {
     val serverID = server.persistenceID
     val parents = SessionActivity.ancestry(activeSessionIDs, knownParents)
     val snapshots = shared(ServerSharedKeys.cachedHomeSnapshots)
-    val cache = CachedHomeSnapshot(
-        serverID = serverID,
-        snapshot = OpenCodeHomeSnapshot(
-            projects = projects,
-            sessions = sessions,
-            activeSessionIDs = activeSessionIDs,
-            activeSessionParents = parents.ifEmpty { null },
-        ),
-        capturedAt = if (isConnected) now else snapshots.value[serverID]?.capturedAt,
+    val snapshot = OpenCodeHomeSnapshot(
+        projects = projects,
+        sessions = sessions,
+        activeSessionIDs = activeSessionIDs,
+        activeSessionParents = parents.ifEmpty { null },
     )
-    if (snapshots.value[serverID] != cache) snapshots.update { it + (serverID to cache) }
+    val existing = snapshots.value[serverID]
+    val changed = existing?.snapshot != snapshot
+    val age = existing?.capturedAt?.let { now.toEpochMilli() - it.toEpochMilli() }
+    val recentlyStamped = age != null && age >= 0 && age < HomeFeature.snapshotStampInterval.inWholeMilliseconds
+    // Running state, shown on a relaunch only while fresh, re-stamps every time.
+    val stamps = isConnected && (changed || activeSessionIDs.isNotEmpty() || !recentlyStamped)
+    val capturedAt = if (stamps) now else existing?.capturedAt
+    if (!changed && existing?.capturedAt == capturedAt) return this
+    snapshots.update { it + (serverID to CachedHomeSnapshot(serverID = serverID, snapshot = snapshot, capturedAt = capturedAt)) }
     return this
 }
 
@@ -234,21 +238,25 @@ fun HomeFeature.State.persistingTranscriptCache(including: String): HomeFeature.
     }
     val session = sessions.firstOrNull { it.id == including }
     val items = transcriptCache[including]
+    val cache = ServerSharedKeys.cachedTranscriptSnapshots()
     val updates = if (session != null && items != null) {
+        // An unchanged read keeps the access time opening the session stamped.
+        val stamps = session.id == openID && cache.value.entries.firstOrNull {
+            it.serverID == server.persistenceID && it.sessionID == session.id
+        }?.items != items
         listOf(
             CachedTranscriptSnapshots.Entry(
                 serverID = server.persistenceID,
                 sessionID = session.id,
                 updatedAt = session.updatedAt,
                 items = items,
-                lastAccessedAt = if (session.id == openID) validNow else null,
+                lastAccessedAt = if (stamps) validNow else null,
                 priority = priorities[session.id]?.nonEmpty,
             ),
         )
     } else {
         emptyList()
     }
-    val cache = ServerSharedKeys.cachedTranscriptSnapshots()
     val updated = cache.value.upsertEntries(server.persistenceID, updates, validUpdatedAt, priorities, validNow)
     if (updated != cache.value) cache.set(updated)
     return this

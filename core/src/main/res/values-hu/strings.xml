@@ -29,11 +29,6 @@
     <string name="core_experiment_group_transcript_title">Átirat</string>
     <string name="core_experiment_group_drawer_title">Oldalmenü</string>
 
-    <!-- In-app notice mode -->
-    <string name="core_in_app_notice_mode_off">Kikapcsolva</string>
-    <string name="core_in_app_notice_mode_needs_input">Csak ha beavatkozás szükséges</string>
-    <string name="core_in_app_notice_mode_all">Minden frissítés</string>
-
     <!-- Themes and appearance -->
     <string name="core_theme_system_title">Rendszer</string>
     <string name="core_appearance_color_scheme_system_title">Rendszer</string>

@@ -10,6 +10,7 @@ import ai.opencode.server.model.FileReadTarget
 import ai.opencode.server.model.OpenCodeDelivery
 import ai.opencode.server.model.OpenCodeNotifyPluginStatus
 import ai.opencode.server.model.OpenCodeOutgoingAttachment
+import ai.opencode.server.model.OpenCodeJob
 import ai.opencode.server.model.OpenCodeShell
 import ai.opencode.server.model.OpenCodeShellOutputPage
 import ai.opencode.server.model.PromptContext
@@ -221,6 +222,38 @@ class WireRequestTests {
             assertEquals("GET", request.method)
             assertEquals("/api/shell", request.path)
             assertEquals(listOf("location[directory]" to "/a b"), request.queryItems)
+        }
+    }
+
+    @Test
+    fun runningJobsReadTheSessionTreeAndCancelPosts() = runTest {
+        val fixture = WireFixture { request ->
+            when (request.method to request.path) {
+                "GET" to "/api/experimental/job" -> Reply.Json(
+                    200,
+                    """{"data":[{"kind":"codemode","id":"cm_1","sessionID":"ses_1","status":"running","time":{"started":5}},{"kind":"subagent","id":"job_2","sessionID":"ses_1","status":"running","childSessionID":"ses_2","agent":"general","description":"Look","time":{"started":6}}]}""",
+                )
+                else -> Reply.Json(204, "")
+            }
+        }
+        withFixture(fixture) {
+            val jobs = OpenCodeClient.liveValue.runningJobs(fixture.server, "ses_1")
+            assertEquals(
+                listOf(
+                    OpenCodeJob(id = "cm_1", kind = OpenCodeJob.Kind.CodeMode, sessionID = "ses_1", isRunning = true, startedAt = Instant.ofEpochMilli(5)),
+                    OpenCodeJob(
+                        id = "job_2", kind = OpenCodeJob.Kind.Subagent, sessionID = "ses_1", isRunning = true,
+                        childSessionID = "ses_2", startedAt = Instant.ofEpochMilli(6),
+                    ),
+                ),
+                jobs,
+            )
+            OpenCodeClient.liveValue.cancelJob(fixture.server, "cm_1")
+
+            val requests = fixture.requests
+            assertEquals(listOf("GET /api/experimental/job", "POST /api/experimental/job/cm_1/cancel"), requests.map { it.route })
+            assertEquals(listOf("sessionID" to "ses_1", "descendants" to "true", "status" to "running"), requests[0].queryItems)
+            assertTrue(requests[1].queryItems.isEmpty())
         }
     }
 

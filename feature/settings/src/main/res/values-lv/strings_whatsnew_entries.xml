@@ -901,4 +901,38 @@
     <!-- 2026-11-08-02-default-model -->
     <string name="settings_whatsnew_entry_default_model_title">Jaunas sesijas izmanto tavu noklusējuma modeli</string>
     <string name="settings_whatsnew_entry_default_model_summary">Jaunas sesijas sākas ar OpenCode iestatīto noklusējuma modeli un tam pēdējoreiz izvēlēto domāšanas līmeni, nevis ar pēdējās sesijas modeli.</string>
+
+    <!-- 2026-11-11-01-streamed-reply-prefix -->
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_title">Atvērt atbildi saņemšanas laikā</string>
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_summary">Atverot sesiju, kamēr tiek saņemta atbilde, vari lasīt jau saņemto daļu, negaidot atbildes beigas.</string>
+
+    <!-- 2026-11-13-01-draw-on-images -->
+    <string name="settings_whatsnew_entry_draw_on_images_title">Zīmēt uz attēliem</string>
+    <string name="settings_whatsnew_entry_draw_on_images_summary">Atzīmē detaļu, pirms jautā par to.</string>
+    <string name="settings_whatsnew_entry_draw_on_images_detail_1">Atver attēlu pilnekrāna režīmā un pieskaries pildspalvas pogai. Izvēlies krāsu, zīmē un pieskaries pogai Pievienot, lai ziņai pievienotu attēlu ar atzīmēm. Oriģināls paliek nemainīts.</string>
+    <string name="settings_whatsnew_entry_draw_on_images_example">Ekrānuzņēmumā apvelc pārvietojamo vadīklu un apraksti, kur to novietot.</string>
+
+    <!-- 2026-11-14-01-fullscreen-viewer -->
+    <string name="settings_whatsnew_entry_fullscreen_viewer_title">Pārvelc starp fotoattēliem un video</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_summary">Pārlūko sesijas attēlus un video vienuviet.</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_detail_1">Pārvelc līdz video un pieskaries pildspalvas pogai, lai veiktu atzīmes pašreizējā kadrā. Poga Pievienot pievieno kadru ar atzīmēm, to nenosūtot.</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_example">Apturi demonstrāciju pie maināmā ekrāna, apvelc detaļu un pievieno kadru melnrakstam.</string>
+
+    <!-- 2026-11-15-01-pairing-link-name -->
+    <string name="settings_whatsnew_entry_pairing_link_name_title">Serveru nosaukumi no OpenCode Console</string>
+    <string name="settings_whatsnew_entry_pairing_link_name_summary">Serveris, ko savieno pārī no OpenCode Console, tiek pievienots ar savu nosaukumu, piemēram, “Anomaly Box”.</string>
+
+    <!-- 2026-11-17-01-session-media -->
+    <string name="settings_whatsnew_entry_session_media_title">Sesijas multivide</string>
+    <string name="settings_whatsnew_entry_session_media_summary">Pārlūko sesijas attēlus, video, audio, failus un publiskās tīmekļa saites.</string>
+    <string name="settings_whatsnew_entry_session_media_detail_1">Sesijas izvēlnē ⋮ izvēlies Sesijas multivide. Sadaļā Multivide attēli, video un audio redzami pa mēnešiem grupētos elementos vai sarakstā, bet sadaļās Faili un Saites — dokumenti, ielīmētais saturs un tīmekļa saites.</string>
+    <string name="settings_whatsnew_entry_session_media_example">Atrodi šorīt nosūtīto ekrānuzņēmumu, neritinot atpakaļ cauri visai sesijai.</string>
+
+    <!-- 2026-11-18-02-drawer-call-phone -->
+    <string name="settings_whatsnew_entry_drawer_call_phone_title">Tālruņa ikona zvaniem sānu panelī</string>
+    <string name="settings_whatsnew_entry_drawer_call_phone_summary">Zvana pogai blakus iestatījumiem sesiju sarakstā tagad ir tālruņa ikona — tāpat kā ziņas laukā.</string>
+
+    <!-- 2026-11-19-01-background-scripts -->
+    <string name="settings_whatsnew_entry_background_scripts_title">Skripti fona darbos</string>
+    <string name="settings_whatsnew_entry_background_scripts_summary">Skripti, kurus aģents pārvieto fonā, redzami līdzās apakšaģentiem un čaulām. Apakšaģents paliek sarakstā, kamēr vēl notiek tā attēlu vai video apstrāde vai darbojas skripti. Gan skriptus, gan apakšaģentus vari apturēt sarakstā.</string>
 </resources>

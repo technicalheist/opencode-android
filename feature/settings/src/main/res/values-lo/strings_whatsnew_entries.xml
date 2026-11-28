@@ -901,4 +901,38 @@
     <!-- 2026-11-08-02-default-model -->
     <string name="settings_whatsnew_entry_default_model_title">ເຊດຊັນໃໝ່ໃຊ້ຕົວແບບເລີ່ມຕົ້ນຂອງເຈົ້າ</string>
     <string name="settings_whatsnew_entry_default_model_summary">ເຊດຊັນໃໝ່ຈະໃຊ້ຕົວແບບທີ່ເຈົ້າຕັ້ງເປັນຄ່າເລີ່ມຕົ້ນໃນ OpenCode ພ້ອມລະດັບການຄິດທີ່ເລືອກໄວ້ຫຼ້າສຸດສຳລັບຕົວແບບນັ້ນ ແທນທີ່ຈະໃຊ້ຕົວແບບຈາກເຊດຊັນຫຼ້າສຸດ.</string>
+
+    <!-- 2026-11-11-01-streamed-reply-prefix -->
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_title">ເປີດອ່ານຄຳຕອບທີ່ກຳລັງສົ່ງ</string>
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_summary">ເມື່ອເປີດເຊດຊັນຂະນະທີ່ຄຳຕອບກຳລັງສົ່ງມາ, ເຈົ້າສາມາດອ່ານສ່ວນທີ່ມາຮອດແລ້ວໄດ້ ໂດຍຄຳຕອບຍັງສົ່ງຕໍ່ໄປ.</string>
+
+    <!-- 2026-11-13-01-draw-on-images -->
+    <string name="settings_whatsnew_entry_draw_on_images_title">ແຕ້ມໃສ່ຮູບພາບ</string>
+    <string name="settings_whatsnew_entry_draw_on_images_summary">ໝາຍຈຸດທີ່ສົນໃຈກ່ອນຖາມ.</string>
+    <string name="settings_whatsnew_entry_draw_on_images_detail_1">ເປີດຮູບພາບເຕັມຈໍ ແລ້ວແຕະປຸ່ມປາກກາ. ເລືອກສີ, ແຕ້ມ ແລ້ວແຕະ ເພີ່ມ ເພື່ອແນບຮູບທີ່ຂີດໝາຍໃສ່ຂໍ້ຄວາມ. ຮູບຕົ້ນສະບັບຈະບໍ່ປ່ຽນແປງ.</string>
+    <string name="settings_whatsnew_entry_draw_on_images_example">ວົງມົນອ້ອມປຸ່ມຄວບຄຸມທີ່ຢາກຍ້າຍໃນຮູບໜ້າຈໍ ແລ້ວອະທິບາຍວ່າຄວນຍ້າຍໄປໃສ.</string>
+
+    <!-- 2026-11-14-01-fullscreen-viewer -->
+    <string name="settings_whatsnew_entry_fullscreen_viewer_title">ປັດສະຫຼັບຮູບຖ່າຍແລະວິດີໂອ</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_summary">ເບິ່ງຮູບພາບແລະວິດີໂອຂອງເຊດຊັນຮ່ວມກັນ.</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_detail_1">ປັດໄປທີ່ວິດີໂອ ແລ້ວແຕະປຸ່ມປາກກາເພື່ອຂີດໝາຍໃສ່ເຟຣມປັດຈຸບັນ. ປຸ່ມ ເພີ່ມ ຈະແນບເຟຣມທີ່ຂີດໝາຍໄວ້ໂດຍຍັງບໍ່ສົ່ງ.</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_example">ຢຸດວິດີໂອສາທິດຊົ່ວຄາວຢູ່ໜ້າຈໍທີ່ຕ້ອງແກ້ໄຂ, ວົງມົນອ້ອມຈຸດນັ້ນ ແລ້ວເພີ່ມໃສ່ຮ່າງຂໍ້ຄວາມ.</string>
+
+    <!-- 2026-11-15-01-pairing-link-name -->
+    <string name="settings_whatsnew_entry_pairing_link_name_title">ເຊີບເວີພ້ອມຊື່ຈາກ OpenCode Console</string>
+    <string name="settings_whatsnew_entry_pairing_link_name_summary">ເຊີບເວີທີ່ຈັບຄູ່ຈາກ OpenCode Console ຈະມີຊື່ມາພ້ອມ ເຊັ່ນ “Anomaly Box”.</string>
+
+    <!-- 2026-11-17-01-session-media -->
+    <string name="settings_whatsnew_entry_session_media_title">ສື່ໃນເຊດຊັນ</string>
+    <string name="settings_whatsnew_entry_session_media_summary">ເບິ່ງຮູບພາບ, ວິດີໂອ, ສຽງ, ໄຟລ໌ ແລະລິ້ງເວັບສາທາລະນະໃນເຊດຊັນ.</string>
+    <string name="settings_whatsnew_entry_session_media_detail_1">ເລືອກ ສື່ໃນເຊດຊັນ ຈາກເມນູ ⋮ ຂອງເຊດຊັນ. ສື່ ສະແດງຮູບພາບ, ວິດີໂອ ແລະສຽງເປັນຕາຕະລາງຈັດກຸ່ມຕາມເດືອນ ຫຼືເປັນລາຍການ, ສ່ວນ ໄຟລ໌ ແລະ ລິ້ງ ສະແດງເອກະສານ, ຂໍ້ຄວາມທີ່ວາງ ແລະລິ້ງເວັບ.</string>
+    <string name="settings_whatsnew_entry_session_media_example">ຊອກຫາຮູບໜ້າຈໍທີ່ສົ່ງເມື່ອເຊົ້ານີ້ໄດ້ ໂດຍບໍ່ຕ້ອງເລື່ອນຍ້ອນກັບໄປທົ່ວເຊດຊັນ.</string>
+
+    <!-- 2026-11-18-02-drawer-call-phone -->
+    <string name="settings_whatsnew_entry_drawer_call_phone_title">ໄອຄອນໂທລະສັບໃນແຖບເມນູຂ້າງ</string>
+    <string name="settings_whatsnew_entry_drawer_call_phone_summary">ປຸ່ມໂທຂ້າງ ການຕັ້ງຄ່າ ໃນລາຍການເຊດຊັນ ໃຊ້ຮູບໂທລະສັບຄືກັບປຸ່ມໃນຊ່ອງຂໍ້ຄວາມ.</string>
+
+    <!-- 2026-11-19-01-background-scripts -->
+    <string name="settings_whatsnew_entry_background_scripts_title">ສະຄຣິບໃນວຽກເບື້ອງຫຼັງ</string>
+    <string name="settings_whatsnew_entry_background_scripts_summary">ສະຄຣິບທີ່ຕົວແທນຍ້າຍໄປເຮັດວຽກເບື້ອງຫຼັງຈະສະແດງຂ້າງຕົວແທນຍ່ອຍແລະ shell. ຕົວແທນຍ່ອຍຈະຍັງຢູ່ໃນລາຍການ ຕາບໃດທີ່ວຽກຮູບພາບ, ວິດີໂອ ຫຼືສະຄຣິບຂອງມັນຍັງແລ່ນຢູ່. ຢຸດໄດ້ທັງສອງຈາກລາຍການ.</string>
 </resources>

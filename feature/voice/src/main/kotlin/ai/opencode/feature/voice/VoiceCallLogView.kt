@@ -391,12 +391,15 @@ private const val pointsPerSecond = 40f
 private const val rowHeight = 34f
 private const val labelWidth = 84f
 
-private fun x(seconds: Double): Float = seconds.toFloat() * pointsPerSecond
+// Compose can't measure a node wider than 262,142 px.
+private const val maxTimelinePixels = 262_000f
 
 @Composable
 private fun ReplayTimeline(log: VoiceCallLog, playback: VoiceCallReplayPlayback) {
     val scroll = rememberScrollState()
     val pixelsPerDp = LocalDensity.current.density
+    val perSecond = min(pointsPerSecond, (maxTimelinePixels / pixelsPerDp - 40) / max(log.duration, 1.0).toFloat())
+    fun x(seconds: Double): Float = seconds.toFloat() * perSecond
     val dark = OpenCodeTheme.colors.isDark
     val secondary = OpenCodeTheme.colors.secondaryText
     val red = VoiceCallLogColors.red(dark)
@@ -432,16 +435,16 @@ private fun ReplayTimeline(log: VoiceCallLog, playback: VoiceCallReplayPlayback)
             Canvas(
                 Modifier
                     .size(max(x(log.duration) + 40, 1f).dp, (rowHeight * 4).dp)
-                    .pointerInput(log) {
+                    .pointerInput(log, perSecond) {
                         awaitEachGesture {
                             val down = awaitFirstDown()
-                            playback.seek((down.position.x / density / pointsPerSecond).toDouble())
+                            playback.seek((down.position.x / density / perSecond).toDouble())
                             down.consume()
                             while (true) {
                                 val event = awaitPointerEvent()
                                 val change = event.changes.firstOrNull { it.id == down.id } ?: break
                                 if (!change.pressed) break
-                                playback.seek((change.position.x / density / pointsPerSecond).toDouble())
+                                playback.seek((change.position.x / density / perSecond).toDouble())
                                 change.consume()
                             }
                         }

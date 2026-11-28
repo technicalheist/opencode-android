@@ -88,14 +88,23 @@ interface ExpiringCacheEntry {
 
 /**
  * Memory (locked map) and SHA-256 JSON disk cache shared by [LinkPreviewLoader] and
- * [SiteIconLoader].
+ * [SiteIconLoader]. Memory keeps at most [memoryLimit] entries, the soonest to expire going first
+ * (never the one just remembered), and a memory warning empties it; every entry stays on disk.
  */
 class CoalescedDiskCache<MemoryEntry : ExpiringCacheEntry, DiskRecord : ExpiringCacheEntry>(
     val directory: File?,
     private val serializer: KSerializer<DiskRecord>,
+    private val memoryLimit: Int,
     val now: () -> Long = System::currentTimeMillis,
+    memoryWarnings: MemoryWarningCenter? = null,
 ) {
     private val memory = HashMap<String, MemoryEntry>()
+
+    init {
+        memoryWarnings?.observe { withMemory { it.clear() } }
+    }
+
+    val memoryCount: Int get() = withMemory { it.size }
 
     fun <R> withMemory(block: (MutableMap<String, MemoryEntry>) -> R): R = synchronized(memory) { block(memory) }
 
@@ -104,14 +113,18 @@ class CoalescedDiskCache<MemoryEntry : ExpiringCacheEntry, DiskRecord : Expiring
         return withMemory { it[key] }?.takeIf { it.expires > current }
     }
 
-    fun store(entry: MemoryEntry, disk: DiskRecord, key: String, memoryLimit: Int? = null) {
+    fun remember(entry: MemoryEntry, key: String) {
         withMemory { values ->
             values[key] = entry
-            if (memoryLimit != null && values.size > memoryLimit) {
-                values.entries.sortedBy { it.value.expires }.take(values.size - memoryLimit).map { it.key }
-                    .forEach(values::remove)
+            if (values.size > memoryLimit) {
+                values.entries.filter { it.key != key }.sortedBy { it.value.expires }.take(values.size - memoryLimit)
+                    .map { it.key }.forEach(values::remove)
             }
         }
+    }
+
+    fun store(entry: MemoryEntry, disk: DiskRecord, key: String) {
+        remember(entry, key)
         writeDisk(disk, key)
     }
 
@@ -294,6 +307,7 @@ class LinkPreviewLoader(
     now: () -> Long = System::currentTimeMillis,
     private val isConstrained: () -> Boolean = { false },
     private val shouldDeferArtwork: () -> Boolean = { false },
+    memoryWarnings: MemoryWarningCenter? = null,
 ) : CoalescedLoaderActor<LinkPreviewResult>() {
     @Serializable
     class Record(
@@ -305,8 +319,10 @@ class LinkPreviewLoader(
         override val retentionDate: Long get() = staleUntil ?: expires
     }
 
-    private val cache = CoalescedDiskCache<Record, Record>(directory, Record.serializer(), now)
+    private val cache = CoalescedDiskCache<Record, Record>(directory, Record.serializer(), MEMORY_LIMIT, now, memoryWarnings)
     @Volatile private var lastSweep = 0L
+
+    val memoryCount: Int get() = cache.memoryCount
 
     fun cached(target: LinkPreviewTarget): LinkPreviewResult? = cache.freshMemory(target.key)?.result
 
@@ -329,7 +345,7 @@ class LinkPreviewLoader(
 
     private fun keepStale(key: String, existing: Record?, currentTime: Long) {
         if (existing != null && existing.metadata != null && existing.retentionDate > currentTime) {
-            cache.withMemory { it[key] = existing }
+            cache.remember(existing, key)
         }
     }
 
@@ -338,7 +354,7 @@ class LinkPreviewLoader(
         val currentTime = cache.now()
         val existing = cache.withMemory { it[key] } ?: cache.readDisk(key)
         if (existing != null && existing.expires > currentTime) {
-            cache.withMemory { it[key] = existing }
+            cache.remember(existing, key)
             return existing.result
         }
         if (isConstrained()) {
@@ -390,7 +406,7 @@ class LinkPreviewLoader(
                 return LinkPreviewResult.Deferred
             }
         }
-        cache.store(record, record, key, memoryLimit = MEMORY_LIMIT)
+        cache.store(record, record, key)
         // Sweeping reads every record: at most every ten minutes.
         if (cache.now() - lastSweep > SWEEP_INTERVAL) sweep()
         return record.result
@@ -447,6 +463,7 @@ class LinkPreviewLoader(
                 directory = cachesDirectory("link-previews"),
                 isConstrained = { NetworkPathMonitor.shared?.isConstrained == true },
                 shouldDeferArtwork = { NetworkPathMonitor.shared?.shouldDeferLargePrefetch == true },
+                memoryWarnings = MemoryWarningCenter.default,
             ).also { loader -> CoroutineScope(SupervisorJob() + Dispatchers.IO).launch { loader.sweep() } }
         }
     }

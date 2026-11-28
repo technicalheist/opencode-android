@@ -38,6 +38,8 @@
     <string name="drawer_mark_as_unread">Okunmadı olarak işaretle</string>
     <string name="drawer_mute">Sessize al</string>
     <string name="drawer_unmute">Sessizden çıkar</string>
+    <string name="drawer_hide">Gizle</string>
+    <string name="drawer_unhide">Göster</string>
     <string name="drawer_move_up">Yukarı taşı</string>
     <string name="drawer_move_down">Aşağı taşı</string>
 
@@ -81,8 +83,6 @@
     <string name="drawer_button_open_sessions_description">Oturumları aç</string>
     <string name="drawer_button_attention_state">Bir oturumda yanıtınız gerekiyor</string>
     <string name="drawer_button_unread_state">Okunmamış oturumlar</string>
-    <string name="drawer_notice_open_sessions_action">Oturumları aç</string>
-    <string name="drawer_notice_open_session_action">Oturumu aç</string>
 
     <!-- Search pill -->
     <string name="drawer_search_description">Oturum ara</string>
@@ -121,6 +121,7 @@
     <!-- Session row state for TalkBack -->
     <string name="drawer_row_pinned_state">Sabitlendi</string>
     <string name="drawer_row_muted_state">Sessize alındı</string>
+    <string name="drawer_row_hidden_state">Gizli</string>
     <string name="drawer_row_needs_input_state">Yanıtınız gerekiyor</string>
     <string name="drawer_row_working_state">Çalışma</string>
     <string name="drawer_row_unread_state">Okunmamış</string>

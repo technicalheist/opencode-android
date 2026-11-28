@@ -39,6 +39,8 @@
     <string name="drawer_mark_as_unread">Atzīmēt kā nelasītu</string>
     <string name="drawer_mute">Apklusināt</string>
     <string name="drawer_unmute">Ieslēgt paziņojumus</string>
+    <string name="drawer_hide">Slēpt</string>
+    <string name="drawer_unhide">Rādīt</string>
     <string name="drawer_move_up">Pārvietot augšup</string>
     <string name="drawer_move_down">Pārvietot lejup</string>
 
@@ -85,8 +87,6 @@
     <string name="drawer_button_open_sessions_description">Atvērt sesijas</string>
     <string name="drawer_button_attention_state">Sesijai vajadzīga tava ievade</string>
     <string name="drawer_button_unread_state">Nelasītas sesijas</string>
-    <string name="drawer_notice_open_sessions_action">Atvērt sesijas</string>
-    <string name="drawer_notice_open_session_action">Atvērt sesiju</string>
 
     <!-- Search pill -->
     <string name="drawer_search_description">Meklēt sesijas</string>
@@ -125,6 +125,7 @@
     <!-- Session row state for TalkBack -->
     <string name="drawer_row_pinned_state">Piesprausta</string>
     <string name="drawer_row_muted_state">Apklusināta</string>
+    <string name="drawer_row_hidden_state">Paslēpta</string>
     <string name="drawer_row_needs_input_state">Vajadzīga tava ievade</string>
     <string name="drawer_row_working_state">Darbojas</string>
     <string name="drawer_row_unread_state">Nelasīta</string>

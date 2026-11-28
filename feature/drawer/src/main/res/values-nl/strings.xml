@@ -38,6 +38,8 @@
     <string name="drawer_mark_as_unread">Markeren als ongelezen</string>
     <string name="drawer_mute">Dempen</string>
     <string name="drawer_unmute">Dempen opheffen</string>
+    <string name="drawer_hide">Verbergen</string>
+    <string name="drawer_unhide">Zichtbaar maken</string>
     <string name="drawer_move_up">Omhoog verplaatsen</string>
     <string name="drawer_move_down">Omlaag verplaatsen</string>
 
@@ -81,8 +83,6 @@
     <string name="drawer_button_open_sessions_description">Sessies openen</string>
     <string name="drawer_button_attention_state">Een sessie heeft je invoer nodig</string>
     <string name="drawer_button_unread_state">Ongelezen sessies</string>
-    <string name="drawer_notice_open_sessions_action">Sessies openen</string>
-    <string name="drawer_notice_open_session_action">Sessie openen</string>
 
     <!-- Search pill -->
     <string name="drawer_search_description">Zoek sessies</string>
@@ -121,6 +121,7 @@
     <!-- Session row state for TalkBack -->
     <string name="drawer_row_pinned_state">Vastgezet</string>
     <string name="drawer_row_muted_state">Gedempt</string>
+    <string name="drawer_row_hidden_state">Verborgen</string>
     <string name="drawer_row_needs_input_state">Je invoer is nodig</string>
     <string name="drawer_row_working_state">Bezig</string>
     <string name="drawer_row_unread_state">Ongelezen</string>

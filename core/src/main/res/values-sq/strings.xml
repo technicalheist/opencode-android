@@ -29,11 +29,6 @@
     <string name="core_experiment_group_transcript_title">Transkripti</string>
     <string name="core_experiment_group_drawer_title">Paneli anësor</string>
 
-    <!-- In-app notice mode -->
-    <string name="core_in_app_notice_mode_off">Çaktivizuar</string>
-    <string name="core_in_app_notice_mode_needs_input">Vetëm kur kërkohet përgjigjja jote</string>
-    <string name="core_in_app_notice_mode_all">Të gjitha përditësimet</string>
-
     <!-- Themes and appearance -->
     <string name="core_theme_system_title">Sistemi</string>
     <string name="core_appearance_color_scheme_system_title">Sistemi</string>

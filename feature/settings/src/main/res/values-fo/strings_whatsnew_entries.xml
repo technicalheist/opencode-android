@@ -901,4 +901,38 @@
     <!-- 2026-11-08-02-default-model -->
     <string name="settings_whatsnew_entry_default_model_title">Nýggjar setur brúka títt forsetta modell</string>
     <string name="settings_whatsnew_entry_default_model_summary">Nýggjar setur byrja við tínum forsetta modelli í OpenCode og hugsanarstiginum, tú seinast valdi til tað, heldur enn modellinum frá seinastu setu.</string>
+
+    <!-- 2026-11-11-01-streamed-reply-prefix -->
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_title">Opna svar, meðan tað kemur</string>
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_summary">Opnar tú eina setu, meðan eitt svar kemur, kanst tú lesa tað, sum longu er komið, meðan svarið heldur fram.</string>
+
+    <!-- 2026-11-13-01-draw-on-images -->
+    <string name="settings_whatsnew_entry_draw_on_images_title">Tekna á myndir</string>
+    <string name="settings_whatsnew_entry_draw_on_images_summary">Vís á ein smálut, áðrenn tú spyrt um hann.</string>
+    <string name="settings_whatsnew_entry_draw_on_images_detail_1">Opna eina mynd á fullum skíggja og trýst á pennaknøttin. Vel ein lit, tekna og trýst so á Legg afturat fyri at festa myndina við tekningum við boðini. Upprunamyndin verður ikki broytt.</string>
+    <string name="settings_whatsnew_entry_draw_on_images_example">Tekna ein ring um stýringina, tú vilt flyta á einari skíggjamynd, og lýs so, hvar hon skal vera.</string>
+
+    <!-- 2026-11-14-01-fullscreen-viewer -->
+    <string name="settings_whatsnew_entry_fullscreen_viewer_title">Strúk millum myndir og sjónbond</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_summary">Hygg at myndum og sjónbondum í einari setu á sama stað.</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_detail_1">Strúk til eitt sjónband og trýst so á pennaknøttin fyri at tekna á verandi rammu. Legg afturat festir rammuna við tekningum við boðini uttan at senda hana.</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_example">Steðga einari framvísing fyribils við skíggjan, sum skal broytast, tekna ein ring um smálutin og legg myndina afturat uppkastinum.</string>
+
+    <!-- 2026-11-15-01-pairing-link-name -->
+    <string name="settings_whatsnew_entry_pairing_link_name_title">Navngivnir ambætarar frá OpenCode Console</string>
+    <string name="settings_whatsnew_entry_pairing_link_name_summary">Ein ambætari, tú parar frá OpenCode Console, fær navnið við, til dømis “Anomaly Box”.</string>
+
+    <!-- 2026-11-17-01-session-media -->
+    <string name="settings_whatsnew_entry_session_media_title">Setumiðlar</string>
+    <string name="settings_whatsnew_entry_session_media_summary">Sí myndir, sjónbond, ljóð, fílur og almennar vevleinkjur í eini setu.</string>
+    <string name="settings_whatsnew_entry_session_media_detail_1">Vel Setumiðlar í ⋮-valmyndini í einari setu. Miðlar vísir myndir, sjónbond og ljóð sum flísar bólkaðar eftir mánaði ella sum lista. Fílur og Leinkjur vísa skjøl, innsettan tekst og vevleinkjur.</string>
+    <string name="settings_whatsnew_entry_session_media_example">Finn skíggjamyndina, tú sendi í morgun, uttan at rulla aftur gjøgnum alla setuna.</string>
+
+    <!-- 2026-11-18-02-drawer-call-phone -->
+    <string name="settings_whatsnew_entry_drawer_call_phone_title">Telefonikon fyri samrøður í síðukarminum</string>
+    <string name="settings_whatsnew_entry_drawer_call_phone_summary">Samrøðuknøtturin við síðuna av Innstillingar í setulistanum vísir eina telefon, eins og tann í boðteiginum.</string>
+
+    <!-- 2026-11-19-01-background-scripts -->
+    <string name="settings_whatsnew_entry_background_scripts_title">Skript í bakgrundsarbeiði</string>
+    <string name="settings_whatsnew_entry_background_scripts_summary">Skript, sum agenturin flytur í bakgrundina, verða víst saman við undirumboðum og shellum. Eitt undirumboð verður verandi á listanum, meðan myndir, sjónbond ella skript tess enn koyra. Tú kanst steðga bæði skriptum og undirumboðum av listanum.</string>
 </resources>

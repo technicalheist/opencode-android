@@ -57,6 +57,7 @@ import kotlinx.coroutines.plus
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonNull
+import kotlinx.serialization.json.JsonObject
 import okhttp3.Call
 import okhttp3.Request
 
@@ -452,7 +453,7 @@ private val HANDLED_TYPES = setOf(
     "session.retry.scheduled", "session.compaction.started",
     "session.compaction.ended", "session.compaction.failed", "session.shell.started", "session.shell.ended",
     "permission.asked", "form.created", "permission.replied", "form.replied", "form.cancelled",
-    "shell.created", "shell.exited", "shell.deleted",
+    "shell.created", "shell.exited", "shell.deleted", "experimental.job.updated",
     "project.updated",
     "model.updated", "provider.updated", "agent.updated",
 )
@@ -474,8 +475,19 @@ internal fun decodeStreamFrame(text: String): OpenCodeServerEvent? {
     if (tag != null) throw OpenCodeClientError(localized(R.string.server_error_event_stream_server_failure))
     type ?: return null
     if (type !in HANDLED_TYPES) return null
+    // A job's `info` isn't a shell's: it decodes on its own.
+    if (type == "experimental.job.updated") return decodeJobUpdated(envelope["data"])
     val data: EventPayload? = envelope["data"]?.takeUnless { it is JsonNull }?.let(::decodePayload)
     return serverEvent(type, data)
+}
+
+private fun decodeJobUpdated(element: JsonElement?): OpenCodeServerEvent? {
+    val info = (element as? JsonObject)?.get("info") ?: return null
+    return try {
+        OpenCodeServerEvent.JobUpdated(WireJson.decodeFromJsonElement(JobInfo.serializer(), info).job())
+    } catch (_: Exception) {
+        null
+    }
 }
 
 private fun decodePayload(element: JsonElement): EventPayload? =

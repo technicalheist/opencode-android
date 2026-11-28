@@ -37,6 +37,8 @@
     <string name="drawer_mark_as_unread">Đánh dấu chưa đọc</string>
     <string name="drawer_mute">Tắt thông báo</string>
     <string name="drawer_unmute">Bật thông báo</string>
+    <string name="drawer_hide">Ẩn</string>
+    <string name="drawer_unhide">Bỏ ẩn</string>
     <string name="drawer_move_up">Chuyển lên</string>
     <string name="drawer_move_down">Chuyển xuống</string>
 
@@ -77,8 +79,6 @@
     <string name="drawer_button_open_sessions_description">Mở danh sách phiên</string>
     <string name="drawer_button_attention_state">Có phiên cần bạn phản hồi</string>
     <string name="drawer_button_unread_state">Có phiên chưa đọc</string>
-    <string name="drawer_notice_open_sessions_action">Mở danh sách phiên</string>
-    <string name="drawer_notice_open_session_action">Mở phiên</string>
 
     <!-- Search pill -->
     <string name="drawer_search_description">Tìm kiếm phiên</string>
@@ -117,6 +117,7 @@
     <!-- Session row state for TalkBack -->
     <string name="drawer_row_pinned_state">Đã ghim</string>
     <string name="drawer_row_muted_state">Đã tắt thông báo</string>
+    <string name="drawer_row_hidden_state">Đã ẩn</string>
     <string name="drawer_row_needs_input_state">Cần bạn phản hồi</string>
     <string name="drawer_row_working_state">Đang làm việc</string>
     <string name="drawer_row_unread_state">Chưa đọc</string>

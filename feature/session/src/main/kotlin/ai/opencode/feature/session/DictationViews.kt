@@ -115,13 +115,13 @@ data class DictationHoldVisuals(
  */
 data class DictationHoldRetention(
     val identity: SessionFeature.State.TaskIdentity? = null,
-    val leavingHold: DictationFeature.Hold? = null,
+    val leavingHold: DictationFeature.Hold.Pose? = null,
     val settledRecording: Boolean? = false,
 ) {
-    fun leavingHold(currentIdentity: SessionFeature.State.TaskIdentity): DictationFeature.Hold? =
+    fun leavingHold(currentIdentity: SessionFeature.State.TaskIdentity): DictationFeature.Hold.Pose? =
         if (identity == currentIdentity) leavingHold else null
 
-    fun shownHold(active: DictationFeature.Hold?, currentIdentity: SessionFeature.State.TaskIdentity): DictationFeature.Hold? =
+    fun shownHold(active: DictationFeature.Hold.Pose?, currentIdentity: SessionFeature.State.TaskIdentity): DictationFeature.Hold.Pose? =
         active ?: leavingHold(currentIdentity)
 
     fun settledRecording(recording: Boolean, currentIdentity: SessionFeature.State.TaskIdentity): Boolean? {
@@ -131,7 +131,7 @@ data class DictationHoldRetention(
 
     fun syncIdentity(
         newIdentity: SessionFeature.State.TaskIdentity,
-        activeHold: DictationFeature.Hold?,
+        activeHold: DictationFeature.Hold.Pose?,
         recording: Boolean,
     ): DictationHoldRetention {
         if (identity == newIdentity) return this
@@ -139,7 +139,7 @@ data class DictationHoldRetention(
     }
 
     fun holdChanged(
-        hold: DictationFeature.Hold?,
+        hold: DictationFeature.Hold.Pose?,
         currentIdentity: SessionFeature.State.TaskIdentity,
         recording: Boolean,
     ): DictationHoldRetention {
@@ -159,7 +159,7 @@ data class DictationHoldRetention(
  * composer, and the hold layer's circle and lock target above it).
  */
 data class DictationBarPose(
-    val hold: DictationFeature.Hold,
+    val hold: DictationFeature.Hold.Pose,
     val phase: DictationFeature.Phase,
     val drag: DictationDrag,
     val reducedMotion: Boolean,

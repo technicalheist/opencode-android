@@ -8,6 +8,7 @@ import ai.opencode.core.ui.AppTheme
 import ai.opencode.core.ui.OpenCodeColors
 import ai.opencode.core.ui.OpenCodeFonts
 import ai.opencode.core.ui.OpenCodeTextStyles
+import ai.opencode.feature.media.MemoryWarningCenter
 import ai.opencode.feature.media.SyntaxHighlighter
 import ai.opencode.feature.transcript.TranscriptFontWeight
 import ai.opencode.feature.transcript.TranscriptLayoutTuning
@@ -121,6 +122,20 @@ class MarkdownBlockTests {
         assertEquals("Tail e\u0301", blocks[1].markdown)
     }
 
+    @Test(timeout = 2_000) fun coalescingManyAdjacentRunsStaysLinear() {
+        val runs = ArrayList<InlineRun>()
+        repeat(200_000) { runs.add(InlineRun("snake_")) }
+        val text = InlineText.coalesced(runs)
+        assertEquals(1, text.runs.size)
+        assertEquals(1_200_000, text.text.length)
+    }
+
+    @Test(timeout = 2_000) fun parsingManyStrayClosingBracketsStaysLinear() {
+        val source = "a ] ".repeat(150_000)
+        val text = InlineMarkdownParser.parse(source)
+        assertEquals(listOf(InlineRun(source)), text.runs)
+    }
+
     @Test fun inlineReuseMatchesFreshParsingAtEveryStreamingBoundary() {
         val cache = OpenCodeMarkdownBlock.InlineCache()
         var previous = emptyList<OpenCodeMarkdownBlock>()
@@ -172,6 +187,18 @@ class MarkdownBlockTests {
             assertEquals(fresh, cached)
             assertEquals(OpenCodeMarkdownBlock.markdown(fresh).toByteArray().toList(), OpenCodeMarkdownBlock.markdown(cached).toByteArray().toList())
         }
+    }
+
+    @Test fun inlineCacheEmptiesEveryTableOnAMemoryWarning() {
+        val center = MemoryWarningCenter()
+        val cache = OpenCodeMarkdownBlock.InlineCache(memoryWarnings = center)
+        cache.parse("Some **bold** text")
+        cache.parseCompletedSegment("A paragraph with `code`.\n\n")
+        cache.parseTableRow("| a | **b** |")
+        assertTrue(cache.allEntryCount >= 3)
+        center.post()
+        assertEquals(0, cache.allEntryCount)
+        assertEquals(0, cache.retainedSourceBytes)
     }
 
     @Test fun inlineReuseHasHardEntryAndUTF8SourceBounds() {

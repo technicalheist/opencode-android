@@ -3,11 +3,10 @@
     <!-- Agent activity glyph -->
     <string name="session_activity_running_description">กำลังทำงาน</string>
     <!-- Background work panel -->
-    <string name="session_background_work_show_label">แสดงตัวแทนย่อยและเชลล์ที่กำลังทำงาน</string>
+    <string name="session_background_work_show_label">แสดงตัวแทนย่อย สคริปต์ และเชลล์ที่กำลังทำงาน</string>
     <string name="session_background_work_collapsed_description">ย่อแล้ว</string>
-    <string name="session_background_work_subagents_title">ตัวแทนย่อย</string>
+    <string name="session_background_work_expanded_description">ขยายแล้ว</string>
     <string name="session_background_work_open_subagent_label">เปิดเซสชันของตัวแทนย่อย</string>
-    <string name="session_background_work_shells_title">เชลล์</string>
     <string name="session_background_work_show_shell_label">แสดงผลลัพธ์ของเชลล์</string>
     <!-- The session's images and videos, paged in the full-screen viewer -->
     <string name="session_visual_attached_image">รูปภาพที่แนบ</string>
@@ -70,6 +69,8 @@
     <string name="session_sheet_unknown_description">ไม่ทราบ</string>
     <string name="session_sheet_context_tokens">%1$s โทเค็น</string>
     <string name="session_sheet_cost">ค่าใช้จ่าย</string>
+    <string name="session_sheet_media">สื่อ</string>
+    <string name="session_sheet_media_value">ไฟล์และลิงก์</string>
     <string name="session_always_notify">แจ้งเตือนเสมอ</string>
     <string name="session_always_notify_message_phone">แจ้งเตือนบนมือถือนี้ทุกครั้งที่ตอบเสร็จ แม้จะไม่ได้ส่งข้อความจากเครื่องนี้</string>
     <string name="session_always_notify_message_tablet">แจ้งเตือนบนแท็บเล็ตนี้ทุกครั้งที่ตอบเสร็จ แม้จะไม่ได้ส่งข้อความจากเครื่องนี้</string>
@@ -192,22 +193,24 @@
     <plurals name="session_background_work_shell_count">
         <item quantity="other">%1$d เชลล์</item>
     </plurals>
+    <plurals name="session_background_work_script_count">
+        <item quantity="other">%1$d สคริปต์</item>
+    </plurals>
     <string name="session_background_work_summary">%1$s · %2$s</string>
+    <string name="session_background_work_elapsed_seconds">%1$d วิ.</string>
+    <string name="session_background_work_elapsed_minutes">%1$d นาที %2$s วิ.</string>
+    <string name="session_background_work_elapsed_hours">%1$d ชม. %2$s นาที</string>
+    <string name="session_background_work_stop_script_label">หยุดสคริปต์</string>
+    <string name="session_background_work_stop_subagent_label">หยุดตัวแทนย่อย</string>
+    <string name="session_background_work_stop_shell_label">หยุดเชลล์</string>
+    <string name="session_background_work_stop_script_failed">หยุดสคริปต์ไม่ได้</string>
+    <string name="session_background_work_stop_subagent_failed">หยุดตัวแทนย่อยไม่ได้</string>
 
     <!-- Composer buttons -->
     <string name="session_send_message_description">ส่งข้อความ</string>
     <string name="session_stop_description">หยุด</string>
     <string name="session_start_voice_call_description">เริ่มโทรด้วยเสียง</string>
     <string name="session_model_level_default">ค่าเริ่มต้น</string>
-
-    <!-- In-app notice -->
-    <plurals name="session_notice_session_count">
-        <item quantity="other">%1$d เซสชัน</item>
-    </plurals>
-    <plurals name="session_notice_needs_input_count">
-        <item quantity="other">%1$d เซสชันต้องการคำตอบจากคุณ</item>
-    </plurals>
-    <string name="session_notice_announcement">%1$s, %2$s</string>
 
     <!-- Server connection pill -->
     <string name="session_server_reconnecting">กำลังเชื่อมต่อกับ %1$s ใหม่…</string>

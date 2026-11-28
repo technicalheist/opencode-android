@@ -901,4 +901,38 @@
     <!-- 2026-11-08-02-default-model -->
     <string name="settings_whatsnew_entry_default_model_title">Votre modèle par défaut pour les nouvelles sessions</string>
     <string name="settings_whatsnew_entry_default_model_summary">Les nouvelles sessions utilisent le modèle défini par défaut dans OpenCode, avec le dernier niveau de réflexion choisi pour ce modèle, plutôt que le modèle de la session précédente.</string>
+
+    <!-- 2026-11-11-01-streamed-reply-prefix -->
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_title">Ouvrir une réponse en cours</string>
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_summary">Quand vous ouvrez une session pendant une réponse, vous pouvez lire ce qui est déjà arrivé sans attendre la suite.</string>
+
+    <!-- 2026-11-13-01-draw-on-images -->
+    <string name="settings_whatsnew_entry_draw_on_images_title">Dessiner sur les images</string>
+    <string name="settings_whatsnew_entry_draw_on_images_summary">Signalez un détail avant de poser votre question.</string>
+    <string name="settings_whatsnew_entry_draw_on_images_detail_1">Ouvrez une image en plein écran et appuyez sur le bouton crayon. Choisissez une couleur, dessinez, puis appuyez sur Ajouter pour joindre l’image annotée à votre message. L’original reste inchangé.</string>
+    <string name="settings_whatsnew_entry_draw_on_images_example">Dans une capture d’écran, entourez l’élément à déplacer, puis indiquez où le placer.</string>
+
+    <!-- 2026-11-14-01-fullscreen-viewer -->
+    <string name="settings_whatsnew_entry_fullscreen_viewer_title">Balayer entre photos et vidéos</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_summary">Parcourez les images et vidéos d’une session au même endroit.</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_detail_1">Balayez jusqu’à une vidéo, puis appuyez sur le bouton crayon pour annoter l’image actuelle. Ajouter joint l’image annotée sans l’envoyer.</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_example">Mettez une démo en pause sur l’écran à modifier, entourez le détail et ajoutez l’image à votre brouillon.</string>
+
+    <!-- 2026-11-15-01-pairing-link-name -->
+    <string name="settings_whatsnew_entry_pairing_link_name_title">Serveurs nommés depuis OpenCode Console</string>
+    <string name="settings_whatsnew_entry_pairing_link_name_summary">Un serveur couplé depuis OpenCode Console conserve son nom, par exemple « Anomaly Box ».</string>
+
+    <!-- 2026-11-17-01-session-media -->
+    <string name="settings_whatsnew_entry_session_media_title">Médias de la session</string>
+    <string name="settings_whatsnew_entry_session_media_summary">Parcourez les images, vidéos, fichiers audio, fichiers et liens web publics d’une session.</string>
+    <string name="settings_whatsnew_entry_session_media_detail_1">Choisissez Médias de la session dans le menu ⋮ d’une session. Médias affiche ses images, vidéos et fichiers audio en tuiles regroupées par mois ou en liste. Fichiers et Liens répertorient ses documents, textes collés et liens Web.</string>
+    <string name="settings_whatsnew_entry_session_media_example">Retrouvez la capture d’écran envoyée ce matin sans remonter toute la session.</string>
+
+    <!-- 2026-11-18-02-drawer-call-phone -->
+    <string name="settings_whatsnew_entry_drawer_call_phone_title">Icône de téléphone dans le volet latéral</string>
+    <string name="settings_whatsnew_entry_drawer_call_phone_summary">Le bouton d’appel à côté de Paramètres dans la liste des sessions affiche un téléphone, comme celui de la zone de message.</string>
+
+    <!-- 2026-11-19-01-background-scripts -->
+    <string name="settings_whatsnew_entry_background_scripts_title">Scripts en arrière-plan</string>
+    <string name="settings_whatsnew_entry_background_scripts_summary">Les scripts que l’agent passe en arrière-plan s’affichent avec les sous-agents et les shells. Un sous-agent reste dans la liste tant que ses images, vidéos ou scripts sont en cours. Vous pouvez arrêter un script ou un sous-agent depuis la liste.</string>
 </resources>

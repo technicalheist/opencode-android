@@ -1,8 +1,13 @@
 package ai.opencode.feature.session
 
+import ai.opencode.feature.composer.DictationClient
 import ai.opencode.feature.composer.DictationDrag
 import ai.opencode.feature.composer.DictationFeature
+import ai.opencode.feature.session.SessionFeature.Action
 import ai.opencode.feature.session.SessionFeature.State.TaskIdentity
+import ai.opencode.feature.session.SessionTestSupport.receive
+import ai.opencode.feature.session.SessionTestSupport.sessionTest
+import kotlinx.coroutines.channels.Channel
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull
@@ -21,7 +26,7 @@ class DictationHoldTrackerTests {
             // Ended (the bar left), or a new press began without an end between.
             val next = if (start) visuals.begin() else visuals.end()
             val pose = DictationBarPose(
-                hold = DictationFeature.Hold(text = ""),
+                hold = DictationFeature.Hold.Pose(),
                 phase = DictationFeature.Phase.Preparing,
                 drag = DictationDrag(),
                 reducedMotion = false,
@@ -40,7 +45,7 @@ class DictationHoldTrackerTests {
     @Test fun dictationHoldRetentionDropsLeavingHoldAcrossSessionAndDraftSwitches() {
         val firstIdentity = TaskIdentity(serverID = "srv", visit = 1, sessionID = "ses_1")
         val secondIdentity = TaskIdentity(serverID = "srv", visit = 2, sessionID = "ses_2")
-        val hold = DictationFeature.Hold(text = "Dictated on session 1", isLocked = true)
+        val hold = DictationFeature.Hold.Pose(isLocked = true)
 
         var retention = DictationHoldRetention()
         assertNull(retention.identity)
@@ -68,10 +73,44 @@ class DictationHoldTrackerTests {
         assertEquals(false, retention.settledRecording)
 
         // When a recording is carried onto session 2, its adopted hold is shown and retained.
-        val carriedHold = DictationFeature.Hold(text = "Carried to session 2", isLocked = true)
+        val carriedHold = DictationFeature.Hold.Pose(isLocked = true, armed = DictationHoldArm.Lock)
         val thirdIdentity = TaskIdentity(serverID = "srv", visit = 3, sessionID = "ses_3")
         retention = retention.syncIdentity(thirdIdentity, activeHold = carriedHold, recording = true)
         assertEquals(carriedHold, retention.shownHold(active = carriedHold, currentIdentity = thirdIdentity))
         assertEquals(true, retention.settledRecording(recording = true, currentIdentity = thirdIdentity))
     }
+
+    /**
+     * Speaking while the mic is held or locked: each heard word changes the words the hold keeps
+     * for Send, which nothing draws, so nothing the session screen or the composer observes changes.
+     */
+    @Test fun heldDictationWordsRedrawNeitherSessionNorComposer() = sessionTest { h ->
+        val transcripts = Channel<String>(Channel.UNLIMITED)
+        val store = h.store(h.makeState()) {
+            this[DictationClient] = DictationClient(start = { transcripts }, stop = {}, cancel = { transcripts.close() })
+        }
+        store.exhaustive = false
+        store.send(Action.micPressBegan)
+        store.receive({ it == Action.dictationReady }, "dictationReady")
+        store.send(Action.micPressLocked)
+
+        val locked = observed(store.state)
+        var words = ""
+        for (word in 1..30) {
+            words += " word$word"
+            transcripts.send(words)
+            store.receive({ (it as? Action.Dictation)?.action is DictationFeature.Action.Updated }, "dictationUpdated")
+            assertEquals(locked, observed(store.state))
+        }
+        assertEquals("The hold kept every word for Send", words, store.state.dictationHold?.text)
+        store.send(Action.micPressCancelled)
+        h.skipInFlightEffects()
+    }
+
+    private fun observed(state: SessionFeature.State): List<Any?> = listOf(
+        ComposerSnapshot.of(state),
+        SessionHeaderModel.from(state),
+        state.draft,
+        state.autocomplete,
+    )
 }

@@ -1,5 +1,6 @@
 package ai.opencode.devtools.perf
 
+import ai.opencode.core.ui.OpenCodeFonts
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
@@ -33,7 +34,6 @@ import androidx.compose.ui.semantics.SemanticsActions
 import androidx.compose.ui.semantics.SemanticsNode
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 
 private data class BoundsBox(val rect: Rect, val clickable: Boolean, val tooSmall: Boolean)
@@ -92,7 +92,7 @@ fun LayoutBoundsOverlay(modifier: Modifier = Modifier) {
                 Text(
                     "${boxes.size} nodes · ${boxes.count { it.clickable }} targets · $small under 48 dp",
                     Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
-                    style = MaterialTheme.typography.labelSmall.copy(fontFamily = FontFamily.Monospace),
+                    style = MaterialTheme.typography.labelSmall.copy(fontFamily = OpenCodeFonts.monospace),
                 )
             }
         }

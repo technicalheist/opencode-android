@@ -2,11 +2,9 @@ package ai.opencode.feature.session
 
 import ai.opencode.core.strings.localized
 import ai.opencode.core.R as CoreR
-import ai.opencode.core.motion.transitionBlur
 
 import ai.opencode.core.motion.Motion
 import ai.opencode.core.motion.MotionPhase
-import ai.opencode.core.motion.MotionSpring
 import ai.opencode.core.motion.rememberReduceMotion
 import ai.opencode.core.sharing.SharedKeys
 import ai.opencode.core.sharing.shared
@@ -37,9 +35,7 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.animation.animateContentSize
-import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.snap
-import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.clickable
@@ -75,8 +71,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.composed
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.boundsInWindow
@@ -209,8 +203,6 @@ internal fun SessionHeaderControls(
     val showsSessionMenu = onCatchUpOpen == null && model.sessionID != null
     // A draft keeps the session menu's place, so the menu fading in as its session arrives moves nothing.
     val holdsSessionMenuSlot = onCatchUpOpen == null && model.isDraft
-    // While the drawer button's label shows, the title steps aside under it.
-    val noticeCoversTitle = onBack == null && listContext.notice != null
 
     // A Material top app bar: start-aligned title, plain icon buttons, 64 dp tall.
     Row(
@@ -230,9 +222,7 @@ internal fun SessionHeaderControls(
             onCatchUpOpen == null -> navigationIcon()
         }
         Box(
-            Modifier
-                .weight(1f)
-                .steppingAside(noticeCoversTitle, reducedMotion),
+            Modifier.weight(1f),
             contentAlignment = Alignment.CenterStart,
         ) {
             HeaderTitle(store, model, listContext, onCatchUpOpen, reducedMotion)
@@ -258,22 +248,6 @@ private const val CATCH_UP_COMPOSER_INSET = 12f
 
 /** Material 3's small top app bar height. */
 private val TOP_APP_BAR_HEIGHT = 64.dp
-
-/** The drawer button's label grows over the title: it fades and blurs out of the way, and back once it has folded past. */
-private fun Modifier.steppingAside(aside: Boolean, reducedMotion: Boolean): Modifier = composed {
-    val spec = when {
-        reducedMotion -> tween<Float>(250, easing = Motion.EaseInOut)
-        aside -> tween(180, easing = Motion.EaseOut)
-        else -> asideSmooth.animation<Float>(reduceMotion = false, delaySeconds = 0.12)
-    }
-    val progress by animateFloatAsState(if (aside) 1f else 0f, spec, label = "steppingAside")
-    this
-        .alpha(1 - progress)
-        .transitionBlur(if (reducedMotion) 0.dp else (6 * progress).dp)
-        .then(if (aside) Modifier.clearAndSetSemantics {} else Modifier)
-}
-
-private val asideSmooth = MotionSpring(0.35, 0.0)
 
 /** A pushed subagent's way back to its parent, where the drawer button is on the root session: the same circle. */
 @Composable

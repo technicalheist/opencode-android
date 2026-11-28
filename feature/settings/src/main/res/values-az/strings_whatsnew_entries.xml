@@ -901,4 +901,38 @@
     <!-- 2026-11-08-02-default-model -->
     <string name="settings_whatsnew_entry_default_model_title">Yeni sessiyalar standart modelinizdən istifadə edir</string>
     <string name="settings_whatsnew_entry_default_model_summary">Yeni sessiyalar əvvəlki sessiyanın modeli ilə deyil, OpenCode-da standart seçdiyiniz modellə və onun üçün son seçdiyiniz düşünmə səviyyəsində başlayır.</string>
+
+    <!-- 2026-11-11-01-streamed-reply-prefix -->
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_title">Cavab yazılarkən onu açın</string>
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_summary">Cavab yazılarkən sessiyanı açsanız, cavab davam etdikcə artıq gələn hissəni oxuya bilərsiniz.</string>
+
+    <!-- 2026-11-13-01-draw-on-images -->
+    <string name="settings_whatsnew_entry_draw_on_images_title">Şəkillərin üzərində çəkin</string>
+    <string name="settings_whatsnew_entry_draw_on_images_summary">Bir detalı soruşmazdan əvvəl onu işarələyin.</string>
+    <string name="settings_whatsnew_entry_draw_on_images_detail_1">Şəkli tam ekranda açın və qələm düyməsinə toxunun. Rəng seçin, çəkin, sonra işarələnmiş şəkli mesaja əlavə etmək üçün Əlavə et düyməsinə toxunun. Orijinal dəyişməz qalır.</string>
+    <string name="settings_whatsnew_entry_draw_on_images_example">Ekran görüntüsündə yerini dəyişmək istədiyiniz idarəetmə elementini dairəyə alın, sonra hara köçürülməli olduğunu yazın.</string>
+
+    <!-- 2026-11-14-01-fullscreen-viewer -->
+    <string name="settings_whatsnew_entry_fullscreen_viewer_title">Sürüşdürərək şəkil və videolara keçin</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_summary">Sessiyanın şəkil və videolarına bir yerdə baxın.</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_detail_1">Sürüşdürərək videoya keçin, sonra cari kadrı işarələmək üçün qələm düyməsinə toxunun. Əlavə et düyməsi işarələnmiş kadrı göndərmədən mesaja əlavə edir.</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_example">Demo videosunu dəyişiklik lazım olan ekranda dayandırın, detalı dairəyə alın və qaralamanıza əlavə edin.</string>
+
+    <!-- 2026-11-15-01-pairing-link-name -->
+    <string name="settings_whatsnew_entry_pairing_link_name_title">OpenCode Console-dan adlı serverlər</string>
+    <string name="settings_whatsnew_entry_pairing_link_name_summary">OpenCode Console vasitəsilə cütləşdirdiyiniz server öz adı ilə, məsələn, “Anomaly Box” olaraq əlavə olunur.</string>
+
+    <!-- 2026-11-17-01-session-media -->
+    <string name="settings_whatsnew_entry_session_media_title">Sessiya mediası</string>
+    <string name="settings_whatsnew_entry_session_media_summary">Sessiyanın şəkillərinə, videolarına, səs yazılarına, fayllarına və açıq veb linklərinə baxın.</string>
+    <string name="settings_whatsnew_entry_session_media_detail_1">Sessiyanın ⋮ menyusundan Sessiya mediası seçin. Media bölməsi şəkil, video və səsləri aylar üzrə qruplaşdırılmış xanalar və ya siyahı şəklində göstərir. Fayllar və Linklər bölmələrində isə sənədlər, yapışdırılmış mətnlər və veb linklər sıralanır.</string>
+    <string name="settings_whatsnew_entry_session_media_example">Bütün sessiyanı geriyə sürüşdürmədən bu səhər göndərdiyiniz ekran görüntüsünü tapın.</string>
+
+    <!-- 2026-11-18-02-drawer-call-phone -->
+    <string name="settings_whatsnew_entry_drawer_call_phone_title">Yan paneldə zəng üçün telefon ikonu</string>
+    <string name="settings_whatsnew_entry_drawer_call_phone_summary">Sessiya siyahısında Tənzimləmələr yanındakı zəng düyməsi mesaj qutusundakı kimi telefon ikonu göstərir.</string>
+
+    <!-- 2026-11-19-01-background-scripts -->
+    <string name="settings_whatsnew_entry_background_scripts_title">Arxa plan işlərində skriptlər</string>
+    <string name="settings_whatsnew_entry_background_scripts_summary">Agentin arxa plana keçirdiyi skriptlər alt-agentlər və shell-lərin yanında görünür. Alt-agentin şəkil, video və ya skript işləri davam etdikcə o da siyahıda qalır. Hər ikisini siyahıdan dayandıra bilərsiniz.</string>
 </resources>

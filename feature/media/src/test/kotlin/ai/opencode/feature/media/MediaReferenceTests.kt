@@ -153,6 +153,48 @@ class MediaReferenceTests {
     }
 
     @Test
+    fun theDiskTierTrimsLeastRecentlyUsedBlobsPastItsBudget() = runTest {
+        val tempDir = tempDir()
+        try {
+            val server = OpenCodeServer(url = "https://server-one.invalid", username = "user", password = "secret")
+            val hashes = listOf("c3", "d4", "e5", "f6").map { it.repeat(32) }
+            var fetches = 0
+            val loader = MediaReferenceLoader(
+                directory = tempDir,
+                fetch = MediaReferenceLoader.Fetch { _, _ ->
+                    synchronized(this@MediaReferenceTests) { fetches += 1 }
+                    MediaReferenceFetch.Response(200, ByteArray(1024))
+                },
+                memoryWarnings = MemoryWarningCenter(),
+                maxDiskBytes = 3 * 1024,
+            )
+            fun onDisk(hash: String) = File(tempDir, "$hash.blob").isFile
+
+            for (hash in hashes.take(3)) loader.load(server, hash)
+            assertTrue("at the budget, nothing goes", hashes.take(3).all(::onDisk))
+            val now = System.currentTimeMillis()
+            for ((index, hash) in hashes.take(3).withIndex()) {
+                File(tempDir, "$hash.blob").setLastModified(now - 60_000 + index * 10_000)
+            }
+            val inFlight = File(tempDir, "${"a1".repeat(32)}.123.partial")
+            inFlight.writeBytes(ByteArray(1024))
+            inFlight.setLastModified(now - 120_000)
+            // The oldest is read again from disk, which makes it the newest.
+            loader.purgeMemory()
+            loader.load(server, hashes[0])
+            assertEquals(3, fetches)
+
+            loader.load(server, hashes[3])
+            assertTrue(onDisk(hashes[0]) && onDisk(hashes[3]))
+            assertTrue(!onDisk(hashes[1]) && !onDisk(hashes[2]))
+            assertTrue("another write in flight stays", inFlight.isFile)
+            assertEquals(2L * 1024, MediaReferenceLoader.trim(tempDir, Long.MAX_VALUE, 0, keeping = ""))
+        } finally {
+            tempDir.deleteRecursively()
+        }
+    }
+
+    @Test
     fun retryStateClearsTransientFailureAndImageViewerRetriesFailedPage() = runTest {
         var retryState = MediaAttachmentRetryState(failure = MediaAttachmentFailure.Failed, attempt = 0)
         assertTrue(retryState.isTransientFailure)
@@ -446,6 +488,79 @@ class MediaReferenceTests {
         }
 
     @Test
+    fun aDownloadedImageOrDocumentOpensFromItsCopy() {
+        val offline = ai.opencode.server.testing.WireFixture.Reply.Failure(ai.opencode.server.UrlErrorCode.NOT_CONNECTED_TO_INTERNET)
+        assertEquals("cached notes", text(openCopy("docs/notes.txt", offline).first))
+        // Unchanged: one conditional GET, no range probe, and the copy stays.
+        val (kept, requests) = openCopy("docs/notes.txt", ai.opencode.server.testing.WireFixture.Reply.status(304))
+        assertEquals("cached notes", text(kept))
+        assertEquals(1, requests.size)
+        assertEquals("\"v1\"", requests[0].header("If-None-Match"))
+        assertNull(requests[0].header("Range"))
+        val changed = openCopy("docs/notes.txt", ai.opencode.server.testing.WireFixture.Reply.Json(200, "new notes", mapOf("ETag" to "\"v2\""))) { text(it) == "new notes" }.first
+        assertEquals("new notes", text(changed))
+        val gone = openCopy("docs/notes.txt", ai.opencode.server.testing.WireFixture.Reply.status(404)) { it is AgentFileViewerModel.Phase.Failed }.first
+        assertEquals(AgentFileError.NotFound, (gone as AgentFileViewerModel.Phase.Failed).error)
+    }
+
+    @Test
+    fun streamedMediaAndMissingCopiesOpenAsBefore() {
+        val offline = ai.opencode.server.testing.WireFixture.Reply.Failure(ai.opencode.server.UrlErrorCode.NOT_CONNECTED_TO_INTERNET)
+        val failed = { phase: AgentFileViewerModel.Phase -> phase is AgentFileViewerModel.Phase.Failed }
+        assertTrue(failed(openCopy("recordings/clip.mp4", offline, settled = failed).first))
+        assertTrue(failed(openCopy("docs/never.txt", offline, stored = false, settled = failed).first))
+    }
+
+    @Test
+    fun aCopyLeftBeforeTheServerAnsweredIsCheckedAgainOnReturn() {
+        // Following a link stops the page mid-check; coming back asks again rather than trusting the copy.
+        val changed = openCopy("docs/notes.txt", ai.opencode.server.testing.WireFixture.Reply.Json(200, "new notes", mapOf("ETag" to "\"v2\"")), meanwhile = { it.stop(); it.open() }) { text(it) == "new notes" }.first
+        assertEquals("new notes", text(changed))
+    }
+
+    private fun text(phase: AgentFileViewerModel.Phase): String? =
+        ((phase as? AgentFileViewerModel.Phase.Ready)?.content as? AgentFileViewerModel.Content.Text)?.document?.text
+
+    /**
+     * Opens [path] with a downloaded copy (unless not [stored]) while the server's [reply] is held,
+     * runs [meanwhile], then releases the reply and waits until the page is [settled].
+     */
+    private fun openCopy(
+        path: String,
+        reply: ai.opencode.server.testing.WireFixture.Reply,
+        stored: Boolean = true,
+        meanwhile: (AgentFileViewerModel) -> Unit = {},
+        settled: (AgentFileViewerModel.Phase) -> Boolean = { true },
+    ): Pair<AgentFileViewerModel.Phase, List<ai.opencode.server.testing.WireFixture.Request>> {
+        val held = java.util.concurrent.CountDownLatch(1)
+        return ai.opencode.server.testing.WireFixture { held.await(5, java.util.concurrent.TimeUnit.SECONDS); reply }.use { fixture ->
+            val server = fixture.server
+            val reference = ai.opencode.server.model.AgentFileReference(path = path)
+            val context = org.robolectric.RuntimeEnvironment.getApplication()
+            val copy = AgentFileLoader.cacheURL(server, AgentFileLoader.original(server, reference, "/fixture")!!.cacheKey, reference.name, context.cacheDir)
+            if (stored) AgentFileLoader.store(copy, "cached notes".toByteArray(), "\"v1\"", null)
+            val model = AgentFileViewerModel(reference, server, "/fixture", context = context)
+            val looper = org.robolectric.Shadows.shadowOf(android.os.Looper.getMainLooper())
+            fun waitFor(condition: () -> Boolean) {
+                var waited = 0
+                while (!condition() && ++waited < 250) { looper.idle(); Thread.sleep(20) }
+            }
+            model.open()
+            waitFor { fixture.requests.isNotEmpty() }
+            // The copy is on screen before the server answers.
+            if (stored && reference.kind == ai.opencode.server.model.AgentFileReference.Kind.Text) assertEquals("cached notes", text(model.phase))
+            meanwhile(model)
+            held.countDown()
+            waitFor { settled(model.phase) }
+            repeat(10) { looper.idle(); Thread.sleep(20) }
+            val phase = model.phase
+            model.release()
+            copy.parentFile?.deleteRecursively()
+            phase to fixture.requests
+        }
+    }
+
+    @Test
     fun selectingAPageDecodesItsNeighboursFromTheirDiskCopiesAhead(): Unit = kotlinx.coroutines.runBlocking {
         ai.opencode.server.testing.WireFixture { ai.opencode.server.testing.WireFixture.Reply.Failure(ai.opencode.server.UrlErrorCode.NOT_CONNECTED_TO_INTERNET) }.use { fixture ->
             val server = fixture.server
@@ -531,6 +646,91 @@ class MediaReferenceTests {
         assertTrue(store.state.selectedPage?.image === thumbnail)
         store.send(FullscreenViewerFeature.Action.Task)
         store.finish()
+    }
+
+    private fun png(width: Int, height: Int): ByteArray = pngBytes(Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888).apply { eraseColor(Color.BLUE) })
+
+    @Test
+    fun aFiveKThumbnailKeepsItsPointSizeDecodesOnceAndFitsTheCache() {
+        val data = png(5120, 2880)
+        withDependencies({ this[DecodedImageCache] = DecodedImageCache() }) {
+            val first = requireNotNull(CachedImage.thumbnail("shot", data))
+            assertEquals(1600 to 900, first.width to first.height)
+            assertTrue(first.byteCount <= 6 * 1024 * 1024)
+            // A second row showing it is a cache hit, not a second decode.
+            assertTrue(CachedImage.thumbnail("shot", data) === first)
+            assertTrue(CachedImage.cachedThumbnail("shot") === first)
+            assertNull(CachedImage.cached("shot"))
+            // A full-size original the viewer decoded never stands in for a tile's thumbnail.
+            CachedImage.decoded("viewer", data)
+            assertNull(CachedImage.cachedThumbnail("viewer"))
+        }
+    }
+
+    @Test
+    fun aTallThumbnailKeepsItsShortEdgeForASquareCrop() {
+        withDependencies({ this[DecodedImageCache] = DecodedImageCache() }) {
+            val tall = requireNotNull(CachedImage.thumbnail("tall", png(1000, 6000)))
+            assertEquals(800 to 4800, tall.width to tall.height)
+            // Small images keep every pixel, as their original.
+            val small = requireNotNull(CachedImage.thumbnail("small", png(400, 300)))
+            assertEquals(400 to 300, small.width to small.height)
+            assertTrue(CachedImage.cached("small") === small)
+        }
+    }
+
+    @Test
+    fun theViewerOpensOnTheThumbnailAndTakesTheOriginalOffTheMainActor() = runTest {
+        val data = png(3200, 1800)
+        val cache = DecodedImageCache()
+        val attachment = OpenCodeImageAttachment(id = "img", data = data, mime = "image/png")
+        val preview = requireNotNull(withDependencies({ this[DecodedImageCache] = cache }) {
+            // The row shows the thumbnail first, as a tap would find it.
+            MediaReferenceResolver.thumbnail(attachment)
+            TranscriptImagePreview.fromAttachments(listOf(attachment), selectedID = "img", label = "Attached image")
+        })
+        val shown = requireNotNull(preview.pages[0].image)
+        assertEquals(1600 to 900, shown.width to shown.height)
+        assertEquals(AgentImageSize(3200.0, 1800.0), preview.pages[0].placeholderSize)
+        assertTrue(preview.pages[0].original === data)
+        assertTrue(preview.pages[0].originalPending)
+
+        val store = TestStore(FullscreenViewerFeature.State(preview), FullscreenViewerFeature(), this) {
+            this[DecodedImageCache] = cache
+        }
+        store.send(FullscreenViewerFeature.Action.Task)
+        var original: Bitmap? = null
+        store.receive({ action -> (action as? FullscreenViewerFeature.Action.SourceLoaded)?.image?.also { original = it } != null }) {
+            it.withPage(0) { page -> page.copy(image = original, hasDecodedOriginal = true, placeholderSize = null) }
+        }
+        val decoded = requireNotNull(original)
+        assertEquals(3200 to 1800, decoded.width to decoded.height)
+        store.finish()
+    }
+
+    @Test
+    fun saveAndShareExportTheOriginalNeverTheThumbnail() = runTest {
+        val thumbnail = Bitmap.createBitmap(2, 1, Bitmap.Config.ARGB_8888)
+        val pending = TranscriptImagePreview.Page("photo", thumbnail, "Photo", original = png(40, 20))
+        val broken = TranscriptImagePreview.Page("broken", thumbnail, "Broken", original = byteArrayOf(0), originalFailed = true)
+        val saved = Collections.synchronizedList(mutableListOf<Bitmap>())
+        val shared = Collections.synchronizedList(mutableListOf<Bitmap>())
+        val store = TestStore(FullscreenViewerFeature.State(TranscriptImagePreview(pending.id, listOf(pending, broken))), FullscreenViewerFeature(), this) {
+            this[PhotoSaveClient] = PhotoSaveClient(saveImage = { saved += it })
+            this[ImageShareClient] = ImageShareClient(share = { image, _ -> shared += image })
+        }
+        store.send(FullscreenViewerFeature.Action.SaveTapped) { it.copy(isSaving = true) }
+        store.receive(FullscreenViewerFeature.Action.SaveFinished(true)) { it.copy(isSaving = false) }
+        store.send(FullscreenViewerFeature.Action.ShareTapped())
+        assertTrue(ai.opencode.core.testing.eventually(wallClock = true) { shared.size == 1 })
+        assertEquals(listOf(40 to 20, 40 to 20), (saved + shared).map { it.width to it.height })
+
+        store.send(FullscreenViewerFeature.Action.PageSelected("broken")) { it.copy(selectedID = "broken") }
+        store.send(FullscreenViewerFeature.Action.SaveTapped) { it.copy(isSaving = true) }
+        store.receive(FullscreenViewerFeature.Action.SaveFinished(false)) { it.copy(isSaving = false) }
+        store.send(FullscreenViewerFeature.Action.ShareTapped())
+        store.finish()
+        assertEquals(2, saved.size + shared.size)
     }
 
     private fun FullscreenViewerFeature.State.withPage(

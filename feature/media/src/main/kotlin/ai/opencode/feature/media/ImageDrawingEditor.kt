@@ -88,7 +88,7 @@ typealias ImageDrawingAdd = (OpenCodeOutgoingAttachment) -> String?
 
 /**
  * Draw on Image (iOS `ImageDrawingFeature`): marks up a copy of one image and hands it to the
- * prompt that opened the viewer ([add]). It never sends, and the original stays as it was.
+ * prompt that opened the viewer ([add]). It never sends; the prompt decides whether the copy joins the original or replaces it.
  *
  * iOS dismisses itself through `@Dependency(\.dismiss)`; here it asks its presenter with
  * [Action.DelegateAction.Dismiss], and dropping the editor cancels its export.

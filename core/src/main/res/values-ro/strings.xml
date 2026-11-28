@@ -29,11 +29,6 @@
     <string name="core_experiment_group_transcript_title">Transcriere</string>
     <string name="core_experiment_group_drawer_title">Panou lateral</string>
 
-    <!-- In-app notice mode -->
-    <string name="core_in_app_notice_mode_off">Dezactivat</string>
-    <string name="core_in_app_notice_mode_needs_input">Doar când e nevoie de tine</string>
-    <string name="core_in_app_notice_mode_all">Toate actualizările</string>
-
     <!-- Themes and appearance -->
     <string name="core_theme_system_title">Sistem</string>
     <string name="core_appearance_color_scheme_system_title">Sistem</string>

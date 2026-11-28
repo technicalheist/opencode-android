@@ -901,4 +901,38 @@
     <!-- 2026-11-08-02-default-model -->
     <string name="settings_whatsnew_entry_default_model_title">Νέες συνεδρίες με το προεπιλεγμένο μοντέλο σας</string>
     <string name="settings_whatsnew_entry_default_model_summary">Οι νέες συνεδρίες ξεκινούν με το προεπιλεγμένο μοντέλο σας στο OpenCode και το τελευταίο επίπεδο συλλογιστικής που επιλέξατε γι’ αυτό, αντί για το μοντέλο της προηγούμενης συνεδρίας.</string>
+
+    <!-- 2026-11-11-01-streamed-reply-prefix -->
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_title">Άνοιγμα απάντησης ενώ γράφεται</string>
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_summary">Όταν ανοίγετε μια συνεδρία ενώ έρχεται μια απάντηση, μπορείτε να διαβάσετε όσα έχουν ήδη φτάσει καθώς η απάντηση συνεχίζεται.</string>
+
+    <!-- 2026-11-13-01-draw-on-images -->
+    <string name="settings_whatsnew_entry_draw_on_images_title">Σχεδίαση πάνω σε εικόνες</string>
+    <string name="settings_whatsnew_entry_draw_on_images_summary">Επισημάνετε μια λεπτομέρεια πριν ρωτήσετε γι’ αυτή.</string>
+    <string name="settings_whatsnew_entry_draw_on_images_detail_1">Ανοίξτε μια εικόνα σε πλήρη οθόνη και πατήστε το κουμπί με το μολύβι. Επιλέξτε χρώμα, σχεδιάστε και πατήστε Προσθήκη για να επισυνάψετε τη σχολιασμένη εικόνα στο μήνυμά σας. Η αρχική εικόνα παραμένει ανέπαφη.</string>
+    <string name="settings_whatsnew_entry_draw_on_images_example">Κυκλώστε σε ένα στιγμιότυπο οθόνης το στοιχείο που θέλετε να μετακινηθεί και περιγράψτε πού θέλετε να πάει.</string>
+
+    <!-- 2026-11-14-01-fullscreen-viewer -->
+    <string name="settings_whatsnew_entry_fullscreen_viewer_title">Σάρωση μεταξύ φωτογραφιών και βίντεο</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_summary">Περιηγηθείτε στις εικόνες και τα βίντεο μιας συνεδρίας μαζί.</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_detail_1">Σύρετε μέχρι ένα βίντεο και πατήστε το κουμπί με το μολύβι για να σχεδιάσετε πάνω στο τρέχον καρέ. Η Προσθήκη επισυνάπτει το σχολιασμένο καρέ χωρίς να το στείλει.</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_example">Κάντε παύση σε ένα βίντεο επίδειξης στην οθόνη που χρειάζεται αλλαγή, κυκλώστε τη λεπτομέρεια και προσθέστε το καρέ στο πρόχειρό σας.</string>
+
+    <!-- 2026-11-15-01-pairing-link-name -->
+    <string name="settings_whatsnew_entry_pairing_link_name_title">Διακομιστές με όνομα από το OpenCode Console</string>
+    <string name="settings_whatsnew_entry_pairing_link_name_summary">Ένας διακομιστής που ζευγοποιείτε από το OpenCode Console προστίθεται με το όνομά του, όπως «Anomaly Box».</string>
+
+    <!-- 2026-11-17-01-session-media -->
+    <string name="settings_whatsnew_entry_session_media_title">Πολυμέσα συνεδρίας</string>
+    <string name="settings_whatsnew_entry_session_media_summary">Δείτε εικόνες, βίντεο, ήχο, αρχεία και δημόσιους συνδέσμους ιστού μιας συνεδρίας.</string>
+    <string name="settings_whatsnew_entry_session_media_detail_1">Επιλέξτε Πολυμέσα συνεδρίας από το μενού ⋮ μιας συνεδρίας. Τα Πολυμέσα εμφανίζουν εικόνες, βίντεο και ήχο ως πλακίδια ανά μήνα ή ως λίστα. Τα Αρχεία και οι Σύνδεσμοι εμφανίζουν έγγραφα, επικολλήσεις και συνδέσμους ιστού.</string>
+    <string name="settings_whatsnew_entry_session_media_example">Βρείτε το στιγμιότυπο οθόνης που στείλατε το πρωί χωρίς να κάνετε κύλιση σε όλη τη συνεδρία.</string>
+
+    <!-- 2026-11-18-02-drawer-call-phone -->
+    <string name="settings_whatsnew_entry_drawer_call_phone_title">Εικονίδιο τηλεφώνου στο πλαϊνό μενού</string>
+    <string name="settings_whatsnew_entry_drawer_call_phone_summary">Το κουμπί κλήσης δίπλα στις Ρυθμίσεις στη λίστα συνεδριών δείχνει ένα τηλέφωνο, όπως αυτό στο πλαίσιο μηνύματος.</string>
+
+    <!-- 2026-11-19-01-background-scripts -->
+    <string name="settings_whatsnew_entry_background_scripts_title">Σενάρια στο παρασκήνιο</string>
+    <string name="settings_whatsnew_entry_background_scripts_summary">Τα σενάρια που μεταφέρει ο πράκτορας στο παρασκήνιο εμφανίζονται δίπλα στους υποπράκτορες και τα κελύφη. Ένας υποπράκτορας παραμένει στη λίστα όσο εκτελούνται ακόμη εργασίες εικόνας, βίντεο ή σενάριά του. Μπορείτε να διακόψετε σενάρια ή υποπράκτορες από τη λίστα.</string>
 </resources>

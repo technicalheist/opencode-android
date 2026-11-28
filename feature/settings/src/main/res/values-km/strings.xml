@@ -64,8 +64,6 @@
     <string name="settings_notifications_plugin_check_failed">មិនអាចពិនិត្យស្ថានភាពបាន</string>
     <string name="settings_notifications_set_up">រៀបចំជាមួយ OpenCode</string>
     <string name="settings_notifications_check_again">ពិនិត្យម្តងទៀត</string>
-    <string name="settings_notifications_in_app_footer">បង្ហាញលើប៊ូតុងផ្ទាំងចំហៀង។</string>
-    <string name="settings_notifications_in_app_notices">សេចក្តីជូនដំណឹងក្នុងកម្មវិធី</string>
 
     <!-- Sessions -->
     <string name="settings_sessions_title">សម័យ</string>

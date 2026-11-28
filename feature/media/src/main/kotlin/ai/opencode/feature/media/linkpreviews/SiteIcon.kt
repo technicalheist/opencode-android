@@ -242,6 +242,7 @@ class SiteIconLoader(
     directory: File?,
     now: () -> Long = System::currentTimeMillis,
     private val isConstrained: () -> Boolean = { false },
+    memoryWarnings: MemoryWarningCenter? = null,
 ) : CoalescedLoaderActor<SiteIconResult>() {
     @Serializable
     class Record(
@@ -253,7 +254,9 @@ class SiteIconLoader(
         val result: SiteIconResult get() = icon?.let(SiteIconResult::Icon) ?: SiteIconResult.Missing
     }
 
-    private val cache = CoalescedDiskCache<Entry, Record>(directory, Record.serializer(), now)
+    private val cache = CoalescedDiskCache<Entry, Record>(directory, Record.serializer(), MEMORY_LIMIT, now, memoryWarnings)
+
+    val memoryCount: Int get() = cache.memoryCount
 
     fun cached(domain: String): SiteIconResult? = cache.freshMemory(domain)?.result
 
@@ -266,7 +269,7 @@ class SiteIconLoader(
     private suspend fun resolve(domain: String, request: Request): SiteIconResult {
         cache.readDisk(domain)?.takeIf { it.expires > cache.now() }?.let { record ->
             val entry = Entry(record.png?.let(SiteIcon::of), record.expires)
-            cache.withMemory { it[domain] = entry }
+            cache.remember(entry, domain)
             return entry.result
         }
         if (isConstrained()) return SiteIconResult.Deferred
@@ -293,12 +296,14 @@ class SiteIconLoader(
     companion object {
         const val ICON_LIFETIME: Long = 14L * 24 * 3600 * 1000
         const val MISSING_LIFETIME: Long = 3L * 24 * 3600 * 1000
+        const val MEMORY_LIMIT = 128
 
         val shared: SiteIconLoader by lazy {
             SiteIconLoader(
                 fetch = LinkPreviewTransport::fetch,
                 directory = LinkPreviewLoader.cachesDirectory("site-icons"),
                 isConstrained = { NetworkPathMonitor.shared?.isConstrained == true },
+                memoryWarnings = MemoryWarningCenter.default,
             ).also { loader -> CoroutineScope(SupervisorJob() + Dispatchers.IO).launch { loader.sweep() } }
         }
     }

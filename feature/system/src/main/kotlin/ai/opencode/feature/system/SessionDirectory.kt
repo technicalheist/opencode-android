@@ -1,11 +1,9 @@
 package ai.opencode.feature.system
 
-import ai.opencode.core.sharing.InstantSerializer
 import ai.opencode.feature.system.share.ShareConversation
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import java.io.File
-import java.time.Instant
 
 /**
  * What app shortcuts, tiles, widgets and launcher quick actions know about your sessions, so they
@@ -22,6 +20,7 @@ data class SessionDirectory(
     val currentServerKey: String? = null,
     val servers: Map<String, Server> = emptyMap(),
 ) {
+    /** No times: sessions are listed newest first, so a run's activity changes nothing here unless it moves one up. */
     @Serializable
     data class Session(
         val id: String,
@@ -29,7 +28,6 @@ data class SessionDirectory(
         val projectID: String,
         /** Null for sessions outside any project. */
         val projectName: String? = null,
-        @Serializable(with = InstantSerializer::class) val updatedAt: Instant,
     )
 
     @Serializable
@@ -75,7 +73,7 @@ data class SessionDirectory(
 
     /**
      * What the controls get: every server's pinned sessions, its newest recents and the last
-     * viewed one, with project names but not their folders, any times or the server's name.
+     * viewed one, with project names but not their folders or the server's name.
      */
     val forControls: SessionDirectory
         get() = copy(
@@ -86,9 +84,7 @@ data class SessionDirectory(
                 server.copy(
                     // Controls never show it, and an unnamed server's name can be its address.
                     name = "",
-                    // Order says which is newest; leaving times out keeps activity from
-                    // rewriting the copy and redrawing the controls.
-                    sessions = server.sessions.filter { it.id in kept }.map { it.copy(updatedAt = Instant.EPOCH) },
+                    sessions = server.sessions.filter { it.id in kept },
                     projects = server.projects.map { Project(it.id, it.name, "") },
                 )
             },

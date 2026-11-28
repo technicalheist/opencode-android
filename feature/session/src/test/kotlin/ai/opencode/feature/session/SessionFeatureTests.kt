@@ -5,6 +5,7 @@ import ai.opencode.core.dependencies.DateClient
 import ai.opencode.core.dependencies.ImmediateClock
 import ai.opencode.core.dependencies.TestClock
 import ai.opencode.core.store.TestStore
+import ai.opencode.core.testing.eventually
 import ai.opencode.feature.composer.RequestDockFeature
 import ai.opencode.feature.session.SessionFeature.Action
 import ai.opencode.feature.session.SessionFeature.AuthoritativeRefresh
@@ -36,6 +37,7 @@ import ai.opencode.server.model.OpenCodeShell
 import ai.opencode.server.model.OpenCodeToolCall
 import ai.opencode.server.model.OpenCodeTranscriptItem
 import ai.opencode.server.model.SessionTitle
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.channels.Channel
 import org.junit.Assert.assertEquals
@@ -116,6 +118,136 @@ class SessionFeatureTests {
             it.copy(familySessions = listOf(root, early, late), activeFamilySessionIDs = setOf(late.id))
         }
         assertEquals(listOf(late), store.state.activeSubagents)
+        h.skipInFlightEffects()
+    }
+
+    /** A family read that waits for [releaseFirst], counting starts and cancellations. */
+    private class HeldReads {
+        val started = LockIsolated(0)
+        val cancelled = LockIsolated(0)
+        private val gates = Channel<Unit>(Channel.UNLIMITED)
+
+        suspend fun hold() {
+            started.increment()
+            try {
+                gates.receive()
+            } catch (error: CancellationException) {
+                cancelled.increment()
+                throw error
+            }
+        }
+
+        /** Lets the oldest held read answer. */
+        fun releaseFirst() {
+            gates.trySend(Unit)
+        }
+    }
+
+    private fun heldFamilyState(h: SessionTestSupport.Harness): State {
+        val root = testSession(id = "root", title = "Main")
+        return h.state { State.session(testServer, root) }.copy(familyRootID = root.id, familySessions = listOf(root))
+    }
+
+    private fun heldFamilyClient(client: OpenCodeClient, reads: HeldReads, shells: LockIsolated<Int>) = client.copy(
+        sessionFamily = { _, root ->
+            reads.hold()
+            OpenCodeSessionFamily(sessions = listOf(root), activeSessionIDs = emptySet())
+        },
+        runningShells = { _, _ ->
+            shells.increment()
+            emptyList()
+        },
+        familyPendingRequests = { _, _, _ -> OpenCodePendingRequests(permissions = emptyList(), forms = emptyList()) },
+        pendingInputs = { _, _ -> emptyList() },
+    )
+
+    /** Subagents starting in a burst each ask for the family: the walk in flight finishes and one more follows it, and nobody lists shells. */
+    @Test fun aBurstOfSubagentsWalksTheFamilyTwice() = sessionTest { h ->
+        val reads = HeldReads()
+        val shells = LockIsolated(0)
+        val store = h.store(heldFamilyState(h)) {
+            this[DateClient] = DateClient.constant(date(100))
+            this[OpenCodeClient] = heldFamilyClient(this[OpenCodeClient], reads, shells)
+        }
+        store.exhaustive = false
+
+        repeat(10) { store.send(Action.FamilyRefreshRequested) }
+        assertTrue(eventually { reads.started.value == 1 })
+        assertTrue(store.state.familyRead.isQueued)
+
+        reads.releaseFirst()
+        store.receive(Action.FamilyResponse::class)
+        assertTrue(eventually { reads.started.value == 2 })
+        reads.releaseFirst()
+        store.receive(Action.FamilyResponse::class)
+        settle()
+        assertEquals(2, reads.started.value)
+        assertEquals(0, reads.cancelled.value)
+        assertFalse(store.state.familyRead.isInFlight)
+        assertEquals(0, shells.value)
+        h.skipInFlightEffects()
+    }
+
+    /**
+     * An answer with a read queued behind it doesn't make the family fresh: only the last one does,
+     * so coming back within the freshness window still reads the family.
+     */
+    @Test fun onlyTheLastQueuedFamilyAnswerMakesItFresh() = sessionTest { h ->
+        val reads = HeldReads()
+        val store = h.store(heldFamilyState(h)) {
+            this[DateClient] = DateClient.constant(date(100))
+            this[OpenCodeClient] = heldFamilyClient(this[OpenCodeClient], reads, LockIsolated(0))
+        }
+        store.exhaustive = false
+
+        store.send(Action.FamilyRefreshRequested)
+        store.send(Action.FamilyRefreshRequested)
+        assertTrue(eventually { reads.started.value == 1 })
+        reads.releaseFirst()
+        store.receive(Action.FamilyResponse::class)
+        assertNull(store.state.familyReadAt)
+        assertTrue(eventually { reads.started.value == 2 })
+        reads.releaseFirst()
+        store.receive(Action.FamilyResponse::class)
+        assertEquals(date(100), store.state.familyReadAt)
+        h.skipInFlightEffects()
+    }
+
+    /** Leaving the screen cancels the walk and what was queued behind it, so the next ask starts a read. */
+    @Test fun leavingTheScreenForgetsTheFamilyWalk() = sessionTest { h ->
+        val reads = HeldReads()
+        val store = h.store(heldFamilyState(h).copy(isVisible = true)) {
+            this[DateClient] = DateClient.constant(date(100))
+            this[OpenCodeClient] = heldFamilyClient(this[OpenCodeClient], reads, LockIsolated(0))
+        }
+        store.exhaustive = false
+
+        store.send(Action.FamilyRefreshRequested)
+        store.send(Action.FamilyRefreshRequested)
+        assertTrue(eventually { reads.started.value == 1 })
+        store.send(Action.VisibilityChanged(false))
+        assertTrue(eventually { reads.cancelled.value == 1 })
+        assertTrue(!store.state.familyRead.isInFlight && !store.state.familyRead.isQueued)
+        store.send(Action.FamilyRefreshRequested)
+        assertTrue(eventually { reads.started.value == 2 })
+        h.skipInFlightEffects()
+    }
+
+    /** A new stream relists shells itself (an exit may have been missed), now that family reads don't. */
+    @Test fun aNewStreamRelistsShells() = sessionTest { h ->
+        val state = h.state { State.session(testServer, testSession(id = "root", title = "Main")) }
+            .copy(refresh = State.Refresh(id = 1, reason = RefreshReason.Open))
+        val shells = LockIsolated(0)
+        val store = h.store(state) {
+            this[DateClient] = DateClient.constant(date(100))
+            this[Clock] = TestClock()
+            this[OpenCodeClient] = heldFamilyClient(this[OpenCodeClient], HeldReads(), shells)
+        }
+        store.exhaustive = false
+
+        store.send(Action.EventStreamConnected(testServer))
+        store.receive(Action.ShellsResponse::class)
+        assertEquals(1, shells.value)
         h.skipInFlightEffects()
     }
 
@@ -518,7 +650,9 @@ class SessionFeatureTests {
             projectedMessageIDs = setOf("msg_reply"),
             refresh = State.Refresh(id = 1, reason = RefreshReason.Resume),
         )
-        val store = h.store(state)
+        val store = h.store(state) {
+            this[OpenCodeClient] = this[OpenCodeClient].copy(runningShells = { _, _ -> emptyList() }, runningJobs = { _, _ -> emptyList() })
+        }
         store.exhaustive = false
         store.send(Action.EventStreamConnected(testServer))
         store.send(Action.RefreshResponse(sessionID = session.id, requestID = 1, result = refreshed(session, listOf(user), AuthoritativeRefresh.Scope.Page)))
@@ -853,5 +987,44 @@ class SessionFeatureTests {
         }
         assertTrue(calls.value.toString(), calls.value.toSet().containsAll(listOf("models", "family", "requests", "inbox", "metadata")))
         h.skipInFlightEffects()
+    }
+}
+
+/** The flags change nothing the screen shows, but the app's `Store` must still keep them. */
+@org.junit.runner.RunWith(org.robolectric.RobolectricTestRunner::class)
+@org.robolectric.annotation.Config(sdk = [35])
+class SessionFeatureStoreTests {
+    @get:org.junit.Rule val isolation = ai.opencode.core.testing.TestIsolationRule()
+
+    @Test fun aBurstOfSubagentsQueuesOneFamilyReadInTheAppStore() {
+        val started = java.util.concurrent.atomic.AtomicInteger(0)
+        val cancelled = java.util.concurrent.atomic.AtomicInteger(0)
+        val values = ai.opencode.core.dependencies.DependencyValues.testing().update {
+            this[OpenCodeClient] = this[OpenCodeClient].copy(sessionFamily = { _, _ ->
+                started.incrementAndGet()
+                try {
+                    kotlinx.coroutines.awaitCancellation()
+                } catch (error: CancellationException) {
+                    cancelled.incrementAndGet()
+                    throw error
+                }
+            })
+        }
+        ai.opencode.core.dependencies.DependencyValues.withValues(values) {
+            val root = testSession(id = "root", title = "Main")
+            val state = State.session(testServer, root).copy(familyRootID = root.id, familySessions = listOf(root))
+            val store = ai.opencode.core.store.Store(state, SessionFeature(), dependencies = values)
+            try {
+                store.send(Action.FamilyRefreshRequested)
+                store.send(Action.FamilyRefreshRequested)
+                org.robolectric.Shadows.shadowOf(android.os.Looper.getMainLooper()).idle()
+                assertEquals(1, started.get())
+                assertEquals(0, cancelled.get())
+                assertTrue(store.state.familyRead.isQueued)
+            } finally {
+                store.close()
+                org.robolectric.Shadows.shadowOf(android.os.Looper.getMainLooper()).idle()
+            }
+        }
     }
 }

@@ -140,8 +140,8 @@ internal fun SubagentToolView(call: OpenCodeToolCall, subagents: Map<String, Tra
             AgentActivityGlyph(AgentGlyphState(childID, phase, needsInput = child?.needsInput == true), Modifier.clearAndSetSemantics {})
         }
         Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(TranscriptMetrics.compact)) {
-            Text(child?.title ?: name, style = OpenCodeTextStyles.subheadline.copy(fontWeight = FontWeight.Medium), color = colors.text)
-            call.input.obj?.get("description")?.string?.let {
+            Text(name, style = OpenCodeTextStyles.subheadline.copy(fontWeight = FontWeight.Medium), color = colors.text)
+            (child?.title ?: call.input.obj?.get("description")?.string)?.let {
                 Text(it, style = OpenCodeTextStyles.subheadline, color = colors.secondaryText)
             }
             if (failed) {

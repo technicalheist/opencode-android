@@ -542,6 +542,24 @@ class VoiceFeatureTestsDelegation {
         h.skipInFlightEffects()
     }
 
+    /** What the user said about looking held for that call only. */
+    @Test fun aNewCallForgetsThatTheUserWasLooking() = voiceTest { harness ->
+        h = harness
+        val (store, events) = startLiveCall()
+        store.send(Action.DelegatorNotedLooking(true)) { it.copy(userLooking = true) }
+        store.send(Action.EndTapped)
+        assertTrue(store.state.phase.isTerminal)
+        // An ended call takes no word for it.
+        store.send(Action.DelegatorNotedLooking(false))
+        assertTrue(store.state.userLooking)
+
+        store.send(Action.Start)
+        assertFalse(store.state.userLooking)
+        assertEquals(VoiceScreenVisibility.notLooking, store.state.screenVisibility)
+        events.finish()
+        h.skipInFlightEffects()
+    }
+
     @Test fun endingACallLandsTheHangUpHapticOnce() = voiceTest { harness ->
         h = harness
         val (store, _) = startLiveCall()

@@ -40,6 +40,8 @@
     <string name="drawer_mark_as_unread">Отметить непрочитанной</string>
     <string name="drawer_mute">Отключить уведомления</string>
     <string name="drawer_unmute">Включить уведомления</string>
+    <string name="drawer_hide">Скрыть</string>
+    <string name="drawer_unhide">Показать</string>
     <string name="drawer_move_up">Переместить выше</string>
     <string name="drawer_move_down">Переместить ниже</string>
 
@@ -89,8 +91,6 @@
     <string name="drawer_button_open_sessions_description">Открыть сессии</string>
     <string name="drawer_button_attention_state">В сессии нужен ваш ответ</string>
     <string name="drawer_button_unread_state">Непрочитанные сессии</string>
-    <string name="drawer_notice_open_sessions_action">Открыть сессии</string>
-    <string name="drawer_notice_open_session_action">Открыть сессию</string>
 
     <!-- Search pill -->
     <string name="drawer_search_description">Поиск сессий</string>
@@ -129,6 +129,7 @@
     <!-- Session row state for TalkBack -->
     <string name="drawer_row_pinned_state">Закреплена</string>
     <string name="drawer_row_muted_state">Уведомления отключены</string>
+    <string name="drawer_row_hidden_state">Скрыты</string>
     <string name="drawer_row_needs_input_state">Нужен ваш ответ</string>
     <string name="drawer_row_working_state">Работает</string>
     <string name="drawer_row_unread_state">Непрочитанная</string>

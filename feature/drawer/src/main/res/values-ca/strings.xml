@@ -39,6 +39,8 @@
     <string name="drawer_mark_as_unread">Marca com a no llegida</string>
     <string name="drawer_mute">Silencia</string>
     <string name="drawer_unmute">Deixa de silenciar</string>
+    <string name="drawer_hide">Amaga</string>
+    <string name="drawer_unhide">Mostra</string>
     <string name="drawer_move_up">Mou amunt</string>
     <string name="drawer_move_down">Mou avall</string>
 
@@ -85,8 +87,6 @@
     <string name="drawer_button_open_sessions_description">Obre les sessions</string>
     <string name="drawer_button_attention_state">Una sessió necessita la teva resposta</string>
     <string name="drawer_button_unread_state">Sessions sense llegir</string>
-    <string name="drawer_notice_open_sessions_action">Obre les sessions</string>
-    <string name="drawer_notice_open_session_action">Obre la sessió</string>
 
     <!-- Search pill -->
     <string name="drawer_search_description">Sessions de cerca</string>
@@ -125,6 +125,7 @@
     <!-- Session row state for TalkBack -->
     <string name="drawer_row_pinned_state">Fixada</string>
     <string name="drawer_row_muted_state">Silenciada</string>
+    <string name="drawer_row_hidden_state">Amagada</string>
     <string name="drawer_row_needs_input_state">Cal la teva resposta</string>
     <string name="drawer_row_working_state">Treballant</string>
     <string name="drawer_row_unread_state">Sense llegir</string>

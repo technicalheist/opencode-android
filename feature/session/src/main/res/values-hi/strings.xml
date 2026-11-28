@@ -3,11 +3,10 @@
     <!-- Agent activity glyph -->
     <string name="session_activity_running_description">चल रहा है</string>
     <!-- Background work panel -->
-    <string name="session_background_work_show_label">चल रहे सबएजेंट और शेल दिखाएँ</string>
+    <string name="session_background_work_show_label">चल रहे सबएजेंट, स्क्रिप्ट और शेल दिखाएँ</string>
     <string name="session_background_work_collapsed_description">संक्षिप्त</string>
-    <string name="session_background_work_subagents_title">सबएजेंट</string>
+    <string name="session_background_work_expanded_description">विस्तृत</string>
     <string name="session_background_work_open_subagent_label">सबएजेंट का सेशन खोलें</string>
-    <string name="session_background_work_shells_title">शेल</string>
     <string name="session_background_work_show_shell_label">शेल का आउटपुट दिखाएँ</string>
     <!-- The session's images and videos, paged in the full-screen viewer -->
     <string name="session_visual_attached_image">संलग्न छवि</string>
@@ -70,6 +69,8 @@
     <string name="session_sheet_unknown_description">अज्ञात</string>
     <string name="session_sheet_context_tokens">%1$s टोकन</string>
     <string name="session_sheet_cost">लागत</string>
+    <string name="session_sheet_media">मीडिया</string>
+    <string name="session_sheet_media_value">फ़ाइलें और लिंक</string>
     <string name="session_always_notify">हमेशा सूचना दें</string>
     <string name="session_always_notify_message_phone">हर जवाब पूरा होने पर इस फ़ोन पर सूचना दें, भले ही संदेश यहाँ से न भेजा गया हो।</string>
     <string name="session_always_notify_message_tablet">हर जवाब पूरा होने पर इस टैबलेट पर सूचना दें, भले ही संदेश यहाँ से न भेजा गया हो।</string>
@@ -199,24 +200,25 @@
         <item quantity="one">%1$d शेल</item>
         <item quantity="other">%1$d शेल</item>
     </plurals>
+    <plurals name="session_background_work_script_count">
+        <item quantity="one">%1$d स्क्रिप्ट</item>
+        <item quantity="other">%1$d स्क्रिप्ट</item>
+    </plurals>
     <string name="session_background_work_summary">%1$s · %2$s</string>
+    <string name="session_background_work_elapsed_seconds">%1$d से.</string>
+    <string name="session_background_work_elapsed_minutes">%1$d मि. %2$s से.</string>
+    <string name="session_background_work_elapsed_hours">%1$d घं. %2$s मि.</string>
+    <string name="session_background_work_stop_script_label">स्क्रिप्ट रोकें</string>
+    <string name="session_background_work_stop_subagent_label">सबएजेंट रोकें</string>
+    <string name="session_background_work_stop_shell_label">शेल रोकें</string>
+    <string name="session_background_work_stop_script_failed">स्क्रिप्ट नहीं रोकी जा सकी</string>
+    <string name="session_background_work_stop_subagent_failed">सबएजेंट नहीं रोका जा सका</string>
 
     <!-- Composer buttons -->
     <string name="session_send_message_description">संदेश भेजें</string>
     <string name="session_stop_description">रोकें</string>
     <string name="session_start_voice_call_description">वॉइस कॉल शुरू करें</string>
     <string name="session_model_level_default">डिफ़ॉल्ट</string>
-
-    <!-- In-app notice -->
-    <plurals name="session_notice_session_count">
-        <item quantity="one">%1$d सेशन</item>
-        <item quantity="other">%1$d सेशन</item>
-    </plurals>
-    <plurals name="session_notice_needs_input_count">
-        <item quantity="one">%1$d को आपका इनपुट चाहिए</item>
-        <item quantity="other">%1$d को आपका इनपुट चाहिए</item>
-    </plurals>
-    <string name="session_notice_announcement">%1$s, %2$s</string>
 
     <!-- Server connection pill -->
     <string name="session_server_reconnecting">%1$s से फिर से कनेक्ट हो रहा है…</string>

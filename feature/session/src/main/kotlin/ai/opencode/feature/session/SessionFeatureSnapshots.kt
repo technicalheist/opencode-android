@@ -1,5 +1,6 @@
 package ai.opencode.feature.session
 
+import ai.opencode.server.model.OpenCodeJob
 import ai.opencode.server.model.OpenCodeTranscriptItem
 import ai.opencode.feature.session.SessionFeature.State
 import ai.opencode.server.model.keepingFirstPrompt
@@ -36,6 +37,7 @@ fun SessionFeature.SwitchSnapshot.Companion.from(state: State): SessionFeature.S
         family = state.familySessions,
         familyReadAt = state.familyReadAt,
         shells = state.shells,
+        jobs = state.jobs,
         permissions = state.permissionRequests,
         forms = state.formRequests,
         formAnswers = state.formAnswers,
@@ -124,6 +126,16 @@ fun SessionFeature.SwitchSnapshot.pruneRequests(
     )
 }
 
+/** `experimental.job.updated` for a session left: kept while it runs in this tree. */
+fun SessionFeature.SwitchSnapshot.applying(job: OpenCodeJob): SessionFeature.SwitchSnapshot {
+    val owned = listOf(job.ownerSessionID, job.sessionID).any { owner -> owner == session.id || family.any { it.id == owner } }
+    return when {
+        job.isRunning && owned -> if (jobs[job.id] == job) this else copy(jobs = jobs + (job.id to job))
+        job.id in jobs -> copy(jobs = jobs - job.id)
+        else -> this
+    }
+}
+
 /** Family navigation keeps the family's discovery and requests. */
 fun SessionFeature.SwitchSnapshot.restoreSessionData(state: State): State {
     val promoted = state.promotedPromptIDs.toSet() + SessionFeature.promptIDs(state.items)
@@ -135,6 +147,7 @@ fun SessionFeature.SwitchSnapshot.restoreSessionData(state: State): State {
     var next = state.copy(
         shells = shells,
         restoredShellIDs = shells.map { it.id }.toSet(),
+        jobs = jobs,
         queuedInputs = queued.filter { it.id !in promoted && it.id !in localIDs } + local,
         pendingPromptPositions = positions,
         models = models,

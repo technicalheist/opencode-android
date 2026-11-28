@@ -901,4 +901,38 @@
     <!-- 2026-11-08-02-default-model -->
     <string name="settings_whatsnew_entry_default_model_title">Täze sessiýalar bellenen modeliňizi ulanýar</string>
     <string name="settings_whatsnew_entry_default_model_summary">Täze sessiýalar öňki sessiýanyň modelinde däl-de, OpenCode-da bellenen modeliňizde, onuň üçin soňky saýlan pikirleniş derejäňizde başlanýar.</string>
+
+    <!-- 2026-11-11-01-streamed-reply-prefix -->
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_title">Jogaby gelýärkä açyň</string>
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_summary">Jogap gelýärkä sessiýany açsaňyz, galany gelýänçä eýýäm gelen bölegini okap bilersiňiz.</string>
+
+    <!-- 2026-11-13-01-draw-on-images -->
+    <string name="settings_whatsnew_entry_draw_on_images_title">Suratlaryň üstüne çyzyň</string>
+    <string name="settings_whatsnew_entry_draw_on_images_summary">Bir zat barada soramazdan öň ony belläň.</string>
+    <string name="settings_whatsnew_entry_draw_on_images_detail_1">Suraty doly ekranda açyň we galam düwmesine basyň. Reňk saýlap çyzyň, soňra bellenen suraty habaryňyza goşmak üçin Goş düwmesine basyň. Asyl surat üýtgemeýär.</string>
+    <string name="settings_whatsnew_entry_draw_on_images_example">Ekran suratynda ýerini üýtgetmek isleýän dolandyryş elementiňizi tegelekläň, soňra nirä geçirilmelidigini ýazyň.</string>
+
+    <!-- 2026-11-14-01-fullscreen-viewer -->
+    <string name="settings_whatsnew_entry_fullscreen_viewer_title">Suratlar bilen wideolaryň arasynda süýşüriň</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_summary">Sessiýanyň suratlaryny we wideolaryny bilelikde görüň.</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_detail_1">Wideony açmak üçin süýşüriň, soňra häzirki kadry bellemek üçin galam düwmesine basyň. Goş düwmesi bellenen kadry ibermezden habara goşýar.</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_example">Görkezilişi üýtgetmeli ekranyňyzda sägindiriň, gerekli ýeri tegelekläň we garalamaňyza goşuň.</string>
+
+    <!-- 2026-11-15-01-pairing-link-name -->
+    <string name="settings_whatsnew_entry_pairing_link_name_title">OpenCode Console-dan atly serwerler</string>
+    <string name="settings_whatsnew_entry_pairing_link_name_summary">OpenCode Console arkaly jübütleşdiren serweriňiz öz ady bilen, meselem, “Anomaly Box” ady bilen goşulýar.</string>
+
+    <!-- 2026-11-17-01-session-media -->
+    <string name="settings_whatsnew_entry_session_media_title">Sessiýanyň mediasy</string>
+    <string name="settings_whatsnew_entry_session_media_summary">Sessiýadaky suratlara, wideolara, seslere, faýllara we açyk web baglanyşyklaryna göz aýlaň.</string>
+    <string name="settings_whatsnew_entry_session_media_detail_1">Sessiýanyň ⋮ menýusyndan Sessiýanyň mediasy bölümini saýlaň. Media suratlary, wideolary we sesleri aýlar boýunça toparlanan düwmeler ýa-da sanaw görnüşinde görkezýär. Faýllar we Baglanyşyklar bölümlerinde resminamalar, goýlan tekstler we web baglanyşyklary sanalýar.</string>
+    <string name="settings_whatsnew_entry_session_media_example">Bütin sessiýany yza süýşürmän, şu gün irden iberen ekran suratyňyzy tapyň.</string>
+
+    <!-- 2026-11-18-02-drawer-call-phone -->
+    <string name="settings_whatsnew_entry_drawer_call_phone_title">Gapdal paneldäki jaňlar üçin telefon nyşany</string>
+    <string name="settings_whatsnew_entry_drawer_call_phone_summary">Sessiýalar sanawynda Sazlamalaryň ýanyndaky jaň düwmesinde, habar gutusyndaky ýaly, telefon nyşany görkezilýär.</string>
+
+    <!-- 2026-11-19-01-background-scripts -->
+    <string name="settings_whatsnew_entry_background_scripts_title">Yzky fonda işleýän skriptler</string>
+    <string name="settings_whatsnew_entry_background_scripts_summary">Agentiň yzky fona geçiren skriptleri kiçi agentleriň we shell-leriň ýanynda görkezilýär. Kiçi agentiň suratlary, wideolary ýa-da skriptleri henizem işlenýän bolsa, ol sanawda galýar. Bularyň islendigini sanawdan durzup bilersiňiz.</string>
 </resources>

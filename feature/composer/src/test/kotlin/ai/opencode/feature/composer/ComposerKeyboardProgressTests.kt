@@ -1,14 +1,19 @@
 package ai.opencode.feature.composer
 
+import ai.opencode.core.ui.OpenCodeAppTheme
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.Insets
+import android.graphics.Point
 import android.os.Looper
 import android.os.SystemClock
 import android.view.MotionEvent
+import android.view.SurfaceControl
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -21,6 +26,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import org.junit.Assert.assertEquals
@@ -99,6 +106,56 @@ class ComposerKeyboardProgressTests {
             view.draw(Canvas(bitmap))
             assertEquals("passes=$passes: the controls draw in place", android.graphics.Color.RED, bitmap.getPixel(90, 25))
         }
+    }
+
+    @Test fun twoFieldsSurviveTheWindowGainingControlOfTheKeys() {
+        val activity = Robolectric.buildActivity(ComponentActivity::class.java).setup().get()
+        val view = ComposeView(activity)
+        activity.setContentView(view)
+        var shows = 0
+        val keys = object : SoftwareKeyboardController {
+            override fun show() { shows++ }
+            override fun hide() {}
+        }
+        view.setContent {
+            OpenCodeAppTheme {
+                CompositionLocalProvider(LocalSoftwareKeyboardController provides keys) {
+                    Column {
+                        ComposerTextInput(text = "", onTextChange = {}, isFocused = true, onFocusedChange = {}, expanded = false, onImagePaste = {})
+                        ComposerTextInput(text = "", onTextChange = {}, isFocused = false, onFocusedChange = {}, expanded = false, onImagePaste = {})
+                    }
+                }
+            }
+        }
+        shadowOf(Looper.getMainLooper()).idle()
+        val controller = view.windowInsetsController!!
+        val listeners = controller.javaClass.getDeclaredField("mControllableInsetsChangedListeners")
+        listeners.isAccessible = true
+        assertEquals(2, (listeners.get(controller) as List<*>).size)
+
+        val ime = android.view.WindowInsets.Type.ime()
+        val imeId = Class.forName("android.view.InsetsSource").getDeclaredField("ID_IME").getInt(null)
+        val stateField = controller.javaClass.getDeclaredField("mState")
+        stateField.isAccessible = true
+        val state = stateField.get(controller)
+        state.javaClass.getMethod("getOrCreateSource", Int::class.java, Int::class.java).invoke(state, imeId, ime)
+        val controlClass = Class.forName("android.view.InsetsSourceControl")
+        val control = controlClass
+            .getConstructor(Int::class.java, Int::class.java, SurfaceControl::class.java, Boolean::class.java, Point::class.java, Insets::class.java)
+            .newInstance(imeId, ime, null, false, Point(), Insets.NONE)
+        val controls = java.lang.reflect.Array.newInstance(controlClass, 1)
+        java.lang.reflect.Array.set(controls, 0, control)
+        val noControls = java.lang.reflect.Array.newInstance(controlClass, 0)
+        val onControlsChanged = controller.javaClass.getMethod("onControlsChanged", controls.javaClass)
+        val showsAfterFocus = shows
+        onControlsChanged.invoke(controller, controls)
+        assertEquals(showsAfterFocus + 1, shows)
+        onControlsChanged.invoke(controller, noControls)
+        onControlsChanged.invoke(controller, controls)
+        assertEquals(showsAfterFocus + 1, shows)
+
+        view.disposeComposition()
+        assertEquals(0, (listeners.get(controller) as List<*>).size)
     }
 
     private fun tap(view: ComposeView, x: Float, y: Float) {

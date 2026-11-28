@@ -138,10 +138,10 @@ class CatchUpPreviewStoresTests {
 
         // 3. Refreshing the cached transcript for "newer" bumps previewRevision again.
         val refreshedItems = listOf(OpenCodeTranscriptItem.UserText(id = "u_refreshed", text = "Refreshed preview"))
-        store.send(HomeFeature.Action.DrawerRowPressed("newer")) { it.copy(refreshingTranscripts = setOf("newer")) }
+        store.send(HomeFeature.Action.DrawerRowPressed("newer")) { it.copy(refreshingTranscripts = setOf("newer"), fetchingTranscripts = setOf("newer")) }
         store.receive(HomeFeature.Action.CachedTranscriptRefreshed(sessionID = "newer", items = refreshedItems)) {
             store.withDependencies {
-                it.copy(refreshingTranscripts = emptySet(), transcriptReadAt = it.transcriptReadAt + ("newer" to now))
+                it.copy(refreshingTranscripts = emptySet(), fetchingTranscripts = emptySet(), transcriptReadAt = it.transcriptReadAt + ("newer" to now))
                     .notingUnopenedCopy("newer")
                     .publishingTranscript("newer", refreshedItems)
                     .persistingTranscriptCache(including = "newer")

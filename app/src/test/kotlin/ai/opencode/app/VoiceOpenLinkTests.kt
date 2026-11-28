@@ -217,6 +217,7 @@ class VoiceOpenLinkTests {
 
         // Locked or backgrounded: refused.
         store.send(AppFeature.Action.ForegroundChanged(false)) { it.copy(isInForeground = false) }
+        store.receive(voiceAction(VoiceFeature.Action.AppVisibilityChanged(false))) { it.withVoice { voice -> voice.copy(isAppVisible = false) } }
         val background = call.copy(id = JsonRpcID.Number(2))
         events.send(ClientToolsEvent.Call(background))
         store.receive(AppFeature.Action.ClientTools(ClientToolsFeature.Action.Socket(ClientToolsEvent.Call(background))))

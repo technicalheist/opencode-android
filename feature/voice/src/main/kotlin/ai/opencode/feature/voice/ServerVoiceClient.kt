@@ -161,7 +161,7 @@ object ServerVoiceModels {
 
     /**
      * The call a server's model brokers, by family, as the server resolves a
-     * model it's asked for: `gpt-live-1` for GPT-Live.
+     * model it's asked for: any `gpt-live-…` (`gpt-live-1`, `gpt-live-1.1`) for GPT-Live.
      */
     private fun brokered(model: String): VoiceRoute.ServerRoute? {
         if (model.startsWith("gpt-live")) return VoiceRoute.ServerRoute.OpenAI(VoiceRoute.OpenAI.gptLive)

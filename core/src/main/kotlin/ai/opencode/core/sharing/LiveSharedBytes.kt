@@ -36,7 +36,6 @@ import javax.crypto.spec.GCMParameterSpec
 internal class LiveSharedBytes private constructor(private val context: Context) : SharedBytes {
     private val io = Executors.newSingleThreadExecutor { Thread(it, "opencode-shared-io") }
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
-    private val memory = InMemorySharedBytes()
     private val dataStore: DataStore<Preferences> = PreferenceDataStoreFactory.create(
         corruptionHandler = ReplaceFileCorruptionHandler { emptyPreferences() },
         scope = scope,
@@ -57,12 +56,13 @@ internal class LiveSharedBytes private constructor(private val context: Context)
         is SharedStorageKind.File -> waitingFile(file(kind.directory, id))?.invoke()
             ?: file(kind.directory, id).takeIf(File::exists)?.readBytes()
         SharedStorageKind.Keychain -> Keychain.read(keychainFile(id))
-        SharedStorageKind.InMemory -> memory.read(kind, id)
+        SharedStorageKind.InMemory -> null
     }
 
     private fun waitingFile(file: File): (() -> ByteArray)? = synchronized(waitingFiles) { waitingFiles[file.path] }
 
     override fun writeEncoded(kind: SharedStorageKind, id: String, encode: () -> ByteArray) {
+        if (kind == SharedStorageKind.InMemory) return
         if (kind !is SharedStorageKind.File) return write(kind, id, encode())
         val target = file(kind.directory, id)
         val alreadyQueued = synchronized(waitingFiles) { waitingFiles.put(target.path, encode) != null }
@@ -78,7 +78,7 @@ internal class LiveSharedBytes private constructor(private val context: Context)
     }
 
     override fun write(kind: SharedStorageKind, id: String, data: ByteArray?) {
-        if (kind == SharedStorageKind.InMemory) return memory.write(kind, id, data)
+        if (kind == SharedStorageKind.InMemory) return
         // A direct write replaces any value still waiting, so it lands last.
         if (kind is SharedStorageKind.File) synchronized(waitingFiles) { waitingFiles.remove(file(kind.directory, id).path) }
         io.execute {

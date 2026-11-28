@@ -130,13 +130,17 @@ class RichLinkPreviewTests {
             // for it and must not read the file; the load brings it back.
             time.update { it + 301_000 }
             val reader = LinkPreviewLoader(
-                fetch = { throw IOException("The Internet connection appears to be offline.") },
+                fetch = { request ->
+                    if (request.url.encodedPath.contains("acme/widget")) throw IOException("The Internet connection appears to be offline.")
+                    LinkPreviewResponse("""{"full_name":"acme/other","description":"Other"}""".toByteArray(), 200)
+                },
                 directory = directory,
                 now = { time.current },
             )
+            for (index in 0 until 64) reader.load(LinkPreviewTarget.of("https://github.com/acme/other-$index")!!)
             assertNull("no disk read while a card draws", reader.stale(target))
             assertEquals(LinkPreviewResult.Deferred, reader.load(target))
-            assertEquals("the record reached memory inside the load", metadata, reader.stale(target))
+            assertEquals("the record reached memory inside the load, even with memory full", metadata, reader.stale(target))
         } finally {
             directory.deleteRecursively()
         }

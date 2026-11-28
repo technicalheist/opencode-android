@@ -901,4 +901,38 @@
     <!-- 2026-11-08-02-default-model -->
     <string name="settings_whatsnew_entry_default_model_title">Новите сесии използват модела по подразбиране</string>
     <string name="settings_whatsnew_entry_default_model_summary">Новите сесии започват с модела по подразбиране в OpenCode и последното избрано за него ниво на мислене, вместо с модела от последната сесия.</string>
+
+    <!-- 2026-11-11-01-streamed-reply-prefix -->
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_title">Отворете отговор, докато се получава</string>
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_summary">Когато отворите сесия, докато се получава отговор, можете да прочетете вече полученото, без да чакате края.</string>
+
+    <!-- 2026-11-13-01-draw-on-images -->
+    <string name="settings_whatsnew_entry_draw_on_images_title">Рисувайте върху изображения</string>
+    <string name="settings_whatsnew_entry_draw_on_images_summary">Отбележете детайл, преди да попитате за него.</string>
+    <string name="settings_whatsnew_entry_draw_on_images_detail_1">Отворете изображение на цял екран и докоснете бутона с писалка. Изберете цвят, рисувайте и докоснете „Добавете“, за да прикачите изображението с бележките към съобщението си. Оригиналът остава непроменен.</string>
+    <string name="settings_whatsnew_entry_draw_on_images_example">Оградете елемента, който искате да преместите в екранна снимка, и опишете къде да бъде.</string>
+
+    <!-- 2026-11-14-01-fullscreen-viewer -->
+    <string name="settings_whatsnew_entry_fullscreen_viewer_title">Плъзгайте между снимки и видеоклипове</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_summary">Разглеждайте заедно изображенията и видеоклиповете в сесията.</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_detail_1">Плъзнете до видеоклип и докоснете бутона с писалка, за да отбележите нещо върху текущия кадър. „Добавете“ прикачва кадъра с бележките, без да го изпраща.</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_example">Спрете демонстрацията на пауза на екрана, който се нуждае от промяна, оградете детайла и добавете кадъра към черновата си.</string>
+
+    <!-- 2026-11-15-01-pairing-link-name -->
+    <string name="settings_whatsnew_entry_pairing_link_name_title">Сървъри с имена от OpenCode Console</string>
+    <string name="settings_whatsnew_entry_pairing_link_name_summary">Сървърът, който сдвоите чрез OpenCode Console, се добавя с името си, например „Anomaly Box“.</string>
+
+    <!-- 2026-11-17-01-session-media -->
+    <string name="settings_whatsnew_entry_session_media_title">Медия в сесията</string>
+    <string name="settings_whatsnew_entry_session_media_summary">Разглеждайте изображенията, видеата, аудиото, файловете и публичните уеб връзки в сесията.</string>
+    <string name="settings_whatsnew_entry_session_media_detail_1">Изберете „Медия в сесията“ от менюто ⋮ на сесията. „Медия“ показва изображенията, видеоклиповете и аудиото като плочки, групирани по месеци, или като списък, а „Файлове“ и „Връзки“ показват документите, поставения текст и уеб връзките.</string>
+    <string name="settings_whatsnew_entry_session_media_example">Намерете екранната снимка, която изпратихте тази сутрин, без да превъртате назад през цялата сесия.</string>
+
+    <!-- 2026-11-18-02-drawer-call-phone -->
+    <string name="settings_whatsnew_entry_drawer_call_phone_title">Телефонна икона за обаждания в страничното меню</string>
+    <string name="settings_whatsnew_entry_drawer_call_phone_summary">Бутонът за обаждане до „Настройки“ в списъка със сесии показва телефон, както този в полето за съобщения.</string>
+
+    <!-- 2026-11-19-01-background-scripts -->
+    <string name="settings_whatsnew_entry_background_scripts_title">Скриптове във фоновата работа</string>
+    <string name="settings_whatsnew_entry_background_scripts_summary">Скриптовете, които агентът премества на заден план, се показват до субагентите и shell процесите. Субагентът остава в списъка, докато изображенията, видеоклиповете или скриптовете му се обработват. Можете да спрете скрипт или субагент от списъка.</string>
 </resources>

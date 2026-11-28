@@ -2,6 +2,7 @@ package ai.opencode.feature.transcript.markdown
 
 import ai.opencode.core.dependencies.DependencyKey
 import ai.opencode.core.dependencies.dependency
+import ai.opencode.feature.media.MemoryWarningCenter
 import ai.opencode.server.EventBatcherHooks
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -24,7 +25,7 @@ class MarkdownStreamClient(
     )
 
     companion object Key : DependencyKey<MarkdownStreamClient> {
-        override val liveValue: MarkdownStreamClient by lazy { MarkdownStreamClient(MarkdownStreamStore()) }
+        override val liveValue: MarkdownStreamClient by lazy { MarkdownStreamClient(MarkdownStreamStore(memoryWarnings = MemoryWarningCenter.default)) }
 
         /** Each test gets its own store, so one test's parts never answer another's. */
         override val testValue: MarkdownStreamClient get() = MarkdownStreamClient(MarkdownStreamStore())
@@ -52,10 +53,12 @@ fun EventBatcherHooks.withMarkdownStream(client: MarkdownStreamClient = dependen
  * meanwhile and it doesn't roll the stream back to an older text. A part keeps two streams, since a
  * session opened mid-reply accumulates only the text after it opened while the batcher holds the
  * whole reply; each text continues the stream it shares the most with. Stored streams are never
- * mutated: an update works on a copy.
+ * mutated: an update works on a copy. A memory warning empties it; a part's next text parses again
+ * from the start.
  */
 class MarkdownStreamStore(
     private val maximumParts: Int = 16,
+    memoryWarnings: MemoryWarningCenter? = null,
     private val makeStream: () -> MarkdownStream = { MarkdownStream() },
 ) {
     private class Projection(val text: String, val streaming: Boolean, val blocks: List<OpenCodeMarkdownBlock>)
@@ -73,7 +76,13 @@ class MarkdownStreamStore(
     private val parts = HashMap<String, Part>()
     private var clock = 0
 
+    init {
+        memoryWarnings?.observe(::clear)
+    }
+
     val partCount: Int get() = synchronized(lock) { parts.size }
+
+    fun clear() = synchronized(lock) { parts.clear() }
 
     /** The parse cost of the stream that last projected [partID], for guard checks. */
     fun cost(partID: String): MarkdownStream.Cost? =

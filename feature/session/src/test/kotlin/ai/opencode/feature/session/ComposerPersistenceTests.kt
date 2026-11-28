@@ -547,6 +547,8 @@ class ComposerPersistenceTests {
         }
 
         firstStore.send(Action.Task)
+        firstStore.receive(Action.AgentsRequested)
+        firstStore.receive({ it is Action.AgentsResponse }, "agentsResponse")
         firstStore.send(Action.SendTapped) {
             val oldSignal = it.workingRunSignal
             it.copy(runWorkGeneration = 1, outboxDraftID = firstID, isAwaitingReply = true, lastSentItemID = firstID, sendGeneration = 1)
@@ -651,6 +653,7 @@ class ComposerPersistenceTests {
                     .sent(firstID, "Start in second project")
                     .updateWorkingRun(oldSignal)
             }
+            relaunchedStore.receive(Action.AgentsRequested)
 
             relaunchedStore.receive(Action.SessionCreated(createdSession)) {
                 it.copy(
@@ -665,6 +668,7 @@ class ComposerPersistenceTests {
                 ).withRequestLoadAttempt(RequestDockFeature.State.LoadAttempt.Initial)
             }
             relaunchedStore.receive(Action.PromptAdmitted(sessionID = createdSession.id, messageID = firstID, requestEpoch = 1)) { it.admitted(firstID) }
+            relaunchedStore.receive({ it is Action.AgentsResponse }, "agentsResponse")
             relaunchedStore.receive(Action.PendingInputsRequested(sessionID = createdSession.id))
             relaunchedStore.send(Action.RequestsConnectionChanged(false)) {
                 it.withRequestsConnectionIsAvailable(false)
@@ -708,6 +712,8 @@ class ComposerPersistenceTests {
         }
 
         firstStore.send(Action.Task)
+        firstStore.receive(Action.AgentsRequested)
+        firstStore.receive({ it is Action.AgentsResponse }, "agentsResponse")
         firstStore.send(Action.SendTapped) {
             val oldSignal = it.workingRunSignal
             it.copy(runWorkGeneration = 1, outboxDraftID = firstID, isAwaitingReply = true, lastSentItemID = firstID, sendGeneration = 1)

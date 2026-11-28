@@ -115,6 +115,32 @@ class SiteIconLoaderTests {
     }
 
     @Test
+    fun siteIconsKeepAtMost128InMemory() = runTest {
+        val loader = SiteIconLoader(fetch = Service().fetch, directory = null, memoryWarnings = MemoryWarningCenter())
+        for (index in 0 until 150) loader.load("site$index.com")
+        assertEquals(128, loader.memoryCount)
+    }
+
+    @Test
+    fun aMemoryWarningEmptiesSiteIconMemory() = runTest {
+        val directory = temporaryDirectory("site-icon-tests")
+        try {
+            val center = MemoryWarningCenter()
+            val service = Service()
+            val loader = SiteIconLoader(fetch = service.fetch, directory = directory, memoryWarnings = center)
+            val icon = loader.load("exe.dev")
+            assertEquals(1, loader.memoryCount)
+            center.post()
+            assertEquals(0, loader.memoryCount)
+            assertNull(loader.cached("exe.dev"))
+            assertEquals(icon, loader.load("exe.dev"))
+            assertEquals("Read back from disk, not fetched", 1, service.count)
+        } finally {
+            directory.deleteRecursively()
+        }
+    }
+
+    @Test
     fun onlyRegistrableDomainsAreRequested() = runTest {
         val service = Service()
         val loader = SiteIconLoader(fetch = service.fetch, directory = null)

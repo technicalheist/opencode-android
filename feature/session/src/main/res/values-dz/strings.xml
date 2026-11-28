@@ -3,11 +3,10 @@
     <!-- Agent activity glyph -->
     <string name="session_activity_running_description">གཡོག་བཀོལ་དོ།</string>
     <!-- Background work panel -->
-    <string name="session_background_work_show_label">གཡོག་བཀོལ་མི་ཡན་ལག་ལས་ཚབ་དང་ཤལ་ཚུ་སྟོན།</string>
+    <string name="session_background_work_show_label">གཡོག་བཀོལ་མི་ཡན་ལག་ལས་ཚབ་ཚུ་དང་ ཡིག་ཚུགས་ཚུ་ ཤལ་ཚུ་སྟོན།</string>
     <string name="session_background_work_collapsed_description">བརྡིབས་ཡོདཔ།</string>
-    <string name="session_background_work_subagents_title">ཡན་ལག་ལས་ཚབ་ཚུ།</string>
+    <string name="session_background_work_expanded_description">རྒྱ་བསྐྱེད་ཡོདཔ།</string>
     <string name="session_background_work_open_subagent_label">ཡན་ལག་ལས་ཚབ་ཀྱི་ལཱ་ཡུན་ཁ་ཕྱེ།</string>
-    <string name="session_background_work_shells_title">ཤལ་ཚུ།</string>
     <string name="session_background_work_show_shell_label">ཤལ་གྱི་གྲུབ་འབྲས་སྟོན།</string>
     <!-- The session's images and videos, paged in the full-screen viewer -->
     <string name="session_visual_attached_image">མཉམ་སྦྲགས་པར།</string>
@@ -70,6 +69,8 @@
     <string name="session_sheet_unknown_description">མ་ཤེསཔ་</string>
     <string name="session_sheet_context_tokens">ཊོ་ཀེན་ %1$s</string>
     <string name="session_sheet_cost">ཟད་འགྲོ།</string>
+    <string name="session_sheet_media">བརྡ་བརྒྱུད།</string>
+    <string name="session_sheet_media_value">ཡིག་སྣོད་དང་འབྲེལ་མཐུད་ཚུ།</string>
     <string name="session_always_notify">ཨ་རྟག་ར་བརྡ་བསྐུལ་འབད།</string>
     <string name="session_always_notify_message_phone">ནཱ་ལས་མ་བཏང་མི་ཚུ་ཨིན་རུང་ ལན་འདེབས་རེ་མཇུག་བསྡུཝ་ད་ འགྲུལ་འཕྲིན་འདི་ལུ་བརྡ་བསྐུལ་འབད།</string>
     <string name="session_always_notify_message_tablet">ནཱ་ལས་མ་བཏང་མི་ཚུ་ཨིན་རུང་ ལན་འདེབས་རེ་མཇུག་བསྡུཝ་ད་ ཊེབ་ལེཊ་འདི་ལུ་བརྡ་བསྐུལ་འབད།</string>
@@ -192,22 +193,24 @@
     <plurals name="session_background_work_shell_count">
         <item quantity="other">ཤལ་ %1$d</item>
     </plurals>
+    <plurals name="session_background_work_script_count">
+        <item quantity="other">ཡིག་ཚུགས་ %1$d</item>
+    </plurals>
     <string name="session_background_work_summary">%1$s · %2$s</string>
+    <string name="session_background_work_elapsed_seconds">སྐར་ཆ་ %1$d</string>
+    <string name="session_background_work_elapsed_minutes">སྐར་མ་ %1$d སྐར་ཆ་ %2$s</string>
+    <string name="session_background_work_elapsed_hours">ཆུ་ཚོད་ %1$d སྐར་མ་ %2$s</string>
+    <string name="session_background_work_stop_script_label">ཡིག་ཚུགས་བཀག</string>
+    <string name="session_background_work_stop_subagent_label">ཡན་ལག་ལས་ཚབ་བཀག</string>
+    <string name="session_background_work_stop_shell_label">ཤལ་བཀག</string>
+    <string name="session_background_work_stop_script_failed">ཡིག་ཚུགས་བཀག་མ་ཚུགས།</string>
+    <string name="session_background_work_stop_subagent_failed">ཡན་ལག་ལས་ཚབ་བཀག་མ་ཚུགས།</string>
 
     <!-- Composer buttons -->
     <string name="session_send_message_description">འཕྲིན་དོན་གཏང་།</string>
     <string name="session_stop_description">བཀག་པ</string>
     <string name="session_start_voice_call_description">སྐད་ཀྱི་འབོད་བརྡ་འགོ་བཙུགས།</string>
     <string name="session_model_level_default">འཐུས་ཤོར</string>
-
-    <!-- In-app notice -->
-    <plurals name="session_notice_session_count">
-        <item quantity="other">ལཱ་ཡུན་ %1$d</item>
-    </plurals>
-    <plurals name="session_notice_needs_input_count">
-        <item quantity="other">%1$d ལུ་ཁྱོད་ཀྱི་ལན་དགོཔ་ཨིན།</item>
-    </plurals>
-    <string name="session_notice_announcement">%1$s, %2$s</string>
 
     <!-- Server connection pill -->
     <string name="session_server_reconnecting">%1$s ལུ་ལོག་མཐུད་དོ…</string>

@@ -38,6 +38,8 @@
     <string name="drawer_mark_as_unread">Märgi lugematuks</string>
     <string name="drawer_mute">Vaigista</string>
     <string name="drawer_unmute">Tühista vaigistus</string>
+    <string name="drawer_hide">Peida</string>
+    <string name="drawer_unhide">Näita</string>
     <string name="drawer_move_up">Liiguta üles</string>
     <string name="drawer_move_down">Liiguta alla</string>
 
@@ -81,8 +83,6 @@
     <string name="drawer_button_open_sessions_description">Ava seansid</string>
     <string name="drawer_button_attention_state">Seanss vajab sinu sisendit</string>
     <string name="drawer_button_unread_state">Lugemata seansid</string>
-    <string name="drawer_notice_open_sessions_action">Ava seansid</string>
-    <string name="drawer_notice_open_session_action">Ava seanss</string>
 
     <!-- Search pill -->
     <string name="drawer_search_description">Otsi seansse</string>
@@ -121,6 +121,7 @@
     <!-- Session row state for TalkBack -->
     <string name="drawer_row_pinned_state">Kinnitatud</string>
     <string name="drawer_row_muted_state">Vaigistatud</string>
+    <string name="drawer_row_hidden_state">Peidetud</string>
     <string name="drawer_row_needs_input_state">Vajab sinu sisendit</string>
     <string name="drawer_row_working_state">Töötab</string>
     <string name="drawer_row_unread_state">Lugemata</string>

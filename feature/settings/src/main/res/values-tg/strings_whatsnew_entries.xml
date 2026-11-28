@@ -901,4 +901,38 @@
     <!-- 2026-11-08-02-default-model -->
     <string name="settings_whatsnew_entry_default_model_title">Сессияҳои нав модели пешфарзи шуморо истифода мебаранд</string>
     <string name="settings_whatsnew_entry_default_model_summary">Сессияҳои нав ба ҷойи модели сессияи охирин бо модели пешфарзи дар OpenCode таъиншуда оғоз мешаванд ва сатҳи андешаронии охирин интихобкардаи шуморо барои он истифода мебаранд.</string>
+
+    <!-- 2026-11-11-01-streamed-reply-prefix -->
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_title">Ҷавобро ҳангоми омадан кушоед</string>
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_summary">Агар сессияро ҳангоми омадани ҷавоб кушоед, метавонед қисми расидаро хонед, дар ҳоле ки идомаи ҷавоб меояд.</string>
+
+    <!-- 2026-11-13-01-draw-on-images -->
+    <string name="settings_whatsnew_entry_draw_on_images_title">Рӯи тасвирҳо кашед</string>
+    <string name="settings_whatsnew_entry_draw_on_images_summary">Пеш аз савол додан ҷузъи лозимиро нишон диҳед.</string>
+    <string name="settings_whatsnew_entry_draw_on_images_detail_1">Тасвирро дар экрани пурра кушоед ва тугмаи қаламро ламс кунед. Рангро интихоб кунед, чизе кашед ва «Илова»-ро ламс кунед, то тасвири ишорашударо ба паём замима кунед. Нусхаи аслӣ бетағйир мемонад.</string>
+    <string name="settings_whatsnew_entry_draw_on_images_example">Дар акси экран унсури идоракуниеро, ки кӯчондан мехоҳед, давра кашед ва нависед, ки ба куҷо кӯчонда шавад.</string>
+
+    <!-- 2026-11-14-01-fullscreen-viewer -->
+    <string name="settings_whatsnew_entry_fullscreen_viewer_title">Бо лағжондан байни аксу видео гузаред</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_summary">Тасвирҳо ва видеоҳои сессияро якҷо тамошо кунед.</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_detail_1">Бо лағжондан ба видео гузаред ва тугмаи қаламро ламс кунед, то дар кадри ҷорӣ ишора гузоред. «Илова» кадри ишорашударо бе фиристодан замима мекунад.</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_example">Видеои намоиширо дар экране, ки бояд тағйир ёбад, таваққуф кунед, ҷузъи лозимиро давра кашед ва ба пешнавис илова кунед.</string>
+
+    <!-- 2026-11-15-01-pairing-link-name -->
+    <string name="settings_whatsnew_entry_pairing_link_name_title">Серверҳои номдор аз OpenCode Console</string>
+    <string name="settings_whatsnew_entry_pairing_link_name_summary">Сервере, ки аз OpenCode Console ҷуфт мекунед, бо номи худ илова мешавад, масалан «Anomaly Box».</string>
+
+    <!-- 2026-11-17-01-session-media -->
+    <string name="settings_whatsnew_entry_session_media_title">Медиаи сессия</string>
+    <string name="settings_whatsnew_entry_session_media_summary">Тасвирҳо, видео, аудио, файлҳо ва истинодҳои оммавии веби сессияро бинед.</string>
+    <string name="settings_whatsnew_entry_session_media_detail_1">Аз менюи ⋮-и сессия «Медиаи сессия»-ро интихоб кунед. «Медиа» тасвирҳо, видеоҳо ва аудиоро ҳамчун тугмаҳои аз рӯи моҳ гурӯҳбандишуда ё рӯйхат нишон медиҳад. «Файлҳо» ва «Истинодҳо» ҳуҷҷатҳо, матнҳои часбондашуда ва истинодҳои вебро рӯйхат мекунанд.</string>
+    <string name="settings_whatsnew_entry_session_media_example">Акси экранеро, ки субҳи имрӯз фиристодед, бе варақ задани тамоми сессия ёбед.</string>
+
+    <!-- 2026-11-18-02-drawer-call-phone -->
+    <string name="settings_whatsnew_entry_drawer_call_phone_title">Нишонаи телефон барои зангҳо дар менюи паҳлуӣ</string>
+    <string name="settings_whatsnew_entry_drawer_call_phone_summary">Тугмаи занг дар паҳлуи «Танзимотҳо» дар рӯйхати сессияҳо акнун нишонаи телефон дорад, мисли тугмаи қуттии паём.</string>
+
+    <!-- 2026-11-19-01-background-scripts -->
+    <string name="settings_whatsnew_entry_background_scripts_title">Скриптҳо дар корҳои пасзамина</string>
+    <string name="settings_whatsnew_entry_background_scripts_summary">Скриптҳое, ки агент ба пасзамина мегузаронад, дар паҳлуи зер-агентҳо ва Shell-ҳо нишон дода мешаванд. Зер-агент то анҷоми коркарди тасвирҳо, видеоҳо ё иҷрои скриптҳояш дар рӯйхат мемонад. Ҳар кадомро аз рӯйхат қатъ кунед.</string>
 </resources>

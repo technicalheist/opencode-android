@@ -38,6 +38,8 @@
     <string name="drawer_mark_as_unread">नपढिएको चिन्ह लगाउनुहोस्</string>
     <string name="drawer_mute">सूचना बन्द गर्नुहोस्</string>
     <string name="drawer_unmute">सूचना खोल्नुहोस्</string>
+    <string name="drawer_hide">लुकाउनुहोस्</string>
+    <string name="drawer_unhide">देखाउनुहोस्</string>
     <string name="drawer_move_up">माथि सार्नुहोस्</string>
     <string name="drawer_move_down">तल सार्नुहोस्</string>
 
@@ -81,8 +83,6 @@
     <string name="drawer_button_open_sessions_description">सत्रहरू खोल्नुहोस्</string>
     <string name="drawer_button_attention_state">एउटा सत्रमा तपाईंको इनपुट चाहिन्छ</string>
     <string name="drawer_button_unread_state">नपढिएका सत्रहरू</string>
-    <string name="drawer_notice_open_sessions_action">सत्रहरू खोल्नुहोस्</string>
-    <string name="drawer_notice_open_session_action">सत्र खोल्नुहोस्</string>
 
     <!-- Search pill -->
     <string name="drawer_search_description">खोज सत्रहरू</string>
@@ -121,6 +121,7 @@
     <!-- Session row state for TalkBack -->
     <string name="drawer_row_pinned_state">पिन गरिएका</string>
     <string name="drawer_row_muted_state">सूचना बन्द गरिएका</string>
+    <string name="drawer_row_hidden_state">लुकाइएका</string>
     <string name="drawer_row_needs_input_state">तपाईंको इनपुट चाहिन्छ</string>
     <string name="drawer_row_working_state">काम हुँदै छ</string>
     <string name="drawer_row_unread_state">नपढिएका</string>

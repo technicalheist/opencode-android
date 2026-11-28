@@ -901,4 +901,38 @@
     <!-- 2026-11-08-02-default-model -->
     <string name="settings_whatsnew_entry_default_model_title">නව සැසි ඔබේ පෙරනිමි ආකෘතිය භාවිත කරයි</string>
     <string name="settings_whatsnew_entry_default_model_summary">නව සැසි දැන් ඇරඹෙන්නේ අවසන් සැසියේ ආකෘතියෙන් නොව, OpenCode හි ඔබ පෙරනිමිය ලෙස සැකසූ ආකෘතියෙන් සහ ඒ සඳහා අවසන් වරට තේරූ සිතීමේ මට්ටමෙනි.</string>
+
+    <!-- 2026-11-11-01-streamed-reply-prefix -->
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_title">ලැබෙමින් පවතින පිළිතුර විවෘත කරන්න</string>
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_summary">පිළිතුරක් ලැබෙමින් තිබියදී සැසිය විවෘත කළොත්, ඉතිරිය ලැබෙන අතරතුර දැනට ලැබුණු කොටස කියවන්න පුළුවන්.</string>
+
+    <!-- 2026-11-13-01-draw-on-images -->
+    <string name="settings_whatsnew_entry_draw_on_images_title">රූප මත අඳින්න</string>
+    <string name="settings_whatsnew_entry_draw_on_images_summary">යමක් ගැන අහන්න කලින් එය සලකුණු කරන්න.</string>
+    <string name="settings_whatsnew_entry_draw_on_images_detail_1">රූපයක් සම්පූර්ණ තිරයේ විවෘත කර පෑන බොත්තම තට්ටු කරන්න. පාටක් තෝරා ඇඳීමෙන් පසු, සලකුණු කළ රූපය පණිවිඩයට ඇමිණීමට එකතු කරන්න තට්ටු කරන්න. මුල් රූපය වෙනස් නොවේ.</string>
+    <string name="settings_whatsnew_entry_draw_on_images_example">තිර රුවක ඔබට වෙනත් තැනකට ගෙන යාමට අවශ්‍ය පාලකය වටා රවුමක් ඇඳ, එය තැබිය යුතු තැන විස්තර කරන්න.</string>
+
+    <!-- 2026-11-14-01-fullscreen-viewer -->
+    <string name="settings_whatsnew_entry_fullscreen_viewer_title">ස්වයිප් කර ඡායාරූප හා වීඩියෝ බලන්න</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_summary">සැසියක රූප හා වීඩියෝ එකම තැනක බලන්න.</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_detail_1">වීඩියෝවකට ස්වයිප් කර, දැනට පෙනෙන රාමුවේ සලකුණු කිරීමට පෑන බොත්තම තට්ටු කරන්න. එකතු කරන්න තට්ටු කළ විට සලකුණු කළ රාමුව යැවීමකින් තොරව ඇමිණේ.</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_example">වෙනස් කළ යුතු තිරය පෙන්වන තැනදී ආදර්ශ වීඩියෝව විරාම කර, අදාළ කොටස වටා රවුමක් ඇඳ ඔබේ කෙටුම්පතට එකතු කරන්න.</string>
+
+    <!-- 2026-11-15-01-pairing-link-name -->
+    <string name="settings_whatsnew_entry_pairing_link_name_title">OpenCode Console වෙතින් නම් කළ සේවාදායකයන්</string>
+    <string name="settings_whatsnew_entry_pairing_link_name_summary">OpenCode Console වෙතින් යුගල කරන සේවාදායකයක් “Anomaly Box” වැනි එහි නම සමඟම එකතු වේ.</string>
+
+    <!-- 2026-11-17-01-session-media -->
+    <string name="settings_whatsnew_entry_session_media_title">සැසි මාධ්‍ය</string>
+    <string name="settings_whatsnew_entry_session_media_summary">සැසියක රූප, වීඩියෝ, ශ්රව්ය, ගොනු සහ පොදු වෙබ් සබැඳි බලන්න.</string>
+    <string name="settings_whatsnew_entry_session_media_detail_1">සැසියේ ⋮ මෙනුවෙන් සැසි මාධ්‍ය තෝරන්න. මාධ්‍ය යටතේ රූප, වීඩියෝ හා ශ්රව්ය මාසය අනුව කාණ්ඩ කළ ටයිල් ලෙස හෝ ලැයිස්තුවක් ලෙස පෙන්වයි. ගොනු හා සබැඳි යටතේ ලේඛන, ඇලවූ පෙළ හා වෙබ් සබැඳි ලැයිස්තුගත කරයි.</string>
+    <string name="settings_whatsnew_entry_session_media_example">මුළු සැසියම ආපස්සට අනුචලනය නොකර අද උදෑසන ඔබ යැවූ තිර රුව සොයාගන්න.</string>
+
+    <!-- 2026-11-18-02-drawer-call-phone -->
+    <string name="settings_whatsnew_entry_drawer_call_phone_title">පැති පැනලයේ ඇමතුම් සඳහා දුරකථන නිරූපකයක්</string>
+    <string name="settings_whatsnew_entry_drawer_call_phone_summary">සැසි ලැයිස්තුවේ සැකසීම් අසල ඇති ඇමතුම් බොත්තමේ දැන් පණිවිඩ කොටුවේ මෙන් දුරකථන නිරූපකයක් පෙන්වයි.</string>
+
+    <!-- 2026-11-19-01-background-scripts -->
+    <string name="settings_whatsnew_entry_background_scripts_title">පසුබිම් කාර්යයන් තුළ ස්ක්‍රිප්ට්</string>
+    <string name="settings_whatsnew_entry_background_scripts_summary">නියෝජිතයා පසුබිමට යවන ස්ක්‍රිප්ට් උප නියෝජිතයින් හා ෂෙල් අසල පෙන්වයි. උප නියෝජිතයෙකුගේ රූප, වීඩියෝ හෝ ස්ක්‍රිප්ට් තවමත් ක්‍රියාත්මක නම් එය ලැයිස්තුවේ රැඳේ. දෙවර්ගයම ලැයිස්තුවෙන් නවත්වන්න පුළුවන්.</string>
 </resources>

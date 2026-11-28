@@ -29,11 +29,6 @@
     <string name="core_experiment_group_transcript_title">Přepis</string>
     <string name="core_experiment_group_drawer_title">Výsuvný panel</string>
 
-    <!-- In-app notice mode -->
-    <string name="core_in_app_notice_mode_off">Vypnuto</string>
-    <string name="core_in_app_notice_mode_needs_input">Jen když je potřeba vaše reakce</string>
-    <string name="core_in_app_notice_mode_all">Všechny aktualizace</string>
-
     <!-- Themes and appearance -->
     <string name="core_theme_system_title">Systém</string>
     <string name="core_appearance_color_scheme_system_title">Systém</string>

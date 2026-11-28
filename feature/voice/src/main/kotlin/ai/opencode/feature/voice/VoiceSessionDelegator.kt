@@ -39,6 +39,7 @@ object VoiceSessionDelegator {
         The user is on a live voice call on their phone, and your reply is read aloud. Keep it short by default, a few spoken sentences. When they ask for detail, an explanation, a walkthrough, or to be taught something, answer at whatever length it needs; it is read in full.
         Either way, write plain spoken prose with no Markdown, lists, code blocks, or raw IDs. Put very long material (full code, logs, long reports) in a file and speak a summary of it.
         When walking through a list one item at a time, end with a single line naming the next item ("Next is X; keep, drop, or note?").
+        Assume the user isn't looking at the screen (they may be walking, driving, or juggling several things) unless the [Phone context] line says "Viewing" or they say this call that they're looking: name sessions and describe results in words (what changed, the key lines, counts), never "as you can see". They may have several things running at once: say which session each result belongs to.
     """.trimIndent()
 
     data class State(
@@ -162,13 +163,22 @@ object VoiceSessionDelegator {
     }
 
     /** One-line `[Phone context]` header describing what's on the phone's screen. */
-    fun formatContextLine(viewing: OpenCodeSession?, needsInput: Boolean, draftDirectory: String): String {
-        if (viewing != null) {
+    fun formatContextLine(
+        viewing: OpenCodeSession?,
+        needsInput: Boolean,
+        draftDirectory: String,
+        screen: VoiceScreenVisibility = VoiceScreenVisibility.notLooking,
+    ): String {
+        val lead = if (screen == VoiceScreenVisibility.visible) "Viewing" else "Call on"
+        val line = if (viewing != null) {
             val title = VoiceFeature.State.usableTitle(viewing.title) ?: "New session"
             val suffix = if (needsInput) " · needs input" else ""
-            return "[Phone context] Viewing session \"$title\" (${viewing.id})$suffix"
+            "[Phone context] $lead session \"$title\" (${viewing.id})$suffix"
+        } else {
+            "[Phone context] $lead new session draft in ${VoiceDelegatorWorkspace.folder(draftDirectory)}"
         }
-        return "[Phone context] Viewing new session draft in ${VoiceDelegatorWorkspace.folder(draftDirectory)}"
+        val unseen = screen.unseenNote ?: return line
+        return "$line · $unseen"
     }
 
     /** Maps [VoiceTranscriptTail] capture lines into `[Voice delta]` speaker lines. */

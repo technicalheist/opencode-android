@@ -42,6 +42,7 @@ import ai.opencode.feature.media.ImageDrawingAdd
 import ai.opencode.feature.media.MediaFlightAccessory
 import ai.opencode.feature.media.MediaImageResult
 import ai.opencode.feature.media.MediaReferenceResolver
+import ai.opencode.feature.media.TranscriptImagePreview
 import ai.opencode.feature.media.mediaZoomSource
 import ai.opencode.server.OpenCodeServer
 import ai.opencode.server.model.OpenCodeImageAttachment
@@ -407,13 +408,21 @@ fun rememberSessionAttachmentImporter(store: StoreOf<SessionFeature.State, Sessi
 /**
  * Draw on Image's Add to Prompt for a viewer opened from this session, or null (no Draw button)
  * while it takes no attachments. The image joins the session's draft as a pasted one would
- * ([SessionFeature.Action.DrawingAdded]).
+ * ([SessionFeature.Action.DrawingAdded]), or replaces the pending photo it was drawn on
+ * ([drawnOn], the page a viewer of the composer's photos shows).
  */
-internal fun drawingHandler(store: StoreOf<SessionFeature.State, SessionFeature.Action>): ImageDrawingAdd? {
+internal fun drawingHandler(
+    store: StoreOf<SessionFeature.State, SessionFeature.Action>,
+    drawnOn: () -> TranscriptImagePreview.Page? = { null },
+): ImageDrawingAdd? {
     if (!store.state.takesPasteAttachments) return null
     val identity = store.state.taskIdentity
     return { attachment ->
-        store.send(SessionFeature.Action.DrawingAdded(attachment, from = identity))
+        val page = drawnOn()
+        var replacing: String? = null
+        // A drawn video frame is added beside its video.
+        if (page != null && !page.isVideo) replacing = ComposerPhotoViewer.attachmentID(page.id)
+        store.send(SessionFeature.Action.DrawingAdded(attachment, from = identity, replacing = replacing))
         val added = store.state.pendingAttachments.any { it.id == attachment.id }
         if (added) ComposerPhotoViewer.mediaID(attachment.id) else null
     }
@@ -611,8 +620,9 @@ fun PendingAttachmentsRow(
     var knownKeys by remember { mutableStateOf(itemKeys.toSet()) }
     LaunchedEffect(itemKeys) {
         val added = itemKeys.lastOrNull { it !in knownKeys }
+        val grew = itemKeys.size > knownKeys.size
         knownKeys = itemKeys.toSet()
-        if (added != null) {
+        if (added != null && grew) {
             withFrameNanos { }
             listState.revealFully(itemKeys.last(), itemKeys.lastIndex)
             listState.revealFully(added, itemKeys.indexOf(added))

@@ -6,6 +6,7 @@ import ai.opencode.feature.system.SystemAction
 import ai.opencode.feature.system.share.ShareConversation
 import ai.opencode.server.LocalNetworkPermission
 import ai.opencode.server.OpenCodePairingLink
+import ai.opencode.server.TranscriptCachePersistence
 import ai.opencode.core.dependencies.dependency
 import ai.opencode.core.diagnostics.PerfFrameSampler
 import ai.opencode.core.diagnostics.PerfTimeline
@@ -97,6 +98,8 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         // Debug lab hooks run before anything reads the store.
         if (savedInstanceState == null) LabLaunch.apply(intent)
+        // The transcript cache decodes off the main thread; the store's first read takes it.
+        dependency(TranscriptCachePersistence).prefetch()
         // The window's store: the first window's, or a further window's on its own session.
         root.resolve(this, RootStore.target(intent, savedInstanceState))
         val splash = installSplashScreen()

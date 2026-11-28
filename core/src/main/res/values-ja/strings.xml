@@ -29,11 +29,6 @@
     <string name="core_experiment_group_transcript_title">会話履歴</string>
     <string name="core_experiment_group_drawer_title">ドロワー</string>
 
-    <!-- In-app notice mode -->
-    <string name="core_in_app_notice_mode_off">オフ</string>
-    <string name="core_in_app_notice_mode_needs_input">入力が必要なときのみ</string>
-    <string name="core_in_app_notice_mode_all">すべての更新</string>
-
     <!-- Themes and appearance -->
     <string name="core_theme_system_title">システム</string>
     <string name="core_appearance_color_scheme_system_title">システム</string>

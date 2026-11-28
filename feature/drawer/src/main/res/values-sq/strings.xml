@@ -38,6 +38,8 @@
     <string name="drawer_mark_as_unread">Shëno si të palexuar</string>
     <string name="drawer_mute">Hesht</string>
     <string name="drawer_unmute">Hiq heshtjen</string>
+    <string name="drawer_hide">Fshih</string>
+    <string name="drawer_unhide">Shfaq</string>
     <string name="drawer_move_up">Zhvendos lart</string>
     <string name="drawer_move_down">Zhvendos poshtë</string>
 
@@ -81,8 +83,6 @@
     <string name="drawer_button_open_sessions_description">Hap sesionet</string>
     <string name="drawer_button_attention_state">Një sesion kërkon përgjigjen tënde</string>
     <string name="drawer_button_unread_state">Sesione të palexuara</string>
-    <string name="drawer_notice_open_sessions_action">Hap sesionet</string>
-    <string name="drawer_notice_open_session_action">Hap sesionin</string>
 
     <!-- Search pill -->
     <string name="drawer_search_description">Kërko seancat</string>
@@ -121,6 +121,7 @@
     <!-- Session row state for TalkBack -->
     <string name="drawer_row_pinned_state">Të fiksuara</string>
     <string name="drawer_row_muted_state">Pa zë</string>
+    <string name="drawer_row_hidden_state">Të fshehura</string>
     <string name="drawer_row_needs_input_state">Kërkohet përgjigjja jote</string>
     <string name="drawer_row_working_state">Duke punuar</string>
     <string name="drawer_row_unread_state">Të palexuara</string>

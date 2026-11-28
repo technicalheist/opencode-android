@@ -124,6 +124,13 @@ class ShellGlyphModel(internal var meter: ShellOutputMeter = ShellOutputMeter.sh
 
     val isLapping: Boolean get() = glyph?.isLapping == true
 
+    /** Still, with nothing coming to move it: stepping on would draw the same field until the shells' output grows. */
+    fun isResting(now: Double, shellIDs: List<String>): Boolean {
+        val glyph = glyph ?: return false
+        if (glyph.state != ShellPromptGlyph.State.idle || !glyph.isResting) return false
+        return meter.reading(shellIDs, now).isQuiet
+    }
+
     fun advance(now: Double, shellIDs: List<String>, reduceMotion: Boolean): GyroField {
         val reading = meter.reading(shellIDs, now)
         val state = if (reading.isOutput) ShellPromptGlyph.State.output else ShellPromptGlyph.State.idle

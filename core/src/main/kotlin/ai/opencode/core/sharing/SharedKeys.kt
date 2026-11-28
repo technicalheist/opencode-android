@@ -3,6 +3,7 @@ package ai.opencode.core.sharing
 import java.time.Instant
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.builtins.MapSerializer
+import kotlinx.serialization.builtins.nullable
 import kotlinx.serialization.builtins.serializer
 import kotlinx.serialization.descriptors.PrimitiveKind
 import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
@@ -11,6 +12,17 @@ import kotlinx.serialization.encoding.Encoder
 
 /** Keys whose values are server or voice types live with those types. */
 object SharedKeys {
+    /**
+     * When the app last went to the background, cleared once it's back. A long enough gap opens a
+     * new session (`HomeFeature.newSessionAfterAway`), even when the system ended the app meanwhile.
+     */
+    val appLeftAt = SharedKey<Instant?>(
+        id = "app-left-at",
+        default = null,
+        serializer = InstantSerializer.nullable,
+        storage = SharedStorageKind.AppStorage,
+    )
+
     /** Whether an iPad-wide window shows the sessions sidebar (large-screen Android: list-detail pane). On by default. */
     val sidebarShown = SharedKey.appStorage("sidebar-shown", true)
 
@@ -76,6 +88,9 @@ object SharedKeys {
 
     /** Phone-local, server-scoped (`serverID|sessionID`) like pins: muted sessions never reach Catch Up or an unread badge. */
     val mutedSessionKeys = SharedKey.fileStorage<Set<String>>(FileDirectory.Documents, "muted-sessions.json", emptySet())
+
+    /** Phone-local, server-scoped (`serverID|sessionID`) like pins: hidden sessions leave the drawer's list but still turn up in search. */
+    val hiddenSessionKeys = SharedKey.fileStorage<Set<String>>(FileDirectory.Documents, "hidden-sessions.json", emptySet())
 
     val initializedInboxServerIDs =
         SharedKey.fileStorage<Set<String>>(FileDirectory.Documents, "initialized-inbox-servers.json", emptySet())

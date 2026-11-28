@@ -134,7 +134,7 @@ class VoiceSessionDelegatorServerVoiceTests {
         send(functionCall(callID)) {
             it.startingTurn(callID = callID, sessionID = session.id, admitting = true, saidTurn = 2, activeSessionID = session.id)
         }
-        val expectedContext = "[Phone context] Viewing session \"Session View\" (ses_view)"
+        val expectedContext = "[Phone context] Call on session \"Session View\" (ses_view) · " + VoiceScreenVisibility.notLooking.unseenNote!!
         val expectedAdmission = VoiceSessionDelegator.Admission(
             sessionID = session.id,
             title = session.title,

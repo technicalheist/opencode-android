@@ -901,4 +901,38 @@
     <!-- 2026-11-08-02-default-model -->
     <string name="settings_whatsnew_entry_default_model_title">新工作階段使用你的預設模型</string>
     <string name="settings_whatsnew_entry_default_model_summary">新工作階段會使用你在 OpenCode 設定的預設模型，並沿用你上次為該模型選擇的思考強度，不再使用上一個工作階段的模型。</string>
+
+    <!-- 2026-11-11-01-streamed-reply-prefix -->
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_title">在回覆傳送途中開啟閱讀</string>
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_summary">在回覆串流傳送時開啟工作階段，即可一邊閱讀已收到的內容，一邊接收後續回覆。</string>
+
+    <!-- 2026-11-13-01-draw-on-images -->
+    <string name="settings_whatsnew_entry_draw_on_images_title">在圖片上畫記</string>
+    <string name="settings_whatsnew_entry_draw_on_images_summary">先標出細節，再針對它提問。</string>
+    <string name="settings_whatsnew_entry_draw_on_images_detail_1">以全螢幕開啟圖片，點一下畫筆按鈕。選擇顏色並畫記，再點一下「新增」，將標記後的圖片附加到訊息。原圖不會變動。</string>
+    <string name="settings_whatsnew_entry_draw_on_images_example">在螢幕截圖中圈出要移動的控制項，再說明要移到哪裡。</string>
+
+    <!-- 2026-11-14-01-fullscreen-viewer -->
+    <string name="settings_whatsnew_entry_fullscreen_viewer_title">滑動切換照片與影片</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_summary">一起瀏覽工作階段中的圖片和影片。</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_detail_1">滑動切換到影片，再點一下畫筆按鈕，即可在目前畫格上畫記。點選「新增」只會附加標記後的畫格，不會傳送。</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_example">將示範影片暫停在需要修改的畫面，圈出細節，再加入草稿。</string>
+
+    <!-- 2026-11-15-01-pairing-link-name -->
+    <string name="settings_whatsnew_entry_pairing_link_name_title">從 OpenCode Console 配對時帶入伺服器名稱</string>
+    <string name="settings_whatsnew_entry_pairing_link_name_summary">從 OpenCode Console 配對的伺服器會自動帶入名稱，例如「Anomaly Box」。</string>
+
+    <!-- 2026-11-17-01-session-media -->
+    <string name="settings_whatsnew_entry_session_media_title">工作階段媒體</string>
+    <string name="settings_whatsnew_entry_session_media_summary">瀏覽工作階段中的圖片、影片、音訊、檔案和公開網頁連結。</string>
+    <string name="settings_whatsnew_entry_session_media_detail_1">從工作階段的 ⋮ 選單選擇「工作階段媒體」。「媒體」會以按月分組的方塊或清單顯示圖片、影片和音訊；「檔案」和「連結」則會列出文件、貼上的內容和網頁連結。</string>
+    <string name="settings_whatsnew_entry_session_media_example">不用往回捲動整個工作階段，就能找到今天早上傳送的螢幕截圖。</string>
+
+    <!-- 2026-11-18-02-drawer-call-phone -->
+    <string name="settings_whatsnew_entry_drawer_call_phone_title">側邊欄的通話按鈕改用電話圖示</string>
+    <string name="settings_whatsnew_entry_drawer_call_phone_summary">工作階段清單中「設定」旁的通話按鈕，現在使用與訊息輸入框相同的電話圖示。</string>
+
+    <!-- 2026-11-19-01-background-scripts -->
+    <string name="settings_whatsnew_entry_background_scripts_title">背景工作中顯示腳本</string>
+    <string name="settings_whatsnew_entry_background_scripts_summary">代理程式移到背景執行的腳本，會與子代理和 Shell 一起顯示。子代理只要仍在處理圖片、影片或執行腳本，就會留在清單中。兩者都能直接從清單停止。</string>
 </resources>

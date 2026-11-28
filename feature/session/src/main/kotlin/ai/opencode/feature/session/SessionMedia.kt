@@ -5,10 +5,13 @@ import ai.opencode.core.strings.localized
 import ai.opencode.feature.media.AgentFileDestination
 import ai.opencode.feature.media.AgentImageKey
 import ai.opencode.feature.media.AgentImageRequest
+import ai.opencode.feature.media.CachedImage
+import ai.opencode.feature.media.LinkPreview
 import ai.opencode.feature.media.LinkPreviewExtractor
 import ai.opencode.feature.media.LinkPreviewPolicy
 import ai.opencode.feature.media.LinkTextBlock
 import ai.opencode.feature.media.LinkTextRun
+import ai.opencode.feature.media.MediaReferenceResolver
 import ai.opencode.feature.media.TranscriptImagePreview
 import ai.opencode.feature.transcript.links.linkTextBlocks
 import ai.opencode.feature.transcript.markdown.OpenCodeMarkdownBlock
@@ -16,6 +19,7 @@ import ai.opencode.feature.transcript.markdown.OpenCodeMarkdownBlock.Kind
 import ai.opencode.server.OpenCodeServer
 import ai.opencode.server.model.AgentFileReference
 import ai.opencode.server.model.OpenCodeImageAttachment
+import ai.opencode.server.model.OpenCodeToolCall
 import ai.opencode.server.model.OpenCodeTranscriptFile
 import ai.opencode.server.model.OpenCodeTranscriptItem
 import ai.opencode.server.model.PastedTextSummary
@@ -103,7 +107,7 @@ object SessionMedia {
         /** A long paste sent as a file. */
         data class PastedText(val text: String, val summary: PastedTextSummary) : Content
 
-        data class Link(val url: String) : Content
+        data class Link(val url: String, val label: String?) : Content
     }
 
     /**
@@ -119,6 +123,7 @@ object SessionMedia {
         var date: Instant? = null
         val rows = mutableListOf<List<Item>>()
         val seen = HashSet<String>()
+        val linkLabels = HashMap<String, String?>()
         // Each item where it was first shared, by whoever shared it; the newest row first.
         for ((index, item) in items.withIndex()) {
             // The app's own `msg_<UUID>` rows carry no time: they take the last one seen.
@@ -145,17 +150,25 @@ object SessionMedia {
                 file(ref, origin, file.name, file.mime)
             }
             fun links(blocks: List<LinkTextBlock>, origin: Origin) {
-                for (target in LinkPreviewExtractor.targets(blocks, limit = Int.MAX_VALUE)) add("link:${target.key}", Content.Link(target.url), origin)
+                for ((target, label) in LinkPreviewExtractor.labeledTargets(blocks, limit = Int.MAX_VALUE)) {
+                    linkLabels["link:${target.key}"] = label
+                    add("link:${target.key}", Content.Link(target.url, label), origin)
+                }
             }
             when (item) {
                 is OpenCodeTranscriptItem.UserImages -> item.images.forEach { image(it, Origin.user) }
                 is OpenCodeTranscriptItem.UserFiles -> item.files.forEach { transcriptFile(it, Origin.user) }
                 is OpenCodeTranscriptItem.UserText -> links(listOf(LinkTextBlock(0, prose = listOf(LinkTextRun(item.text)))), Origin.user)
                 is OpenCodeTranscriptItem.Tool -> {
-                    val read = item.call.fileReference?.takeIf { it.kind.isVisual }
+                    val read = item.call.fileReference?.takeIf { item.call.status == OpenCodeToolCall.Status.Completed && it.kind.showsCard }
                     // An image read returns the same pixels as an attachment: one card, the file.
                     val pixels = item.call.imageAttachments.filter { !it.isUnavailable && (it.mediaHash != null || it.data.isNotEmpty()) }
-                    if (read != null) file(read, Origin.agent, thumbnail = pixels.firstOrNull()) else pixels.forEach { image(it, Origin.agent) }
+                    if (read != null && read.kind.isVisual) {
+                        file(read, Origin.agent, thumbnail = pixels.firstOrNull())
+                    } else {
+                        pixels.forEach { image(it, Origin.agent) }
+                        if (read != null) file(read, Origin.agent)
+                    }
                     item.call.videos.orEmpty().forEach { transcriptFile(it, Origin.agent) }
                 }
                 is OpenCodeTranscriptItem.AssistantMarkdown -> {
@@ -163,7 +176,7 @@ object SessionMedia {
                     for (block in blocks) {
                         when (val kind = block.kind) {
                             is Kind.Files -> kind.files.forEach { ref -> shownFile(ref)?.let { file(it, Origin.agent) } }
-                            is Kind.Image -> AgentFileReference.fromLink(kind.source)?.let { file(it, Origin.agent) }
+                            is Kind.Image -> AgentFileReference.fromLink(kind.source)?.takeIf { it.kind.showsCard }?.let { file(it, Origin.agent) }
                             else -> Unit
                         }
                     }
@@ -173,7 +186,13 @@ object SessionMedia {
             }
             if (row.isNotEmpty()) rows += row
         }
-        return rows.asReversed().flatten()
+        // A link is titled by its newest mention's label.
+        val result = mutableListOf<Item>()
+        for (item in rows.asReversed().flatten()) {
+            val content = item.content
+            result += if (content is Content.Link) item.copy(content = content.copy(label = linkLabels[item.id])) else item
+        }
+        return result
     }
 
     /** The files replies name as cards, which are checked before their cards show. */
@@ -258,9 +277,12 @@ object SessionMedia {
     private fun page(item: Item, directory: String?): TranscriptImagePreview.Page? = when (val content = item.content) {
         is Content.Image -> {
             val image = content.attachment
+            val bytes = MediaReferenceResolver.resolvedData(image)
+            val thumbnail = if (bytes != null) CachedImage.cachedThumbnail(image.id, image.mediaHash) else null
             TranscriptImagePreview.Page(
-                zoomSourceID(item), null, image.name ?: localized(R.string.session_visual_image), mediaHash = image.mediaHash, name = image.name,
-                original = image.data.takeIf { it.isNotEmpty() }, labelIsPlaceholder = image.name == null,
+                zoomSourceID(item), thumbnail, image.name ?: localized(R.string.session_visual_image), mediaHash = image.mediaHash, name = image.name,
+                original = if (thumbnail != null) bytes else image.data.takeIf { it.isNotEmpty() }, labelIsPlaceholder = image.name == null,
+                placeholderSize = if (thumbnail != null && bytes != null) CachedImage.pixelSize(bytes) else null,
             )
         }
         is Content.File -> {
@@ -302,7 +324,7 @@ object SessionMedia {
         is Content.Image -> content.attachment.name ?: localized(R.string.session_visual_image)
         is Content.File -> content.name
         is Content.PastedText -> ai.opencode.server.model.PastedText.title
-        is Content.Link -> LinkPreviewPolicy.displayHost(content.url)
+        is Content.Link -> content.label ?: LinkPreview.readableTitle(content.url) ?: LinkPreviewPolicy.displayHost(content.url)
     }
 
     /** The card's type line: the file type, a paste's length, or a link's address. */

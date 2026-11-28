@@ -29,11 +29,6 @@
     <string name="core_experiment_group_transcript_title">ཁ་སླབ་ཡིག་འབེབས།</string>
     <string name="core_experiment_group_drawer_title">ཟུར་ཐོ།</string>
 
-    <!-- In-app notice mode -->
-    <string name="core_in_app_notice_mode_off">ཨོཕ།</string>
-    <string name="core_in_app_notice_mode_needs_input">ཁྱོད་ཀྱི་ལན་དགོཔ་ད་རྐྱངམ་ཅིག།</string>
-    <string name="core_in_app_notice_mode_all">དུས་མཐུན་ཆ་མཉམ།</string>
-
     <!-- Themes and appearance -->
     <string name="core_theme_system_title">ལམ༌ལུགས</string>
     <string name="core_appearance_color_scheme_system_title">ལམ༌ལུགས</string>

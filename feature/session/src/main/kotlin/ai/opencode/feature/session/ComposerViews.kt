@@ -831,7 +831,6 @@ fun JumpToLatestPill(
                         .graphicsLayer { if (veiled()) alpha = 0f }
                         .scale(if (reduceMotion) 1f else 0.5f + 0.5f * p)
                         .alpha(p.coerceIn(0f, 1f))
-                        .coveredByBackgroundWork()
                         .then(
                             if (isShown && !veiled()) {
                                 Modifier

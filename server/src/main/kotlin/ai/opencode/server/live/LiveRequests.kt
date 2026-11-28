@@ -7,6 +7,7 @@ import ai.opencode.server.OpenCodeServer
 import ai.opencode.server.R
 import ai.opencode.server.model.OpenCodeFormRequest
 import ai.opencode.server.model.OpenCodeFormValue
+import ai.opencode.server.model.OpenCodeJob
 import ai.opencode.server.model.OpenCodePendingRequests
 import ai.opencode.server.model.OpenCodePermissionReply
 import ai.opencode.server.model.OpenCodePermissionRequest
@@ -15,6 +16,7 @@ import ai.opencode.server.model.OpenCodeShell
 import ai.opencode.server.model.OpenCodeShellOutputPage
 import ai.opencode.server.model.PromptContext
 import ai.opencode.server.model.nonEmpty
+import ai.opencode.server.retry.RequestIdempotency
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -223,6 +225,21 @@ private fun isGone(error: OpenCodeClientError): Boolean = error.statusCode == 40
 
 private fun settled(error: OpenCodeClientError, message: String): OpenCodeClientError =
     error.copy(message = message, requestSettled = true)
+
+// Background jobs (experimental).
+
+/** The session's running jobs and those of every session below it. */
+internal suspend fun requestRunningJobs(server: OpenCodeServer, sessionID: String): List<OpenCodeJob> =
+    request<DataPayload<List<JobInfo>>>(
+        "/api/experimental/job",
+        query = listOf("sessionID" to sessionID, "descendants" to "true", "status" to "running"),
+        server = server,
+    ).data.map { it.job() }.filter { it.isRunning }
+
+internal suspend fun requestCancelJob(server: OpenCodeServer, jobID: String) {
+    // Cancelling a job that already finished does nothing, so a second copy is harmless.
+    perform("/api/experimental/job/$jobID/cancel", method = "POST", idempotency = RequestIdempotency.Idempotent, server = server)
+}
 
 // Shells.
 

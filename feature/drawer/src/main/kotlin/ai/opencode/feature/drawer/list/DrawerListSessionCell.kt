@@ -107,6 +107,7 @@ class DrawerListRowActions(
     val togglePin: () -> Unit,
     val toggleRead: () -> Unit,
     val toggleMute: () -> Unit,
+    val toggleHidden: () -> Unit,
     val delete: () -> Unit,
     val movePinUp: () -> Unit,
     val movePinDown: () -> Unit,
@@ -145,6 +146,7 @@ fun DrawerListSessionCell(
     val pinLabel = if (row.isPinnedSection) stringResource(R.string.drawer_unpin) else stringResource(R.string.drawer_pin)
     val readLabel = if (row.unread) stringResource(R.string.drawer_mark_as_read) else stringResource(R.string.drawer_mark_as_unread)
     val muteLabel = if (row.muted) stringResource(R.string.drawer_unmute) else stringResource(R.string.drawer_mute)
+    val hideLabel = if (row.hidden) stringResource(R.string.drawer_unhide) else stringResource(R.string.drawer_hide)
     val deleteLabel = stringResource(CoreR.string.common_delete)
     val moveUpLabel = stringResource(R.string.drawer_move_up)
     val moveDownLabel = stringResource(R.string.drawer_move_down)
@@ -329,6 +331,7 @@ fun DrawerListSessionCell(
                             add(CustomAccessibilityAction(pinLabel) { currentActions.togglePin(); true })
                             add(CustomAccessibilityAction(readLabel) { currentActions.toggleRead(); true })
                             add(CustomAccessibilityAction(muteLabel) { currentActions.toggleMute(); true })
+                            add(CustomAccessibilityAction(hideLabel) { currentActions.toggleHidden(); true })
                         }
                         add(CustomAccessibilityAction(deleteLabel) { currentActions.delete(); true })
                         if (row.isPinnedSection) {

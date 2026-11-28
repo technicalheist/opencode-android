@@ -1,6 +1,7 @@
 package ai.opencode.feature.transcript.user
 
 import ai.opencode.core.testing.TestIsolationRule
+import ai.opencode.core.ui.OpenCodeTextStyles
 import ai.opencode.feature.transcript.TranscriptEntry
 import ai.opencode.server.OpenCodeClient
 import ai.opencode.server.model.OpenCodeQueuedInput
@@ -92,6 +93,16 @@ class PastedTextTests {
         assertTrue(UserBubbleFold.folds(metrics.height(13), metrics))
         assertTrue(metrics.folded < metrics.height(9))
         assertTrue(metrics.folded > metrics.height(8))
+    }
+
+    @Test
+    fun closedLinesStillFold() {
+        // At density 1 and the bubble's own line height, less one line for trimmed leading.
+        val body = UserBubbleFold.Metrics(OpenCodeTextStyles.body.lineHeight.value, UserBubbleFold.lineSpacing)
+        val closed = (UserBubbleFold.closedLines - 1) * UserBubbleTextStyle.lineHeight.value
+        assertTrue(UserBubbleFold.folds(closed, body))
+        assertTrue(closed > body.folded)
+        assertTrue(UserBubbleFold.closedLines < 20)
     }
 
     @Test

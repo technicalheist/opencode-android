@@ -3,11 +3,10 @@
     <!-- Agent activity glyph -->
     <string name="session_activity_running_description">Se execută</string>
     <!-- Background work panel -->
-    <string name="session_background_work_show_label">Arată subagenții și shell-urile în execuție</string>
+    <string name="session_background_work_show_label">Arată subagenții, scripturile și shell-urile în execuție</string>
     <string name="session_background_work_collapsed_description">Restrâns</string>
-    <string name="session_background_work_subagents_title">Subagenți</string>
+    <string name="session_background_work_expanded_description">Extins</string>
     <string name="session_background_work_open_subagent_label">Deschide sesiunea subagentului</string>
-    <string name="session_background_work_shells_title">Shell-uri</string>
     <string name="session_background_work_show_shell_label">Arată rezultatul shell-ului</string>
     <!-- The session's images and videos, paged in the full-screen viewer -->
     <string name="session_visual_attached_image">Imagine atașată</string>
@@ -70,6 +69,8 @@
     <string name="session_sheet_unknown_description">Necunoscut</string>
     <string name="session_sheet_context_tokens">%1$s tokeni</string>
     <string name="session_sheet_cost">Cost</string>
+    <string name="session_sheet_media">Media</string>
+    <string name="session_sheet_media_value">Fișiere și linkuri</string>
     <string name="session_always_notify">Notifică mereu</string>
     <string name="session_always_notify_message_phone">Primește notificări pe acest telefon când un răspuns e gata, chiar și pentru mesajele trimise de pe alt dispozitiv.</string>
     <string name="session_always_notify_message_tablet">Primește notificări pe această tabletă când un răspuns e gata, chiar și pentru mesajele trimise de pe alt dispozitiv.</string>
@@ -206,26 +207,26 @@
         <item quantity="few">%1$d shell-uri</item>
         <item quantity="other">%1$d de shell-uri</item>
     </plurals>
+    <plurals name="session_background_work_script_count">
+        <item quantity="one">%1$d script</item>
+        <item quantity="few">%1$d scripturi</item>
+        <item quantity="other">%1$d de scripturi</item>
+    </plurals>
     <string name="session_background_work_summary">%1$s · %2$s</string>
+    <string name="session_background_work_elapsed_seconds">%1$ds</string>
+    <string name="session_background_work_elapsed_minutes">%1$dm %2$ss</string>
+    <string name="session_background_work_elapsed_hours">%1$dh %2$sm</string>
+    <string name="session_background_work_stop_script_label">Oprește scriptul</string>
+    <string name="session_background_work_stop_subagent_label">Oprește subagentul</string>
+    <string name="session_background_work_stop_shell_label">Oprește shell-ul</string>
+    <string name="session_background_work_stop_script_failed">Nu s-a putut opri scriptul</string>
+    <string name="session_background_work_stop_subagent_failed">Nu s-a putut opri subagentul</string>
 
     <!-- Composer buttons -->
     <string name="session_send_message_description">Trimite mesajul</string>
     <string name="session_stop_description">Oprește</string>
     <string name="session_start_voice_call_description">Pornește un apel vocal</string>
     <string name="session_model_level_default">Implicit</string>
-
-    <!-- In-app notice -->
-    <plurals name="session_notice_session_count">
-        <item quantity="one">%1$d sesiune</item>
-        <item quantity="few">%1$d sesiuni</item>
-        <item quantity="other">%1$d de sesiuni</item>
-    </plurals>
-    <plurals name="session_notice_needs_input_count">
-        <item quantity="one">%1$d are nevoie de tine</item>
-        <item quantity="few">%1$d au nevoie de tine</item>
-        <item quantity="other">%1$d au nevoie de tine</item>
-    </plurals>
-    <string name="session_notice_announcement">%1$s, %2$s</string>
 
     <!-- Server connection pill -->
     <string name="session_server_reconnecting">Se reconectează la %1$s…</string>

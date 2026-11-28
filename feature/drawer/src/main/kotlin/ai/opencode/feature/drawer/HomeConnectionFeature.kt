@@ -262,22 +262,18 @@ class HomeConnectionFeature : Reducer<HomeConnectionFeature.State, HomeConnectio
                 // A stream on the old route is stranded; reconnecting waits for the app to be
                 // active again. What runs meanwhile (a call's requests) still gets fresh pools and
                 // races the addresses again.
-                val link = dependency(ServerLinkClient)
-                val server = state.server
+                startConnectionsOver(state.server, ServerLinkReset.Reroute)
                 Reduced(
                     state.copy(isEventStreamLive = false),
                     Effect.merge(
                         Effect.cancel(HomeFeature.CancelID.Events),
                         Effect.cancel(HomeFeature.CancelID.LiveUpdatesAfterLeaving),
-                        Effect.run {
-                            link.resetConnections(ServerLinkReset.Reroute)
-                            link.invalidate(server, null)
-                        },
                     ),
                 )
             } else {
                 val next = state.copy(isEventStreamLive = false)
-                Reduced(next, eventStream(next.server, forgettingAddress = true, resetting = ServerLinkReset.Reroute))
+                startConnectionsOver(next.server, ServerLinkReset.Reroute)
+                Reduced(next, eventStream(next.server))
             }
         }
 
@@ -327,14 +323,27 @@ class HomeConnectionFeature : Reducer<HomeConnectionFeature.State, HomeConnectio
             next = begun.state
             recovery = begun.effect
         }
+        if (!next.isStreaming) return Reduced(next, Effect.merge(Effect.cancel(HomeFeature.CancelID.LiveUpdatesAfterLeaving), recovery))
+        startConnectionsOver(next.server, reason)
         return Reduced(
             next,
             Effect.merge(
                 Effect.cancel(HomeFeature.CancelID.LiveUpdatesAfterLeaving),
                 recovery,
-                if (next.isStreaming) eventStream(next.server, forgettingAddress = true, resetting = reason) else Effect.none(),
+                eventStream(next.server),
             ),
         )
+    }
+
+    /**
+     * Fresh pools and the addresses raced again while the action is reduced, so the stream, Home's
+     * snapshot and an open screen's resume reads that start after it never go out on the old pool.
+     * A reset can be skipped (too soon after another, a short trip away); forgetting the address can't.
+     */
+    private fun startConnectionsOver(server: OpenCodeServer, reason: ServerLinkReset) {
+        val link = dependency(ServerLinkClient)
+        link.resetConnections(reason)
+        link.invalidate(server, null)
     }
 
     /**
@@ -392,25 +401,13 @@ class HomeConnectionFeature : Reducer<HomeConnectionFeature.State, HomeConnectio
      * The event stream, reconnecting on the stream schedule (sooner when the route changes or the
      * server answers a request), or on the overflow schedule at the same address when the app fell
      * behind. A 401 stops it for good.
-     *
-     * [forgettingAddress]: the route changed or the person asked, so the address that answered
-     * last is no better a guess than the others. [resetting]: start every connection over first
-     * (fresh pools, addresses raced again), before this stream or its race opens one.
      */
-    fun eventStream(
-        server: OpenCodeServer,
-        forgettingAddress: Boolean = false,
-        resetting: ServerLinkReset? = null,
-    ): Effect<Action> {
+    fun eventStream(server: OpenCodeServer): Effect<Action> {
         val events = dependency(OpenCodeClient).events
         val networkPath = dependency(NetworkPathClient)
         val link = dependency(ServerLinkClient)
         val clock = dependency(Clock)
         return Effect.run<Action> { send ->
-            if (resetting != null) link.resetConnections(resetting)
-            // A reset can be skipped (too soon after another, a short trip away); forgetting the
-            // address can't.
-            if (forgettingAddress) link.invalidate(server, null)
             val schedule = RetrySchedule(RetryPolicy.stream, clock, networkPath.retryEnvironment)
             val overflowSchedule = RetrySchedule(RetryPolicy.streamOverflow, clock, networkPath.retryEnvironment)
             // Every fresh start races the addresses: the one that answered last may be on a

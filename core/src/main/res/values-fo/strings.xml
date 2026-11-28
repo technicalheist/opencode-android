@@ -29,11 +29,6 @@
     <string name="core_experiment_group_transcript_title">Samrøðutekstur</string>
     <string name="core_experiment_group_drawer_title">Síðukarmur</string>
 
-    <!-- In-app notice mode -->
-    <string name="core_in_app_notice_mode_off">Sløkt</string>
-    <string name="core_in_app_notice_mode_needs_input">Bert tá tín luttøka krevst</string>
-    <string name="core_in_app_notice_mode_all">Allar dagføringar</string>
-
     <!-- Themes and appearance -->
     <string name="core_theme_system_title">Skipan</string>
     <string name="core_appearance_color_scheme_system_title">Skipan</string>

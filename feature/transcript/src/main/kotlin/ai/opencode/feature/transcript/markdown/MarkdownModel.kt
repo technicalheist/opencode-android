@@ -21,12 +21,20 @@ data class InlineText(val runs: List<InlineRun>) {
         /** Runs with empty ones dropped and adjacent equal-attribute runs merged (as `AttributedString` coalesces them). */
         fun coalesced(runs: List<InlineRun>): InlineText {
             val out = ArrayList<InlineRun>(runs.size)
+            var pending: InlineRun? = null
+            var pendingText: StringBuilder? = null
             for (run in runs) {
                 if (run.text.isEmpty()) continue
-                val last = out.lastOrNull()
-                if (last != null && last.sameAttributes(run)) out[out.size - 1] = last.copy(text = last.text + run.text)
-                else out.add(run)
+                if (pending != null && pending.sameAttributes(run)) {
+                    if (pendingText == null) pendingText = StringBuilder(pending.text)
+                    pendingText.append(run.text)
+                    continue
+                }
+                if (pending != null) out.add(if (pendingText == null) pending else pending.copy(text = pendingText.toString()))
+                pending = run
+                pendingText = null
             }
+            if (pending != null) out.add(if (pendingText == null) pending else pending.copy(text = pendingText.toString()))
             return if (out.isEmpty()) empty else InlineText(out)
         }
     }

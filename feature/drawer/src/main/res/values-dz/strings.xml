@@ -37,6 +37,8 @@
     <string name="drawer_mark_as_unread">མ་ལྷགཔ་སྦེ་རྟགས་བཀལ།</string>
     <string name="drawer_mute">བརྡ་བསྐུལ་བཀག</string>
     <string name="drawer_unmute">བརྡ་བསྐུལ་ལོག་སྤྲོད།</string>
+    <string name="drawer_hide">སྦ་བཞག</string>
+    <string name="drawer_unhide">སྦ་བཞག་མ་འབད།</string>
     <string name="drawer_move_up">ཡར་སྤོ།</string>
     <string name="drawer_move_down">མར་སྤོ།</string>
 
@@ -77,8 +79,6 @@
     <string name="drawer_button_open_sessions_description">ལཱ་ཡུན་ཚུ་ཁ་ཕྱེ།</string>
     <string name="drawer_button_attention_state">ལཱ་ཡུན་ཅིག་ལུ་ཁྱོད་ཀྱི་ལན་དགོཔ་ཨིན།</string>
     <string name="drawer_button_unread_state">མ་ལྷག་པའི་ལཱ་ཡུན་ཚུ།</string>
-    <string name="drawer_notice_open_sessions_action">ལཱ་ཡུན་ཚུ་ཁ་ཕྱེ།</string>
-    <string name="drawer_notice_open_session_action">ལཱ་ཡུན་འདི་ཁ་ཕྱེ།</string>
 
     <!-- Search pill -->
     <string name="drawer_search_description">འཚོལ་ཞིབ་ལཱ་ཡུན་ཚུ།</string>
@@ -117,6 +117,7 @@
     <!-- Session row state for TalkBack -->
     <string name="drawer_row_pinned_state">གཏན་བཟུང་འབད་ཡོདཔ།</string>
     <string name="drawer_row_muted_state">བརྡ་བསྐུལ་བཀག་ཡོདཔ།</string>
+    <string name="drawer_row_hidden_state">སྦ་བཞག་ཡོདཔ།</string>
     <string name="drawer_row_needs_input_state">ཁྱོད་ཀྱི་ལན་དགོཔ་ཨིན།</string>
     <string name="drawer_row_working_state">ལཱ་འབད་དོ།</string>
     <string name="drawer_row_unread_state">མ་ལྷགཔ།</string>

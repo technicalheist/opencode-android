@@ -65,8 +65,6 @@
     <string name="settings_notifications_plugin_check_failed">Status konnte nicht geprüft werden</string>
     <string name="settings_notifications_set_up">Mit OpenCode einrichten</string>
     <string name="settings_notifications_check_again">Erneut prüfen</string>
-    <string name="settings_notifications_in_app_footer">Werden auf der Schaltfläche fürs Seitenmenü angezeigt.</string>
-    <string name="settings_notifications_in_app_notices">In-App-Hinweise</string>
 
     <!-- Sessions -->
     <string name="settings_sessions_title">Sitzungen</string>

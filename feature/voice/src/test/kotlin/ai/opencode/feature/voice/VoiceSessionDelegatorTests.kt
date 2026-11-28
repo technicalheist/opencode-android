@@ -352,7 +352,7 @@ class VoiceSessionDelegatorTests {
         assertEquals(OpenCodeDelivery.Steer, firstPrompt.delivery)
         assertEquals("msg_voice_2", firstPrompt.messageID)
         assertTrue(firstPrompt.text.contains("[Voice call active]"))
-        assertTrue(firstPrompt.text, firstPrompt.text.contains("[Phone context] Viewing session \"Session View\" (ses_view)"))
+        assertTrue(firstPrompt.text, firstPrompt.text.contains("[Phone context] Call on session \"Session View\" (ses_view) · Assume the user isn't looking at the screen"))
         assertTrue(firstPrompt.text, firstPrompt.text.contains("[Voice delta]\nUser: Check the failing tests.\nVoice: Checking now."))
         assertEquals(1, completed.value.size)
         assertEquals("del_1", completed.value[0].first)
@@ -403,7 +403,7 @@ class VoiceSessionDelegatorTests {
 
         val thirdPrompt = sentPrompts.value[2]
         assertFalse(thirdPrompt.text.contains("[Voice call active]"))
-        assertTrue(thirdPrompt.text, thirdPrompt.text.contains("[Phone context] Viewing session \"Session View\" (ses_view) · needs input"))
+        assertTrue(thirdPrompt.text, thirdPrompt.text.contains("[Phone context] Call on session \"Session View\" (ses_view) · needs input · Assume the user isn't looking at the screen"))
         assertTrue(thirdPrompt.text.contains("User: What needs my input?"))
         movedStore.finish()
         movedEffects.skipInFlightEffects()

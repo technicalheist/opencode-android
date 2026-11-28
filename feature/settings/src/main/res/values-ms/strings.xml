@@ -64,8 +64,6 @@
     <string name="settings_notifications_plugin_check_failed">Tidak dapat menyemak status</string>
     <string name="settings_notifications_set_up">Sediakan dengan OpenCode</string>
     <string name="settings_notifications_check_again">Semak semula</string>
-    <string name="settings_notifications_in_app_footer">Dipaparkan pada butang panel sisi.</string>
-    <string name="settings_notifications_in_app_notices">Notis dalam aplikasi</string>
 
     <!-- Sessions -->
     <string name="settings_sessions_title">Sesi</string>

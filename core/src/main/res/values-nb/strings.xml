@@ -29,11 +29,6 @@
     <string name="core_experiment_group_transcript_title">Samtalelogg</string>
     <string name="core_experiment_group_drawer_title">Sidepanel</string>
 
-    <!-- In-app notice mode -->
-    <string name="core_in_app_notice_mode_off">Av</string>
-    <string name="core_in_app_notice_mode_needs_input">Bare når du må svare</string>
-    <string name="core_in_app_notice_mode_all">Alle oppdateringer</string>
-
     <!-- Themes and appearance -->
     <string name="core_theme_system_title">System</string>
     <string name="core_appearance_color_scheme_system_title">System</string>

@@ -29,11 +29,6 @@
     <string name="core_experiment_group_transcript_title">Bản chép lời</string>
     <string name="core_experiment_group_drawer_title">Ngăn điều hướng</string>
 
-    <!-- In-app notice mode -->
-    <string name="core_in_app_notice_mode_off">Tắt</string>
-    <string name="core_in_app_notice_mode_needs_input">Chỉ khi cần bạn phản hồi</string>
-    <string name="core_in_app_notice_mode_all">Tất cả cập nhật</string>
-
     <!-- Themes and appearance -->
     <string name="core_theme_system_title">Hệ thống</string>
     <string name="core_appearance_color_scheme_system_title">Hệ thống</string>

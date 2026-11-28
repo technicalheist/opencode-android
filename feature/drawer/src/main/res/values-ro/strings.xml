@@ -39,6 +39,8 @@
     <string name="drawer_mark_as_unread">Marchează ca necitită</string>
     <string name="drawer_mute">Dezactivează notificările</string>
     <string name="drawer_unmute">Activează notificările</string>
+    <string name="drawer_hide">Ascunde</string>
+    <string name="drawer_unhide">Reafișează</string>
     <string name="drawer_move_up">Mută în sus</string>
     <string name="drawer_move_down">Mută în jos</string>
 
@@ -85,8 +87,6 @@
     <string name="drawer_button_open_sessions_description">Deschide sesiunile</string>
     <string name="drawer_button_attention_state">O sesiune are nevoie de tine</string>
     <string name="drawer_button_unread_state">Sesiuni necitite</string>
-    <string name="drawer_notice_open_sessions_action">Deschide sesiunile</string>
-    <string name="drawer_notice_open_session_action">Deschide sesiunea</string>
 
     <!-- Search pill -->
     <string name="drawer_search_description">Caută sesiuni</string>
@@ -125,6 +125,7 @@
     <!-- Session row state for TalkBack -->
     <string name="drawer_row_pinned_state">Fixată</string>
     <string name="drawer_row_muted_state">Cu notificările oprite</string>
+    <string name="drawer_row_hidden_state">Ascunsă</string>
     <string name="drawer_row_needs_input_state">E nevoie de tine</string>
     <string name="drawer_row_working_state">De lucru</string>
     <string name="drawer_row_unread_state">Necitită</string>

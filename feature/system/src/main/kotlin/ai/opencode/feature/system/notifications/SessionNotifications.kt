@@ -132,13 +132,6 @@ class SessionNotificationsClient(
     val includeBadges: suspend () -> Unit = {},
     /** Tells notifications which session is on screen so its own don't show. */
     val setVisibleSession: (shown: Boolean, sessionID: String?) -> Unit = { _, _ -> },
-    /** Whether the drawer button can show In-App Notices' label. */
-    val setShowsDrawerLabel: (Boolean) -> Unit = {},
-    /**
-     * In-App Notices' mode as the drawer reads it (`InAppNoticeMode`, in `:feature:drawer`):
-     * true while it's anything but Off. The drawer installs its reader at launch.
-     */
-    val setInAppNoticesProvider: (() -> Boolean) -> Unit = {},
 ) {
     companion object Key : DependencyKey<SessionNotificationsClient> {
         override val liveValue: SessionNotificationsClient by lazy {
@@ -155,8 +148,6 @@ class SessionNotificationsClient(
                         SessionNotifications.shared.visibleSessionID = id
                     }
                 },
-                setShowsDrawerLabel = { SessionNotifications.shared.showsDrawerLabel = it },
-                setInAppNoticesProvider = { SessionNotifications.shared.inAppNoticesOn = it },
             )
         }
         override val testValue = SessionNotificationsClient(
@@ -168,11 +159,8 @@ class SessionNotificationsClient(
     }
 }
 
-/**
- * How a session notification arriving in the foreground shows. The session on screen shows nothing;
- * while In-App Notices is on, the drawer button tells of the others, so they go only to the shade.
- */
-enum class NotificationPresentation { None, Banner, ListOnly }
+/** How a session notification arriving in the foreground shows. The session on screen shows nothing. */
+enum class NotificationPresentation { None, Banner }
 
 /**
  * Push registration and relay callback URLs.
@@ -200,16 +188,11 @@ enum class NotificationPresentation { None, Banner, ListOnly }
 class SessionNotifications internal constructor(private val tokens: PushTokenProvider) {
     /** The session on screen while the app is in the foreground. Its own "finished" notifications aren't shown. */
     @Volatile var visibleSessionID: String? = null
-    /** Whether the drawer button can show In-App Notices' label; beside a wide layout's sidebar it can't. */
-    @Volatile var showsDrawerLabel = true
-    /** In-App Notices' mode, read live; Off until the drawer installs its reader. */
-    @Volatile var inAppNoticesOn: () -> Boolean = { false }
 
     fun presentation(sessionID: String?): NotificationPresentation {
         sessionID ?: return NotificationPresentation.Banner
         if (sessionID == visibleSessionID) return NotificationPresentation.None
-        val off = !(inAppNoticesOn() && showsDrawerLabel)
-        return if (off) NotificationPresentation.Banner else NotificationPresentation.ListOnly
+        return NotificationPresentation.Banner
     }
 
     /** A tapped notification's destination, delivered once something routes it. */

@@ -901,4 +901,38 @@
     <!-- 2026-11-08-02-default-model -->
     <string name="settings_whatsnew_entry_default_model_title">ལཱ་ཡུན་གསརཔ་ཚུ་གིས་འཐུས་ཤོར་དཔེ་ཚད་ལག་ལེན་འཐབ།</string>
     <string name="settings_whatsnew_entry_default_model_summary">ལཱ་ཡུན་གསརཔ་ཚུ་ ཧེ་མའི་ལཱ་ཡུན་གྱི་དཔེ་ཚད་ཀྱི་ཚབ་ལུ་ OpenCode ནང་འཐུས་ཤོར་སྦེ་བཞག་མི་དཔེ་ཚད་དང་ དེའི་དོན་ལུ་མཇུག་ལུ་གདམ་ཁ་རྐྱབ་མི་བསམ་ཤེས་ཀྱི་གནས་རིམ་གུ་འགོ་བཙུགསཔ་ཨིན།</string>
+
+    <!-- 2026-11-11-01-streamed-reply-prefix -->
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_title">ལན་འདེབས་འོང་བའི་བར་ན་ཁ་ཕྱེ།</string>
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_summary">ལན་འདེབས་འོང་དོ་ཡོད་པའི་སྐབས་ལཱ་ཡུན་ཁ་ཕྱེ་བ་ཅིན་ ལན་འདེབས་འཕྲོ་མཐུད་འོངམ་ད་ ཧེ་མ་ལྷོད་ཡོད་མི་འདི་ལྷག་ཚུགས།</string>
+
+    <!-- 2026-11-13-01-draw-on-images -->
+    <string name="settings_whatsnew_entry_draw_on_images_title">པར་གུ་བྲིས།</string>
+    <string name="settings_whatsnew_entry_draw_on_images_summary">དྲི་བ་མ་འདྲི་བའི་ཧེ་མ་ ཁ་གསལ་འདི་སྟོན།</string>
+    <string name="settings_whatsnew_entry_draw_on_images_detail_1">པར་ཅིག་གསལ་གཞི་ཆ་ཚང་ནང་ཁ་ཕྱེ་སྟེ་ སྨྱུག་གུའི་ཨེབ་རྟ་ཨེབ། ཚོས་གཞི་གདམ་ཁ་རྐྱབ་སྟེ་བྲིས། དེ་ལས་ བསྡོམ༌ནི་ཨེབ་སྟེ་ རྟགས་བཀལ་ཡོད་པའི་པར་འདི་ཁྱོད་ཀྱི་འཕྲིན་དོན་ལུ་མཉམ་སྦྲགས་འབད། པར་ངོ་མ་འདི་འགྱུར་བ་མེད་པར་སྡོདཔ་ཨིན།</string>
+    <string name="settings_whatsnew_entry_draw_on_images_example">གསལ་གཞིའི་པར་ནང་ ཁྱོད་ཀྱིས་སྤོ་ནི་ཨིན་པའི་ཚད་འཛིན་གུ་སྒོར་ཐིག་རྐྱབ། དེ་ལས་ ག་ཏེ་སྤོ་དགོཔ་ཨིན་ན་བཤད།</string>
+
+    <!-- 2026-11-14-01-fullscreen-viewer -->
+    <string name="settings_whatsnew_entry_fullscreen_viewer_title">པར་དང་གློག་བརྙན་བར་ན་བཤུད།</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_summary">ལཱ་ཡུན་གྱི་པར་དང་གློག་བརྙན་ཚུ་གཅིག་ཁར་བལྟ།</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_detail_1">གློག་བརྙན་ཅིག་ལུ་བཤུད་དེ་ ད་ལྟོའི་པར་གུ་རྟགས་བཀལ་ནི་ལུ་སྨྱུག་གུའི་ཨེབ་རྟ་ཨེབ། བསྡོམ༌ནི་ཨེབ་པ་ཅིན་ རྟགས་བཀལ་ཡོད་པའི་པར་འདི་མ་བཏང་པར་མཉམ་སྦྲགས་འབདཝ་ཨིན།</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_example">དཔེ་སྟོན་གློག་བརྙན་འདི་ བསྒྱུར་བཅོས་འབད་དགོ་པའི་གསལ་གཞི་གུ་ཐེངས་ཅིག་བཀག ཁ་གསལ་འདི་གུ་སྒོར་ཐིག་རྐྱབ་སྟེ་ ཁྱོད་ཀྱི་ཟིན་བྲིས་ལུ་ཁ་སྐོང་འབད།</string>
+
+    <!-- 2026-11-15-01-pairing-link-name -->
+    <string name="settings_whatsnew_entry_pairing_link_name_title">OpenCode Console ལས་མིང་ཡོད་པའི་སར་བར་ཚུ།</string>
+    <string name="settings_whatsnew_entry_pairing_link_name_summary">OpenCode Console ལས་ཆ་སྒྲིག་འབད་མི་སར་བར་འདི་ “Anomaly Box” བཟུམ་གྱི་མིང་དང་གཅིག་ཁར་འོངམ་ཨིན།</string>
+
+    <!-- 2026-11-17-01-session-media -->
+    <string name="settings_whatsnew_entry_session_media_title">ལཱ་ཡུན་གྱི་བརྡ་བརྒྱུད།</string>
+    <string name="settings_whatsnew_entry_session_media_summary">ལཱ་ཡུན་གྱི་པར་ གློག་བརྙན་ སྒྲ་ ཡིག་སྣོད་དང་མི་མང་གིས་ལྟ་ཚུགས་པའི་ཝེབ་འབྲེལ་མཐུད་ཚུ་བལྟ།</string>
+    <string name="settings_whatsnew_entry_session_media_detail_1">ལཱ་ཡུན་གྱི་ ⋮ དཀར་ཆག་ནང་ལས་ ལཱ་ཡུན་གྱི་བརྡ་བརྒྱུད་གདམ་ཁ་རྐྱབས། བརྡ་བརྒྱུད་ནང་ པར་དང་གློག་བརྙན་ སྒྲ་ཚུ་ ཟླཝ་རེ་བཞིན་སྡེ་ཚན་བཟོ་སྟེ་མགྱོགས་ཨེབ་སྦེ་ ཡང་ན་ཐོ་སྦེ་སྟོནམ་ཨིན། ཡིག་སྣོད་ཚུ་དང་འབྲེལ་མཐུད་ཚུ་ནང་ ཡིག་ཆ་དང་སྦྱར་ཡོད་པའི་ནང་དོན་ ཝེབ་འབྲེལ་མཐུད་ཚུ་ཐོ་བཀོད་འབདཝ་ཨིན།</string>
+    <string name="settings_whatsnew_entry_session_media_example">ལཱ་ཡུན་ཆ་མཉམ་ནང་ལོག་བཤུད་མ་དགོ་པར་ ད་རིས་དྲོ་པ་ཁྱོད་ཀྱིས་བཏང་མི་གསལ་གཞིའི་པར་འདི་འཚོལ།</string>
+
+    <!-- 2026-11-18-02-drawer-call-phone -->
+    <string name="settings_whatsnew_entry_drawer_call_phone_title">ཟུར་ཐོའི་བོད་བརྡ་ལུ་འགྲུལ་འཕྲིན་ངོས་དཔར།</string>
+    <string name="settings_whatsnew_entry_drawer_call_phone_summary">ལཱ་ཡུན་ཐོ་ནང་ སྒྲིག་སྟངས་ཚུ་གི་སྦོ་ལོགས་ཁར་ཡོད་པའི་བོད་བརྡའི་ཨེབ་རྟ་འདི་གིས་ འཕྲིན་དོན་སྒྲོམ་ནང་གི་བཟུམ་སྦེ་ འགྲུལ་འཕྲིན་ངོས་དཔར་སྟོནམ་ཨིན།</string>
+
+    <!-- 2026-11-19-01-background-scripts -->
+    <string name="settings_whatsnew_entry_background_scripts_title">རྒྱབ་ལོགས་ལཱ་ནང་ཡིག་ཚུགས་ཚུ།</string>
+    <string name="settings_whatsnew_entry_background_scripts_summary">ལས་ཚབ་ཀྱིས་རྒྱབ་ལོགས་ལུ་སྤོ་མི་ཡིག་ཚུགས་ཚུ་ ཡན་ལག་ལས་ཚབ་དང་ཤལ་ཚུ་གི་སྦོ་ལོགས་ཁར་སྟོནམ་ཨིན། ཡན་ལག་ལས་ཚབ་ཀྱི་པར་དང་གློག་བརྙན་ ཡིག་ཚུགས་ཚུ་ད་རུང་གཡོག་བཀོལ་དོ་ཡོད་ཚེ་ ཡན་ལག་ལས་ཚབ་འདི་ཐོ་ནང་སྡོདཔ་ཨིན། གཉིས་ཆ་རང་ཐོ་ནང་ལས་བཀག་ཚུགས།</string>
 </resources>

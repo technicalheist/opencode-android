@@ -65,8 +65,6 @@
     <string name="settings_notifications_plugin_check_failed">Statusu yoxlamaq mümkün olmadı</string>
     <string name="settings_notifications_set_up">OpenCode ilə quraşdır</string>
     <string name="settings_notifications_check_again">Yenidən yoxla</string>
-    <string name="settings_notifications_in_app_footer">Yan panel düyməsində göstərilir.</string>
-    <string name="settings_notifications_in_app_notices">Tətbiqdaxili bildirişlər</string>
 
     <!-- Sessions -->
     <string name="settings_sessions_title">Sessiyalar</string>

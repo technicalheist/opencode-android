@@ -1,10 +1,15 @@
 package ai.opencode.feature.system.liveactivity
 
+import ai.opencode.core.dependencies.TestClock
 import ai.opencode.feature.system.liveactivity.SessionActivityAttributes.ContentState.Phase
 import ai.opencode.server.OpenCodeLiveContentEvent
 import ai.opencode.server.model.OpenCodeJSONValue
 import ai.opencode.server.model.OpenCodeToolCall
 import ai.opencode.server.model.OpenCodeTranscriptItem
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
@@ -112,5 +117,78 @@ class SessionLiveActivityTests {
         assertTrue(preview?.endsWith("…") == true)
         assertNull("a newer send has no reply yet", preview(reply("Done") + OpenCodeTranscriptItem.UserText(id = "msg_u2", text = "Next")))
         assertNull(preview(reply("```\nlet x = 1\n```")))
+    }
+
+    // MARK: Step throttle
+
+    private val attributes = SessionActivityAttributes(serverKey = "0123456789ab", sessionID = "ses_run")
+    private val start = working()
+
+    private fun step(name: String) = working(step = name)
+
+    private fun settled(phase: Phase) = working().copy(phase = phase, preview = if (phase == Phase.done) "Fixed it." else null)
+
+    /** The interval's task runs inline when the clock moves. */
+    private fun withThrottle(body: suspend (TestClock, MutableList<Content?>, SessionActivityStepThrottle) -> Unit) = runBlocking {
+        val clock = TestClock()
+        val sent = mutableListOf<Content?>()
+        val scope = CoroutineScope(Dispatchers.Unconfined)
+        try {
+            body(clock, sent, SessionActivityStepThrottle(clock, scope) { content, _ -> sent += content })
+        } finally {
+            scope.cancel()
+        }
+    }
+
+    @Test fun twentyQuickStepsReachTheActivityTwiceAndDoneGoesAtOnce() = withThrottle { clock, sent, throttle ->
+        throttle.update(start, attributes)
+        val names = listOf("Thinking", "Read", "Grep", "Glob")
+        for (i in 0 until 20) throttle.update(step("${names[i % 4]} $i"), attributes)
+        assertEquals(listOf(start), sent)
+
+        clock.advance(SessionActivityStepThrottle.INTERVAL)
+        assertEquals(listOf(start, step("Glob 19")), sent)
+
+        // Done doesn't wait for the interval the last step opened.
+        throttle.update(settled(Phase.done), attributes)
+        assertEquals(listOf(start, step("Glob 19"), settled(Phase.done)), sent)
+        clock.advance(SessionActivityStepThrottle.INTERVAL * 2)
+        assertEquals(3, sent.size)
+    }
+
+    @Test fun needsInputFailedAndAnEndTakeAHeldStepsPlace() = withThrottle { clock, sent, throttle ->
+        throttle.update(start, attributes)
+        throttle.update(step("Read"), attributes)
+        throttle.update(settled(Phase.needsInput), attributes)
+        assertEquals(listOf(start, settled(Phase.needsInput)), sent)
+
+        // Answered: working again goes at once; its next step waits.
+        throttle.update(step("Edit"), attributes)
+        throttle.update(step("Bash"), attributes)
+        assertEquals(listOf(start, settled(Phase.needsInput), step("Edit")), sent)
+        throttle.update(settled(Phase.failed), attributes)
+        throttle.update(null, null)
+        assertEquals(listOf(start, settled(Phase.needsInput), step("Edit"), settled(Phase.failed), null), sent)
+
+        clock.advance(SessionActivityStepThrottle.INTERVAL * 2)
+        assertEquals(5, sent.size)
+    }
+
+    @Test fun leavingSendsAHeldStepAtOnce() = withThrottle { _, sent, throttle ->
+        throttle.update(start, attributes)
+        throttle.update(step("Read"), attributes)
+        assertEquals(listOf(start), sent)
+        throttle.flush()
+        assertEquals(listOf(start, step("Read")), sent)
+        // Nothing held, nothing more.
+        throttle.flush()
+        assertEquals(2, sent.size)
+    }
+
+    @Test fun anotherRunsStartIsNeverHeld() = withThrottle { _, sent, throttle ->
+        throttle.update(start, attributes)
+        val other = SessionActivityAttributes(serverKey = "0123456789ab", sessionID = "ses_next")
+        throttle.update(step("Read"), other)
+        assertEquals(listOf(start, step("Read")), sent)
     }
 }

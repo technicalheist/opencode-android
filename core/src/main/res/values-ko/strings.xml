@@ -29,11 +29,6 @@
     <string name="core_experiment_group_transcript_title">대화 기록</string>
     <string name="core_experiment_group_drawer_title">탐색 패널</string>
 
-    <!-- In-app notice mode -->
-    <string name="core_in_app_notice_mode_off">끄기</string>
-    <string name="core_in_app_notice_mode_needs_input">입력이 필요할 때만</string>
-    <string name="core_in_app_notice_mode_all">모든 업데이트</string>
-
     <!-- Themes and appearance -->
     <string name="core_theme_system_title">시스템</string>
     <string name="core_appearance_color_scheme_system_title">시스템</string>

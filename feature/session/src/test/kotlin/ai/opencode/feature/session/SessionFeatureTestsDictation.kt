@@ -715,7 +715,7 @@ class SessionFeatureTestsDictation {
 
         // Stands in for the previous session's refresh, still running under this identity.
         store.send(Action.FamilyRefreshRequested)
-        store.send(Action.Task) { it.copy(inheritsLiveWork = false) }
+        store.send(Action.Task) { it.copy(inheritsLiveWork = false, familyRead = CoalescedRead()) }
         repeat(100) { if (!familyCancelled.value) settle(1) }
         assertTrue(familyCancelled.value)
 

@@ -901,4 +901,38 @@
     <!-- 2026-11-08-02-default-model -->
     <string name="settings_whatsnew_entry_default_model_title">Nuove sessioni con il modello predefinito</string>
     <string name="settings_whatsnew_entry_default_model_summary">Le nuove sessioni usano il modello predefinito impostato in OpenCode, con l’ultimo livello di ragionamento scelto per quel modello, anziché il modello dell’ultima sessione.</string>
+
+    <!-- 2026-11-11-01-streamed-reply-prefix -->
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_title">Apri una risposta in corso</string>
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_summary">Se apri una sessione mentre arriva una risposta, puoi leggere la parte già ricevuta mentre la risposta continua.</string>
+
+    <!-- 2026-11-13-01-draw-on-images -->
+    <string name="settings_whatsnew_entry_draw_on_images_title">Disegna sulle immagini</string>
+    <string name="settings_whatsnew_entry_draw_on_images_summary">Evidenzia un dettaglio prima di fare una domanda.</string>
+    <string name="settings_whatsnew_entry_draw_on_images_detail_1">Apri un\'immagine a schermo intero e tocca il pulsante con la penna. Scegli un colore, disegna e tocca Aggiungi per allegare l\'immagine annotata al messaggio. L\'originale resta invariato.</string>
+    <string name="settings_whatsnew_entry_draw_on_images_example">Cerchia in uno screenshot il controllo da spostare, poi descrivi dove vuoi metterlo.</string>
+
+    <!-- 2026-11-14-01-fullscreen-viewer -->
+    <string name="settings_whatsnew_entry_fullscreen_viewer_title">Scorri tra foto e video</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_summary">Sfoglia insieme immagini e video di una sessione.</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_detail_1">Scorri fino a un video, poi tocca il pulsante con la penna per annotare il fotogramma attuale. Aggiungi allega il fotogramma annotato senza inviarlo.</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_example">Metti in pausa una demo sulla schermata da modificare, cerchia il dettaglio e aggiungilo alla bozza.</string>
+
+    <!-- 2026-11-15-01-pairing-link-name -->
+    <string name="settings_whatsnew_entry_pairing_link_name_title">Server con nome da OpenCode Console</string>
+    <string name="settings_whatsnew_entry_pairing_link_name_summary">Un server associato da OpenCode Console mantiene il suo nome, ad esempio “Anomaly Box”.</string>
+
+    <!-- 2026-11-17-01-session-media -->
+    <string name="settings_whatsnew_entry_session_media_title">Media della sessione</string>
+    <string name="settings_whatsnew_entry_session_media_summary">Sfoglia immagini, video, audio, file e link web pubblici di una sessione.</string>
+    <string name="settings_whatsnew_entry_session_media_detail_1">Scegli Media della sessione dal menu ⋮ di una sessione. Media mostra immagini, video e audio come riquadri raggruppati per mese o come elenco. File e Link elencano documenti, testi incollati e link web.</string>
+    <string name="settings_whatsnew_entry_session_media_example">Trova lo screenshot che hai inviato stamattina senza scorrere tutta la sessione.</string>
+
+    <!-- 2026-11-18-02-drawer-call-phone -->
+    <string name="settings_whatsnew_entry_drawer_call_phone_title">Icona del telefono per le chiamate nel pannello laterale</string>
+    <string name="settings_whatsnew_entry_drawer_call_phone_summary">Il pulsante di chiamata accanto a Impostazioni nell\'elenco delle sessioni mostra un telefono, come quello nel campo del messaggio.</string>
+
+    <!-- 2026-11-19-01-background-scripts -->
+    <string name="settings_whatsnew_entry_background_scripts_title">Script nelle attività in background</string>
+    <string name="settings_whatsnew_entry_background_scripts_summary">Gli script che l\'agente sposta in background compaiono accanto a subagenti e shell. Un subagente resta nell\'elenco finché le sue immagini, i suoi video o i suoi script sono ancora in elaborazione. Puoi interrompere sia gli script sia i subagenti dall\'elenco.</string>
 </resources>

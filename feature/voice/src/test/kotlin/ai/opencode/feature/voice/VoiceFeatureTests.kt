@@ -161,7 +161,8 @@ class VoiceFeatureTests {
         assertEquals(
             listOf(
                 """
-                The user is viewing session "Voice lab" (id ses_voice, project project, idle).
+                The call is attached to session "Voice lab" (id ses_voice, project project, idle).
+                ${VoiceScreenVisibility.notLooking.unseenNote}
                 Recent voice conversation:
                 user: Run the upload tests
 

@@ -901,4 +901,38 @@
     <!-- 2026-11-08-02-default-model -->
     <string name="settings_whatsnew_entry_default_model_title">Yeni oturumlar varsayılan modelinizi kullanır</string>
     <string name="settings_whatsnew_entry_default_model_summary">Yeni oturumlar, son oturumun modeli yerine OpenCode\'da varsayılan olarak ayarladığınız modelle ve o model için son seçtiğiniz düşünme düzeyiyle başlar.</string>
+
+    <!-- 2026-11-11-01-streamed-reply-prefix -->
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_title">Yanıtı gelirken açın</string>
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_summary">Yanıt gelirken oturumu açtığınızda, yanıt devam ederken gelen kısmı okuyabilirsiniz.</string>
+
+    <!-- 2026-11-13-01-draw-on-images -->
+    <string name="settings_whatsnew_entry_draw_on_images_title">Görsellere çizim yapın</string>
+    <string name="settings_whatsnew_entry_draw_on_images_summary">Bir ayrıntıyı sormadan önce işaretleyin.</string>
+    <string name="settings_whatsnew_entry_draw_on_images_detail_1">Bir görseli tam ekran açıp kalem düğmesine dokunun. Renk seçip çizin, ardından işaretlediğiniz görseli mesajınıza eklemek için Ekle\'ye dokunun. Orijinal görsel değişmez.</string>
+    <string name="settings_whatsnew_entry_draw_on_images_example">Ekran görüntüsünde taşınmasını istediğiniz denetimi daire içine alın, ardından nereye taşınacağını anlatın.</string>
+
+    <!-- 2026-11-14-01-fullscreen-viewer -->
+    <string name="settings_whatsnew_entry_fullscreen_viewer_title">Fotoğraf ve videolar arasında kaydırın</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_summary">Bir oturumun görsel ve videolarına birlikte göz atın.</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_detail_1">Kaydırarak bir videoya geçin, ardından o anki kareyi işaretlemek için kalem düğmesine dokunun. Ekle, işaretlediğiniz kareyi göndermeden mesajınıza ekler.</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_example">Bir demoyu değiştirilmesi gereken ekranda duraklatın, ayrıntıyı daire içine alıp taslağınıza ekleyin.</string>
+
+    <!-- 2026-11-15-01-pairing-link-name -->
+    <string name="settings_whatsnew_entry_pairing_link_name_title">OpenCode Console\'dan adlandırılmış sunucular</string>
+    <string name="settings_whatsnew_entry_pairing_link_name_summary">OpenCode Console üzerinden eşleştirdiğiniz sunucu, “Anomaly Box” gibi kendi adıyla eklenir.</string>
+
+    <!-- 2026-11-17-01-session-media -->
+    <string name="settings_whatsnew_entry_session_media_title">Oturum medyası</string>
+    <string name="settings_whatsnew_entry_session_media_summary">Oturumdaki görsellere, videolara, seslere, dosyalara ve herkese açık web bağlantılarına göz atın.</string>
+    <string name="settings_whatsnew_entry_session_media_detail_1">Oturumun ⋮ menüsünden Oturum medyası\'nı seçin. Medya, görsel, video ve sesleri aya göre gruplanmış kutucuklar veya liste olarak gösterir. Dosyalar ve Bağlantılar ise belgeleri, yapıştırılan içerikleri ve web bağlantılarını listeler.</string>
+    <string name="settings_whatsnew_entry_session_media_example">Bu sabah gönderdiğiniz ekran görüntüsünü tüm oturumu geriye kaydırmadan bulun.</string>
+
+    <!-- 2026-11-18-02-drawer-call-phone -->
+    <string name="settings_whatsnew_entry_drawer_call_phone_title">Yan panelde aramalar için telefon simgesi</string>
+    <string name="settings_whatsnew_entry_drawer_call_phone_summary">Oturum listesindeki Ayarlar\'ın yanındaki arama düğmesi, mesaj kutusundaki gibi bir telefon simgesi gösterir.</string>
+
+    <!-- 2026-11-19-01-background-scripts -->
+    <string name="settings_whatsnew_entry_background_scripts_title">Arka plan işlerinde betikler</string>
+    <string name="settings_whatsnew_entry_background_scripts_summary">Ajanın arka plana aldığı betikler, alt temsilciler ve kabukların yanında görünür. Bir alt temsilcinin görsel, video veya betik işlemleri sürüyorsa kendisi de listede kalır. İkisini de listeden durdurabilirsiniz.</string>
 </resources>

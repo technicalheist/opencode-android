@@ -16,7 +16,11 @@ import java.nio.ByteBuffer
  * applies the EXIF orientation.
  */
 object SharedImageEncoder {
+    /** In-memory sources (and RAW files) past this are refused. */
     const val MAX_SOURCE_BYTES = 20_000_000
+
+    /** Sources decoded straight from the file. RAW stays at [MAX_SOURCE_BYTES]: developing it needs far more memory. */
+    const val MAX_SOURCE_FILE_BYTES = 100_000_000
     const val MAX_PIXEL_SIZE = 1568
     const val COMPRESSION_QUALITY = 80
     const val MIME = "image/jpeg"
@@ -29,21 +33,21 @@ object SharedImageEncoder {
     /** Decodes straight from the file so a large original is never held in memory as a whole. */
     fun jpeg(file: File): ByteArray? {
         val size = runCatching { file.length() }.getOrDefault(Long.MAX_VALUE)
-        if (!file.isFile || size > MAX_SOURCE_BYTES) return null
-        return encode(thumbnail(ImageDecoder.createSource(file), MAX_PIXEL_SIZE))
+        if (!file.isFile || size > MAX_SOURCE_FILE_BYTES) return null
+        return encode(thumbnail(ImageDecoder.createSource(file), MAX_PIXEL_SIZE, size))
     }
 
     /**
      * Another app's `content://` image. Decoded from the provider when it reports a size within
-     * [MAX_SOURCE_BYTES]; otherwise read (capped) into memory first.
+     * [MAX_SOURCE_FILE_BYTES]; otherwise read (capped at [MAX_SOURCE_BYTES]) into memory first.
      */
     fun jpeg(contentResolver: ContentResolver, uri: Uri): ByteArray? {
         val length = runCatching {
             contentResolver.openAssetFileDescriptor(uri, "r")?.use { it.length }
         }.getOrNull() ?: return null
         if (length != AssetFileDescriptor.UNKNOWN_LENGTH) {
-            if (length > MAX_SOURCE_BYTES) return null
-            return encode(thumbnail(ImageDecoder.createSource(contentResolver, uri), MAX_PIXEL_SIZE))
+            if (length > MAX_SOURCE_FILE_BYTES) return null
+            return encode(thumbnail(ImageDecoder.createSource(contentResolver, uri), MAX_PIXEL_SIZE, length))
         }
         val bytes = runCatching {
             contentResolver.openInputStream(uri)?.use { input ->
@@ -66,8 +70,10 @@ object SharedImageEncoder {
     fun thumbnail(data: ByteArray, maxPixelSize: Int): Bitmap? =
         thumbnail(ImageDecoder.createSource(ByteBuffer.wrap(data)), maxPixelSize)
 
-    private fun thumbnail(source: ImageDecoder.Source, maxPixelSize: Int): Bitmap? = try {
+    private fun thumbnail(source: ImageDecoder.Source, maxPixelSize: Int, sourceBytes: Long = 0): Bitmap? = try {
         ImageDecoder.decodeBitmap(source) { decoder, info, _ ->
+            // ImageDecoder reports every RAW format it develops as DNG.
+            if (info.mimeType == "image/x-adobe-dng" && sourceBytes > MAX_SOURCE_BYTES) throw IOException("RAW source too large")
             decoder.allocator = ImageDecoder.ALLOCATOR_SOFTWARE
             val width = info.size.width
             val height = info.size.height

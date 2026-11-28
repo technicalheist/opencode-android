@@ -40,6 +40,8 @@
     <string name="drawer_mark_as_unread">Позначити як непрочитану</string>
     <string name="drawer_mute">Вимкнути сповіщення</string>
     <string name="drawer_unmute">Увімкнути сповіщення</string>
+    <string name="drawer_hide">Приховати</string>
+    <string name="drawer_unhide">Показати</string>
     <string name="drawer_move_up">Перемістити вгору</string>
     <string name="drawer_move_down">Перемістити вниз</string>
 
@@ -89,8 +91,6 @@
     <string name="drawer_button_open_sessions_description">Відкрити сесії</string>
     <string name="drawer_button_attention_state">У сесії потрібна ваша відповідь</string>
     <string name="drawer_button_unread_state">Непрочитані сесії</string>
-    <string name="drawer_notice_open_sessions_action">Відкрити сесії</string>
-    <string name="drawer_notice_open_session_action">Відкрити сесію</string>
 
     <!-- Search pill -->
     <string name="drawer_search_description">Пошук сесій</string>
@@ -129,6 +129,7 @@
     <!-- Session row state for TalkBack -->
     <string name="drawer_row_pinned_state">Закріплена</string>
     <string name="drawer_row_muted_state">Сповіщення вимкнено</string>
+    <string name="drawer_row_hidden_state">Приховано</string>
     <string name="drawer_row_needs_input_state">Потрібна ваша відповідь</string>
     <string name="drawer_row_working_state">Працює</string>
     <string name="drawer_row_unread_state">Непрочитана</string>

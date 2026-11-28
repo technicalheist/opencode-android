@@ -56,6 +56,7 @@ import androidx.compose.ui.text.LinkAnnotation
 import androidx.compose.ui.text.LinkInteractionListener
 import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.IntOffset
@@ -109,7 +110,10 @@ internal fun ArrivingText(
     color: Color,
     modifier: Modifier = Modifier,
     softWrap: Boolean = true,
+    overflow: TextOverflow = TextOverflow.Clip,
+    maxLines: Int = Int.MAX_VALUE,
     selectionKey: TranscriptSelectionLeafKey? = null,
+    onTextLayout: ((TextLayoutResult) -> Unit)? = null,
 ) {
     val context = LocalTranscriptRowContext.current
     // In a reply the list owns one selection across all its text.
@@ -171,8 +175,13 @@ internal fun ArrivingText(
                 style = style,
                 color = color,
                 softWrap = softWrap,
+                overflow = overflow,
+                maxLines = maxLines,
                 inlineContent = presented.inlineContent,
-                onTextLayout = { layout = it },
+                onTextLayout = {
+                    layout = it
+                    onTextLayout?.invoke(it)
+                },
                 modifier = Modifier
                     .then(
                         if (replySelection != null && selectionKey != null) {
@@ -342,7 +351,8 @@ private object SessionChipMetrics {
 
 /** Each line's run of the chip, as boxes around the text. */
 private fun chipBoxes(layout: TextLayoutResult, chip: SessionChip, em: Float): List<Rect> {
-    val length = layout.layoutInput.text.length
+    if (layout.lineCount == 0) return emptyList()
+    val length = layout.getLineEnd(layout.lineCount - 1, visibleEnd = true)
     val start = chip.start.coerceIn(0, length)
     val end = chip.end.coerceIn(start, length)
     if (end <= start) return emptyList()

@@ -42,6 +42,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -56,12 +57,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlin.math.roundToInt
 
 /**
  * One rendered Markdown block, shared by assistant replies, compaction summaries, and Markdown
@@ -179,6 +182,7 @@ private fun BlockText(
     secondary: Boolean = false,
     headingLevel: Int? = null,
     tonesBody: Boolean = true,
+    onTextLayout: ((TextLayoutResult) -> Unit)? = null,
 ) {
     val style = currentMarkdownStyle()
     val muted = LocalMarkdownSecondary.current
@@ -206,7 +210,7 @@ private fun BlockText(
         MarkdownPresentation.present(shownInline, options, style, sessionLinks.targets, density, listener, siteIcon)
     }
     QuoteSelectionContainer(kind, inReply = selection != null, modifier) {
-        ArrivingText(presented, presented.mapArrivals(grown), textStyle, tint, selectionKey = selection)
+        ArrivingText(presented, presented.mapArrivals(grown), textStyle, tint, selectionKey = selection, onTextLayout = onTextLayout)
     }
     ReportsSessionLinks(presented.sessionIDs)
     val fetchable = presented.fetchableLinks
@@ -249,14 +253,18 @@ private fun ListItem(
     val isTask = done || marker == OpenCodeMarkdownBlock.openTask
     val bodyStyle = style.bodyStyle
     val iconSize = with(LocalDensity.current) { (style.tuning.bodySize * 1.2f).sp.toDp() }
+    // alignByBaseline() crashes Compose UI 1.12 here (b/549552303); restore it on 1.13.
+    val markerBaseline = remember { mutableIntStateOf(0) }
+    val bodyBaseline = remember { mutableIntStateOf(0) }
+    val onMarkerLayout = { layout: TextLayoutResult -> markerBaseline.intValue = layout.firstBaseline.roundToInt() }
     Row(
         Modifier.fillMaxWidth().padding(start = MarkdownStyle.listIndent * level).semantics(mergeDescendants = true) {},
         horizontalArrangement = Arrangement.spacedBy(10.dp),
     ) {
-        Box(Modifier.widthIn(min = 20.dp).alignByBaseline(), contentAlignment = Alignment.TopEnd) {
+        Box(Modifier.widthIn(min = 20.dp).alignBy { markerBaseline.intValue }, contentAlignment = Alignment.TopEnd) {
             if (isTask) {
                 // An unseen line of body text carries the first baseline the icon sits on.
-                Text(" ", style = bodyStyle, color = Color.Transparent)
+                Text(" ", style = bodyStyle, color = Color.Transparent, onTextLayout = onMarkerLayout)
                 OpenCodeIcon(
                     if (done) SFSymbol.CheckmarkSquareFill else SFSymbol.Square,
                     contentDescription = if (done) stringResource(R.string.transcript_task_done_description) else stringResource(R.string.transcript_task_not_done_description),
@@ -265,13 +273,14 @@ private fun ListItem(
                     modifier = Modifier.align(Alignment.CenterEnd),
                 )
             } else {
-                Text(marker, style = if (marker == "•") bodyStyle else style.listNumberStyle, color = colors.secondaryText)
+                Text(marker, style = if (marker == "•") bodyStyle else style.listNumberStyle, color = colors.secondaryText, onTextLayout = onMarkerLayout)
             }
         }
-        Box(Modifier.weight(1f).alignByBaseline()) {
+        Box(Modifier.weight(1f).alignBy { bodyBaseline.intValue }) {
             BlockText(
                 kind, text, bodyStyle, if (done) colors.secondaryText else style.bodyColor, grown, isGrowingTail, selection,
                 secondary = done,
+                onTextLayout = { bodyBaseline.intValue = it.firstBaseline.roundToInt() },
             )
         }
     }

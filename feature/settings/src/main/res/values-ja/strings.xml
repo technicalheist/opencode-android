@@ -64,8 +64,6 @@
     <string name="settings_notifications_plugin_check_failed">状態を確認できませんでした</string>
     <string name="settings_notifications_set_up">OpenCodeで設定</string>
     <string name="settings_notifications_check_again">もう一度確認</string>
-    <string name="settings_notifications_in_app_footer">ドロワーボタンに表示します。</string>
-    <string name="settings_notifications_in_app_notices">アプリ内のお知らせ</string>
 
     <!-- Sessions -->
     <string name="settings_sessions_title">セッション</string>

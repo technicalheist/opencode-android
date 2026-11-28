@@ -451,8 +451,10 @@ class MediaViewerState(sourceID: String?) {
         this.sourceID = sourceID
         this.image = image
         this.isVideo = isVideo
-        isZoomed = false
-        if (moved) onShow()
+        if (moved) {
+            isZoomed = false
+            onShow()
+        }
     }
 
     /** A video page's first frame is up ([id]), or gone (null). */

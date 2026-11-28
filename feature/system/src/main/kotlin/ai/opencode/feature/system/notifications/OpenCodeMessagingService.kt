@@ -16,8 +16,8 @@ import com.google.firebase.messaging.RemoteMessage
  *
  * The relay is expected to send a data-only, high-priority FCM message whose `data` is the
  * APNs alert's fields (`title`, `body`, `sessionID`, `status`, `ref`), so the app builds the
- * notification itself ([SessionPushNotifications]: the In-App Notices rule, the visible
- * session, the badge count) whether it runs or not.
+ * notification itself ([SessionPushNotifications]: the visible session, the badge count)
+ * whether it runs or not.
  */
 class OpenCodeMessagingService : FirebaseMessagingService() {
     override fun onNewToken(token: String) {

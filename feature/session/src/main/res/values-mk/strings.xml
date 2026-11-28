@@ -3,11 +3,10 @@
     <!-- Agent activity glyph -->
     <string name="session_activity_running_description">Во тек</string>
     <!-- Background work panel -->
-    <string name="session_background_work_show_label">Прикажи активни субагенси и школки</string>
+    <string name="session_background_work_show_label">Прикажи активни субагенси, скрипти и школки</string>
     <string name="session_background_work_collapsed_description">Склопено</string>
-    <string name="session_background_work_subagents_title">Субагенси</string>
+    <string name="session_background_work_expanded_description">Проширено</string>
     <string name="session_background_work_open_subagent_label">Отвори ја сесијата на субагенсот</string>
-    <string name="session_background_work_shells_title">Школки</string>
     <string name="session_background_work_show_shell_label">Прикажи го излезот од школката</string>
     <!-- The session's images and videos, paged in the full-screen viewer -->
     <string name="session_visual_attached_image">Приложена слика</string>
@@ -70,6 +69,8 @@
     <string name="session_sheet_unknown_description">Непознат</string>
     <string name="session_sheet_context_tokens">%1$s токени</string>
     <string name="session_sheet_cost">Трошок</string>
+    <string name="session_sheet_media">Медиуми</string>
+    <string name="session_sheet_media_value">Датотеки и врски</string>
     <string name="session_always_notify">Секогаш известувај</string>
     <string name="session_always_notify_message_phone">Известувај на овој телефон кога е готов одговор, дури и за пораки што не се испратени оттука.</string>
     <string name="session_always_notify_message_tablet">Известувај на овој таблет кога е готов одговор, дури и за пораки што не се испратени оттука.</string>
@@ -199,24 +200,25 @@
         <item quantity="one">%1$d школка</item>
         <item quantity="other">%1$d школки</item>
     </plurals>
+    <plurals name="session_background_work_script_count">
+        <item quantity="one">%1$d скрипта</item>
+        <item quantity="other">%1$d скрипти</item>
+    </plurals>
     <string name="session_background_work_summary">%1$s · %2$s</string>
+    <string name="session_background_work_elapsed_seconds">%1$dс</string>
+    <string name="session_background_work_elapsed_minutes">%1$dм %2$sс</string>
+    <string name="session_background_work_elapsed_hours">%1$dч %2$sм</string>
+    <string name="session_background_work_stop_script_label">Запри ја скриптата</string>
+    <string name="session_background_work_stop_subagent_label">Запри го субагенсот</string>
+    <string name="session_background_work_stop_shell_label">Запри ја школката</string>
+    <string name="session_background_work_stop_script_failed">Не успеа запирањето на скриптата</string>
+    <string name="session_background_work_stop_subagent_failed">Не успеа запирањето на субагенсот</string>
 
     <!-- Composer buttons -->
     <string name="session_send_message_description">Испрати порака</string>
     <string name="session_stop_description">Стоп</string>
     <string name="session_start_voice_call_description">Започни гласовен повик</string>
     <string name="session_model_level_default">Стандардно</string>
-
-    <!-- In-app notice -->
-    <plurals name="session_notice_session_count">
-        <item quantity="one">%1$d сесија</item>
-        <item quantity="other">%1$d сесии</item>
-    </plurals>
-    <plurals name="session_notice_needs_input_count">
-        <item quantity="one">%1$d бара твој внес</item>
-        <item quantity="other">%1$d бараат твој внес</item>
-    </plurals>
-    <string name="session_notice_announcement">%1$s, %2$s</string>
 
     <!-- Server connection pill -->
     <string name="session_server_reconnecting">Повторно се поврзува со %1$s…</string>

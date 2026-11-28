@@ -66,8 +66,6 @@
     <string name="settings_notifications_plugin_check_failed">Провера статуса није успела</string>
     <string name="settings_notifications_set_up">Подеси уз OpenCode</string>
     <string name="settings_notifications_check_again">Провери поново</string>
-    <string name="settings_notifications_in_app_footer">Приказују се на дугмету бочног панела.</string>
-    <string name="settings_notifications_in_app_notices">Обавештења у апликацији</string>
 
     <!-- Sessions -->
     <string name="settings_sessions_title">Сесије</string>

@@ -238,6 +238,7 @@ private fun VoiceFeature.startSessionDelegatorAdmission(state: State, index: Int
         viewing = viewing,
         needsInput = next.targetNeedsInput,
         draftDirectory = next.target.directory,
+        screen = next.screenVisibility,
     )
     val explained = next.explainedSessionIDs(at = now)
     val recorder = dependency(VoiceCallLogClient).recorder

@@ -901,4 +901,38 @@
     <!-- 2026-11-08-02-default-model -->
     <string name="settings_whatsnew_entry_default_model_title">Nauji seansai naudoja jūsų numatytąjį modelį</string>
     <string name="settings_whatsnew_entry_default_model_summary">Nauji seansai pradedami su OpenCode numatytuoju modeliu ir paskutiniu jam pasirinktu mąstymo lygiu, o ne su ankstesnio seanso modeliu.</string>
+
+    <!-- 2026-11-11-01-streamed-reply-prefix -->
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_title">Atidaryti dar rašomą atsakymą</string>
+    <string name="settings_whatsnew_entry_streamed_reply_prefix_summary">Atidarę seansą, kol atsakymas dar rašomas, galite skaityti jau gautą jo dalį.</string>
+
+    <!-- 2026-11-13-01-draw-on-images -->
+    <string name="settings_whatsnew_entry_draw_on_images_title">Piešti ant vaizdų</string>
+    <string name="settings_whatsnew_entry_draw_on_images_summary">Pažymėkite detalę prieš apie ją klausdami.</string>
+    <string name="settings_whatsnew_entry_draw_on_images_detail_1">Atidarykite vaizdą visame ekrane ir palieskite pieštuko mygtuką. Pasirinkite spalvą, pieškite ir palieskite „Pridėti“, kad prisegtumėte pažymėtą vaizdą prie žinutės. Originalas liks nepakeistas.</string>
+    <string name="settings_whatsnew_entry_draw_on_images_example">Ekrano kopijoje apibraukite valdiklį, kurį norite perkelti, ir aprašykite, kur jis turėtų būti.</string>
+
+    <!-- 2026-11-14-01-fullscreen-viewer -->
+    <string name="settings_whatsnew_entry_fullscreen_viewer_title">Perbraukite nuotraukas ir vaizdo įrašus</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_summary">Naršykite seanso vaizdus ir vaizdo įrašus vienoje vietoje.</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_detail_1">Perbraukite iki vaizdo įrašo ir palieskite pieštuko mygtuką, kad pažymėtumėte esamą kadrą. Mygtukas „Pridėti“ prisega pažymėtą kadrą, bet jo neišsiunčia.</string>
+    <string name="settings_whatsnew_entry_fullscreen_viewer_example">Pristabdykite demonstracinį įrašą ties keistinu ekranu, apibraukite detalę ir pridėkite kadrą prie juodraščio.</string>
+
+    <!-- 2026-11-15-01-pairing-link-name -->
+    <string name="settings_whatsnew_entry_pairing_link_name_title">Serverių pavadinimai iš OpenCode Console</string>
+    <string name="settings_whatsnew_entry_pairing_link_name_summary">Per OpenCode Console susietas serveris pridedamas su savo pavadinimu, pavyzdžiui, „Anomaly Box“.</string>
+
+    <!-- 2026-11-17-01-session-media -->
+    <string name="settings_whatsnew_entry_session_media_title">Seanso medija</string>
+    <string name="settings_whatsnew_entry_session_media_summary">Naršykite seanso vaizdus, vaizdo įrašus, garso įrašus, failus ir viešas žiniatinklio nuorodas.</string>
+    <string name="settings_whatsnew_entry_session_media_detail_1">Seanso meniu ⋮ pasirinkite „Seanso medija“. Skiltyje „Medija“ vaizdai, vaizdo ir garso įrašai rodomi pagal mėnesį sugrupuotomis plytelėmis arba sąrašu, o skiltyse „Failai“ ir „Nuorodos“ pateikiami dokumentai, įklijuotas turinys ir žiniatinklio nuorodos.</string>
+    <string name="settings_whatsnew_entry_session_media_example">Raskite šįryt išsiųstą ekrano kopiją neslinkdami per visą seansą.</string>
+
+    <!-- 2026-11-18-02-drawer-call-phone -->
+    <string name="settings_whatsnew_entry_drawer_call_phone_title">Telefono piktograma skambučiams šoniniame skydelyje</string>
+    <string name="settings_whatsnew_entry_drawer_call_phone_summary">Seansų sąraše šalia nustatymų esantis skambučio mygtukas turi telefono piktogramą, kaip ir žinutės lauke.</string>
+
+    <!-- 2026-11-19-01-background-scripts -->
+    <string name="settings_whatsnew_entry_background_scripts_title">Scenarijai tarp foninių užduočių</string>
+    <string name="settings_whatsnew_entry_background_scripts_summary">Agento į foną perkelti scenarijai rodomi šalia subagentų ir apvalkalų. Subagentas lieka sąraše, kol dar vykdomos jo vaizdų, vaizdo įrašų ar scenarijų užduotys. Tiek scenarijų, tiek subagentą galite sustabdyti sąraše.</string>
 </resources>

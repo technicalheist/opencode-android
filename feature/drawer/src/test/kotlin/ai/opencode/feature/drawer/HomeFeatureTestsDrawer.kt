@@ -107,6 +107,31 @@ class HomeFeatureTestsDrawer {
     }
 
     @Test
+    fun hiddenSessionsLeaveTheListButStayInSearch() = homeTest { h ->
+        val recent = session("recent", "Recent", Instant.now())
+        val older = session("older", "Older", distantPast, projectID = "q", directory = "/other")
+        val snapshot = snapshot(listOf(recent, older))
+        val store = h.store(h.state { HomeFeature.State(server, snapshot) })
+        store.send(Action.TogglePin(older.id)) { it.copy(pinnedSessionKeys = listOf(key(older.id))) }
+        store.send(Action.ToggleHidden(older.id)) { it.copy(hiddenSessionKeys = setOf(key(older.id))) }
+        assertTrue(store.state.isHidden(older.id))
+        assertTrue("a hidden pin leaves Pinned too", store.state.pinnedSessions.isEmpty())
+        assertEquals(listOf(recent), store.state.recentSessions)
+        val searching = store.state.copy(search = "Old")
+        assertEquals("search still finds it", listOf(older), searching.pinnedSessions)
+        assertEquals("a relaunch reads the same file", listOf(recent), h.state { HomeFeature.State(server, snapshot) }.recentSessions)
+        assertEquals(listOf(recent, older), h.state { HomeFeature.State(otherServer, snapshot) }.recentSessions)
+        store.send(Action.ToggleHidden(older.id)) { it.copy(hiddenSessionKeys = emptySet()) }
+        assertEquals(listOf(older), store.state.pinnedSessions)
+        store.send(Action.ToggleHidden("missing"))
+
+        store.send(Action.ToggleHidden(recent.id)) { it.copy(hiddenSessionKeys = setOf(key(recent.id))) }
+        store.exhaustive = false
+        h.state { store.state.purgingSession(recent.id) }
+        assertTrue("deleting a session forgets that it was hidden", h.shared(SharedKeys.hiddenSessionKeys).isEmpty())
+    }
+
+    @Test
     fun pinsRespectSearchAndAppendInOrder() = homeTest { h ->
         val a = session("a", "Alpha", Instant.now())
         val b = session("b", "Beta", distantPast, projectID = "q", directory = "/other")

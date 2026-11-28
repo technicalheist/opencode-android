@@ -317,7 +317,7 @@ object SessionTranscriptView {
         private data class StampInputs(
             val allItems: List<OpenCodeTranscriptItem>,
             val sentNow: Boolean?,
-            val nowSecond: Long,
+            val clock: Long,
             val zoneID: String,
             val localeID: String,
             val hour24: Boolean?,
@@ -390,7 +390,7 @@ object SessionTranscriptView {
             locale: Locale = appFormattingLocale(),
             hour24: Boolean? = null,
         ): Pair<List<TranscriptEntry>, NewMessagesPlacement?> {
-            val nowSecond = now.epochSecond
+            val clock = stampClock(allItems, now)
             val prevStructural = structuralInputs
             val prevStamp = stampInputs
             val prevFinal = finalInputs
@@ -401,7 +401,7 @@ object SessionTranscriptView {
                 prevStructural.failedFinale == failedFinale &&
                 prevStructural.models == models &&
                 prevStamp.sentNow == sentNow &&
-                prevStamp.nowSecond == nowSecond &&
+                prevStamp.clock == clock &&
                 prevStamp.zoneID == zone.id &&
                 prevStamp.localeID == locale.toLanguageTag() &&
                 prevStamp.hour24 == hour24 &&
@@ -453,7 +453,7 @@ object SessionTranscriptView {
                 )
                 structuralGeneration += 1
             }
-            val stampKey = StampInputs(allItems, sentNow, nowSecond, zone.id, locale.toLanguageTag(), hour24)
+            val stampKey = StampInputs(allItems, sentNow, clock, zone.id, locale.toLanguageTag(), hour24)
             if (stampKey != stampInputs) {
                 stampInputs = stampKey
                 // Times read from every loaded message, so the window's first one is dated
@@ -469,6 +469,18 @@ object SessionTranscriptView {
                 newMessages = NewMessagesMark.resolve(mark, visibleItems, built)
             }
             return entries to newMessages
+        }
+
+        /**
+         * `now` as finely as the stamps tell it apart: they show minutes, and Today becomes
+         * Yesterday on a minute, but a last prompt with no time of its own, or from a server clock
+         * ahead of the phone's, reads as now.
+         */
+        private fun stampClock(items: List<OpenCodeTranscriptItem>, now: Instant): Long {
+            val lastPromptID = items.asReversed().firstNotNullOfOrNull(TranscriptEntry::promptID)
+            val time = lastPromptID?.let { TranscriptTimeStamps.date(it, now) }
+            val readsAsNow = lastPromptID != null && (time == null || !time.isBefore(now))
+            return if (readsAsNow) now.epochSecond else now.epochSecond / 60
         }
     }
 
